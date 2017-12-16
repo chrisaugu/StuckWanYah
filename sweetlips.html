@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ranking Algorithm</title>
+</head>
+<body>
+	<script type="text/javascript">
+
+		function isBigEnough(element, index, array) {
+			return (element >= 10);
+		}
+
+		function printBr(element, index, array) {
+			document.write("[" + index + "] is: " + element + "</br>");
+		}
+
+		function print(element, index, array) {
+			document.write(element);
+		}
+
+		[12, 5, 8, 130, 44].forEach(printBr);
+
+		var property_value = (Math.max(10, 100, 1000) - Math.min(10, 100, 1000));
+		document.write(property_value + "</br>");
+
+		var value = Math.round( 0.2 );
+		print(value);
+
+	</script>
+</body>
+</html>
