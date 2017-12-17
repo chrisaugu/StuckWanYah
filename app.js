@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 
 var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("./models/hotlips");
+var Movie = require("./models/sweetlipsdb");
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -51,8 +51,33 @@ app.post("/webhook", function (req, res) {
 	}
 });
 
-function checkGenderAndSwap(event){
-	var senderGender = event.sender.gender;
+
+/**
+ * User/Sender -> is the person doing the voting
+ * Candidate -> is the person being voted for his/her hotness
+ * Candidate/s is/are the sender's friend/s
+ **/
+
+// Retrieve all female friends from age 14 - 23 
+function processCandidateSex(event) {
+	var senderId = event.sender.id;
+
+	request({
+		url: "https://graph.facebook.com/v2.6/" + senderId + "/friends?gender=female&sex=female",
+		qs: {
+			access_token: process.env.PAGE_ACCESS_TOKEN,
+			fields: "gender || sex"
+		},
+		method: "GET"
+	}, function(error, response, body) {
+		var 
+	})
+}
+
+/*
+// Getting user gender
+function processUserSex(event){
+	var senderId = event.sender.id;
 	var payload = event.postback.payload;
 
 	if (payload === "Greeting") {
@@ -60,7 +85,7 @@ function checkGenderAndSwap(event){
 		// Getting user's gender from user Profile API
 		// and redirect to respective function
 		request({
-			url: "https://graph.facebook.com/v2.6/" + senderGender,
+			url: "https://graph.facebook.com/v2.6/" + senderId + "/friendlists",
 			qs: {
 				access_token: process.env.PAGE_ACCESS_TOKEN,
 				fields: "gender"
@@ -86,26 +111,35 @@ function checkGenderAndSwap(event){
 	}
 }
 
+// $facebook->api("/{$user_id}/friends?fields=id,name,gender");
+// /fql?q=select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = "female"
+// /{user-id}/photos?type=uploaded
 
-/* make the API call */
 FB.api(
-    "/{app-request-id}",
-    function (response) {
-      if (response && !response.error) {
-        /* handle the result */
-      }
-    }
+  '/fql',
+  'GET',
+  {"q":"select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = female "},
+  function(response) {
+      // Insert your code here
+  }
 );
 
-/* make the API call */
+/* make the API call /
 FB.api(
     "/{friend-list-id/}",// /{user-id}/friendlists
     function (response) {
       if (response && !response.error) {
-        /* handle the result */
+        /* handle the result /
       }
     }
 );
+*/
+
+function processCandidateProfilePicture(event) {
+	request({
+		url: "https://graph.facebook.com/v2.6/" + senderId + "/friends/pictures"
+	})
+}
 
 function processPostback(event) {
 	var senderId = event.sender.id;
@@ -123,7 +157,7 @@ function processPostback(event) {
 			},
 			method: "GET"
 		}, function(error, response, body) {
-			var greeting = "";
+			var greeting, name = "";
 			if (error) {
 				console.log("Error getting user's name: " + error);
 			} else {
@@ -131,7 +165,7 @@ function processPostback(event) {
 				name = bodyObj.first_name;
 				greeting = "Hi " + name + ". ";
 			}
-			var message = greeting + "Welcome to SweetLips, the app that put your taste in girl's hotness";
+			var message = greeting + "Welcome to StuckWanYah!, the app that put your taste in your friends' hotness";
 			sendMessage(senderId, {text: message});
 		});
 	} else if (payload === "Correct") {
@@ -181,7 +215,7 @@ function processMessage(event) {
 				case "director":
 				case "cast":
 				case "rating":
-					getMovieDetail(senderId, formattedMsg);
+					getCandidateDetail(senderId, formattedMsg);
 					break;
 
 					default: 
@@ -193,10 +227,10 @@ function processMessage(event) {
 	}
 }
 
-function getMovieDetail(userId, field) {
-	Movie.findOne({user_id: userId}, function(err, movie) {
+function getCandidateDetail(userId, field) {
+	Movie.findOne({candidate_id: userId}, function(err, movie) {
 		if (err) {
-			sendMessage(userId, {text: "Something went wrong. Try againg"});
+			sendMessage(userId, {text: "Something went wrong. Try again"});
 		} else {
 			sendMessage(userId, {text: movie[field]});
 		}
@@ -260,5 +294,3 @@ function findMovie(userId, movieTitle) {
 		}
 	});
 }
-
-

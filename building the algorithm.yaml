@@ -67,8 +67,14 @@ hot(ups, downs, date)
 
 
 Wordings:
-  Greeting: Welcome to SweetLips, the app that put your tastes in girls' hotness.
+  Greeting: Welcome to StuckWanYah, the app that lets you put the very "Turing" feel in your friends' hotness.
   
   About: SweetLips is an app that put your Facebook female friends next to each other and lets you vote for who's hotter.
   Terms: The creator of SweetLips will not be liable for any happenings may or may not occure since the whole idea of the app is to give the whole thing a very "Turing" feel.
   Creator's word: 
+
+steps:
+  Introductory words
+  get current user gender
+  vote for hotness
+  

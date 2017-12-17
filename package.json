@@ -1,29 +1,33 @@
 {
-  "name": "sweetlips",
+  "name": "stuckwanyah!",
+  "project":"sweetlips",
   "version": "1.0.0",
-  "description": "a messenger bot for\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[n \u001b[2~entertainment messenger bot for comparing hotness of girls on facebook",
+  "description": "an app for comparing your friends' hotness on facebook",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisaugu/sweetlips.git"
+    "url": "git+https://github.com/chrisaugu/stuckwanyah.git"
   },
   "keywords": [
-    "hot",
-    "sweet"
+    "hot boys",
+    "hot girls",
+    "sweet teenagers",
+    "dat wan how"
   ],
-  "author": "Christian Augustyn\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[DJ.F Augustyn\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[2~. Augustyn",
+  "author": "Christian J.F. Augustyn",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chrisaugu/sweetlips/issues"
+    "url": "https://github.com/chrisaugu/stuckwanyah/issues"
   },
-  "homepage": "https://github.com/chrisaugu/sweetlips#readme",
+  "homepage": "https://github.com/chrisaugu/stuckwanyah#readme",
   "dependencies": {
     "express":"4.16.2",
     "body-parser":"~1.18.2",
     "request":"~2.40.0",
-    "sqlite3":"3.1.13"
+    "sqlite3":"3.1.13",
+    "mysql":"latest"
   }
 }
