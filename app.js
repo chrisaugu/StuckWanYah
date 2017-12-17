@@ -70,8 +70,8 @@ function processCandidateSex(event) {
 		},
 		method: "GET"
 	}, function(error, response, body) {
-		var 
-	})
+
+	});
 }
 
 /*
