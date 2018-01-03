@@ -1,0 +1,16 @@
+posts:
+  It's boring here. I need a idea to get active. my facebook profile is open up on my desktop and scrolling down
+  my into some friends propic likes. Except enough I need an idea to do that.
+  Zuckerberg from "the social media" gives me an idea of putting pictures of two
+  people and let others vote for who's hotter.
+  Yea, it's on. I'm not gonna do the same thing mark did. But i like the idea of manipulating third-party api
+  and making everything a little ai in style. 
+  first thing i will need is a lot of pictures from facebook. unfortunately facebook doesn't allow access to its database
+  but the folks there made it easy for developers to use their service throught its graph api. great!
+  i will use facebook's graph api to get friends age, propics and
+
+  Next i will have to create a server to serve everything on the backend. Sounds like the job for nodejs
+
+  I want something dynamic, say when I end open the page two random pictures will appear asking me to vote for who's hotter
+  and then the next two random pictures appear again asking me to do the same thing I had just done. is perfect for ajax.
+  But i like ruby so why don't i use mix match ajax on ruby on rails. GREAT!

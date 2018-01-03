@@ -75,6 +75,25 @@ function processCandidateSex(event) {
 }
 
 /*
+var s = document.createElement("script");
+s.src = document.location.protocol + "//graph.facebook.com/" + FB_UID + "?callback=getSex";
+*/
+var FB_UID = 0;
+var FB_NAME = 0;
+var SEX = 0;
+
+function getSex(d) {
+	if (d && d.gender) {
+		if (d.gender == "male") {
+			SEX = 1;
+		} else {
+			SEX = 2;
+		}
+		// SEX = d.gender;
+	}
+}
+
+/*
 // Getting user gender
 function processUserSex(event){
 	var senderId = event.sender.id;
@@ -136,10 +155,19 @@ FB.api(
 */
 
 function processCandidateProfilePicture(event) {
-	request({
-		url: "https://graph.facebook.com/v2.6/" + senderId + "/friends/pictures"
-	})
+	//request({
+	//	url: "https://graph.facebook.com/v2.6/" + senderId + "/friends/pictures"
+	//})
+
+	
 }
+
+/*
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32/25299066_1427075520736791_7895762141614959026_n.jpg?oh=7059898388703004036bbc566659f38a&oe=5A8B3CA6
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/c0.0.32.32/p32x32/25395848_328134744329406_8742747643512503740_n.jpg?oh=27936e7f8acd73b3c471dabc5d16cd26&oe=5AB7B45A
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/25398952_508400639544802_1868320785980351014_n.png?oh=44580410770e140865a10d5866c2272a&oe=5AB72B4B
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/25398952_508400639544802_1868320785980351014_n.png?oh=44580410770e140865a10d5866c2272a&oe=5AB72B4B
+*/
 
 function processPostback(event) {
 	var senderId = event.sender.id;

@@ -1,0 +1,35 @@
+body{background:#fff none;color:#373b3f /*#353833*/;font-family:Tahoma,Helvetica,sans-serif;font-size:76%;margin:0;}
+a:link{text-decoration:none;}
+a:hover{color:#006699;text-decoration:underline;}
+td.candidatePhotos a{cursor:default;}
+text{font-family:Verdana,Arial,sans-serif;font-size:210%;color:#334d55;margin:0px;padding:0px;}
+
+h1{
+  font-size: 1.7em;
+}
+h2 {
+  font-size: 1.6em;
+}
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.4em;
+}
+h3{text-align:center;font-size:2em;margin-top:15px;margin-bottom:-7px;}
+.friends img{width:57px;}
+#header{font-family:Verdana,Arial,sans-serif;font-size:16px;color: #ffffff;background:#221c24;text-align:center;position:relative;padding:1px 0;width:100%;top:0;left:0;}
+#content{width:769px;margin:0 20%;}
+#siteInfo{clear:both;border-top: 1px solid #cccccc;font-size: 14px;color: #424242;padding: 16px 0;margin-bottom: 8px;display: block;}
+#masthead{position: relative;margin-top: 13px;text-align:  center;}
+td.candidatePhotos{padding: 3px;border:1px solid #eee;}
+td.candidatePhotos img{width:245px;}td.label{font-size:19px;}
+td.label.ranks.hotter,td.label.ranks.stuckwanyah{background:red;color:white;}
+td.label.ranks.hot{background:#ff4b4b;color:white;}
+td.label.ranks{background:beige;}
+.section{background:#fff;border: 1px solid #dcdcdc;padding:0;margin-bottom:  8px;}
+.heading{display:block;padding:6px 5px;background:#e2e2e2;margin:0;}
+.paragraph{display:block;padding:10px 5px;margin:0;}
+.link{margin:4px;}
+.rankings img{width:75px;}
+.inline-block{display:inline-block;}

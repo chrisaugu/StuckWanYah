@@ -2,7 +2,7 @@
   "name": "stuckwanyah!",
   "project":"sweetlips",
   "version": "1.0.0",
-  "description": "an app for comparing your friends' hotness on facebook",
+  "description": "an app the lets your vote for your friends' hotness on facebook",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +15,9 @@
     "hot boys",
     "hot girls",
     "sweet teenagers",
-    "dat wan how"
+    "dat wan how",
+    "flames game",
+    "vote for who's hotter"
   ],
   "author": "Christian J.F. Augustyn",
   "license": "ISC",
