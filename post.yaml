@@ -1,6 +1,6 @@
 posts:
-  It's boring here. I need a idea to get active. my facebook profile is open up on my desktop and scrolling down
-  my into some friends propic likes. Except enough I need an idea to do that.
+  It's boring here. my facebook profile is open up on my desktop and sitting here strolling 
+  down my news feeds into some friends propic likes. I need a idea to get active. Except enough I need an idea to do that.
   Zuckerberg from "the social media" gives me an idea of putting pictures of two
   people and let others vote for who's hotter.
   Yea, it's on. I'm not gonna do the same thing mark did. But i like the idea of manipulating third-party api
@@ -14,3 +14,86 @@ posts:
   I want something dynamic, say when I end open the page two random pictures will appear asking me to vote for who's hotter
   and then the next two random pictures appear again asking me to do the same thing I had just done. is perfect for ajax.
   But i like ruby so why don't i use mix match ajax on ruby on rails. GREAT!
+
+  04-01-2018:
+    I'm not like Zuckerberg, I mean he's too smart. He's genius. 
+    I must keep a record of every contenders performance. in other words, every time two random pictures appear I must
+    update the database about that so that their individual ratings will have accurate scores.
+    I'm not alone in this world. there's facebook, quora, google, github and too many forums/sites where experienced developers 
+    and newbies hold their discussions. done! moving forward.
+    I downloaded a very similar facemash-script in php. PHP is just great but I'm not gonna touch that yet
+    instead I'll rewrite the sript using ruby. pink!
+
+  06-01-2018:
+    going back to the graph api. facebook, however, won't just give me direct access to get users info but instead the 
+    user info are given in json format. what! a relief. I can parse the data and render into html.. moving on
+
+  07-01-2018:
+    Mark used Howard network to put up his site. for me I'll just have to use github as my repository for storing all the
+    scripts and codes and just hook 'em up to a free-tier hosting platform called heroku. they allow their user to host 
+    small hobby projects for free and charge them a quid if the decides to upgrade. cool!
+
+  08-01-2018:
+    this whole thing won't function as I want it to be without the algorithm. I need the algorithm. On "the social network"
+    soverin wrote a somewhat scribble writting on mark's dorm room windom. it's the equation for the algorithm. the algorithm
+    is called ELO Rating System, initially used as rating system for rating chess players. I dont much about implementing 
+    algorithm so i'll just have to get help all the help from the internet. not a very good idea! anyway.
+
+  07-01-2018:
+    Getting data from facebook graph api is not a public data; it requires an API key
+    This ranking website/app will be working with two photos each time and its impossible to update each photo at the same 
+    time using ajax. however, it is possible with async, a javascript library for making asynchronouse protocol over the internet
+    and it's also available for nodejs. perfect. I just have read its docs and get my hands dirty with async and i'll be good to go.
+    
+  07-01-2018: 
+    *sight* it's working. my database is working. now i just have to create api to deal with database and respond to backend
+    and work with ajax to update client-side.
+
+    it's 11pm on a sunday night and I've sitting here since 10am in the morning. that's enough for today i'll continue tomorrow.
+    now i can use data from database on my algorithm. hope it works perfectly.
+
+  08-01-2018:
+    it's 2am in the morning. 
+    I am trying to write a code that gets the current_year start looping 13 decrementally down to at
+    the equation is `current_year - date_of_birth = age`. simple isn't it? yea. but i don't want just simple, i want complex
+    one. what want to do is calculate the simple age and
+  09-01-2018:
+    it's 6:30am in the morning and still sitting here typing...
+    photos... uploading 1 - 4 photos is not a big deal but uploading 100 pictures... you're talking like you need help 
+    from flash... I got 43 photos sitting inside a folder ready to be uploaded to the database and I'm too lazy to upload 
+    each one at a time... a little hacking is required.
+    I got to write script to handle this for me... php is just perfect for handling events on the backend but I'm talking
+    nodejs... deals with javascript... there are good nodejs lib out there for reading directory and i'll take it here and 
+    write a loop and photos will be up in a sec... that's what i like about programs... they do what you want...
+
+  12-01-2018:
+    and so what if it's a 1:15am on a friday morning watching forest on one window docking on one side of the desktop and 
+    friend request on docked on the other side of the desktop whilst scares me to hell and back. huh not friend request it's suicide note i mean. i wouldn't just say it 
+    out of habbit and pretending that i'm scared without do so and i am frankly petrofied, horrified, and all the fied 
+    just got me whole heartedly, so here's a tip for a cool guy for cool stuff. warning!!! never look behind you or in the dark.
+    and  the sound just someone fell on the ground. oh. shit! i'm never lookng back into the dark. then 
+
+
+  12-01-2018: 12-30pm:
+    i am too lazy to copy&paste contents of 72 deferent files into one specific file. a little hacking is required.
+    here's how id did without any help from anyone except the language docs which only provides little intel about
+    writing and reading files but not to the specific point where i have to read and write simultanusely create a script 
+    to read each file's content and write them on one specific file. i need all these contents. without one single one, i
+    can get my phising page live.
+
+    do you find mildly when people say "Hey Stuck Wan Yah".
+    wouldn't be cool for a girl to vote a girl hotness
+
+  14-01-2018: 12:37pm:
+    site's almost done. to monitor the traffic flow of my site i need to keep records of page activiies, traffic amounts... 
+    in order to get site hits. sounds creepy right? yea! I'll do a simple DIM/DIY page counts so i'll keep records of 
+    activities happening on site. first thing i'll do is write a javascript to get the current page address or pathname as it
+    is called in web and call a ajax PUT request to update the database base on pathname. everytime the server receives the
+    PUT request from client-side, it increments the page_hits by 1. simple as that.
+
+  
+  d:
+    site's live. source codes is available at my github page @chrisaugu
+
+  17-01-2018: 12:43am:
+    I need to recreate the index something dynamic i'll use ejs

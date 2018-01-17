@@ -1,37 +1,193 @@
+'use strict';
+var path = require("path"),
+	restful = require('node-restful'),
+	mongoose = restful.mongoose,
+	colors = require('colors'),
+	express = require("express"),
+	bodyParser = require("body-parser"),
+	request = require("request"),
+	async = require("async"),
+	//xml2js = require("xml2js");
+	//lwip = require('lwip'),
+	fs = require('fs'),
+	_ = require('underscore'),
+	co = require("co");
 
-var express = require("express");
-var bodyParser = require("body-parser");
-var path = require("path");
-var request = require("request");
+var dir = require('node-dir');
 
+var app = module.exports = express();
 
-var friendId = 100000000;
+app.set('port', (process.env.PORT || 5000));
 
-var friends = [
-	{
-		id:"13173939",
-		name:"",
-		age:13,
-		sex:"female",
-		image_url:"13173939_123485518060780_4194206923963567327_n",
-		hotness_counts:0,
-		compared:0,
-		rankings:0,
-		base_rating:1400
-	},{id:"13335552",name:"",age:13,sex:"female",image_url:"13335552_107002823055821_2099648036441521132_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"14681606",name:"",age:14,sex:"male",image_url:"14681606_177517646032302_624032032135450137_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"15107194",name:"",age:15,sex:"female",image_url:"15107194_339862656374634_8224432459071081076_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"17952626",name:"",age:14,sex:"female",image_url:"17952626_116014578954311_185756687594650512_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"18300922",name:"",age:15,sex:"female",image_url:"18300922_134455393764459_5180115441292437749_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"21559025",name:"",age:16,sex:"male",image_url:"21559025_341751456284451_4784206509448124249_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"21616405",name:"",age:17,sex:"female",image_url:"21616405_276194742885495_7269444345293685898_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22007697",name:"",age:18,sex:"female",image_url:"22007697_534132350270134_3454712886890506345_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22195701",name:"",age:15,sex:"female",image_url:"22195701_286327161867700_6021210311312590329_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22228170",name:"",age:14,sex:"female",image_url:"22228170_1965831803674156_32762613793692416_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22228273",name:"",age:16,sex:"female",image_url:"22228273_535238276816710_2049018447480810573_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22228308",name:"",age:21,sex:"female",image_url:"22228308_266809920506961_3937700605185072296_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22448663",name:"",age:31,sex:"female",image_url:"22448663_2012361988997913_5487445385886709153_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22449677",name:"",age:13,sex:"female",image_url:"22449677_1869638299942327_9089013222443652571_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22490007",name:"",age:14,sex:"male",image_url:"22490007_772168716300719_8411585367084383230_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22491748",name:"",age:16,sex:"female",image_url:"22491748_383880038718508_8239439686572623717_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22527996",name:"",age:15,sex:"male",image_url:"22527996_487774551590477_5263276565262404218_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22528371",name:"",age:19,sex:"male",image_url:"22528371_1121337268006214_5802752197279776697_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22539685",name:"",age:19,sex:"female",image_url:"22539685_505455106475210_961923654732031583_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22539896",name:"",age:19,sex:"female",image_url:"22539896_336604550145206_8136289351028280272_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22549695",name:"",age:19,sex:"female",image_url:"22549695_1230151777130321_9168960304844384980_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22549964",name:"",age:18,sex:"female",image_url:"22549964_701125690095241_1222786728699406188_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22552696",name:"",age:18,sex:"male",image_url:"22552696_1126841654116067_6895478098604726619_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22552780",name:"",age:18,sex:"male",image_url:"22552780_252786061912191_5358989623247008035_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22552811",name:"",age:16,sex:"female",image_url:"22552811_1896827080644999_6172684468219958188_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22554831",name:"",age:16,sex:"female",image_url:"22554831_725551040988762_2745079434894064516_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22555194",name:"",age:13,sex:"female",image_url:"22555194_786284898219595_2421649676541423225_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22555243",name:"",age:16,sex:"female",image_url:"22555243_324284041314631_2682874877591079545_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22687810",name:"",age:17,sex:"female",image_url:"22687810_502429156802754_8287962131704477409_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22729091",name:"",age:19,sex:"male",image_url:"22729091_2380036155555592_8782618421176277703_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22780383",name:"",age:17,sex:"female",image_url:"22780383_1319226184873392_8109283516790865485_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22788804",name:"",age:15,sex:"male",image_url:"22788804_495226267525633_7859460528845639878_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22814096",name:"",age:18,sex:"male",image_url:"22814096_1473731962742556_7253283415688667708_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"22814133",name:"",age:15,sex:"female",image_url:"22814133_801316723389150_6675799987336641849_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"23755125",name:"",age:14,sex:"male",image_url:"23755125_1752625408380629_8716128352251709514_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"23795684",name:"",age:14,sex:"female",image_url:"23795684_1341677052628174_2780464941112581107_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"23843283",name:"",age:13,sex:"female",image_url:"23843283_299468033873782_2928395153419791336_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"23915570",name:"",age:14,sex:"female",image_url:"23915570_141523579950603_3566883689364824421_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"24909547",name:"",age:13,sex:"male",image_url:"24909547_370592206720983_6608855228505742643_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400},{id:"25299331",name:"",age:18,sex:"female",image_url:"25299331_570846993259841_735144351331369815_n",hotness_counts:0,compared:0,rankings:0,base_rating:1400}]
-
-var app = express();
-app.use(express.static('./'));
+app.set('views', path.resolve(__dirname + '/'));
+app.set('view engine', 'ejs');
+app.use(express.static(path.join('./')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.listen((process.env.PORT || 5000), function() {
-	console.log("Server running on port: 5000");
+app.listen(app.get('port'), function() {
+	// Create new server
+	console.log("Server running on port %d", app.get('port'));
 });
+
+// MongoDB
+var db = mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sweetlipsdb');
+mongoose.connection.on("open", function() {
+	console.log("Connected: Successfully connect to mongo server".green);
+});
+mongoose.connection.on('error', function() {
+	console.log("Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".error);
+});
+
+// Model
+var Sweetlips = require("./models/sweetlips.model");
+// Register photos model
+Sweetlips.photos.methods(['get', 'put','post', 'delete']);
+Sweetlips.photos.register(app, '/api/photos/list');
+// Register site hits model
+//Sweetlips.page_hits.methods(['get','put','delete','post']);
+//Sweetlips.page_hits.register(app, "/api/hits");
+
+var PHOTOS_COLLECTION = "photos";
+var sourceDirectory = "photos/";
+var photosCDN = require("./photos");
+var photoId = 100000000;
+var localPhotos = photosCDN;
+
+//installImages();
+
+
+var expectedScore = function (Rb, Ra) {
+    return parseFloat((1 / (1 + Math.pow(10, (Rb - Ra) / 400))).toFixed(4));
+};
+
+var winnerScore = function (score, expected) {
+    return score + 24 * (1 - expected);
+};
+
+var loserScore = function (score, expected) {
+  return score + 24 * (0 - expected);
+};
 
 // Server index page
 app.get("/", function (req, res) {
-    res.send("Deployed!");
+	var randomImages;
+	var choices = ['female', 'male'];
+
+	var randomGender = _.sample(choices);
+
+	Sweetlips.photos
+		.find({})
+        //.find({ random: {$near: [Math.random(), 0] } })
+        //.where("voted", false)
+        .where("gender", randomGender)
+        .limit(2)
+        .exec(function(err, photos){
+            if (err) return next(err);
+
+        	randomImages = photos;
+
+        	Sweetlips.photos.update({}, { 
+            	$set: {voted: false } }, {multi: true}, 
+            	function(err) {
+            		if (err) return next(err);
+            		//res.redirect('/');
+            	});
+
+        })
+        .then(function(topRatings) {
+
+        	if (randomImages.length === 2) {
+
+        		res.render("index",{
+        			images: randomImages,
+        			expected: expectedScore,
+        			//topRatings: topRatings[0]
+                });
+            }
+        });
 });
+
+app.get("/rate", function(req, res, next) {
+
+	var winnerID = req.query.winner || '';
+	var loserID = req.query.loser || '';
+
+	if (!winnerID || !loserID) {
+		return res.status(400).send({ message: 'Voting requires two photos.' });
+	}
+	if (winnerID === loserID) {
+		return res.status(400).send({ message: 'Cannot vote for and against the same photo.' });
+	}
+
+	async.parallel([
+		function(callback) {
+			Sweetlips.photos.findOne({ image_id: winnerID }, function(err, winner) {
+				callback(err, winner);
+			});
+		},
+		function(callback) {
+			Sweetlips.photos.findOne({ image_id: loserID }, function(err, loser) {
+				callback(err, loser);
+			});
+		}
+	],
+	function(err, results) {
+		if (err) return next(err);
+
+		var winner = results[0];
+		var loser =results[1];
+
+		if (!winner || !loser) {
+			return res.status(404).send({ message: 'One of the photos no longer exists.' });
+		}
+
+		if (winner.voted || loser.voted) {
+			res.status(200).end();
+		}
+
+		var winnerExpected = expectedScore(loser.scores, winner.scores);
+        var winnerNewScore = winnerScore(winner.scores, winnerExpected);
+        var loserExpected = expectedScore(winner.scores, loser.scores);
+        var loserNewScore = loserScore(loser.scores, loserExpected);
+
+		async.parallel([
+			function(callback) {
+				winner.wins++;
+				winner.voted = true;
+				winner.scores = winnerNewScore;
+				winner.random = [Math.random(), 0];
+				winner.save(function(err) {
+					callback(err);
+				});
+			},
+			function(callback) {
+				loser.losses++;
+				loser.voted = true;
+				loser.scores = loserNewScore;
+				loser.random = [Math.random(), 0];
+				loser.save(function(err) {
+					callback(err);
+				});
+			}
+		], function(err) {
+			if (err) return next(err);
+			//res.redirect("/");
+		});
+	});
+
+	// refresh the page
+	res.redirect("/");
+
+
+});
+
+
+
+
+
+
+
+
 
 // Facebook Webhook
 // Used for verification
@@ -66,149 +222,415 @@ app.post("/webhook", function (req, res) {
 	}
 });
 
-function findFriend(id){
-	for(var i =0; i<friends.length; i++){
-		if(friends[i].id === id){
-			return friends[i];
+/**
+ * API Functions
+ */
+/**
+ * HTTP GET /photos
+ * Should return a list of photos
+ */
+app.get('/api/photos/list', function (req, res, next) {
+	var params = req.query;
+
+	//.collection(PHOTOS_COLLECTION)
+	Sweetlips.photos
+		.find(params, function(err, photos) {
+		if (err) return next(err);
+		res.send({photos: photos });
+	});
+});
+
+/**
+ * GET /api/photos
+ * Returns 2 random photos of the same gender that have not been voted yet.
+ */
+app.get("/api/photos", function(req, res, next) {
+	var choices = ['female', 'male'];
+	var randomGender = _.sample(choices);
+
+	Sweetlips.photos
+		.find({ random: {$near: [Math.random(), 0] } })
+		.where("voted", false)
+		.where("gender", randomGender)
+		.limit(2)
+		.exec(function(err, photos){
+			if (err) return next(err);
+
+			if (photos.length === 2) {
+				return res.send(photos);
+			}
+
+			var oppositeGender = _.first(_.without(choices, randomGender));
+
+			Sweetlips.photos
+				.find({ random: {$near: [Math.random(), 0] } })
+				.where("voted", false)
+				.where("gender", oppositeGender)
+				.limit(2)
+				.exec(function(err, photos) {
+					if (err) return next(err);
+
+					if (photos.length === 2) {
+						return res.send(photos);
+					}
+
+					Sweetlips.photos.update({}, { $set: {voted: false } }, {multi: true}, function(err) {
+						if (err) return next(err);
+						res.send([]);
+					});
+				});
+		});
+});
+
+/**
+* POST /api/photos
+* Adds new photo to the database.
+*/
+app.post('/api/photos', function(req, res, next) {
+	var query = req.body;
+	Sweetlips.photos.create(query, function(err, photos) {
+		if(err) res.json(err);
+		else{
+			res.send(200, {photos: photos});
 		}
-	}
-	return null;
-}
+	});
+});
 
-function removeFriend(id){
-	var friendIndex = 0;
-	for(var i=0; i<friends.length; i++){
- 		if(friends[i].id === id){
- 				friendIndex = i;
- 		}
- 	}
- 	friends.splice(friendIndex, 1);
- }
-
-function filterFriendsGender(gender){
-  var specFriends = [];
-	for (var i=0; i<friends.length; i++) {
-		if(friends[i].sex === gender){
-      specFriends.push(friends[i]);
-			return specFriends;
+/*
+app.post('/api/photos', function(req, res, next) {
+	var gender = req.body.gender;
+	var characterName = req.body.name;
+	var characterIdLookupUrl = 'https://api.eveonline.com/eve/CharacterID.xml.aspx?names=' + characterName;
+	var parser = new xml2js.Parser();
+	async.waterfall([
+		function(callback) {
+			request.get(characterIdLookupUrl, function(err, request, xml) {
+				if (err) return next(err);
+				parser.parseString(xml, function(err, parsedXml) {
+					if (err) return next(err);
+					try {
+						var characterId = parsedXml.eveapi.result[0].rowset[0].row[0].$.characterID;
+						Sweetlips.photos.findOne({ characterId: characterId }, function(err, character) {
+							if (err) return next(err);
+							if (character) {
+								return res.status(409).send({ message: character.name + ' is already in the database.' });
+							}
+							callback(err, characterId);
+						});
+					} catch (e) {
+						return res.status(400).send({ message: 'XML Parse Error' });
+					}
+				});
+			});
+		},
+		function(characterId) {
+			var characterInfoUrl = 'https://api.eveonline.com/eve/CharacterInfo.xml.aspx?characterID=' + characterId;
+			request.get({ url: characterInfoUrl }, function(err, request, xml) {
+				if (err) return next(err);
+				parser.parseString(xml, function(err, parsedXml) {
+					if (err) return res.send(err);
+					try {
+						var name = parsedXml.eveapi.result[0].characterName[0];
+						var race = parsedXml.eveapi.result[0].race[0];
+						var bloodline = parsedXml.eveapi.result[0].bloodline[0];
+						var character = new Sweetlips({
+							characterId: characterId,
+							name: name,
+							race: race,
+							bloodline: bloodline,
+							gender: gender,
+							random: [Math.random(), 0]
+						});
+						character.save(function(err) {
+							if (err) return next(err);
+							res.send({ message: characterName + ' has been added successfully!' });
+						});
+					} catch (e) {
+						res.status(404).send({ message: characterName + ' is not a registered citizen of New Eden.' });
+					}
+				});
+			});
 		}
+		]);
+});
+
+/**
+ * PUT /api/photos
+ * Update winning and losing count for both photos.
+ */
+app.put("/api/photos", function(req, res, next) {
+	var winner = req.body.winner;
+	var loser = req.body.loser;
+
+	if (!winner || !loser) {
+		return res.status(400).send({ message: 'Voting requires two photos.' });
 	}
-	return null;
-}
-
-
-/**
- * HTTP GET /friends
- * Should return a list of friends
- */
-app.get('/friends/', function (request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	console.log('In GET function ');
-	response.json(friends);
-});
-
-/**
- * HTTP GET /friends/:id
- * id is the unique identifier of the friend you want to retrieve
- * Should return the task with the specified id, or else 404
- */
-app.get('/friends/:id', function(request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	console.log('Getting a friend with id ' + request.params.id);
-	
-	var friend = findFriend(request.params.id);
-	if(friend === null){
-		response.sendStatus(404);
-	}else{
-		response.json(friend);
+	if (winner === loser) {
+		return res.status(400).send({ message: 'Cannot vote for and against the same photo.' });
 	}
+
+	async.parallel([
+		function(callback) {
+			Sweetlips.photos.findOne({ c_uid: winner }, function(err, winner) {
+				callback(err, winner);
+			});
+		},
+		function(callback) {
+			Sweetlips.photos.findOne({ c_uid: loser }, function(err, loser) {
+				callback(err, loser);
+			});
+		}
+	],
+	function(err, results) {
+		if (err) return next(err);
+
+		var winner = results[0];
+		var loser =results[1];
+
+		if (!winner || !loser) {
+			return res.status(404).send({ message: 'One of the photos no longer exists.' });
+		}
+
+		if (winner.voted || loser.voted) {
+			res.status(200).end();
+		}
+
+		async.parallel([
+			function(callback) {
+				winner.wins++;
+				winner.voted = true;
+				winner.random = [Math.random(), 0];
+				winner.save(function(err) {
+					callback(err);
+				});
+			},
+			function(callback) {
+				loser.losses++;
+				loser.voted = true;
+				loser.random = [Math.random(), 0];
+				loser.save(function(err) {
+					callback(err);
+				});
+			}
+		], function(err) {
+			if (err) return next(err);
+			res.status(200).end();
+		});
+	});
 });
 
 /**
- * HTTP GET /friends?fields=:id,:name,:gender,:sex
- * Should return a list of id,name,gender,sex
+ * PUT /api/photos/:id
+ * Update photo by id
  */
-app.get('/friends/gender/:sex', function(request, response){
-	response.header('Access-Control-Allow-Origin', '*');
-	var params = request.params.sex;
-	var gender = filterFriendsGender(params);
-	response.json(gender);
+app.put("/api/photos/:id", function(req, res, next) {
+	var id = req.params.id;
+
+	Sweetlips.photos.remove({_id: id}, function(err) {
+		if (err) return next(err);
+
+		res.send("success");
+	});
 });
 
 /**
- * HTTP POST /friends/
- * The body of this request contains the friend you are creating.
- * Returns 200 on success
+ * GET /api/photos/count
+ * returns the total number of photos
  */
-app.post('/friends', function (request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	
-	var friend = request.body;
-	console.log('Saving friend with the following structure ' + JSON.stringify(friend));
-	friend.id = friendId++;
-	friends.push(friend);
-	response.send(friend);
+app.get("/api/photos/count", function(req, res, next) {
+	Sweetlips.photos.count({}, function(err, count) {
+		if (err) return next(err);
+
+		res.send({ count: count });
+	});
+});
+
+/** 
+ * GET /api/photos/top
+ * Return 100 highest ranked photos. Filter by gender
+ * GET /api/characters/top?race=caldari&bloodline=civire&gender=male
+ * go along with /rankings.html
+ */
+app.get("/api/photos/top", function(req, res, next) {
+	// Query params object
+	var params = req.query;
+	var conditions = {};
+
+	_.each(params, function(value, key) {
+		conditions[key] = new RegExp('^' + value + '$', 'i');
+	});
+
+	Sweetlips.photos
+		.find(conditions)
+		.sort('-wins') // Sort in descending order (highest wins on top)
+		.limit(10)
+		.exec(function(err, photos) {
+			if(err) return next(err);
+
+			// Sort by winning percentage
+			photos.sort(function(a, b) {
+				if (a.wins / (a.wins + a.losses) < b.wins / (b.wins + b.losses)) { return 1; }
+				if (a.wins / (a.wins + a.losses) < b.wins / (b.wins + b.losses)) { return -1; }
+				return 0;		
+			});
+
+			res.send(photos);
+		});
 });
 
 /**
- * HTTP PUT /friends/
- * The id is the unique identifier of the friend you wish to update.
- * Returns 404 if the friend with this id doesn't exist.
- */
-app.put('/friends/:id', function (request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	
-	var friend = request.body;
-	console.log('Updating Friend ' + JSON.stringify(friend));
-	
-	var currentFriend = findFriend(parseInt(request.params.id,10));
-	if(currentFriend === null){
-		response.sendStatus(404);
-	}else{
-		//save the friend locally
-		currentFriend.id = friend.id;
-		currentFriend.name = friend.name;
-		currentFriend.age = friend.age;
-		currentFriend.sex = friend.sex;
-		currentFriend.image_url = friend.image_url;
-		currentFriend.hottness_counts = friend.hottness_counts;
-		currentFriend.compared = friend.compared;
-		currentFriend.rankings = friend.rankings;
-		response.send(friend);
-	}
+* POST /api/report
+* Reports a character. Character is removed after 4 reports.
+*/
+app.post('/api/report', function(req, res, next) {
+	var characterId = req.body.characterId;
+	Character.findOne({ characterId: characterId }, function(err, character) {
+		if (err) return next(err);
+		if (!character) {
+			return res.status(404).send({ message: 'Character not found.' });
+		}
+
+		character.reports++;
+		if (character.reports > 4) {
+			character.remove();
+			return res.send({ message: character.name + ' has been deleted.' });
+		}
+		character.save(function(err) {
+			if (err) return next(err);
+			res.send({ message: character.name + ' has been reported.' });
+		});
+	});
 });
 
 /**
- * HTTP DELETE /friends/
- * The id is the unique identifier of the friend you wish to delete.
- * Returns 404 if the friend with this id doesn't exist.
+ * GET /api/hits
+ * Get site hits
  */
-app.delete('/friends/:id', function (request, response) {
-	console.log('calling delete');
-	response.header('Access-Control-Allow-Origin', '*');
-	
-	var friend = findFriend(parseInt(request.params.id,10));
-	if(friend === null){
-		console.log('Could not find friend');
-		response.send(404);
-	}else{
-		console.log('Deleting ' + request.params.id);
-		removeFriend(parseInt(request.params.id, 10));
-		response.send(200);
-	}
-	response.send(200);
+app.get("/api/hits", function(req, res, next) {
+	Sweetlips.page_hits.find({}, function(err, pages) {
+		if (err) return next(err);
+		res.send(pages);
+	});
+});
+/**
+ * PUT /api/hits
+ * Collects site hits
+ */
+
+app.put("/api/hits", function(req, res, next) {
+	Sweetlips.page_hits.update({page_name: "dummy_hits"/*req.body.page_name*/},
+		{$inc: {page_hits: 1}}, {upsert:true},
+		function(err, hit) {
+			if (err) return next(err);
+
+			res.send({ hits: hit.page_hits});
+		});
 });
 
-//additional setup to allow CORS requests
-var allowCrossDomain = function(req, response, next) {
-	response.header('Access-Control-Allow-Origin', "http://localhost");
-	response.header('Access-Control-Allow-Methods', 'OPTIONS, GET,PUT,POST,DELETE');
-	response.header('Access-Control-Allow-Headers', 'Content-Type');
-	if ('OPTIONS' === req.method) {
-		response.send(200);
-	}else {
-		next();
-	}
+function getRating (winner, loser) {
+	var K = 30,
+		winnerExpected,
+		loserExpected;
+
+	winnerExpected = 1 / (1 + (Math.pow(10, (loser.rating - winner.rating) / 400)));
+	loserExpected = 1 / (1 + (Math.pow(10, (winner.rating - loser.rating) / 400)));
+	return {
+		winner: Math.round(winner.rating + (K * (1 - winnerExpected))),
+		loser: Math.round(loser.rating + (K * (0 - loserExpected)))
+	};
 };
 
-app.use(allowCrossDomain);
+function topTenRatings(req, res, next) {
+	Sweetlips.photos
+		.find({})
+		.sort({'rating': -1})
+		.limit(10)
+		.exec(function(err, result) {
+			if (err) next(err);
+
+			res.locals.topTen = result;
+			next();
+		});
+};
+
+/** 
+ * POST /api/photos/install
+ * Installing all photos in /photos/ directory onto mongodb
+ */
+var installImages = function(req, res, next) {
+
+	var images = [];
+
+	fs.readdirSync(sourceDirectory).forEach(function(fileName, index) {
+		images[index] = {filename: fileName}
+	});
+
+
+			var query = {
+				"user_id": "1234567890123456",
+				"name": "", // his/her name from facebook
+				"age": 13, // is s/he old enough or young enough to be voted
+				"gender": "female", // is s/he a male or female
+				"image_src": "/photos/" + file,//
+				"thumb_src": "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/"+file, // his/her facebook dp
+				"profile_uri": "https://web.facebook.com/profile.php?id=", // his/her facebook 
+				"is_blocked": false, // does she wanna play
+				"rating": 0, // ratings of him/her
+				"wins": 0, // number of wins s/he score
+				"losses": 0, // number of losses s/he scores
+				"random": 0, // random number for selection
+				"voted": false, // has s/he been voted already
+				"vote_counts": 0, // number of time has s/he been played
+				"vote_timestamp": Date.now, // any given time s/he been voted
+				"ranking": 0, // his/her hotness ranking
+				"base_rating": 1400, // just a base rating for voting
+			}
+
+			Sweetlips.photos.insertMany(photosAll, function(err, photos) {
+				if (err) return next(err);
+				else {
+					res.send(200)
+					console.log("photo uploaded successfully");
+				}
+	});
+};
+
+
+/**
+ * Processing Images
+ */
+fs.readdir(sourceDirectory, function (err, files) {
+    if (err) console.log(err);
+    //console.log(files);
+
+    files.forEach(function(file) {
+        scaleImage(file);
+    });
+
+});
+
+function scaleImage(file) {
+/*
+	lwip.open(sourceDirectory + file, function(err, image) {
+		if (err) console.log(err);
+		if (image) {
+			var width = 400,
+				height = 400,
+				imageHeight = image.height(),
+				imageWidth = image.width(),
+				ratio;
+			ratio = Math.max(width / imageWidth, height / imageHeight);
+
+			image.batch()
+				.scale(ratio)
+				.crop(400, 400)
+				.writeFile(destinationDirectory + file, function(err) {
+					if (err) console.log(err);
+					console.log(file + ": has been processed");
+				});
+		} else {
+			console.log('couldn\'t find no photo');
+		}
+	});
+*/
+}

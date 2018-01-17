@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>StuckWanYah</title>
+	
+	<style type="text/css">
+
+		html, body {font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';font-weight: 400;font-size: 16px;color: #333;width:100%;margin:0;padding:0;text-align:center;}
+		h1 {background-color:#221c24/*#5f5680*/;color:#fff;padding:20px 0;margin:0;}
+		h2 {font-size: 1.5em;font-weight: 100;}
+		h3 {font-size: 1em;margin: 20px 0;}
+		a img,input[type=image] {border:0;width:245px}
+		td {font-size:11px;}
+		.photo {background-color:#eee;border:1px solid #ddd;border-bottom:1px solid #bbb;padding:5px;}
+		hr {border:1px solid #eee}
+		@media (max-width: 780px) {
+			#photos img {
+				width: 222px;
+			}
+		}
+		@media (max-width: 660px) {
+			#photos img {
+				width: 204px;
+			}
+		}
+		@media (max-width: 450px) {
+			#photos img {
+    			width: 156px;
+  			}
+		}
+
+	</style>
+
+	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+
+</head>
+
+<body>
+	<main id="main">
+
+	<h1>Stuck Wan Yah!</h1>
+	<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
+	<h2>Who's hotter? Click to choose</h2>
+	
+	<center>
+		<% if (images) { %>
+		<table>
+			<tr id="photos">
+				<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>"><img src="/photos/<%= images[0].image_url %>"></a></td>
+				<td id="OR" width="55" align="center"><b>OR</b></td>
+				<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].image_id %>&loser=<%= images[0].image_id %>"><img src="/photos/<%= images[1].image_url %>"></a></td>
+			</tr>
+			<tr id="ratings" align="left">
+					<td><b>Ratings:</b> <%= images[0].ratings %></td>
+					<td></td>
+					<td><b>Ratings:</b> <%= images[1].ratings %></td>
+			</tr>
+			<tr id="wins" align="left">
+					<td><b>Won:</b><%= images[0].wins %>, <b>Lost:</b><%= images[0].losses %></td>
+					<td></td>
+					<td><b>Won:</b> <%= images[1].wins %>, <b>Lost:</b><%= images[1].losses %> </td>
+			</tr>
+			<tr id="scores" align="left">
+					<td><b>Scores:</b> <%= images[0].scores %> </td>
+					<td></td>
+					<td><b>Scores:</b> <%= images[1].scores %> </td>
+			</tr>
+			<tr id="expectations" align="left">
+					<td><b>Expected:</b> <%= expected(images[1].scores, images[0].scores) %> </td>
+					<td></td>
+					<td><b>Expected:</b> <%= expected(images[0].scores, images[1].scores) %> </td>
+			</tr>
+		</table>
+		<% } %>
+
+		<br/><a href="/">refresh</a><br/><br/><br/><hr>
+
+		<center>
+			<table>
+				<tr>
+					<td><a href="/" onclick="sh('home')">Home</a></td>
+					<td><a href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">About</a></td>
+					<td><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></td>
+					<td><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></td>
+					<td><a href="/friends.html" onclick="sh('friends')">Friends</a></td>
+				</tr>
+			</table>
+			<table>
+				<tr><td>a <b>Christian J.F Augustyn</b> production</td></tr>
+				<tr><td align="center">StuckWanYah &copy; 2018</td></tr>
+			</table>
+		</center>
+	</center>
+	</main>
+
+</body>
+</html>

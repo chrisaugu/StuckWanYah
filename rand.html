@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<script type="text/javascript" src="/jquery.js"></script>
+	<script type="text/javascript" src="/script.js"></script>
+</head>
+<body>
+
+<p id="demo">change this</p>
+<p id="demo2">change this</p>
+
+<script>
+
+var myArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November',
+'December'];    
+
+function random() {
+	var rand = Math.floor(Math.random() * myArray.length);
+	var concat = myArray[rand];
+	var concat2 = myArray[rand];
+
+	document.getElementById("demo").innerHTML = (concat);
+	document.getElementById("demo2").innerHTML = (concat2);
+}
+</script>
+
+<div id="photos"></div>
+
+<button onclick="PopulateFriendsList();">Working Random Array generator</button>
+
+</body>
+</html>
