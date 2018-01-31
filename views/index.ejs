@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>StuckWanYah</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+	<link rel="favicon" type="icon" href="/favicon.ico" title="StuckWanYah">
+	<% var connected = true; %>
+
+	<!-- Facebook Pixel Code -->
+	<!--script>
+		!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+		n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+		t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+		document,'script','https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init', '220609305106091', {em: 'insert_email_variable'});
+		fbq('track', 'PageView');
+	</script-->
+</head>
+
+<body>
+
+	<main id="main">
+
+		<h1>Stuck Wan Yah!</h1>
+		
+		<center>
+			<% if (connected) { %>
+
+			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
+			<h2>Who's hotter? Click to choose</h2>
+
+			<% if (images) { %>
+				<table>
+					<tr id="photos">
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[0].uri %>"><img src="/photos/<%= images[0].image_url %>"></a></td>
+						<td id="OR" width="55" align="center"><a href="/" onclick="javascript:void(location.reload())" style="text-decoration:none;"><b>OR</b></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].image_id %>&loser=<%= images[0].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[1].uri %>"><img src="/photos/<%= images[1].image_url %>"></a></td>
+					</tr>
+					<tr align="center">
+						<td><%= images[0].name %></td>
+						<td></td>
+						<td><%= images[1].name %></td>
+					</tr>
+					<tr id="ratings" align="left">
+						<td><b>Ratings:</b> <%= images[0].ratings %></td>
+						<td></td>
+						<td><b>Ratings:</b> <%= images[1].ratings %></td>
+					</tr>
+					<tr id="wins" align="left">
+						<td><b>Wins:</b><%= images[0].wins %>, <b>losses:</b><%= images[0].losses %></td>
+						<td></td>
+						<td><b>Wins:</b> <%= images[1].wins %>, <b>Losses:</b><%= images[1].losses %> </td>
+					</tr>
+					<tr id="scores" align="left">
+						<td><b>Score:</b> <%= images[0].score %> </td>
+						<td></td>
+						<td><b>Score:</b> <%= images[1].score %> </td>
+					</tr>
+					<tr id="expectations" align="left">
+						<td><b>Expected:</b> <%= expected(images[1].score, images[0].score) %> </td>
+						<td></td>
+						<td><b>Expected:</b> <%= expected(images[0].score, images[1].score) %> </td>
+					</tr>
+				</table>
+			<% } %>
+			<% } else { %> 
+				<p>in order to use StuckWanYah you must login via Facebook.</p>
+				<form action="{% url 'facebook_connect' %} ? facebook_login = 1" method="post" data-form="facebook_connect">
+					<input type="hidden" value="1" name="connect">
+					<%# csrf_token %>
+					<a onclick="F.connect(this.parentNode); return false;" href="javascript:void(0);">
+						<img src="http://i.imgur.com/TSXtq24.png">
+					</a>
+					<input type="button" data-action="facebook_login" class="button _fb-connect" value="Connect to Facebook">
+				</form>
+			<% } %>
+
+			<br/><br/>
+			<!--div style="text-align:center;font-size:1.5em;position:relative;padding-right:98px;padding-top:13px;margin-bottom:15px;">Hey, do you like this page? <div style="position:absolute; top: 15px; right: 471px;">
+				<fb:like layout="button_count" send="false" show_faces="false" width="120" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=362497390470077&amp;container_width=0&amp;href=http%3A%2F%2Fwww.symbols-n-emoticons.com%2Fp%2Ffacebook-emoticons-list.html&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=120">
+					<span style="vertical-align: bottom; width: 83px; height: 20px;">
+						<iframe name="f115a007ccd88c4" width="120px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="/like.html" style="border: none; visibility: visible; width: 83px; height: 20px;" class=""></iframe>
+					</span>
+				</fb:like>
+			</div></div-->
+
+			<div class="custom-fb-share" data-href="https://stuckwanyah.herokuapp.com/">Share</div>
+
+			<div class="footer">
+				<div class="container">
+					<ul>
+						<li><a href="/" data-action="sh('home')">Home</a></li>
+						<li>·</li>
+						<li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">Messenger Bot</a></li>
+						<li>·</li>
+						<li><a href="/about.html" onclick="sh('about')">About</a></li>
+						<li>·</li>
+						<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+						<li>·</li>
+						<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+						<li>·</li>
+						<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+						<li>·</li>
+						<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+					</ul>
+					<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
+				</div>
+			</div>
+		</center>
+	</main>
+	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<script type="text/javascript" src="/javascripts/script.js"></script>	
+</body>
+</html>

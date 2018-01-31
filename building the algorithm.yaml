@@ -35,7 +35,11 @@ Inspired from Facemash, is there a desktop application that:
 5: Sorts the pictures by their rating
 
 
-
+$ git init
+$ heroku git:remote -a <your heroku app name>
+$ git add .
+$ git commit -am "initial commit"
+$ git push heroku master
 
 
 

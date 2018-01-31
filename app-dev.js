@@ -1,41 +1,53 @@
-
-// Dependencies
+// Invoke JavaScript Strict mode
+'use strict';
+// Initializing main Dependency modules
 var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 
-var db = mongoose.connect(process.env.MONGODB_URI);
-var Movie = require("./models/sweetlipsdb");
-
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
+// Creating instance for express
+var app = module.exports = express();
+// configure the instance
+app.set('port', (process.env.PORT || 5000));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+// Parse POST request data. It will be available in the req.body object
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
 app.use(bodyParser.json());
-app.listen((process.env.PORT || 5000));
-
-//additional setup to allow CORS requests
-var allowCrossDomain = function(req, response, next) {
-	response.header('Access-Control-Allow-Origin', "*");
-	response.header('Access-Control-Allow-Methods', 'OPTIONS, GET,PUT,POST,DELETE');
-	response.header('Access-Control-Allow-Headers', 'Content-Type');
-	if ('OPTIONS' == req.method) {
-		response.send(200);
-	}else {
-		next();
-	}
-};
-router.use(allowCrossDomain);
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+// Invoke instance to listen to port
+app.listen(app.get('port'), function() {
+    // Create new server
+    console.log("Server running on port %d", app.get('port'));
+});
+// Creating an instance for MongoDB
+var db = mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sweetlipsdb');
+mongoose.connection.on("open", function() {
+    console.log("Connected: Successfully connect to mongo server");
+});
+mongoose.connection.on('error', function() {
+    console.log("Error: Could not connect to MongoDB. Did you forget to run 'mongod'?");
+});
+var Sweetlips = require("./models/sweetlips.model");
 
 //Server index page
 app.get("/", function(req, res) {
-	res.sendFile("index.html");
+	res.render("index");
 });
 
 // Facebook Webhook
 // Used for verification
 app.get("/webhook", function(req, res) {
-	if (req.query["hub.verify_token"] === "this_is_my_token") {
+	if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
 		console.log("Verified webhook");
 		res.status(200).send(req.query["hub.challenge"]);
 	} else {
@@ -152,20 +164,23 @@ function processMessage(event) {
  * Block and Unblock
  */
 function processBlock(userId) {
-	var query = {FB_UID = userId};
-	Sweetlips.findOne({user_id: userId}, function(err) {
+	var query = {image_id: userId};
+	var attempts = 0;
+	Sweetlips.findOne({user_id: userId}, function(err, user) {
 		if (err) {
+			attempts++;
+			if (attempts>2) sendMessage(userId, {text: "Sorry it's my fault. Try again later."}); attempts=0;
 			sendMessage(userId, {text: "Something went wrong. Try again"});
 		} else {
+			user.is_blocked = true;
 			sendMessage(userId, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."})
 		}
-	})
-
+	});
 	return true;
 }
 function processUnblock(userId) {
-	var query = {FB_UID = userId};
-	Sweetlips.findOne({user_id: user_id}, function(err, response) {
+	var query = {image_id: userId};
+	Sweetlips.findOne(query, function(err, response) {
 		if (err) {
 			sendMessage(user_id, {text: "Something went wrong. Try again"});
 		} else {
@@ -194,13 +209,56 @@ function sendMessage(recipientId, message) {
 }
 
 var getContenderDetail = function(userId, field) {
-	Movie.findOne({candidate_id: userId}, function(err, movie) {
+	Movie.findOne({image_id: userId}, function(err, movie) {
 		if (err) {
 			sendMessage(userId, {text: "Something went wrong. Try again"});
 		} else {
 			sendMessage(userId, {text: movie[field]});
 		}
 	});
+}
+
+// Retrieve all friends from facebook
+// and save them in database
+var retrievePlayerFriends = function(userId) {
+	request({
+		url:"https://graph.facebook.com/v.2.6/me/friends",
+		qs: {
+			access_token: process.env.PAGE_ACCESS_TOKEN,
+			//fields: ""
+		},
+		method: "GET"
+	}, function(error, friend) {
+		if (error) {
+			sendMessage(userId, {text: "Error retrieving your Facebook friends."});
+		}
+		var query = {image_id: userId}
+		var update = {
+			image_id: friend.cuid,
+			name: friend.name,
+			age: friend.age,
+			gender: friend.gender,
+			image_url: friend.thumSrc,
+			uri: friend.uri,
+			//is_blocked: false,
+			ratings: { type: Number, default: 0},
+			wins: { type: Number, default: 0},
+			losses: { type: Number, default: 0},
+			score: { type: Number, default: 0},
+			random: { type: [Number], index: '2d' },
+			voted: { type: Boolean, default: false },
+			vote_timestamp: { type: Date, default: Date.now() },
+			joinedAt: { type: Date, default: Date.now() },
+		}
+		var options = {upsert: true}
+		Sweetlips.photos.findOneAndUpdate(query, update, options, function(err, friend) {
+			if (err) {
+				console.error("Database error: " + err);
+			} else {
+				console.log("Successfully retrieve friends from Facebook.")
+			}
+		})
+	})
 }
 
 function findMovie(userId, movieTitle) {
@@ -261,17 +319,16 @@ function findMovie(userId, movieTitle) {
 	});
 }
 
-
-function findPhoto(id, array){
-	for(var i =0; i<array.length; i++){
-		if(photos[i].id === id){
-			return array[i];
-		}
-	}
-	return null;
+function findPhotoById(id){
+	Sweetlips.photos.find({
+		image_id: id
+	}, function(err, photo){
+		if (err) throw err;
+		return photo;
+	});
 }
 
-function deletePhoto(id, array){
+function deletePhotoById(id, array){
 	var arrayIndex = 0;
 	for(var i=0; i<array.length; i++){
  		if(array[i].user_id === id){
@@ -282,78 +339,64 @@ function deletePhoto(id, array){
  	return array;
 }
 
-function blockPhoto(id, array) {
- 	for (var i=0; i<array.length; i++) {
- 		if (array[i].user_id === id) {
- 			if (array[i].is_blocked === false) {
- 				array[i].is_blocked === true;
- 				return res.send("You are blocked.");
- 			} else {
- 				return res.send("You are already been blocked.");
- 			}
- 		}
- 		return res.send("User with the ID: ${id} cannot be found.");
- 	}
- 	return array;
- }
+function blockPhotoById(id) {
+	Sweetlips.photos.update({image_id: id},
+		{$set: {'$is_blocked': true}},
+		function(err){
+			if(err) throw err;
+			return true;
+		});
+}
 
- function unblockPhoto(id, array) {
- 	for (var i=0; i<array.length; i++) {
- 		if (array[i].user_id === id) {
- 			if (array[i].is_blocked === false) {
- 				return res.send("You are unblocked.");
- 			} else {
- 				return res.send("You can't be unblocked unless you're blocked.");
- 			}
- 		} else {
- 			return res.send("User with the ID: ${id} cannot be found.");
- 		}
- 	}
- 	return array;
- }
+function unblockPhotoById(id) {
+	Sweetlips.photos.update({
+		image_id: id
+	}, {
+		$set: {
+			'$is_blocked': false
+		}
+	}, function(err){
+		if (err) throw err;
+	});
+}
+
+function processGender(gender){
+	return (gender == 'female' ? 'female' : 'male');
+}
 
 function filterPhotosGender(gender, array){
-  var specPhotos = [];
+	var temp = [];
 	for (var i=0; i<array.length; i++) {
 		if(array[i].sex === gender){
-      specPhotos.push(array[i]);
-			return specPhotos;
+			temp.push(array[i]);
+			return temp;
 		}
 	}
 	return null;
 }
 
 var getDate = function(){
-	date = new Date();
-	hour = date.getHours();
-	period = "AM";
+	var date = new Date();
+	var hour = date.getHours();
+	var period = "AM";
+	var monthNames;
 	if (hour > 12){
-		hour = hour%12;
+		hour = hour % 12;
 		period = "PM";
 	}
-	form_date=monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
+	var form_date=monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
 	return form_date;
 }
 
-function rateBoys(argument) {
-	// body...
-}
-
-function rateGirls(argument) {
-	// body...
-}
-
-
 /**
- * User/Sender -> is the person doing the voting
+ * User/Sender/Voter -> is the person doing the voting
  * Candidate -> is the person being voted for his/her hotness
- * Candidate/s is/are the sender's friend/s
+ * Candidate/s is/are the sender's friend/s within the 13-21 age group
  **/
 
 // Retrieve all female friends from age 14 - 23 
 function processContenderSex(event) {
 	var senderId = event.sender.id;
-
 	request({
 		url: "https://graph.facebook.com/v2.6/" + senderId + "/friends?gender=female&sex=female",
 		qs: {
@@ -366,7 +409,7 @@ function processContenderSex(event) {
 	});
 }
 
-// Girls rating girls, boys rating boys not really a exciting
+// Girls rating girls, boys rating boys not really a exciting thing
 // Get voter's gender so 
 // if user is a female she rates her friends that are boys
 // if user is a male he rates his friends that are girls
@@ -378,19 +421,19 @@ function processVoterSex(event) {
 		url: "https://graph.facebook.com/v2.6/" + senderId,
 		qs: {
 			access_token: process.env.PAGE_ACCESS_TOKEN,
-			fields: gender;
+			fields: "gender"
 		},
 		method: "GET"
 	}, function(error, response, body) {
 		var greeting = "";
 		if (error) {
 			console.log("Error getting user gender: " + error);
-		}else{
+		} else {
 			var bodyObj = JSON.parse(body);
 			gender = bodyObj.gender;
 			if (gender === "male") {
 				rateGirls();
-			}else if (gender === "female") {}{
+			} else if (gender === "female") {
 				rateBoys();
 			}
 		}
@@ -403,7 +446,6 @@ function processUserSex(event){
 	var payload = event.postback.payload;
 
 	if (payload === "Greeting") {
-
 		// Getting user's gender from user Profile API
 		// and redirect to respective function
 		request({
@@ -424,9 +466,8 @@ function processUserSex(event){
 			}
 		})
 	}
-	
 	// Checking user's gender
-	else if (senderGender === "Female") {
+	else if (senderGender === "female") {
 		// girls vote for boys hotness
 	} else {
 		// boys vote for girls hotness
@@ -473,123 +514,75 @@ https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/25398952_508400639544802_
 */
 
 
-var router = module.exports = require('express').Router();
-var bodyParser=require('body-parser');
-
-var bookId = 100;
-
-//Parses the JSON object given in the body request
-router.use(bodyParser.json());
-
-var books = [
-	{id: 96, author: "Theodore Roosevelt", title: "The Rough Riders"},
-	{id: 97, author: "Scheherazade", title: "One Thousand and One Nights"},
-	{id: 98, author: 'Stephen King', title: 'The Shining', year: 1977},
-	{id: 99, author: 'George Orwell', title: 1949}
-];
-
-function findBook(id){
-	for(var i =0; i<books.length; i++){
-		if(books[i].id === id){
-			return books[i];
+// Auto Publish top ten hottest friends in carousel post
+function publishPost(pageId, article){
+	request({
+		url: "https://www.facebook.com/Stuck-Wan-Yah-508382589546607/",
+		qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+		method: "POST",
+		json: {
+			recipient: {id: pageId},
+			message: article
 		}
-	}
-	return null;
+	}, function(error, response, body) {
+		if (err) console.error("Error posting article: " + response.error);
+	});
 }
 
-function removeBook(id){
-	var bookIndex = 0;
-	for(var i=0; i<books.length; i++){
- 		if(books[i].id === id){
- 				bookIndex = i;
- 		}
- 	}
- 	books.splice(bookIndex, 1);
- }
+function getSenderGender(userId) {
+	request({
+		url: "https://graph.facebook.com/v2.6/" + userId,
+		qs: {
+			access_token: process.env.PAGE_ACCESS_TOKEN,
+			fields: "gender"
+		},
+		method: "POST"
+	}, function(error, response, body) {
+		var gender;
+		if (err) {
+			console.error("Error getting user gender: ", err);
+		} else {
+			var bodyObj = JSON.parse(body);
+			gender = bodyObj.gender;
+		}
+		shimOrhim(gender);
+	})
+}
 
-/**
-* HTTP GET /books
-* Should return a list of books
-*/
-router.get('/', function (request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	console.log('In GET function ');
-	response.json(books);
-});
+function getUserDetails(event) {
+	var senderId = event.sender.id;
 
-/**
-* HTTP GET /books/:id
-* id is the unique identifier of the book you want to retrieve
-* Should return the task with the specified id, or else 404
-*/
-router.get('/:id', function(request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	console.log('Getting a book with id ' + request.params.id);
-	
-	var book = findBook(parseInt(request.params.id,10));
-	if(book === null){
-		response.send(404);
-	}else{
-		response.json(book);
-	}
-});
+	async.waterfall([
+		function(callback) {
+			callback(null, 'one', 'two');
+		},
+		function(arg1, arg2, callback) {
+			// arg1 now equals 'one' and arg2 now equals 'two'
+			callback(null, 'three');
+		},
+		function(arg1, callback) {
+			// arg1 now equals 'three'
+			callback(null, 'done');
+		}
+	], function (err, result) {
+		if (err) console.error(err);
+		console.log(result);// result now equals 'done'
+	});
 
-/**
-* HTTP POST /books/
-* The body of this request contains the book you are creating.
-* Returns 200 on success
-*/
-router.post('/', function (request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	
-	var book = request.body;
-	console.log('Saving book with the following structure ' + JSON.stringify(book));
-	book.id = bookId++;
-	books.push(book);
-	response.send(book);
-});
+	/*request({
+		url: "https://graph.facebook.com/v2.6/" + senderId,
+		fields: "",
+		method: "GET"
+	}, function(error, response, body) {
+		var name, gender, age, image_url, friends
+	})*/
 
-/**
-* HTTP PUT /books/
-* The id is the unique identifier of the book you wish to update.
-* Returns 404 if the book with this id doesn't exist.
-*/
-router.put('/:id', function (request, response) {
-	response.header('Access-Control-Allow-Origin', '*');
-	
-	var book = request.body;
-	console.log('Updating Book ' + JSON.stringify(book));
-	
-	var currentBook = findBook(parseInt(request.params.id,10));
-	if(currentBook === null){
-		response.send(404);
-	}else{
-		//save the book locally
-		currentBook.title = book.title;
-		currentBook.year = book.year;
-		currentBook.author = book.author;
-		response.send(book);
-	}
-});
+}
 
-/**
-* HTTP DELETE /books/
-* The id is the unique identifier of the book you wish to delete.
-* Returns 404 if the book with this id doesn't exist.
-*/
-router.delete('/:id', function (request, response) {
-	console.log('calling delete');
-	response.header('Access-Control-Allow-Origin', '*');
-	
-	var book = findBook(parseInt(request.params.id,10));
-	if(book === null){
-		console.log('Could not find book');
-		response.send(404);
-	}else{
-		console.log('Deleting ' + request.params.id);
-		removeBook(parseInt(request.params.id, 10));
-		response.send(200);
-	}
-	response.send(200);
-});
+
+
+// Process gender
+function shimOrhim(gender) {
+    return (gender === 'female' ? 'female' : 'male');
+}
 

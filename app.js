@@ -8,26 +8,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 
-//console.log(process.cwd());
-
 // Server index page
 app.get("/", function (req, res) {
     res.send("Deployed!");
-});
-
-app.post("/", function(req, res) {
-	var win = req.params.win;
-	var lose = req.params.lose;
-
-	request({
-		url: '/',
-		qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-		method: 'POST',
-		json: {
-			win: req.params.win,
-			lose: req.params.lose
-		}
-	});
 });
 
 // Facebook Webhook

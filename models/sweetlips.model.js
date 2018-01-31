@@ -1,43 +1,46 @@
-
+// Invoke JavaScript Strict mode
 'use strict';
-
+// Initializing dependencies
 var restful = require("node-restful"),
-	mongoose = restful.mongoose,
-	//mongoose = require("mongoose"),
-	//random = require('mongoose-simple-random'),
+	mongoose = require("mongoose"),
+	random = require('mongoose-simple-random'),
 	Schema = mongoose.Schema;
-
+// Schema
 var SweetLipsSchema = new Schema({
 	//_id: <ObjectId>,
 	image_id: { type: String, unique: true, index: true },
 	name: String,
 	age: Number,
 	gender: String,
-	filename: String,
 	image_url: String,
 	thumb_src: String,
 	uri: String,
 	is_blocked: { type: Boolean, default: false },
-	ratings: { type: Number, default: 0},
 	wins: { type: Number, default: 0},
 	losses: { type: Number, default: 0},
-	expectations: { type: Number, default: 0 },
-	scores: { type: Number },
+	draws: { type: Number, default: 0},
+	score: { type: Number, default: 0},
+	ratings: { type: Number, default: 0},
+	rankings: { type: Number, default: 0},
 	random: { type: [Number], index: '2d' },
 	voted: { type: Boolean, default: false },
-	vote_counts: { type: Number, default: 0 },
-	vote_timestamp: { type: Date, default: Date.now() },
-	ranking: { type: Number, default: 0 },
-	base_rating: { type: Number, default: 1400 }
+	voted_by: [],
+	compared_with: [],
+	joinedAt: { type: Date, default: Date.now() },
 },{strict:false});
+// Attaching random plugin to the schema
+SweetLipsSchema.plugin(random);
 
-//SweetLipsSchema.plugin(random);
+var photos = restful.model("photos", SweetLipsSchema);
 
-module.exports.photos = restful.model("Photos", SweetLipsSchema);
-
-module.exports.page_hits = restful.model("PageHits", new Schema({
-	page_id: {type: Number, unique: true},
-	page_name: String,
-	page_hits: Number,
+var hits = restful.model("hits", new Schema({
+	page: String,
+	hits: Number,
 	date: {type: Date, default: Date.now()}
 }));
+
+// Make the photos and hits data sets available to the code 
+module.exports = {
+	photos: photos,
+	hits: hits
+}

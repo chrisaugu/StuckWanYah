@@ -61,21 +61,6 @@ var Ea, Eb;
 Ea = Math.log
 
 
-function rankingFriends(friends_array) {
-  var counts[];
-
-  var i = friends_array.length - 1;
-
-  for (; i >= 0; i--) {
-    Things[i]
-  }
-}
-
-
-
-
-
-
 // ELO Algorithm based on PHP writting
 
 function elo_rating(S1, S2, R1, R2) {
@@ -689,3 +674,24 @@ function fb_uid(){
         return -1;
     }
 }
+
+function greetUser() {
+  send("StuckWanYah works with Facebook Messenger.")
+}
+
+
+    //[12, 5, 8, 130, 44].forEach(printBr);
+    var passed = [12, 54, 18, 130, 44].every(isBigEnough);
+    //printl(passed);
+
+    var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+    //document.write("Filtered Value : " + filtered + '<br>');
+
+    var percentage = Math.floor((1 - 25 / 250) * 100);
+
+    var today = new Date();
+    //printl(today);
+
+    var arr = [1, 9, 4, 2, 5];
+    var sorted = arr.sort();
+    //printl(sorted);
