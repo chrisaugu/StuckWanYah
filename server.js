@@ -755,29 +755,42 @@ function newRating(expected_score, actual_score, previous_rating) {
 // expected_score = new expectedScore(player_1_rating, player_2_rating)
 // new_rating = newRating(expected_score, score, player_1_rating)
 function getScore(winner, loser) {
-	var winner_wins_arr = [winner.wins];
-	var winner_loses_arr = [winner.losses];
+	var winner_wins_arr, winner_loses_arr, loser_wins_arr, loser_loses_arr, i;
 
-	for (var i = 0; i < winner_wins_arr.length; i++) {
-		winner_wins_arr[i] = 1;
+	// Use the number of wins to add 1's to new array
 
-		for (var i = 0; i < winner_loses_arr.length; i++) {
-			winner_loses_arr[i] = 0;
+	winner_wins_arr = [];
+	winner_loses_arr = [];
+
+	for (i = 0; i < winner.wins; i++) {
+		winner_wins_arr.push(1);
+
+		for (i = 0; i < winner.losses; i++) {
+			winner_loses_arr.push(0);
 		}
 	}
 
-	var loser_wins_arr = [loser.wins];
-	var loser_loses_arr = [winner.losses];
+	loser_wins_arr = [];
+	loser_loses_arr = [];
 
-	for (var i = 0; i < loser_wins_arr.length; i++) {
-		loser_wins_arr[i] = 1;
+	for (var i = 0; i < loser.wins; i++) {
+		loser_wins_arr.push(1);
 
-		for (var i = 0; i < loser_loses_arr.length; i++) {
-			loser_loses_arr[i] = 0;
+		for (var i = 0; i < loser.losses; i++) {
+			loser_loses_arr.push(0);
 		}
 	}
 
-	/*
+/*
+	[1,2,3,4,5,6].map(function(n){
+		return this.n = 1;
+	})
+
+	var arr=[];
+	for(var i=0;i<5;i++){
+		arr.push(1);
+	}
+
 	return {
 		winner: parseInt(winner.wins + winner.losses),
 		loser: parseInt(loser.wins + loser.losses)
