@@ -38,6 +38,16 @@ $ heroku open
 $ heroku logs 
 
 
+$ git clone https://github.com/chrisaugu/stuckwanyah.git # clone repo from remote repo to local repo
+$ git init # initialize git repo
+$ heroku git:remote -a <your heroku app name> # add heroku git remote
+$ git add . # <filename> # add files in the local repo
+$ git commit -a -m "initial commit" # commit changes 
+$ git push heroku master # push to heroku git repo
+$ git push -u origin master # push to github repo
+$ git heroku open # opens tab on browser
+
+
 posts:
   It's boring here. my facebook profile is open up on my desktop and sitting here strolling 
   down my news feeds into some friends propic likes. I need a idea to get active. Except enough I need an idea to do that.

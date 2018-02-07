@@ -34,18 +34,6 @@ Inspired from Facemash, is there a desktop application that:
 4: Repeats steps 2 and 3 indefinitely till it decides the ratings for the pictures are accurate
 5: Sorts the pictures by their rating
 
-$ git clone https://github.com/chrisaugu/stuckwanyah.git # clone repo from remote repo to local repo
-$ git init # initialize git repo
-$ heroku git:remote -a <your heroku app name> # add heroku git remote
-$ git add . # <filename> # add files in the local repo
-$ git commit -a -m "initial commit" # commit changes 
-$ git push heroku master # push to heroku git repo
-$ git push -u origin master # push to github repo
-$ git heroku open # opens tab on browser
-
-
-
-
 
 
 // 
