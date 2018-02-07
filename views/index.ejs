@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>StuckWanYah</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet-min.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico" title="StuckWanYah">
 	<% var connected = true; %>
@@ -26,7 +26,7 @@
 		<h1>Stuck Wan Yah!</h1>
 		
 		<center>
-			<% if (!connected) { %>
+			<% if (connected) { %>
 
 			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
 			<h2>Who's hotter? Click to choose</h2>
@@ -35,7 +35,7 @@
 				<table>
 					<tr id="photos">
 						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[0].uri %>"><img src="/photos/<%= images[0].image_url %>"></a></td>
-						<td id="OR" width="55" align="center"><a href="/" onclick="javascript:void(location.reload())" style="text-decoration:none;"><b>OR</b></a></td>
+						<td id="OR" width="55" align="center"><a href="tie?player1=<%= images[0].image_id %>&player2=<%= images[1].image_id %>" xonclick="sh('vote')" style="text-decoration:none;"><b>OR</b></a></td>
 						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].image_id %>&loser=<%= images[0].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[1].uri %>"><img src="/photos/<%= images[1].image_url %>"></a></td>
 					</tr>
 					<tr align="center">

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Submit</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet-min.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico">
 </head>
@@ -14,10 +14,10 @@
 	<h4>I'd love to hear what you think about StuckWanYah. Good or Bad. Have a suggestion for a new feature? Shoot it over to me. <br>Have a Harry Potter conspiracy theory? Share it with me!</h4>
 	
 	<center>
-		<form id="submit" xaction="/submit.html" method="post" data-form="submit">
+		<form id="submit" action="/api/submit" method="post" data-form="submit">
 		<table width="500">
-			<tr><td><input type="text" name="name" placeholder="Your name *" class="text"></td></tr>
-			<tr><td><input type="text" disabled name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
+			<tr><td><input type="text" name="name" placeholder="Your name" class="text"></td></tr>
+			<tr><td><input type="text" disabled required="true" name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
 			<tr><td><textarea type="text" name="message" placeholder="Message *" class="text" rows="4"></textarea>
 					<span id="counter">120 characters remaining</span>
 			</td></tr>

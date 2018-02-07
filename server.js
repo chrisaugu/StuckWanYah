@@ -129,6 +129,18 @@ app.get("/rate", function(req, res, next){
 	});
 });
 
+app.get("/tie", function(req, res, next){
+	tieBreaker({
+		params: req,
+		success: function(obj){
+			res.redirect('/');
+		},
+		error: function(err){
+			next(err);
+		}
+	})
+})
+
 /**
  * API Endpoints
  */
@@ -429,13 +441,16 @@ app.get('/api/stats', function(req, res, next){
  * POST /api/submit
  * Sends direct message to StuckWanYah Facebook page
  */
-app.post("/api/submit", function(req,res,next){
-	request({
+app.post("/api/submit", function(req, res, next){
+	res.status(200).send("Sent successfully");
+	res.redirect("/submit.html");
+	/*request({
 		url: "https://graph.facebook.com/v2.6/" + config.fb_page_id + "/messages",
 		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
 		method: "POST",
 		json: {
 			recipient: { id: process.env.PAGE_ID},
+			sender: req.body.name,
 			message: req.body.message
 		}
 	}, function(error, response, body){
@@ -446,7 +461,7 @@ app.post("/api/submit", function(req,res,next){
 		else {
 			res.status(200).send({ message: "Message sent successfully to StuckWanYah Facebook page" });
 		}
-	});
+	});*/
 });
 
 /**
@@ -582,6 +597,18 @@ var getTwoRandomPhotos = function(config){
         .catch(function(error){
         	config.error.call(this,error);
         });
+
+    /* 
+    gender: { $in: gender}
+
+    var filter = { genre: { $in: ['adventure', 'point-and-click'] } };
+    var fields = { name: 1, description: 0 };
+    var options = { skip: 10, limit: 10, populate: 'mySubDoc' };
+    Test.findRandom(filter, fields, options, function(err, results) {
+    	if (!err) {
+    		console.log(results); // 10 elements, name only, in genres "adventure" and "point-and-click"
+    	}
+    });*/
 }
 
 var rateImages = function(config){
@@ -608,19 +635,23 @@ var rateImages = function(config){
 				loser = results[1],
 				rating, score;
 
-				rating = getRating(winner, loser);
+				//rating = getRating(winner, loser);
 				score = getScore(winner, loser);
+
+				var expected_score = expectedScore(winner.ratings, loser.ratings)
+				var new_winner_rating = newRating(expected_score, score.winner, winner.ratings)
+				var new_loser_rating = newRating(expected_score, score.loser, loser.ratings)
 
 				async.parallel([
 					function(callback) {
 						winner.wins++;
 						winner.score = score.winner;
-						winner.ratings = rating.winner;
+						winner.ratings = new_winner_rating;// rating.winner;
 						winner.voted = true;
 						winner.random = [Math.random(), 0];
 						// stores who voted for who and who compared with who
-						//winner.voters = senderId;
-						winner.compared_with += loser.image_id;
+						//winner.voted_by = senderId;
+						winner.compared_with + loser.image_id;
 						
 						winner.save(function(err){
 							callback(err);
@@ -629,12 +660,12 @@ var rateImages = function(config){
 					function(callback) {
 						loser.losses++;
 						loser.score = score.loser;
-						loser.ratings = rating.loser;
+						loser.ratings = new_loser_rating;// rating.loser;
 						loser.voted = true;
 						loser.random = [Math.random(), 0];
 						// stores who voted for who and who compared with who
-						//loser.voters = senderId;
-						loser.compared_with.name += winner.image_id;
+						//loser.voted_by = senderId;
+						loser.compared_with + winner.image_id;
 
 						loser.save(function(err){
 							callback(err);
@@ -648,6 +679,49 @@ var rateImages = function(config){
 			});
 	} else {
 		config.error.call(this, 'Voting requires two photos.' );
+	}
+}
+
+var tieBreaker = function(config){
+	var player_1 = config.params.query.player1 || '';
+	var player_2 = config.params.query.player2 || '';
+
+	if (player_1 && player_2){
+		async.parallel([
+			function(callback){
+				Sweetlips.photos.findOne({ image_id: player_1 }, function(err, player1){
+					callback(err, player1);
+				});
+			},
+			function(callback){
+				Sweetlips.photos.findOne({ image_id: player_2 }, function(err, player2){
+					callback(err, player2)
+				});
+			}
+		], function(err, results){
+			var player_1 = results[0];
+			var player_2 = results[1];
+
+			async.parallel([
+				function(callback){
+					// player_1.draws = 
+					player_1.save(function(err){
+						callback(err);
+					})
+				},
+				function(callback){
+					// player_2.draws = 
+					player_2.save(function(err){
+						callback(err);
+					})
+				}
+			], function(err, results){
+				if (err) config.error.call(this, err);
+				config.success.call(this);
+			})
+		});
+	} else {
+		config.error.call(this, "Voting requires two photos");
 	}
 }
 
@@ -681,22 +755,38 @@ function newRating(expected_score, actual_score, previous_rating) {
 // expected_score = new expectedScore(player_1_rating, player_2_rating)
 // new_rating = newRating(expected_score, score, player_1_rating)
 function getScore(winner, loser) {
+	var winner_wins_arr = [winner.wins];
+	var winner_loses_arr = [winner.losses];
+
+	for (var i = 0; i < winner_wins_arr.length; i++) {
+		winner_wins_arr[i] = 1;
+
+		for (var i = 0; i < winner_loses_arr.length; i++) {
+			winner_loses_arr[i] = 0;
+		}
+	}
+
+	var loser_wins_arr = [loser.wins];
+	var loser_loses_arr = [winner.losses];
+
+	for (var i = 0; i < loser_wins_arr.length; i++) {
+		loser_wins_arr[i] = 1;
+
+		for (var i = 0; i < loser_loses_arr.length; i++) {
+			loser_loses_arr[i] = 0;
+		}
+	}
+
+	/*
 	return {
 		winner: parseInt(winner.wins + winner.losses),
 		loser: parseInt(loser.wins + loser.losses)
-	}
+	}*/
 };
-// Calculate the expected score outcome
+// Calculate the expected score outcome from to ratings
 function expectedScore(Ra, Rb) {
-	//return parseFloat((1 / (1 + Math.pow(10, (Rb - Ra) / 400))).toFixed(4));
-	return (1 / (1 + Math.pow(10, (Rb - Ra) / 400)));
-};
-// Returns the expected score for both players
-function bothExpectedScores(player_1_rating, player_2_rating) {
-  return [
-    this.expectedScore(player_1_rating, player_2_rating),
-    this.expectedScore(player_2_rating, player_1_rating)
-  ];
+	return parseFloat((1 / (1 + Math.pow(10, (Rb - Ra) / 400))).toFixed(4));
+	// return (1 / (1 + Math.pow(10, (Rb - Ra) / 400)));
 };
 // Calculate the new winner score, K-factor = 32
 function winnerScore(score, expected, k = 32) {
@@ -1452,4 +1542,3 @@ function rankUser(){
 		}
 	}
 }
-

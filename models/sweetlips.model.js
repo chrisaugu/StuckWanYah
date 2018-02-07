@@ -20,7 +20,7 @@ var SweetLipsSchema = new Schema({
 	losses: { type: Number, default: 0},
 	draws: { type: Number, default: 0},
 	score: { type: Number, default: 0},
-	ratings: { type: Number, default: 0},
+	ratings: { type: Number, default: 1400},
 	rankings: { type: Number, default: 0},
 	random: { type: [Number], index: '2d' },
 	voted: { type: Boolean, default: false },
