@@ -6,7 +6,8 @@ module.exports = {
 	// APP Settings
 	app_key: process.env.APP_KEY || "",
 	client_secret: process.env.CLIENT_SECRET || "",
-	access_token: process.env.PAGE_ACCESS_TOKEN || "",
+	page_access_token: process.env.PAGE_ACCESS_TOKEN || "",
+	user_access_token: process.env.USER_ACCESS_TOKEN || "",
 	verify_token: process.env.VERIFICATION_TOKEN || "",
 	db: process.env.MONGODB_URI || "mongodb://localhost:27017/sweetlipsdb"
 }

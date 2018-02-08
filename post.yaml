@@ -21,6 +21,8 @@ check_list:
   : create a sandbox database and input "MONGO_URI mongodb://admin:1234@ds061757.mongolab.com:61757/sweetlipsdb"
     into Config Vars for ENVIRONMENT
 
+npm install --save request request-promise
+
 bash commands:
 $ mkdir StuckWanYah
 $ cd StuckWanYah
@@ -46,6 +48,16 @@ $ git commit -a -m "initial commit" # commit changes
 $ git push heroku master # push to heroku git repo
 $ git push -u origin master # push to github repo
 $ git heroku open # opens tab on browser
+
+
+# https://apps.facebook.com/stuckwanyah/
+# https://stuckwanyah.herokuapp.com/
+
+## StuckWanYah intergrated with Facebook products
+# canvas app
+# messenger bot
+# tab app
+# website
 
 
 posts:

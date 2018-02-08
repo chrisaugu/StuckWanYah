@@ -4,28 +4,360 @@
 		"selected_items":
 		[
 			[
-				"re",
-				"router"
+				"fb_",
+				"fb_app_secret"
+			],
+			[
+				"conf",
+				"CONFIG"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"fi",
+				"field"
+			],
+			[
+				"pro",
+				"process"
+			],
+			[
+				"http",
+				"https"
+			],
+			[
+				"me",
+				"method"
+			],
+			[
+				"cons",
+				"const"
+			],
+			[
+				"getM",
+				"getMediaOptions"
+			],
+			[
+				"face",
+				"facebook"
+			],
+			[
+				"wns",
+				"wins"
+			],
+			[
+				"winner",
+				"winner"
+			],
+			[
+				"player",
+				"player_1"
+			],
+			[
+				"result",
+				"results"
+			],
+			[
+				"player_",
+				"player_1"
+			],
+			[
+				"image",
+				"image_id"
+			],
+			[
+				"find",
+				"findOne"
+			],
+			[
+				"call",
+				"callback"
+			],
+			[
+				"para",
+				"parallel"
+			],
+			[
+				"player_1",
+				"player_1_score"
+			],
+			[
+				"tie",
+				"tieBreaker"
+			],
+			[
+				"succ",
+				"success"
+			],
+			[
+				"winer",
+				"winner"
+			],
+			[
+				"winner_",
+				"winner_loses_arr"
+			],
+			[
+				"w",
+				"winner"
+			],
+			[
+				"lose",
+				"losses"
+			],
+			[
+				"win",
+				"wins"
+			],
+			[
+				"wii",
+				"winning"
+			],
+			[
+				"new",
+				"new_winner_rating"
+			],
+			[
+				"rat",
+				"ratings"
+			],
+			[
+				"strin",
+				"stringify"
+			],
+			[
+				"local",
+				"localhost"
+			],
+			[
+				"conne",
+				"connect_facebook"
+			],
+			[
+				"dataf",
+				"data-fb-id"
+			],
+			[
+				"su",
+				"submit_photo"
+			],
+			[
+				"len",
+				"len"
+			],
+			[
+				"stuc",
+				"stuckwanyahInstance"
+			],
+			[
+				"set",
+				"setData"
+			],
+			[
+				"ini",
+				"initSubmitEvents"
+			],
+			[
+				"Stu",
+				"StuckWanYah"
+			],
+			[
+				"te",
+				"templateSettings"
+			],
+			[
+				"no",
+				"notificationName"
+			],
+			[
+				"get",
+				"getNotificationMessage"
+			],
+			[
+				"p",
+				"proto\tPrototype"
+			],
+			[
+				"los",
+				"losses"
+			],
+			[
+				"Los",
+				"losses"
+			],
+			[
+				"exp",
+				"expected"
+			],
+			[
+				"ran",
+				"rank"
+			],
+			[
+				"chi",
+				"childNodes"
+			],
+			[
+				"inner",
+				"innerHTML"
+			],
+			[
+				"ch",
+				"childNodes"
+			],
+			[
+				"shou",
+				"shouldSwitch"
+			],
+			[
+				"tr",
+				"true"
+			],
+			[
+				"sho",
+				"shouldSwitch"
+			],
+			[
+				"onc",
+				"onclick\tAttr"
+			],
+			[
+				"ara",
+				"array"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"data",
+				"dataType"
+			],
+			[
+				"for",
+				"for\tfor (…) {…}"
+			],
+			[
+				"th",
+				"th\tTag"
+			],
+			[
+				"e",
+				"embed\tTag"
+			],
+			[
+				"fb",
+				"fb_id"
+			],
+			[
+				"err",
+				"error"
+			],
+			[
+				"stat",
+				"status"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"succe",
+				"successfully"
+			],
+			[
+				"er",
+				"Error"
+			],
+			[
+				"ACCE",
+				"PAGE_ACCESS_TOKEN"
+			],
+			[
+				"mess",
+				"message"
+			],
+			[
+				"cure",
+				"current_page"
+			],
+			[
+				"add",
+				"addEmail"
+			],
+			[
+				"Fa",
+				"facebook"
+			],
+			[
+				"da",
+				"data-action"
+			],
+			[
+				"faceb",
+				"facebook_connect"
+			],
+			[
+				"dat",
+				"data-action"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"is",
+				"isLoggedIn"
+			],
+			[
+				"show",
+				"showModal"
+			],
+			[
+				"to",
+				"toLowerCase"
+			],
+			[
+				"rende",
+				"renderRankList"
 			],
 			[
 				"ima",
-				"image_url"
+				"image_id"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"loca",
+				"localStorage"
+			],
+			[
+				"im",
+				"images"
+			],
+			[
+				"ST",
+				"StuckWanYah"
+			],
+			[
+				"conte",
+				"connected"
+			],
+			[
+				"re",
+				"router"
 			],
 			[
 				"img",
 				"image_url"
 			],
 			[
-				"set",
-				"setItem"
-			],
-			[
 				"user",
 				"userId"
-			],
-			[
-				"loca",
-				"localStorage"
 			],
 			[
 				"arr",
@@ -36,20 +368,12 @@
 				"moment"
 			],
 			[
-				"is",
-				"isAuthenticated"
-			],
-			[
 				"send",
 				"sendMessage"
 			],
 			[
 				"func",
 				"function"
-			],
-			[
-				"im",
-				"img"
 			],
 			[
 				"phot",
@@ -66,14 +390,6 @@
 			[
 				"pho",
 				"photos"
-			],
-			[
-				"for",
-				"forEach"
-			],
-			[
-				"su",
-				"substr"
 			],
 			[
 				"file",
@@ -136,10 +452,6 @@
 				"createElement"
 			],
 			[
-				"pro",
-				"props\tReact: this.props."
-			],
-			[
 				"dr",
 				"dropdown-item"
 			],
@@ -152,20 +464,12 @@
 				"friends"
 			],
 			[
-				"mess",
-				"messaging"
-			],
-			[
 				"friend",
 				"friend_request"
 			],
 			[
 				"my",
 				"myModel"
-			],
-			[
-				"in",
-				"input\tTag"
 			],
 			[
 				"border",
@@ -192,10 +496,6 @@
 				"u-marginTop5"
 			],
 			[
-				"me",
-				"mervick"
-			],
-			[
 				"page",
 				"pageTitle"
 			],
@@ -214,306 +514,6 @@
 			[
 				"ban",
 				"Backbone"
-			],
-			[
-				"router",
-				"routers"
-			],
-			[
-				"ro",
-				"routers"
-			],
-			[
-				"route",
-				"router"
-			],
-			[
-				"download",
-				"downloadPhoto"
-			],
-			[
-				"get",
-				"getPhoto"
-			],
-			[
-				"show",
-				"showAbout"
-			],
-			[
-				"search",
-				"searchPhotos"
-			],
-			[
-				"sea",
-				"searchForm"
-			],
-			[
-				"to",
-				"toJSON"
-			],
-			[
-				"chna",
-				"changeSrc"
-			],
-			[
-				"some",
-				"somePhoto"
-			],
-			[
-				"photo",
-				"photoController"
-			],
-			[
-				"message",
-				"messages"
-			],
-			[
-				"htt",
-				"httpServer"
-			],
-			[
-				"on",
-				"onConnection"
-			],
-			[
-				"Broas",
-				"Broadcast"
-			],
-			[
-				"Mes",
-				"Messages"
-			],
-			[
-				"tool",
-				"tooltipped"
-			],
-			[
-				"version",
-				"versions"
-			],
-			[
-				"de",
-				"details\tTag"
-			],
-			[
-				"com",
-				"components"
-			],
-			[
-				"noti",
-				"notificationView"
-			],
-			[
-				"notifi",
-				"notification1"
-			],
-			[
-				"No",
-				"Notification"
-			],
-			[
-				"notifica",
-				"notification_container"
-			],
-			[
-				"notif",
-				"notif-bg"
-			],
-			[
-				"not",
-				"Notification"
-			],
-			[
-				"cla",
-				"closeNotification"
-			],
-			[
-				"View",
-				"Views"
-			],
-			[
-				"Not",
-				"Notification"
-			],
-			[
-				"Coll",
-				"Collections"
-			],
-			[
-				"cl",
-				"click"
-			],
-			[
-				"new",
-				"newTemplate"
-			],
-			[
-				"ti",
-				"this"
-			],
-			[
-				"N",
-				"NotificationView"
-			],
-			[
-				"notificatio",
-				"notifications"
-			],
-			[
-				"has",
-				"hasChanged"
-			],
-			[
-				"change",
-				"changed"
-			],
-			[
-				"styles",
-				"stylesheets"
-			],
-			[
-				"h",
-				"html\thtml"
-			],
-			[
-				"al",
-				"alt\tAttr"
-			],
-			[
-				"sc",
-				"srcset\tAttr"
-			],
-			[
-				"i",
-				"img\tTag"
-			],
-			[
-				"sin",
-				"single_quoted_string"
-			],
-			[
-				"pu",
-				"push"
-			],
-			[
-				"be",
-				"begin"
-			],
-			[
-				"ma",
-				"max-width"
-			],
-			[
-				"fi",
-				"figure\tTag"
-			],
-			[
-				"he",
-				"head\tTag"
-			],
-			[
-				"di",
-				"div\tTag"
-			],
-			[
-				"d",
-				"div\tTag"
-			],
-			[
-				"g",
-				"get-started"
-			],
-			[
-				"sta",
-				"static"
-			],
-			[
-				"no",
-				"normalizePort"
-			],
-			[
-				"ht",
-				"httpProxy"
-			],
-			[
-				"na",
-				"nav-container"
-			],
-			[
-				"star",
-				"startClient"
-			],
-			[
-				"ge",
-				"getSession"
-			],
-			[
-				"sho",
-				"showUI"
-			],
-			[
-				"sinc",
-				"sinchClient"
-			],
-			[
-				"Sinc",
-				"SinchClient"
-			],
-			[
-				"time",
-				"timestamp"
-			],
-			[
-				"req",
-				"require"
-			],
-			[
-				"prop",
-				"props"
-			],
-			[
-				"cha",
-				"channel"
-			],
-			[
-				"data",
-				"data-url"
-			],
-			[
-				"def",
-				"defaultRoute"
-			],
-			[
-				"say",
-				"sayHello"
-			],
-			[
-				"backbone",
-				"Backbone"
-			],
-			[
-				"first",
-				"firstName"
-			],
-			[
-				"r",
-				"req"
-			],
-			[
-				"u-f",
-				"u-flex"
-			],
-			[
-				"s",
-				"sass"
-			],
-			[
-				"XML",
-				"XMLHTTP"
-			],
-			[
-				"chat",
-				"chatme"
 			]
 		]
 	},
@@ -523,17 +523,16 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 23108,
+				"buffer_size": 44113,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app-dev.js",
+			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 15498,
-				"encoding": "UTF-8",
+				"buffer_size": 2364,
 				"line_ending": "Windows"
 			}
 		},
@@ -541,7 +540,25 @@
 			"file": "views/index.ejs",
 			"settings":
 			{
-				"buffer_size": 3149,
+				"buffer_size": 5887,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/about.html",
+			"settings":
+			{
+				"buffer_size": 4216,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/submit.html",
+			"settings":
+			{
+				"buffer_size": 2318,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -550,18 +567,20 @@
 			"file": "public/javascripts/script.js",
 			"settings":
 			{
-				"buffer_size": 14750,
+				"buffer_size": 27531,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "views/disclaimer.html",
+			"contents": "(function(){\n    var preview = null;\n    $(function(){\n        var hash = location.hash.substring(1);\n        if(hash !== \"\"){\n            toggleView(hash);\n        }\n        else{\n            toggleView(\"play\");\n        }\n        $(\"body\")\n            .hide()\n            .fadeIn(600)\n            .on(\"change\", \"#submit_photo\", function(){\n                if(isValidPhoto($(\"#submit_photo\").val())){\n                    if(this.files && this.files[0]){\n                        var reader = new FileReader();\n                        reader.addEventListener(\"load\", function(event){\n                            preview = event.target.result;\n                            $(\"#preview\").attr(\"src\", preview); // Set src attribute to the uploaded image\n                            $(\".img-preview\").fadeIn(600); // Fade in the preview, will only fire if the user hasn't uploaded a photo yet\n                        });\n                        reader.readAsDataURL(this.files[0]);\n                    }\n                }\n                else{\n                    showModal(\"Invalid file, please make sure it's an image file.\");\n                    $(\"#submit_photo\").val(\"\"); // Clear the currently uploaded file\n                    return false;\n                }\n            })\n            .on(\"click\", \".button\", function(){\n                if($(this).attr(\"data-action\")){\n                    handleAction($(this).attr(\"data-action\"), $(this).attr(\"data-id\") ? $(this).attr(\"data-id\") : null);\n                }\n            })\n            .on(\"click\", \"#main-display .img-player\", function(){\n                handleAction(\"submit_vote\", $(this).attr(\"id\"));\n            })\n            .on(\"click\", \".modal.closable\", function(){\n                $(this).fadeOut(600, function(){\n                    $(this).remove();\n                });\n                $(\"body\").css(\"overflow\", \"\"); // Allow scrolling again\n            })\n            .on(\"keyup\", \"form[data-form='report'] textarea\", function(){\n                var len = clean($(this).val()).length;\n                var $counter = $(\"#counter\");\n                if(len < 32){\n                    $counter.html((32 - len) + \" more characters needed\");\n                }\n                else{\n                    $counter.html((510 - len) + \" characters remaining\");\n                }\n            })\n            .on(\"submit\", \"form\", function(event){\n                event.preventDefault(); // No need to do anything else, on click for .button already takes care of things\n            });\n        $(window)\n            .on(\"hashchange\", function(){\n                toggleView(location.hash.substring(1));\n            })\n            .on(\"scroll\", function(){\n                var $header = $(\"#header\");\n                // Add .fixed to header if scrolled past inner height of header\n                if($(window).scrollTop() > $header.innerHeight()){\n                    $header.addClass(\"fixed\");\n                }\n                else{\n                    $header.removeClass(\"fixed\");\n                }\n            });\n    });\n    function clean(string){\n        return string.trim().replace(/\\s+/g, \" \"); // Remove leading/trailing whitespaces and multiple whitespaces\n    }\n    function fancy(string){\n        return clean(string).replace(/\\\\/g, \"\");\n    }\n    function getPreferredGender(){\n        var gender = store.get(\"gender\");\n        // If 'gender' doesn't exist, or if existing 'gender' isn't female or male\n        if(!store.has(\"gender\") || (gender !== \"f\" && gender !== \"m\")){\n            gender = \"f\";\n        }\n        store.set(\"gender\", gender);\n        return gender;\n    }\n    function getHashParameter(name){\n        var params = location.hash.split(\"?\")[1].split(\"&\");\n        for(var i = 0; i < params.length; i++){\n            var param = params[i].split(\"=\");\n            if(param[0] === name){\n                return param[1];\n            }\n        }\n    }\n    // https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site/3177838#3177838\n    function timeSince(time){\n        var seconds = Math.floor((new Date() - time) / 1000);\n        var interval = Math.floor(seconds / 31536000);\n        if (interval > 1) {\n            return interval + \" years\";\n        }\n        interval = Math.floor(seconds / 2592000);\n        if (interval > 1) {\n            return interval + \" months\";\n        }\n        interval = Math.floor(seconds / 86400);\n        if (interval > 1) {\n            return interval + \" days\";\n        }\n        interval = Math.floor(seconds / 3600);\n        if (interval > 1) {\n            return interval + \" hours\";\n        }\n        interval = Math.floor(seconds / 60);\n        if (interval > 1) {\n            return interval + \" minutes\";\n        }\n        return Math.floor(seconds) + \" seconds\";\n    }\n    function hasSubmitted(){\n        if(!store.has(\"submitted\")){\n            store.set(\"submitted\", false);\n        }\n        return store.get(\"submitted\");\n    }\n    function isLoggedIn(){\n        // TODO: Fix synchronous AJAX request, use async method instead\n        var loggedIn = false;\n        $.ajax({\n            url: \"/api/auth.php\",\n            type: \"post\",\n            dataType: \"json\",\n            async: false\n        })\n            .done(function(data){\n                loggedIn = data.data.logged_in;\n            })\n            .fail(function(data){\n                loggedIn = false; \n            });\n        return loggedIn;\n    }\n    function isValidPhoto(filename){\n        var extension = filename.replace(/^.*\\./, \"\"); // Replace until we're left with the file extension\n        if(filename == extension){\n            extension = \"\"; // File has no extension, so it's blank\n        }\n        else{\n            extension = extension.toLowerCase();\n        }\n        switch(extension){\n            case \"gif\":\n            case \"jpg\":\n            case \"png\":\n                return true;\n            default:\n                return false;\n        }\n    }\n    function renderDashboard(){\n        // Stop rendering if person isn't logged in\n        if(!isLoggedIn()){\n            showModal(\"Please log in first.\");\n            toggleView(\"login\");\n        }\n        $.ajax({\n            url: \"/api/data.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"all\"\n            }\n        })\n            .done(function(data){\n                var $display = $(\"#dashboard-display\");\n                $display.empty();\n                for(var i = 0; i < data.data.length; i++){\n                    var player = data.data[i];\n                    // And here you have some very ugly JavaScript code\n                    var html = \n                        \"<div class='container-player' data-id='\" + player.id + \"'>\" +\n                            \"<img src='api/photo.php?id=\" + player.id + \"' class='img-player' dragabble='false'>\" +\n                            \"<div class='player-items'>\" +\n                                \"<ul class='list-items'>\" +\n                                    \"<li class='name'>\" + fancy(player.first_name) + (player.last_name ? \" \" + fancy(player.last_name) : \"\") + \"</li>\"\n                    ;\n                    // List items for players that have been approved\n                    if(player.ready == 1){\n                        html += \n                                    \"<li><b>\" + parseInt(player.score).toLocaleString() + \"</b> point\" + (player.score == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.wins).toLocaleString() + \"</b> win\" + (player.wins == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.losses).toLocaleString() + \"</b> loss\" + (player.losses == 1 ? \"\" : \"es\") + \"</li>\" +\n                                    \"<li>From <b>\" + player.ip + \"</b></li>\" +\n                                    \"<li>\" +\n                                        \"<ul class='buttons'>\" +\n                                            \"<li><input type='button' class='button b-button' data-action='view_player' data-id='\" + player.id + \"' value='Edit'></li>\\n\" +\n                                            \"<li><input type='button' class='button r-button' data-action='delete_player' data-id='\" + player.id + \"' value='Delete'></li>\\n\" +\n                                        \"</ul>\" +\n                                    \"</li>\"\n                        ;\n                    }\n                    // Non-approved players that need approval\n                    else{\n                        html += \n                                    \"<li>From <b>\" + player.ip + \"</b></li>\" +\n                                    \"<li>Submitted <b><span title='\" + new Date(parseInt(player.created_at * 1000)).toUTCString() + \"'>\"  + timeSince(player.created_at * 1000) + \"</span></b> ago</li>\" +\n                                    \"<li>\" +\n                                        \"<ul class='buttons'>\" +\n                                            \"<li><input type='button' class='button b-button' data-action='view_player' data-id='\" + player.id + \"' value='Edit'></li>\\n\" +\n                                            \"<li><input type='button' class='button g-button' data-action='approve_player' data-id='\" + player.id + \"' value='Approve'></li>\\n\" +\n                                            \"<li><input type='button' class='button r-button' data-action='delete_player' data-id='\" + player.id + \"' value='Delete'></li>\" +\n                                        \"</ul>\" +\n                                    \"</li>\"\n                        ;\n                    }\n                    html += \n                                \"</ul>\" +\n                            \"</div>\" +\n                        \"</div>\"\n                    ;\n                    $display.append(html);\n                }\n                if($display.is(\":empty\")){\n                    $display.html(\"No new players were found.\");\n                }\n            })\n            .fail(function(data){\n                showModal(\"Failed to render dashboard.\");\n            });\n    }\n    function renderImages(){\n        $.ajax({\n            url: \"/api/data.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"random\",\n                gender: getPreferredGender()\n            }\n        })\n            .done(function(data){\n                if(data.data.length < 2){\n                    $(\"#main-display\").html(\"<p>There aren't enough players of this gender currently. You could help <a href='#submit'>change that</a>.</p>\");\n                    return;\n                }\n                var $display = $(\"#main-display\");\n                $display.hide();\n                // Player 1\n                var id = data.data[0].id;\n                $(\"#player-one\")\n                    .attr(\"src\", \"api/photo.php?id=\" + id)\n                    .attr(\"data-id\", id);\n                // Player 2\n                id = data.data[1].id;\n                $(\"#player-two\")\n                    .attr(\"src\", \"api/photo.php?id=\" + id)\n                    .attr(\"data-id\", id);\n                $display.fadeIn(600);\n            })\n            .fail(function(data){\n                showModal(\"Failed to fetch images.\");\n            });\n    }\n    function renderLeaderboard(){\n        $.ajax({\n            url: \"/api/data.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"leaderboard\",\n                gender: getPreferredGender()\n            }\n        })\n            .done(function(data){\n                if(data.data.length < 2){\n                    $(\"#leaderboard-display\").html(\"<p>There aren't enough players of this gender currently. You could help <a href='#submit'>change that</a>.</p>\");\n                    return;\n                }\n                for(var i = 0; i < data.data.length; i++){\n                    var player = data.data[i];\n                    $(\"#leaderboard-display\").append(\n                        \"<div class='container-player'>\" +\n                            \"<img src='api/photo.php?id=\" + player.id + \"' class='img-player' dragabble='false'>\" +\n                            \"<div class='player-items'>\" +\n                                \"<h2 class='rank'> \" + (i + 1) + \"</h2>\" +\n                                \"<ul class='list-items'>\" +\n                                    \"<li class='name'>\" + fancy(player.first_name) + (player.last_name ? \" \" + fancy(player.last_name) : \"\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.score).toLocaleString() + \"</b> point\" + (player.score == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.wins).toLocaleString() + \"</b> win\" + (player.wins == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.losses).toLocaleString() + \"</b> loss\" + (player.losses == 1 ? \"\" : \"es\") + \"</li>\" +\n                                    \"<li title='\" + player.ip_hash + \"'>From <b>\" + player.ip_hash.substring(0, 16) + \"</b>...</li>\" +\n                                    \"<ul class='buttons'>\" +\n                                        \"<li><input type='button' class='button b-button' data-action='view_player' data-id='\" + player.id + \"' value='\" + (isLoggedIn() ? \"Edit\" : \"View\") + \"'></li>\" +\n                                    \"</ul>\" +\n                                \"</ul>\" +\n                            \"</div>\" +\n                        \"</div>\"\n                    );\n                }\n            })\n            .fail(function(data){\n                showModal(\"Failed to render leaderboard.\");\n            });\n    }\n    function renderPlayer(id){\n        var $content = $(\"#content\");\n        $content.hide();\n        $.ajax({\n            url: \"/api/player.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"data\",\n                id: id\n            }\n        })\n            .done(function(data){\n                var player = data.data;\n                $(\"h1.heading\").html(isLoggedIn() ? \"Editing \" + player.first_name + \" (#\" + player.id + \")\" : player.first_name + \"'s stats\");\n                $(\"#player_img\").attr(\"src\", \"api/photo.php?id=\" + player.id);\n                $(\"#player_first_name\").val(player.first_name);\n                $(\"#player_last_name\").val(player.last_name);\n                $(\"#player_gender\").find(\"option[value='\" + player.gender + \"']\").attr(\"selected\", \"selected\");\n                $(\"#player_ip\").val(isLoggedIn() ? player.ip : player.ip_hash);\n                $(\"#player_score\").val(player.score + \" points\");\n                $(\"#player_wins\").val(player.wins + \" wins\");\n                $(\"#player_losses\").val(player.losses + \" losses\");\n                $(\"input[data-action]\").attr(\"data-id\", player.id);\n                if(!isLoggedIn()){\n                    // Remove empty fields from public view\n                    $(\"input\").each(function(){\n                        if($(this).val() === \"\"){\n                            $(this).remove();\n                        }\n                    });\n                    // Disable all fields\n                    $(\"input, select\").attr(\"disabled\", \"disabled\");\n                    // Remove the buttons\n                    $(\".buttons\").remove();\n                }\n                // Remove the approve button if the player is already approved\n                if(player.ready == 1){\n                    $(\"input[data-action='approve_player']\").parent().remove();\n                }\n                $content.fadeIn(600);\n            })\n            .fail(function(data){\n                showModal(\"Failed to render player profile.\");\n            });\n    }\n    function renderReports(){\n        // Stop rendering if person isn't logged in\n        if(!isLoggedIn()){\n            showModal(\"Please log in first.\");\n            toggleView(\"login\");\n        }\n        $.ajax({\n            url: \"/api/report.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"all\"\n            }\n        })\n            .done(function(data){\n                var $display = $(\"#reports-display\");\n                $display.empty();\n                for(var i = 0; i < data.data.length; i++){\n                    var report = data.data[i];\n                    $display.append(\n                        \"<div class='container-report' data-id='\" + report.id + \"'>\" +\n                            \"<h1 class='heading'>#\" + report.id + \"</h1>\" +\n                            \"<ul class='list-items'>\" +\n                                (report.name ? \"<li><b>From:</b> \" + fancy(report.name) + (report.email ? \" (\" + report.email + \")\" : \"\") + \"</li>\" : (report.email ? \"<li><b>From</b>: \" + fancy(report.email) + \"</li>\" : \"\")) +\n                                \"<li><b>Received:</b> <span title='\" + new Date(parseInt(report.created_at * 1000)).toUTCString() + \"'>\"  + timeSince(report.created_at * 1000) + \" ago</span></li>\" +\n                                \"<li><b>Message:</b> \" + fancy(report.message) + \"</p></li>\" +\n                            \"</ul>\" +\n                            \"<ul class='buttons'>\" +\n                                \"<li><input type='button' data-action='delete_report' data-id='\" + report.id + \"' class='button r-button' value='Delete'></li>\" +\n                            \"</ul>\" +\n                        \"</div>\"\n                    );\n                }\n                if($display.is(\":empty\")){\n                    $display.html(\"No new reports were found.\");\n                }\n            })\n            .fail(function(data){\n                showModal(\"Failed to render reports.\");\n            });\n    }\n    function closeModals(){\n        $(\"body\").css(\"overflow\", \"\");\n        $(\".modal\").each(function(){\n            $(this).fadeOut(600, function(){\n                $(this).remove(); // Remove all other modals, so they don't overlap\n            });\n        });\n    }\n    function showModal(html, keep, closable){\n        closeModals();\n        html = clean(html);\n        var $modal = $(\"<div/>\");\n        $modal\n            .addClass(\"modal\")\n            .addClass(closable === undefined || closable ? \"closable\" : \"\")\n            .append(closable === undefined || closable ? \"<a class='close' title='Close'></a>\" : \"\") // If modal can be closed by click\n            .append(\"<div class='content'>\" + html + \"</div>\") // Create the close button and inner content div\n            .appendTo(\"body\")\n            .hide()\n            .fadeIn(600);\n        $(\"body\").css(\"overflow\", \"hidden\"); // Disable scrolling of the body under modal\n        if(!keep){\n            // Remove modal after n microseconds\n            setTimeout(function(){\n                closeModals();\n            }, ((html.length * 10) / 60) * 1000); // Calculate the amount of time the modal should show, based on length of message\n        }\n    }\n    function handleAction(action, data){\n        switch(action.toLowerCase()){\n            case \"approve_player\":\n                $.ajax({\n                    url: \"/api/player.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"approve\",\n                        id: data\n                    }\n                })\n                    .done(function(data){\n                        showModal(\"Approved!\");\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to approve player.\");\n                    });\n                break;\n            case \"delete_player\":\n                var id = data; // Another spaghetti\n                $.ajax({\n                    url: \"/api/player.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"delete\",\n                        id: data\n                    }\n                })\n                    .done(function(data){\n                        $(\".container-player[data-id='\" + id + \"']\").fadeOut(800);\n                        showModal(\"Deleted!\");\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to delete player.\");\n                    });\n                break;\n            case \"delete_report\":\n                var id = data; // With meatballs?\n                $.ajax({\n                    url: \"/api/report.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"delete\",\n                        id: data\n                    }\n                })\n                    .done(function(data){\n                        $(\".container-report[data-id='\" + id + \"']\").fadeOut(800);\n                        showModal(\"Deleted!\");\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to delete report.\");\n                    });\n                break;\n            case \"login\":\n                var user = clean($(\"#login_user\").val());\n                var password = clean($(\"#login_password\").val());\n                if(user && password){\n                    $.ajax({\n                        url: \"/api/auth.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            operation: \"login\",\n                            user: user,\n                            password: password\n                        }\n                    })\n                        .done(function(data){\n                            if(data.data.logged_in){\n                                showModal(\"Logging in...\");\n                                toggleView(\"dashboard\");\n                            }\n                            else{\n                                $(\"#login_password\").val(\"\");\n                                showModal(\"Failed to log in, incorrect username or password specified.\");\n                            }\n                        })\n                        .fail(function(data){\n                            showModal(\"Failed to authenticate login credentials.\");\n                        });\n                }\n                else{\n                    showModal(\"Login username or password field is empty.\");\n                }\n                break;\n            case \"logout\":\n                $.ajax({\n                    url: \"/api/auth.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"logout\"\n                    }\n                })\n                    .done(function(data){\n                        if(data.status === \"success\"){\n                            toggleView(\"login\");\n                            showModal(\"Logging out...\");\n                        }\n                        else{\n                            showModal(\"Failed to log out.\");\n                        }\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to log out.\");\n                    });\n                break;\n            case \"render_dashboard\":\n                toggleView(\"dashboard\");\n                break;\n            case \"render_reports\":\n                toggleView(\"reports\");\n                break;\n            case \"reset\":\n                preview = null;\n                $(\"form\")[0].reset();\n                $(\"#counter\").html(\"510 characters remaining\");\n                break;\n            case \"save_player\":\n                var firstName = clean($(\"#player_first_name\").val());\n                var lastName = clean($(\"#player_last_name\").val());\n                var gender = clean($(\"#player_gender\").val());\n                if(firstName && gender){\n                    $.ajax({\n                        url: \"/api/player.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            operation: \"edit\",\n                            id: data,\n                            first_name: firstName,\n                            last_name: lastName,\n                            gender: gender\n                        }\n                    })\n                        .done(function(data){\n                            showModal(\"Saved!\");\n                        })\n                        .fail(function(data){\n                            showModal(\"Failed to save player.\");\n                        });\n                }\n                else{\n                    showModal(\"Please make sure all fields were filled out.\");\n                }\n                break;\n            case \"save_settings\":\n                var gender = $(\"#settings_gender\").val();\n                store.set(\"gender\", gender ? gender : \"f\");\n                showModal(\"Your settings have been saved.\");\n                break;\n            case \"set_gender\":\n                store.set(\"gender\", data);\n                store.set(\"played\", true);\n                toggleView(\"play\");\n                closeModals();\n                break;\n            case \"submit_photo\":\n                var firstName = clean($(\"#submit_first_name\").val());\n                var lastName = clean($(\"#submit_last_name\").val());\n                var gender = $(\"#submit_gender\").val();\n                if(firstName && gender && isValidPhoto($(\"#submit_photo\").val())){\n                    $.ajax({\n                        url: \"/api/submit_photo.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            first_name: firstName,\n                            last_name: lastName,\n                            gender: gender,\n                            photo: preview\n                        }\n                    })\n                        .done(function(data){\n                            handleAction(\"reset\");\n                            $(\".img-preview\").fadeOut(600);\n                            $(\"#preview\").attr(\"src\", \"\"); // Reset the preview image\n                            store.set(\"submitted\", true);\n                            showModal(\"Successfully submitted photo! You'll see it soon.\");\n                        })\n                        .fail(function(data){\n                            console.log(data);\n                            showModal(\"Failed to submit photo, please try again later.\");\n                        });\n                }\n                else{\n                    showModal(\"You haven't filled everything out yet!\");\n                }\n                break;\n            case \"submit_report\":\n                var name = clean($(\"#report_name\").val());\n                var email = clean($(\"#report_email\").val());\n                var message = clean($(\"#report_message\").val());\n                if(message.length >= 32 && message.length <= 510){\n                    $.ajax({\n                        url: \"/api/submit_report.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            name: name,\n                            email: email,\n                            message: message,\n                            gotcha: $(\"#report_gotcha\").val(), // Honeypot for scrapers, if value is present, email will be silently ignored\n                        }\n                    })\n                        .done(function(data){\n                            handleAction(\"reset\"); // Reset all fields in form, to discourage consecutive submissions\n                            showModal(\"Thanks for the report! We'll get to you shortly.\");\n                        })\n                        .fail(function(data){\n                            showModal(\"Failed to submit report, please try again later.\");\n                        });\n                }\n                else{\n                    showModal(\"Please fill the report out completely.\");\n                }\n                break;\n            case \"submit_vote\":\n                $.ajax({\n                    url: \"/api/vote.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        winner: $(\"#\" + data).attr(\"data-id\"),\n                        loser: $(\"#\" + (data === \"player-one\" ? \"player-two\" : \"player-one\")).attr(\"data-id\")\n                    }\n                })\n                    .done(function(data){\n                        renderImages();\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to connect, please try again.\");\n                    });\n                break;\n            case \"view_player\":\n                toggleView(\"player?id=\" + data);\n                break;\n            default:\n                showModal(\"Failed to handle, an unknown action was encountered.\");\n                break;\n        }\n    }\n    function toggleView(hash){\n        var page = hash.substring(0, hash.indexOf(\"?\") != -1 ? hash.indexOf(\"?\") : hash.length); // Removes hash params\n        // Stop if hash is a dead anchor\n        if(location.hash === \"#\"){\n            return;\n        }\n        // Set gender preference if it hasn't been set yet\n        if(!store.has(\"played\") || !store.get(\"played\")){\n            showModal(\n                \"Which gender do you prefer?\" +\n                \"<ul class='buttons'>\" +\n                    \"<li><input type='button' class='button b-button' data-action='set_gender' data-id='m' value='Male'></li>\\n\" +\n                    \"<li><input type='button' class='button r-button' data-action='set_gender' data-id='f' value='Female'></li>\" +\n                \"</ul>\"\n            , true, false);\n        }\n        var $content = $(\"#content\");\n        $.ajax({\n            url: \"/views/\" + page + \".html\",\n            dataType: \"html\"\n        })\n            .done(function(data){\n                $content.hide(); // Hide initial HTML, to prevent a sudden change\n                document.title = page.charAt(0).toUpperCase() + page.slice(1) + \" \\267 Faceclash\"; // Update page title\n                location.hash = \"#\" + hash; // Update hash\n                // Remove blinking effect on submit button if player has submitted a photo already\n                $content\n                    .html(data) // Replace current HTML with new view\n                    .fadeIn(600); // Enter new view...\n                if(hasSubmitted()){\n                    $(\"#header\").find(\".submit\").removeClass(\"blink\");\n                }\n                switch(page){\n                    case \"dashboard\":\n                        renderDashboard();\n                        break;\n                    case \"leaderboard\":\n                        renderLeaderboard();\n                        break;\n                    case \"login\":\n                        if(isLoggedIn()){\n                            toggleView(\"dashboard\");\n                        }\n                        break;\n                    case \"play\":\n                        renderImages();\n                        break;\n                    case \"player\":\n                        renderPlayer(getHashParameter(\"id\"));\n                        break;\n                    case \"reports\":\n                        renderReports();\n                        break;\n                    case \"submit\":\n                        hasSubmitted();\n                        break;\n                }\n            })\n            .fail(function(data){\n                toggleView(\"error\"); // Call toggleView again to display error\n            });\n    }\n})();",
+			"file": "/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
+			"file_size": 31896,
+			"file_write_time": 131267127540000000,
 			"settings":
 			{
-				"buffer_size": 4649,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"buffer_size": 31896,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -594,7 +613,7 @@
 		[
 			[
 				"Package Control: ",
-				"Package Control: Install Package"
+				"Package Control: List Packages"
 			],
 			[
 				"",
@@ -640,22 +659,31 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/api.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/building the algorithm.yaml",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/.gitignore",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/config.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/index2.ejs",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/algorithm.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/stylesheets/stylesheet-min.css",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/stylesheets/stylesheet.css",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/photos.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/app-dev.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/app.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/submit.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/flames.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/package.json",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/config.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/.gitignore",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/building the algorithm.yaml",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/disclaimer.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/submit.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/rankings.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/friends.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/flames.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/app-dev.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/app2.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/error.ejs",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/api.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/algorithm.js",
+		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/index.html",
+		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.min.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/like.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/index2.ejs",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/photos.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/app.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/about.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html",
 		"/C/Users/Admin/WebstormProjects/chat/dev/fantastix.sublime-project",
@@ -758,16 +786,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/ChatMe Features.feature",
 		"/C/Users/Admin/WebstormProjects/chat/server/routes/api/v1.js",
 		"/C/Users/Admin/WebstormProjects/chat/server/routes/api/api.js",
-		"/C/Users/Admin/WebstormProjects/chat/ChatMe Technologies.yaml",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/vendor/react-15.1.0.min.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/global-core.bundle2.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/global-core.bundle.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/common.min.js",
-		"/C/Users/Admin/WebstormProjects/chat/server/routes/users.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/notifications.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/learn_backbone.js_2.html",
-		"/C/Users/Admin/WebstormProjects/chat/server/controllers/TokenAuthenticationController.js",
-		"/C/Users/Admin/WebstormProjects/chat/server/controllers/napiController.js"
+		"/C/Users/Admin/WebstormProjects/chat/ChatMe Technologies.yaml"
 	],
 	"find":
 	{
@@ -785,6 +804,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".",
+			": ",
+			" {",
+			"  ",
+			"config.",
+			"config",
+			"parse",
+			"handle",
+			"stuck",
+			"rank",
+			"populateSubmit",
+			"err{",
+			"id{",
+			"t{",
+			"function",
+			") {",
+			"gender",
+			"page",
+			"handle",
+			": ",
+			"  ",
+			"counter",
+			"isValidPhoto",
+			", ",
+			": ",
 			"* ",
 			" {",
 			"; ",
@@ -817,15 +861,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23108,
+						"buffer_size": 44113,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18523,
-								18523
+								13879,
+								13879
 							]
 						],
 						"settings":
@@ -833,7 +877,7 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 9510.0,
+						"translation.y": 7294.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -841,19 +885,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app-dev.js",
+					"file": "app.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15498,
+						"buffer_size": 2364,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3800,
-								3800
+								576,
+								576
 							]
 						],
 						"settings":
@@ -862,10 +906,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1276.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -874,44 +918,103 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3149,
+						"buffer_size": 5887,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								497,
-								497
+								4669,
+								4669
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/EJS/EJS.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 126.0,
+						"translation.y": 791.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "public/javascripts/script.js",
+					"file": "views/about.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14750,
+						"buffer_size": 4216,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1002,
-								1002
+								2616,
+								2616
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 630.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "views/submit.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1269,
+								1269
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 49.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "public/javascripts/script.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 27531,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13048,
+								13048
 							]
 						],
 						"settings":
@@ -921,39 +1024,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 113.0,
+						"translation.y": 4565.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "views/disclaimer.html",
+					"buffer": 6,
+					"file": "/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4649,
+						"buffer_size": 31896,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1543,
-								1543
+								1607,
+								1613
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 91.0,
+						"translation.y": 217.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]

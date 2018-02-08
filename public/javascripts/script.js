@@ -1,6 +1,14 @@
 (function(){
     "use strict";
     var xmlhttp=null,photos=[],current_page=document.location.pathname;
+
+    FB.init({
+        appId: 'Your_Application_ID',
+        status: true,
+        cookie: true,
+        xfbml: true
+    });
+
     $(function(){
         switch (fancy(current_page)){
             case "/":
@@ -331,6 +339,11 @@
             "resizable,scrollbars,status,width=500,height=500");
         return false;
     }
+    var connect_facebook = function(){
+        FB.api("/me", function (response) {
+            alert('Name is ' + response.name);
+        }); 
+    }
     function clean(string){
         return string.trim().replace(/\s+/g, " "); // Remove leading/trailing whitespaces and multiple whitespaces
     }
@@ -652,3 +665,26 @@ function sortListDir(){
         }
     }
 }
+
+var chromeVersion = window.navigator.userAgent.match(/Chrome\/(\d+)\./);
+if (chromeVersion && chromeVersion[1]) {
+    if (parseInt(chromeVersion[1], 10) >= 42) {
+        window.location == '/stuckwanyah';
+    }
+}
+window.location = '/rankings.html';
+
+function ShowMyName(){
+    FB.api("/me", function (response) {
+        alert('Name is ' + response.name);
+    });
+}
+
+var message_str= 'Facebook JavaScript Graph API Tutorial';
+FB.api('/me/feed', 'post', { message: message_str}, function(response) {
+    if (!response || response.error) {
+        alert('Couldn\'t Publish Data');
+  } else {
+    alert("Message successfully posted to your wall");
+  }
+});

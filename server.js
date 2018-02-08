@@ -18,7 +18,8 @@ var path = require("path")
   , _ = require('underscore')
   , moment = require("moment")
   , jwt = require('jwt-simple')
-  , config = require("./config")
+  //, FB = require('fb')
+  , CONFIG = require("./config")
 
 // Creating instance for express
 var app = module.exports = express();
@@ -42,6 +43,7 @@ app.use(cookieParser());
 app.listen(app.get('port'), function(){
     console.log("Server running on port %d", app.get('port'));
 });
+
 // Creating an instance for MongoDB
 var db = mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sweetlipsdb');
 mongoose.connection.on("open", function(){
@@ -67,8 +69,14 @@ var sourceDirectory = "public/photos/";
 // Install images on startup
 //installImages();
 
+/*var options = FB.options({version: 'v2.4'});
+var fooApp = FB.extend({appId: CONFIG.fb_app_id, appSecret: CONFIG.fb_app_secret});
+var fb = new FB.Facebook(options);*/
+
 var userGender = "male";
 var gender = shimOrhim(userGender);
+
+
 
 // Facebook Webhook
 // Used for verification
@@ -445,7 +453,7 @@ app.post("/api/submit", function(req, res, next){
 	res.status(200).send("Sent successfully");
 	res.redirect("/submit.html");
 	/*request({
-		url: "https://graph.facebook.com/v2.6/" + config.fb_page_id + "/messages",
+		url: "https://graph.facebook.com/v2.6/" + CONFIG.fb_page_id + "/messages",
 		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
 		method: "POST",
 		json: {
@@ -508,11 +516,95 @@ app.post('/api/auth/login', /*isLoggedIn,*/ function(req, res, next){
 
 /*
  * POST /api/connect/facebook/ 
+ * Login with facebook and gain perm
+ */
+app.get('/api/login/facebook',
+	//passport.authenticate('facebook', {
+	//	scope: ['publish_actions', 'manage_pages', 'user_photos']
+	//});
+);
+
+/*
+ * POST /api/connect/facebook/ 
  * Logout with facebook 
  */
-app.post("/api/auth/logout", /*isLoggedIn,*/ function(req, res, next){
-	// log user out
+app.get("/api/logout/facebook", 
+	//passport.authenticate('facebook', {
+		// log user out
+	//});
+);
+
+app.get("/api/connect/facebook", (req, res, next) => {
+	const {queryTerm, searchType} = req.body;
+
+	res.send("Working");
 });
+
+/*
+FB.setAccessToken('access_token');
+
+FB.api('4', { fields: ['id', 'name'] }, function (res) {
+	if(!res || res.error) {
+		console.log(!res ? 'error occurred' : res.error);
+		return;
+	}
+	console.log(res.id);
+	console.log(res.name);
+});
+ 
+var body = 'My first post using facebook-node-sdk';
+FB.api('me/feed', 'post', { message: body }, function (res) {
+	if(!res || res.error) {
+		console.log(!res ? 'error occurred' : res.error);
+		return;
+	}
+	console.log('Post Id: ' + res.id);
+});
+
+FB.api('me/photos', 'post', { source: fs.createReadStream('my-vacation.jpg'), caption: 'My vacation' }, function (res) {
+  if(!res || res.error) {
+    console.log(!res ? 'error occurred' : res.error);
+    return;
+  }
+  console.log('Post Id: ' + res.post_id);
+});
+ 
+FB.api('me/photos', 'post', { source: { value: photoBuffer, options: { contentType: 'image/jpeg' } }, caption: 'My vacation' }, function (res) {
+  if(!res || res.error) {
+    console.log(!res ? 'error occurred' : res.error);
+    return;
+  }
+  console.log('Post Id: ' + res.post_id);
+});
+
+var postId = '1234567890';
+FB.api(postId, 'delete', function (res) {
+	if(!res || res.error) {
+		console.log(!res ? 'error occurred' : res.error);
+		return;
+	}
+	console.log('Post was deleted');
+});
+
+FB.api('oauth/access_token', {
+	client_id: 'app_id',
+    client_secret: 'app_secret',
+    grant_type: 'client_credentials'
+}, function(res) {
+    if(!res || res.error) {
+        console.log(!res ? 'error occurred' : res.error);
+        return;
+    }
+ 
+    var accessToken = res.access_token;
+});
+*/
+
+
+
+
+
+
 
 app.post("/api/photos/instance", function(req, res, next){
 	User.findOne({ instagramId: body.user.id }, function(err, existingUser){
@@ -534,6 +626,10 @@ app.post("/api/photos/instance", function(req, res, next){
 		});
 	});
 });
+
+
+
+
 
 // Global Functions
 
@@ -1005,7 +1101,7 @@ function createToken(user){
     sub: user._id
   };
 
-  return jwt.encode(payload, config.access_token);
+  return jwt.encode(payload, CONFIG.page_access_token);
 }
 
 /*function isAuthenticated(req, res, next){
@@ -1015,7 +1111,7 @@ function createToken(user){
 
 	var header = req.headers.authorization.split(' ');
 	var token = header[1];
-	var payload = jwt.decode(token, config.tokenSecret);
+	var payload = jwt.decode(token, CONFIG.fb_app_secret);
 	var now = moment().unix();
 	if (now &amp;gt; payload.exp) {
 		return res.status(401).send({ message: 'Token has expired.' });
@@ -1537,7 +1633,7 @@ function shimOrhim(gender){
 }
 function get_friends(fb_id){
 	resquest.get({
-		url:'https://graph.facebook.com/v2.6/' + fb_id + '/friends',
+		url:`https://graph.facebook.com/v2.6/${fb_id}/friends`,
 		qs: {
 			access_token: process.env.PAGE_ACCESS_TOKEN,
 			fields:"id,name,picture.type(square).width(1000).height(1000)"
@@ -1545,6 +1641,54 @@ function get_friends(fb_id){
 	});
 
 }
+
+var getCurrentUser = function(userId){
+	request({
+		method: "GET",
+		url: "https://graph.facebook.com/v2.8/${userId}",
+		qs: {
+			access_token: CONFIG.user_access_token,
+			type: 'user',
+			fields: 'id,name,gender,'
+		}
+	})
+}
+
+var getMediaOptions = function(){
+	var options = {
+		method: "GET",
+		uri: 'https://graph.facebook.com/v2.8/${user.facebook_id}', // req.params.id
+		qs: {
+			access_token: CONFIG.page_access_token,
+			type: 'user',
+			fields: 'photos.limit(2).order(reverse_chronological){link, comments.limit(2).order(reverse_chronological)}'
+		}
+	}
+
+	request(options).then(function(fbRes){
+		res.json(fbRes);
+	})
+}
+
+var postingImage = function(){
+	const id = 'page or user id goes here';
+	const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
+
+	const postImageOptions = {
+		method: 'POST',
+		uri: `https://graph.facebook.com/v2.8/${id}/photos`,
+		qs: {
+			access_token: access_token,
+			caption: 'Caption goes here',
+			url: 'Image url goes here'
+		}
+	};
+	
+	request(postImageOptions)
+}
+
+
+
 // Process ranks for each contender against all contenders
 function rankUser(){
 	var len = this.length;

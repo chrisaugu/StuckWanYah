@@ -26,7 +26,7 @@
 		<h1>Stuck Wan Yah!</h1>
 		
 		<center>
-			<% if (connected) { %>
+			<% if (!connected) { %>
 
 			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
 			<h2>Who's hotter? Click to choose</h2>
@@ -86,7 +86,9 @@
 				</fb:like>
 			</div></div-->
 
+			<fb:login-button autologoutlink="true" onlogin="OnRequestPermission();"></fb:login-button>
 			<div class="custom-fb-share" data-href="https://stuckwanyah.herokuapp.com/">Share</div>
+			<button name="my_full_name" onclick="ShowMyName()" value="My Name"></button>
 
 			<div class="footer">
 				<div class="container">
@@ -111,6 +113,7 @@
 		</center>
 	</main>
 	<script type="text/javascript" src="/javascripts/jquery.js"></script>
-	<script type="text/javascript" src="/javascripts/script.js"></script>	
+	<script type="text/javascript" src="/javascripts/script.js"></script>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
 </body>
 </html>
