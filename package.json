@@ -2,10 +2,10 @@
   "name": "stuckwanyah",
   "version": "1.0.0",
   "description": "My own version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" &amp;&amp; exit 1",
-    "start": "nodemon server.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",

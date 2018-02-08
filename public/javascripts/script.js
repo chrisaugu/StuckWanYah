@@ -680,7 +680,7 @@ function ShowMyName(){
     });
 }
 
-var message_str= 'Facebook JavaScript Graph API Tutorial';
+var message_str= 'Facebook JavaScript Graph API ';
 FB.api('/me/feed', 'post', { message: message_str}, function(response) {
     if (!response || response.error) {
         alert('Couldn\'t Publish Data');
