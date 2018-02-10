@@ -1,7 +1,7 @@
 module.exports = {
 	// Facebook Settings
-	fb_app_id: process.env.FACEBOOK_APP_ID || "",
-	fb_app_secret: process.env.FACEBOOK_APP_SECRET || "",
+	fb_app_id: process.env.FACEBOOK_APP_ID || "1791165357568831",
+	fb_app_secret: process.env.FACEBOOK_APP_SECRET || "70b43373323e9c92705ecec5b1189f78",
 	fb_page_id: process.env.PAGE_ID || "",
 	// APP Settings
 	app_key: process.env.APP_KEY || "",

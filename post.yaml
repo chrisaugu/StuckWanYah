@@ -199,3 +199,11 @@ Letter to Digicel PNG Ltd:
     do you find mildly when people say "Hey Stuck Wan Yah".
     wouldn't be cool for a girl to vote a girl hotness
     
+
+  10-02-2018: 7:14pm: 
+    Here debugging my server to figure out what causes the serve to crash. Data sent from client-side successfully received 
+    on the server-side, find the matching data on database but lost the data along the way in the async.parallel.
+    Alright i figured it out, the two nights before I created a function "getScore" and return winner and loser so I was 
+    able to call each one outside and get the returned results, but I changed it and never let it return anything so now 
+    I cannot get any returned results. hope this is the probs.
+    it's back to normal, yea babe

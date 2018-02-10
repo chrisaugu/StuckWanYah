@@ -1,4 +1,4 @@
-require 'date'
+require 'date';
 
 // Actually doesn't matter WHAT you choose as the epoch, it
 // won't change the algorithm. Just don't change it after you

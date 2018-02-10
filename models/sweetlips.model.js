@@ -24,8 +24,8 @@ var SweetLipsSchema = new Schema({
 	rankings: { type: Number, default: 0},
 	random: { type: [Number], index: '2d' },
 	voted: { type: Boolean, default: false },
-	voted_by: [],
-	compared_with: [],
+	vote_by: [],
+	challengers: [],
 	joinedAt: { type: Date, default: Date.now() },
 },{strict:false});
 // Attaching random plugin to the schema

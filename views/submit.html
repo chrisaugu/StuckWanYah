@@ -14,15 +14,16 @@
 	<h4>I'd love to hear what you think about StuckWanYah. Good or Bad. Have a suggestion for a new feature? Shoot it over to me. <br>Have a Harry Potter conspiracy theory? Share it with me!</h4>
 	
 	<center>
-		<form id="submit" action="/api/submit" method="post" data-form="submit">
-		<table width="500">
+		<form id="submit" action="/api/submit" method="post" xdata-form="submit">
+		<table width="500" align="center">
 			<tr><td><input type="text" name="name" placeholder="Your name" class="text"></td></tr>
 			<tr><td><input type="text" disabled required="true" name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
 			<tr><td><textarea type="text" name="message" placeholder="Message *" class="text" rows="4"></textarea>
 					<span id="counter">120 characters remaining</span>
 			</td></tr>
-			<tr><td><input type="submit" data-action="submit" value="Send message" class="button">
-					<div class="results" style="display:inline;"></div>
+			<tr><td>
+				<input type="submit" data-action="submit" value="Send message" class="button">
+				<div class="results" style="display:inline;"></div>
 			</td></tr>
 		</table>
 		</form>
@@ -52,6 +53,8 @@
 	</center>
 	</main>
 	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<!--script src="http://connect.facebook.net/en_US/all.js"></script-->
+	<script src="/javascripts/all.js"></script>	
 	<script type="text/javascript" src="/javascripts/script.js"></script>	
 </body>
 </html>

@@ -1,12 +1,28 @@
 (function(){
     "use strict";
-    var xmlhttp=null,photos=[],current_page=document.location.pathname;
+    var xmlhttp=null;
+    var photos=[];
+    var current_page = document.location.pathname;
+    var baseUrl = "https://stuckwanyah.herokuapp.com/";
+
+    /*
+    var i, h, s, ss = ['http://connect.facebook.net/en_US/all.js', 'http://localhost:5000/javascripts/all.js'];
+    var root = document.createElement('div');
+    h = document.getElementsByTagName('script')[0];
+    document.body.appendChild(root);
+    root.setAttribute('id', 'fb-root');
+    for(i = 0; i != ss.length; i++) { 
+        s = document.createElement('script');
+        s.src = ss[i];
+        h.parentNode.insertBefore(s,h);
+    };*/
 
     FB.init({
-        appId: 'Your_Application_ID',
+        appId: '1791165357568831',
         status: true,
         cookie: true,
-        xfbml: true
+        xfbml: true,
+        channelUrl: "https://stuckwanyah.herokuapp.com/channel.html" 
     });
 
     $(function(){
@@ -30,11 +46,11 @@
                 break;
         }
         $("body")
-            .on("click", ".button", function(){
-                if($(this).attr("data-action")){
-                    handleAction($(this).attr("data-action"), $(this).attr("data-id") ? $(this).attr("data-id") : null);
-                }
-            })
+            //.on("click", ".button", function(){
+            //    if($(this).attr("data-action")){
+                    //handleAction($(this).attr("data-action"), $(this).attr("data-id") ? $(this).attr("data-id") : null);
+            //    }
+            //})
             .on("click", "a", function(){
                 if ($(this).attr("data-action")){
                     handleAction($(this).attr("data-action"), $(this).attr("data-id") ? $(this).attr("data-id") : null);
@@ -188,7 +204,7 @@
         return (Math.random() * array.length + 1);
     }
     function change_myselect() {
-        var xmlhttp, obj, dbParam;
+        var xmlhttp, obj, dbParam, myObj, txt, x;
         xmlhttp = new XMLHttpRequest();
 
         obj = { 
@@ -290,6 +306,46 @@
         xhr.setRequestHeader("content-type", "application/json");
         xhr.send(data);
     }
+
+    /*var counter = setInterval(function(){
+        var $counter, $counter_number, $counter_bg, $dollar_sign, $comma, $p, $counter_time, container;
+
+        container = document.getElementsByClassName('container')[0];
+
+        $counter = document.createElement('div');
+        $counter.className = "counter";
+
+        $counter_number = document.createElement('span');
+        $counter_number.className = "counter-number";
+
+        $counter_bg = $counter_number.className = "counter-bg";
+        $comma = $counter_number.className = "comma";
+        $counter_time = $counter_number.className = "counter-hour";
+
+        $p = document.createElement('p');
+        $p.innerText = "hello"
+        $counter_number.appendChild($p);
+
+
+        var st;
+        $.ajax({"async": true,"crossDomain": true,"url": "/api/stats","type": "get","dataType": "json"}, 
+            function(data){
+                console.log(hit.responseJSON["totalPageHits"])
+        st = hit.responseJSON["totalPageHits"].toString();
+            });
+        for (var i = 0; i < st.length; i++){
+            console.log(st[i]);
+        }
+
+        $counter.appendChild($counter_number);
+
+        container.parentNode.replaceChild($counter, container.nextElementSibling);
+        
+        
+    }, 5000); // default 10
+    */
+
+
     function isBigEnough(age) {
         var min = 13, max = 21;
         if (age >= min && age <= max) {
@@ -332,7 +388,7 @@
     function onClickShareButton(e) {
         e.preventDefault && e.preventDefault();
         var link = this.getAttribute("data-href") || "https://stuckwanyah.herokuapp.com/";
-        window.open("http://www.facebook.com/dialog/share?app_id=362497390470077&href=" + 
+        window.open("http://www.facebook.com/dialog/share?app_id=1791165357568831&href=" + 
             encodeURIComponent(link) + "&redirect_uri=" + 
             encodeURIComponent("https://stuckwanyah.herokuapp.com/") + "&display=popup",
             "Stuck Wan Yah",
@@ -402,8 +458,8 @@
         switch(action.toLowerCase()){
             case "submit":
                 $(".results").css("background", "url(data:image/svg+xml;base64,PCEtLSBUaGlzIHZlcnNpb24gb2YgdGhlIHRocm9iYmVyIGlzIGdvb2QgZm9yIHNpemVzIGxlc3MgdGhhbiAyOHgyOGRwLAogICAgIHdoaWNoIGZvbGxvdyB0aGUgc3Ryb2tlIHRoaWNrbmVzcyBjYWxjdWxhdGlvbjogMyAtICgyOCAtIGRpYW1ldGVyKSAvIDE2IC0tPgo8c3ZnIHZlcnNpb249IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgICAgICAgICAgICAgICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgICB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDwhLS0gMTY9IFJBRElVUyoyICsgU1RST0tFV0lEVEggLS0+CgogIDx0aXRsZT5NYXRlcmlhbCBkZXNpZ24gY2lyY3VsYXIgYWN0aXZpdHkgc3Bpbm5lciB3aXRoIENTUzMgYW5pbWF0aW9uPC90aXRsZT4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgICAvKioqKioqKioqKioqKioqKioqKioqKioqKiovCiAgICAgIC8qIFNUWUxFUyBGT1IgVEhFIFNQSU5ORVIgKi8KICAgICAgLyoqKioqKioqKioqKioqKioqKioqKioqKioqLwoKICAgICAgLyoKICAgICAgICogQ29uc3RhbnRzOgogICAgICAgKiAgICAgIFJBRElVUyAgICAgID0gNi44NzUKICAgICAgICogICAgICBTVFJPS0VXSURUSCA9IDIuMjUKICAgICAgICogICAgICBBUkNTSVpFICAgICA9IDI3MCBkZWdyZWVzIChhbW91bnQgb2YgY2lyY2xlIHRoZSBhcmMgdGFrZXMgdXApCiAgICAgICAqICAgICAgQVJDVElNRSAgICAgPSAxMzMzbXMgKHRpbWUgaXQgdGFrZXMgdG8gZXhwYW5kIGFuZCBjb250cmFjdCBhcmMpCiAgICAgICAqICAgICAgQVJDU1RBUlRST1QgPSAyMTYgZGVncmVlcyAoaG93IG11Y2ggdGhlIHN0YXJ0IGxvY2F0aW9uIG9mIHRoZSBhcmMKICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNob3VsZCByb3RhdGUgZWFjaCB0aW1lLCAyMTYgZ2l2ZXMgdXMgYQogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgNSBwb2ludGVkIHN0YXIgc2hhcGUgKGl0J3MgMzYwLzUgKiAyKS4KICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEZvciBhIDcgcG9pbnRlZCBzdGFyLCB3ZSBtaWdodCBkbwogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMzYwLzcgKiAzID0gMTU0LjI4NikKICAgICAgICoKICAgICAgICogICAgICBTSFJJTktfVElNRSA9IDQwMG1zCiAgICAgICAqLwoKICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgd2lkdGg6MTZweDsgIC8qIDIqUkFESVVTICsgU1RST0tFV0lEVEggKi8KICAgICAgICBoZWlnaHQ6MTZweDsgLyogMipSQURJVVMgKyBTVFJPS0VXSURUSCAqLwogICAgICB9CiAgICAgIC5xcC1jaXJjdWxhci1sb2FkZXItcGF0aCB7CiAgICAgICAgc3Ryb2tlLWRhc2hhcnJheTogMzIuNDsgIC8qIDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgKi8KICAgICAgICBzdHJva2UtZGFzaG9mZnNldDogMzIuNDsgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiBoaWRlcyB0aGluZ3MgaW5pdGlhbGx5ICovCiAgICAgIH0KCiAgICAgIC8qIFNWRyBlbGVtZW50cyBzZWVtIHRvIGhhdmUgYSBkaWZmZXJlbnQgZGVmYXVsdCBvcmlnaW4gKi8KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciwgLnFwLWNpcmN1bGFyLWxvYWRlciAqIHsKICAgICAgICB0cmFuc2Zvcm0tb3JpZ2luOiA1MCUgNTAlOwogICAgICB9CgogICAgICAvKiBSb3RhdGluZyB0aGUgd2hvbGUgdGhpbmcgKi8KICAgICAgQGtleWZyYW1lcyByb3RhdGUgewogICAgICAgIGZyb20ge3RyYW5zZm9ybTogcm90YXRlKDBkZWcpO30KICAgICAgICB0byB7dHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTt9CiAgICAgIH0KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAxNTY4LjYzbXM7IC8qIDM2MCAqIEFSQ1RJTUUgLyAoQVJDU1RBUlRST1QgKyAoMzYwLUFSQ1NJWkUpKSAqLwogICAgICAgIGFuaW1hdGlvbi1pdGVyYXRpb24tY291bnQ6IGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiByb3RhdGU7CiAgICAgICAgYW5pbWF0aW9uLXRpbWluZy1mdW5jdGlvbjogbGluZWFyOwogICAgICB9CgogICAgICAvKiBGaWxsaW5nIGFuZCB1bmZpbGxpbmcgdGhlIGFyYyAqLwogICAgICBAa2V5ZnJhbWVzIGZpbGx1bmZpbGwgewogICAgICAgIGZyb20gewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDMyLjMgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAtIDAuMSAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC4xIGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgICA1MCUgewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDA7CiAgICAgICAgfQogICAgICAgIHRvIHsKICAgICAgICAgIHN0cm9rZS1kYXNob2Zmc2V0OiAtMzEuOSAvKiAtKDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgLSAwLjUpICovCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC41IGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgfQogICAgICBAa2V5ZnJhbWVzIHJvdCB7CiAgICAgICAgZnJvbSB7CiAgICAgICAgICB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgdHJhbnNmb3JtOiByb3RhdGUoLTM2MGRlZyk7CiAgICAgICAgfQogICAgICB9CiAgICAgIEBrZXlmcmFtZXMgY29sb3JzIHsKICAgICAgICBmcm9tIHsKICAgICAgICAgIHN0cm9rZTogIzQyODVmNDsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgc3Ryb2tlOiAjNDI4NWY0OwogICAgICAgIH0KICAgICAgfQogICAgICAucXAtY2lyY3VsYXItbG9hZGVyLXBhdGggewogICAgICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMTMzM21zLCA1MzMybXMsIDUzMzJtczsgLyogQVJDVElNRSwgNCpBUkNUSU1FLCA0KkFSQ1RJTUUgKi8KICAgICAgICBhbmltYXRpb24tZmlsbC1tb2RlOiBmb3J3YXJkczsKICAgICAgICBhbmltYXRpb24taXRlcmF0aW9uLWNvdW50OiBpbmZpbml0ZSwgaW5maW5pdGUsIGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiBmaWxsdW5maWxsLCByb3QsIGNvbG9yczsKICAgICAgICBhbmltYXRpb24tcGxheS1zdGF0ZTogcnVubmluZywgcnVubmluZywgcnVubmluZzsKICAgICAgICBhbmltYXRpb24tdGltaW5nLWZ1bmN0aW9uOiBjdWJpYy1iZXppZXIoMC40LCAwLjAsIDAuMiwgMSksIHN0ZXBzKDQpLCBsaW5lYXI7CiAgICAgIH0KCiAgPC9zdHlsZT4KCiAgPCEtLSAyLjI1PSBTVFJPS0VXSURUSCAtLT4KICA8IS0tIDggPSBSQURJVVMgKyBTVFJPS0VXSURUSC8yIC0tPgogIDwhLS0gNi44NzU9IFJBRElVUyAtLT4KICA8IS0tIDEuMTI1PSAgU1RST0tFV0lEVEgvMiAtLT4KICA8ZyBjbGFzcz0icXAtY2lyY3VsYXItbG9hZGVyIj4KICAgIDxwYXRoIGNsYXNzPSJxcC1jaXJjdWxhci1sb2FkZXItcGF0aCIgZmlsbD0ibm9uZSIgCiAgICAgICAgICBkPSJNIDgsMS4xMjUgQSA2Ljg3NSw2Ljg3NSAwIDEgMSAxLjEyNSw4IiBzdHJva2Utd2lkdGg9IjIuMjUiCiAgICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPgo=)").css("padding", "1px 8px");
-                submit_form();
-                return true;
+                //submit_form();
+                return false;
                 break;
             case "connect_facebook":
                 if (!isLoggedIn()) {
@@ -477,8 +533,8 @@
         },
         setLoginData: function(res){
             try {
-                email = res.email;
-                api_key = res.api_key;
+                var email = res.email;
+                var api_key = res.api_key;
                 var itemData = {
                     email: email,
                     api_key: api_key
@@ -665,26 +721,41 @@ function sortListDir(){
         }
     }
 }
-
-var chromeVersion = window.navigator.userAgent.match(/Chrome\/(\d+)\./);
-if (chromeVersion && chromeVersion[1]) {
-    if (parseInt(chromeVersion[1], 10) >= 42) {
-        window.location == '/stuckwanyah';
-    }
-}
-window.location = '/rankings.html';
-
 function ShowMyName(){
     FB.api("/me", function (response) {
         alert('Name is ' + response.name);
     });
 }
 
-var message_str= 'Facebook JavaScript Graph API ';
-FB.api('/me/feed', 'post', { message: message_str}, function(response) {
-    if (!response || response.error) {
-        alert('Couldn\'t Publish Data');
-  } else {
-    alert("Message successfully posted to your wall");
-  }
+function postToFacebook(){
+    var message_str= 'Facebook JavaScript Graph API ';
+    FB.api('/me/feed', 'post', { message: message_str}, function(response) {
+        if (!response || response.error) {
+            alert('Couldn\'t Publish Data');
+        } else {
+            alert("Message successfully posted to your wall");
+        }
+    });
+}
+
+function getLoginStatus(){
+    FB.getLoginStatus(function(response){
+        
+        if (response.status != "connected") { 
+            /* User is logged in */ 
+        } else { 
+            /* User is not logged in */ 
+        }
+    });
+}
+
+FB.api("/me", function(response) {
+    $("#FbUserID").val(response["id"]);
+
+    $("#FirstName").val(response["first_name"]);
+
+    $("#LastName").val(response["last_name"]);
+
+    $("#Email").val(response["email"]);
+
 });

@@ -18,8 +18,8 @@ var path = require("path")
   , _ = require('underscore')
   , moment = require("moment")
   , jwt = require('jwt-simple')
-  //, FB = require('fb')
-  , CONFIG = require("./config")
+  , FB = require('fb')
+  , ENV_VAR = require("./config")
 
 // Creating instance for express
 var app = module.exports = express();
@@ -69,13 +69,13 @@ var sourceDirectory = "public/photos/";
 // Install images on startup
 //installImages();
 
-/*var options = FB.options({version: 'v2.4'});
-var fooApp = FB.extend({appId: CONFIG.fb_app_id, appSecret: CONFIG.fb_app_secret});
-var fb = new FB.Facebook(options);*/
+var options = FB.options({ appId: ENV_VAR.fb_app_id, appSecret: ENV_VAR.fb_app_secret, version: 'v2.4' });
+FB.setAccessToken('access_token');
+var accessToken = FB.getAccessToken();
+var fb = new FB.Facebook(options);
 
 var userGender = "male";
 var gender = shimOrhim(userGender);
-
 
 
 // Facebook Webhook
@@ -453,7 +453,7 @@ app.post("/api/submit", function(req, res, next){
 	res.status(200).send("Sent successfully");
 	res.redirect("/submit.html");
 	/*request({
-		url: "https://graph.facebook.com/v2.6/" + CONFIG.fb_page_id + "/messages",
+		url: "https://graph.facebook.com/v2.6/" + ENV_VAR.fb_page_id + "/messages",
 		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
 		method: "POST",
 		json: {
@@ -490,33 +490,7 @@ app.put("/api/hits", function(req, res, next){
 
 /*
  * POST /api/connect/facebook/
- * Login with facebook in order to use voter's pictures, friends list 
- */
-app.post('/api/auth/login', /*isLoggedIn,*/ function(req, res, next){
-	// log user in
-	// req.session.authenticated = true;
-	User.findOne({ email: req.body.email }, '+password', function(err, user){
-		if (!user) {
-			return res.status(401).send({ message: { email: 'Incorrect email' } });
-		}
-
-		bcrypt.compare(req.body.password, user.password, function(err, isMatch){
-			if (!isMatch){
-				return res.status(401).send({ message: { password: 'Incorrect password' } });
-			}
-
-			user = user.toObject();
-			delete user.password;
-
-			var token = createToken(user);
-			res.send({ token: token, user: user });
-		});
-	});
-});
-
-/*
- * POST /api/connect/facebook/ 
- * Login with facebook and gain perm
+ * Login with facebook in order to use voter's pictures, friends list
  */
 app.get('/api/login/facebook',
 	//passport.authenticate('facebook', {
@@ -537,12 +511,23 @@ app.get("/api/logout/facebook",
 app.get("/api/connect/facebook", (req, res, next) => {
 	const {queryTerm, searchType} = req.body;
 
-	res.send("Working");
+	FB.getLoginUrl({
+		scope: 'email, user_likes, user_photos, publish_actions, gender',
+		redirect_uri: 'https://stuckwanyah.herokuapp.com/'
+	});
+
+	var friends = getFriends();
+
+	res.send(`Error: ${friends}`);
 });
 
-/*
-FB.setAccessToken('access_token');
+var getFriends = function(){
+	FB.api('me/friends?limit=50', function(res){
+		console.log("Friends: " + res.id);
+	});
+}
 
+/*
 FB.api('4', { fields: ['id', 'name'] }, function (res) {
 	if(!res || res.error) {
 		console.log(!res ? 'error occurred' : res.error);
@@ -561,20 +546,29 @@ FB.api('me/feed', 'post', { message: body }, function (res) {
 	console.log('Post Id: ' + res.id);
 });
 
-FB.api('me/photos', 'post', { source: fs.createReadStream('my-vacation.jpg'), caption: 'My vacation' }, function (res) {
-  if(!res || res.error) {
-    console.log(!res ? 'error occurred' : res.error);
-    return;
-  }
-  console.log('Post Id: ' + res.post_id);
+FB.api('me/photos', 'post', { 
+	source: fs.createReadStream('my-vacation.jpg'), 
+	caption: 'My vacation' 
+}, function (res) {
+	if(!res || res.error) {
+    	console.log(!res ? 'error occurred' : res.error);
+    	return;
+    }
+    console.log('Post Id: ' + res.post_id);
 });
  
-FB.api('me/photos', 'post', { source: { value: photoBuffer, options: { contentType: 'image/jpeg' } }, caption: 'My vacation' }, function (res) {
-  if(!res || res.error) {
-    console.log(!res ? 'error occurred' : res.error);
-    return;
-  }
-  console.log('Post Id: ' + res.post_id);
+FB.api('me/photos', 'post', { 
+	source: { 
+		value: photoBuffer, options: { 
+			contentType: 'image/jpeg' 
+		} 
+	}, caption: 'My vacation' 
+}, function (res) {
+	if(!res || res.error) {
+		console.log(!res ? 'error occurred' : res.error);
+		return;
+	}
+	console.log('Post Id: ' + res.post_id);
 });
 
 var postId = '1234567890';
@@ -599,6 +593,34 @@ FB.api('oauth/access_token', {
     var accessToken = res.access_token;
 });
 */
+/*
+// $facebook->api("/{$user_id}/friends?fields=id,name,gender");
+// /fql?q=select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = "female"
+// /{user-id}/photos?type=uploaded
+
+FB.api('/fql',
+	'GET',
+	{"q":"select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = female "},
+	function(response){
+		// Insert your code here
+	}
+);
+
+/* make the API call /
+FB.api(
+    "/{friend-list-id/}",// /{user-id}/friendlists
+    function (response){
+      if (response && !response.error) {
+        /* handle the result /
+      }
+    }
+);
+FB.api('/me/friends', {fields: 'name,id,location,birthday'}, function(response{
+  //...
+});
+*/
+
+
 
 
 
@@ -632,7 +654,6 @@ app.post("/api/photos/instance", function(req, res, next){
 
 
 // Global Functions
-
 var renderIndexPage = function(config){
 	getTwoRandomPhotos(config);
 }
@@ -642,10 +663,10 @@ var getTwoRandomPhotos = function(config){
 	var choices = ['female', 'male'];
 	var randomGender = _.sample(choices);
 	Sweetlips.photos
-		.find({ random: {$near: [Math.random(), 0]}})
+		.find({ random: { $near: [Math.random(), 0] } })
         .where("voted", false)
         .where("is_blocked", false)
-        .where("gender", gender)//randomGender)
+        .where("gender", gender) //randomGender)
         .limit(2)
         .exec()
         .then(function(photos){
@@ -659,8 +680,8 @@ var getTwoRandomPhotos = function(config){
 	        var oppositeGender = _.first(_.without(choices, randomGender));
 
             Sweetlips.photos
-            	.find({ random: {$near: [Math.random(), 0]}})
-            	.where("gender", gender)//randomGender)
+            	.find({ random: { $near: [Math.random(), 0] } })
+            	.where("gender", gender) //randomGender)
             	.where("voted", false)
             	.limit(2)
             	.exec()
@@ -675,7 +696,7 @@ var getTwoRandomPhotos = function(config){
             				$set: {"voted": false } }, {multi: true}, function(err){
             					if (err) config.error.call(this, err);
             				}
-            			)
+            			);
             		}
             	})
             	.catch(function(err){
@@ -708,8 +729,8 @@ var getTwoRandomPhotos = function(config){
 }
 
 var rateImages = function(config){
-	var winnerID = config.params.query.winner || '';
-	var loserID = config.params.query.loser || '';
+	var winnerID = config.params.query.winner;
+	var loserID = config.params.query.loser;
 
 	if (winnerID && loserID) {
 		
@@ -729,49 +750,54 @@ var rateImages = function(config){
 
 			var winner = results[0],
 				loser = results[1],
-				rating, score;
+				rating, score, voter;
+
+				voter = {
+					id: '1234',
+					name: 'kitten'
+				}
 
 				//rating = getRating(winner, loser);
 				score = getScore(winner, loser);
 
-				var expected_score = expectedScore(winner.ratings, loser.ratings)
-				var new_winner_rating = newRating(expected_score, score.winner, winner.ratings)
-				var new_loser_rating = newRating(expected_score, score.loser, loser.ratings)
+				var expected_score = expectedScore(winner.ratings, loser.ratings);
+				var new_winner_rating = newRating(expected_score, score.winner, winner.ratings);
+				var new_loser_rating = newRating(expected_score, score.loser, loser.ratings);
 
-				async.parallel([
-					function(callback) {
+				async.parallel({
+					winner: function(callback){
 						winner.wins++;
 						winner.score = score.winner;
 						winner.ratings = new_winner_rating;// rating.winner;
 						winner.voted = true;
 						winner.random = [Math.random(), 0];
-						// stores who voted for who and who compared with who
-						//winner.voted_by = senderId;
-						winner.compared_with + loser.image_id;
+						// keep record who voted who and who plays who
+						winner.vote_by.push(voter.id);
+						winner.challengers.push(loser.image_id);
 						
 						winner.save(function(err){
 							callback(err);
 						});
 					},
-					function(callback) {
+					loser: function(callback) {
 						loser.losses++;
 						loser.score = score.loser;
 						loser.ratings = new_loser_rating;// rating.loser;
 						loser.voted = true;
 						loser.random = [Math.random(), 0];
-						// stores who voted for who and who compared with who
-						//loser.voted_by = senderId;
-						loser.compared_with + winner.image_id;
+						// keep record who voted who and who plays who
+						loser.vote_by.push(voter.id);
+						loser.challengers.push(winner.image_id);
 
 						loser.save(function(err){
 							callback(err);
 						});
 					}
-				],
+				},
 				function(err, results){
 					if (err) config.error.call(this, err);
 					config.success.call(this);
-				})
+				});
 			});
 	} else {
 		config.error.call(this, 'Voting requires two photos.' );
@@ -779,13 +805,13 @@ var rateImages = function(config){
 }
 
 var tieBreaker = function(config){
-	var player_1 = config.params.query.player1 || '';
-	var player_2 = config.params.query.player2 || '';
+	var player_1 = config.params.query.player1;
+	var player_2 = config.params.query.player2;
 
 	if (player_1 && player_2){
 		async.parallel([
 			function(callback){
-				Sweetlips.photos.findOne({ image_id: player_1 }, function(err, player1){
+				Sweetlips.photos.findOne({ image_id: player_1 }, function(err, player1){					
 					callback(err, player1);
 				});
 			},
@@ -798,20 +824,24 @@ var tieBreaker = function(config){
 			var player_1 = results[0];
 			var player_2 = results[1];
 
-			async.parallel([
-				function(callback){
-					// player_1.draws = 
+			async.parallel({
+				player1: function(callback){
+					// increment the number of draws and push player2 id to challenger list
+					player_1.draws++;
+					player_1.challengers.push(player_2.image_id);
 					player_1.save(function(err){
 						callback(err);
-					})
+					});
 				},
-				function(callback){
-					// player_2.draws = 
+				player2: function(callback){
+					// increment the number of draws and push player1 id to challenger list
+					player_2.draws++;
+					player_2.challengers.push(player_1.image_id);
 					player_2.save(function(err){
 						callback(err);
-					})
+					});
 				}
-			], function(err, results){
+			}, function(err, results){
 				if (err) config.error.call(this, err);
 				config.success.call(this);
 			})
@@ -877,6 +907,11 @@ function getScore(winner, loser) {
 		}
 	}
 
+	return {
+		winner: parseInt(winner.wins + winner.losses),
+		loser: parseInt(loser.wins + loser.losses)
+	}
+
 /*
 	[1,2,3,4,5,6].map(function(n){
 		return this.n = 1;
@@ -887,10 +922,7 @@ function getScore(winner, loser) {
 		arr.push(1);
 	}
 
-	return {
-		winner: parseInt(winner.wins + winner.losses),
-		loser: parseInt(loser.wins + loser.losses)
-	}*/
+*/
 };
 // Calculate the expected score outcome from to ratings
 function expectedScore(Ra, Rb) {
@@ -907,7 +939,7 @@ function loserScore(score, expected, k = 32){
 }
 // Returns the top 10 highest ratings
 function topTenRatings(config){
-	Sweetlips.photos.find({}).sort({
+	Sweetlips.photos.find().sort({
 		'ratings': -1
 	}).where({
 		"gender": gender
@@ -920,6 +952,7 @@ function topTenRatings(config){
 		config.error.call(this, err);
 	});
 };
+
 var top10HottestFriends = function(config){
 
 	//var config.params.query.gender
@@ -976,7 +1009,7 @@ var topTenWinings = function(config){
 
 	Sweetlips.photos
 		.find(conditions)
-		.where({"gender": gender})
+		.where({ "gender": gender })
 		.sort('-wins') // Sort in descending order (highest wins on top)
 		.limit(10)
 		.exec()
@@ -995,7 +1028,7 @@ var topTenWinings = function(config){
 
 var processPageHits = function(config){
 	Sweetlips.hits.update({page: config.params.body.page},
-		{$inc: {hits: 1}},{upsert: true}
+		{ $inc: { hits: 1 } },{ upsert: true } 
 	).then(function(hit){
 		config.success.call(this, {hits: hit.hits});
 	}).catch(function(err){
@@ -1040,7 +1073,6 @@ function installImages(){
 				console.log("Photos uploaded successfully");
 			});
 		}
-
 	});
 };
 
@@ -1101,7 +1133,7 @@ function createToken(user){
     sub: user._id
   };
 
-  return jwt.encode(payload, CONFIG.page_access_token);
+  return jwt.encode(payload, ENV_VAR.page_access_token);
 }
 
 /*function isAuthenticated(req, res, next){
@@ -1111,7 +1143,7 @@ function createToken(user){
 
 	var header = req.headers.authorization.split(' ');
 	var token = header[1];
-	var payload = jwt.decode(token, CONFIG.fb_app_secret);
+	var payload = jwt.decode(token, ENV_VAR.fb_app_secret);
 	var now = moment().unix();
 	if (now &amp;gt; payload.exp) {
 		return res.status(401).send({ message: 'Token has expired.' });
@@ -1226,12 +1258,14 @@ function processMessage(event){
  * Block and Unblock
  */
 function processBlock(userId){
-	var query = {image_id: userId};
+	var query = { image_id: userId };
 	var attempts = 0;
-	Sweetlips.findOne({user_id: userId}, function(err, user){
-		if (err) {
+	Sweetlips.photos.findOne({ image_id: userId}, function(err, user){
+		if (err){
 			attempts++;
-			if (attempts>2) sendMessage(userId, {text: "Sorry it's my fault. Try again later."}); attempts=0;
+			if (attempts > 2) 
+				sendMessage(userId, {text: "Sorry it's my fault. Try again later."});
+				attempts=0;
 			sendMessage(userId, {text: "Something went wrong. Try again"});
 		} else {
 			user.is_blocked = true;
@@ -1290,29 +1324,29 @@ var retrievePlayerFriends = function(userId){
 			//fields: ""
 		},
 		method: "GET"
-	}, function(error, friend){
+	}, function(error, player){
 		if (error) {
 			sendMessage(userId, {text: "Error retrieving your Facebook friends."});
 		}
-		var query = {image_id: userId}
+		var query = { image_id: userId }
 		var update = {
-			image_id: friend.cuid,
-			name: friend.name,
-			age: friend.age,
-			gender: friend.gender,
-			image_url: friend.thumSrc,
-			uri: friend.uri,
+			image_id: player.cuid,
+			name: player.name,
+			age: player.age,
+			gender: player.gender,
+			image_url: player.thumSrc,
+			uri: player.uri,
 			//is_blocked: false,
-			ratings: { type: Number, default: 0},
-			wins: { type: Number, default: 0},
-			losses: { type: Number, default: 0},
-			score: { type: Number, default: 0},
-			random: { type: [Number], index: '2d' },
-			voted: { type: Boolean, default: false },
-			vote_timestamp: { type: Date, default: Date.now() },
-			joinedAt: { type: Date, default: Date.now() },
+			ratings: 1400,
+			wins: 0,
+			losses: 0,
+			score: 0,
+			random: [Math.random(), 0],
+			voted: false,
+			vote_by: [],
+			joinedAt: Date.now(),
 		}
-		var options = {upsert: true}
+		var options = { upsert: true }
 		Sweetlips.photos.findOneAndUpdate(query, update, options, function(err, friend){
 			if (err) {
 				console.error("Database error: " + err);
@@ -1380,38 +1414,30 @@ function findMovie(userId, movieTitle){
 		}
 	});
 }
-
 function findPhotoById(id){
 	Sweetlips.photos.findById({ image_id: id}, function(err, photo){
 		if (err) throw err;
 		return photo;
 	});
 }
-
 function blockPhotoById(id){
 	Sweetlips.photos.update({ image_id: id }, 
 		{ $set: {'$is_blocked': true} }, function(err){
 			if(err) throw err;
 			return true;
-		});
-}
-
-function unblockPhotoById(id){
-	Sweetlips.photos.update({
-		image_id: id
-	}, {
-		$set: {
-			'$is_blocked': false
 		}
-	}, function(err){
+	);
+}
+function unblockPhotoById(id){
+	Sweetlips.photos.update({ image_id: id }, 
+		{ $set: { '$is_blocked': false } }, function(err){
 		if (err) throw err;
+		else if (!err) return 1;
 	});
 }
-
 function processGender(gender){
 	return (gender == 'female' ? 'female' : 'male');
 }
-
 function filterPhotosGender(gender, array){
 	var temp = [];
 	for (var i=0; i<array.length; i++) {
@@ -1422,7 +1448,6 @@ function filterPhotosGender(gender, array){
 	}
 	return null;
 }
-
 var getDate = function(){
 	var date = new Date();
 	var hour = date.getHours();
@@ -1519,34 +1544,12 @@ function processUserSex(event){
 		// boys vote for girls hotness
 	}
 }
-/*
-// $facebook->api("/{$user_id}/friends?fields=id,name,gender");
-// /fql?q=select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = "female"
-// /{user-id}/photos?type=uploaded
-
-FB.api(
-  '/fql',
-  'GET',
-  {"q":"select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = female "},
-  function(response){
-      // Insert your code here
-  }
-);
-
-/* make the API call /
-FB.api(
-    "/{friend-list-id/}",// /{user-id}/friendlists
-    function (response){
-      if (response && !response.error) {
-        /* handle the result /
-      }
-    }
-);
-FB.api('/me/friends', {fields: 'name,id,location,birthday'}, function(response{
-  //...
-});
-*/
-
+function getFriends(event){
+	var user_id = event.user.id;
+	request({
+		url:`https://graph.facebook.com/v2.8/${user_id}/friends?fields=id,name,gender`
+	})
+}
 function processCandidateProfilePicture(event){
 	//request({
 	//	url: "https://graph.facebook.com/v2.6/" + senderId + "/friends/pictures"
@@ -1571,7 +1574,7 @@ function publishPost(pageId, article){
 			message: article
 		}
 	}, function(error, response, body){
-		if (err) console.error("Error posting article: " + response.error);
+		if (err) console.error(`Error posting article: ${response.error}`);
 	});
 }
 function getSenderGender(userId){
@@ -1641,25 +1644,23 @@ function get_friends(fb_id){
 	});
 
 }
-
 var getCurrentUser = function(userId){
 	request({
 		method: "GET",
 		url: "https://graph.facebook.com/v2.8/${userId}",
 		qs: {
-			access_token: CONFIG.user_access_token,
+			access_token: ENV_VAR.user_access_token,
 			type: 'user',
 			fields: 'id,name,gender,'
 		}
 	})
 }
-
 var getMediaOptions = function(){
 	var options = {
 		method: "GET",
-		uri: 'https://graph.facebook.com/v2.8/${user.facebook_id}', // req.params.id
+		uri: `https://graph.facebook.com/v2.8/${user.facebook_id}`, // req.params.id
 		qs: {
-			access_token: CONFIG.page_access_token,
+			access_token: ENV_VAR.page_access_token,
 			type: 'user',
 			fields: 'photos.limit(2).order(reverse_chronological){link, comments.limit(2).order(reverse_chronological)}'
 		}
@@ -1669,7 +1670,6 @@ var getMediaOptions = function(){
 		res.json(fbRes);
 	})
 }
-
 var postingImage = function(){
 	const id = 'page or user id goes here';
 	const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
@@ -1686,9 +1686,6 @@ var postingImage = function(){
 	
 	request(postImageOptions)
 }
-
-
-
 // Process ranks for each contender against all contenders
 function rankUser(){
 	var len = this.length;

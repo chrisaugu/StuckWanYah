@@ -7,8 +7,8 @@ crash the howard network.
 
 This is my hands-on project to get started in modern web technologies.
 
-What is Stuck Wan Yah?
-Stuck Wan Yah "[Stak Wan Yah]" or "Stuck Wan"  is a pun used to express someone's attractiveness.
+## What is StuckWanYah?
+StuckWanYah ["Stak Wan Yah"] or "Stuck Wan"  is a pun used used explicitly for .
 
 This is a rewrite of [ecto / mugshot-wars](https://github.com/ecto/mugshot-wars) using MongoDB instead of Reddis and Jade templates instead of EJS.
 The script uses the [elo rating algorithm](https://en.wikipedia.org/wiki/Elo_rating_system) to compute relative value of comparison. The original version of the type of app goes back to Mark Zuckerberg's Facemash which was the predecessor to Facebook.
