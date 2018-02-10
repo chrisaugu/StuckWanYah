@@ -26,6 +26,7 @@ var SweetLipsSchema = new Schema({
 	voted: { type: Boolean, default: false },
 	vote_by: [],
 	challengers: [],
+	//draws_with: [],
 	joinedAt: { type: Date, default: Date.now() },
 },{strict:false});
 // Attaching random plugin to the schema

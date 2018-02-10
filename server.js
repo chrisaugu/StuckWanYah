@@ -19,7 +19,7 @@ var path = require("path")
   , moment = require("moment")
   , jwt = require('jwt-simple')
   , FB = require('fb')
-  , ENV_VAR = require("./config")
+  , GLOBAL = require("./config")
 
 // Creating instance for express
 var app = module.exports = express();
@@ -45,7 +45,7 @@ app.listen(app.get('port'), function(){
 });
 
 // Creating an instance for MongoDB
-var db = mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sweetlipsdb');
+var db = mongoose.connect(GLOBAL.db);
 mongoose.connection.on("open", function(){
     console.log("Connected: Successfully connect to mongo server");
 });
@@ -69,7 +69,7 @@ var sourceDirectory = "public/photos/";
 // Install images on startup
 //installImages();
 
-var options = FB.options({ appId: ENV_VAR.fb_app_id, appSecret: ENV_VAR.fb_app_secret, version: 'v2.4' });
+var options = FB.options({ appId: GLOBAL.fb_app_id, appSecret: GLOBAL.fb_app_secret, version: 'v2.4' });
 FB.setAccessToken('access_token');
 var accessToken = FB.getAccessToken();
 var fb = new FB.Facebook(options);
@@ -106,7 +106,6 @@ app.post("/webhook", function (req, res){
                 }
             });
         });
-		
         res.sendStatus(200);
     }
 });
@@ -360,7 +359,7 @@ app.put("/api/photos", function(req, res, next){
 app.get("/api/photos/top", function(req, res, next){
 	console.log(req.query);
 
-	topTenWinings({
+	top10HottestFriends({
 		params: req,
 		success: function(obj){
 			res.send(obj);
@@ -420,8 +419,7 @@ app.get('/api/stats', function(req, res, next){
 			// total blocked photos
 			Sweetlips.photos.count({'is_blocked':true}, function(err, blocked){
 				callback(err, blocked)
-			}
-			)
+			});
 		}
 	],
 	function(err, results){
@@ -453,7 +451,7 @@ app.post("/api/submit", function(req, res, next){
 	res.status(200).send("Sent successfully");
 	res.redirect("/submit.html");
 	/*request({
-		url: "https://graph.facebook.com/v2.6/" + ENV_VAR.fb_page_id + "/messages",
+		url: "https://graph.facebook.com/v2.6/" + GLOBAL.fb_page_id + "/messages",
 		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
 		method: "POST",
 		json: {
@@ -760,6 +758,8 @@ var rateImages = function(config){
 				//rating = getRating(winner, loser);
 				score = getScore(winner, loser);
 
+				console.log(performanceRating(winner, loser));
+
 				var expected_score = expectedScore(winner.ratings, loser.ratings);
 				var new_winner_rating = newRating(expected_score, score.winner, winner.ratings);
 				var new_loser_rating = newRating(expected_score, score.loser, loser.ratings);
@@ -852,12 +852,6 @@ var tieBreaker = function(config){
 }
 
 // ELO Rating System Implementation
-/*
- * Ea = Qa / Qa + Qb
- * Eb = Qb / Qa + Qb
- * Qa = 10^Ra / 400
- * Qb = 10^Rb / 400
- */
 function getRating(winner, loser) {
 	var K = 32,
 		winnerExpected,
@@ -873,56 +867,49 @@ function getRating(winner, loser) {
 // The calculated new rating of the player based on the expected outcome, actual outcome, and previous score
 function newRating(expected_score, actual_score, previous_rating) {
 	var difference = actual_score - expected_score;
-	var rating = Math.round(previous_rating + 32 * difference);
-
-	return rating;
+	return Math.round(previous_rating + 32 * difference);
 };
 // score = new getScore(player_1_score, player_2_score)
 // expected_score = new expectedScore(player_1_rating, player_2_rating)
 // new_rating = newRating(expected_score, score, player_1_rating)
 function getScore(winner, loser) {
-	var winner_wins_arr, winner_loses_arr, loser_wins_arr, loser_loses_arr, i;
-
 	// Use the number of wins to add 1's to new array
 
-	winner_wins_arr = [];
-	winner_loses_arr = [];
+	var winner_wins_arr = [];
+	var winner_loses_arr = [];
+	var winner_draws_arr = [];
 
-	for (i = 0; i < winner.wins; i++) {
+	for (var i = 0; i < winner.wins; i++) {
 		winner_wins_arr.push(1);
 
-		for (i = 0; i < winner.losses; i++) {
+		for (var j = 0; j < winner.losses; j++) {
 			winner_loses_arr.push(0);
+
+			for (var k = 0; k < winner.length; k++) {
+				winner_draws_arr.push(0.5);
+			}
 		}
 	}
 
-	loser_wins_arr = [];
-	loser_loses_arr = [];
+	var loser_wins_arr = [];
+	var loser_loses_arr = [];
+	var loser_draws_arr = [];
 
 	for (var i = 0; i < loser.wins; i++) {
 		loser_wins_arr.push(1);
 
-		for (var i = 0; i < loser.losses; i++) {
+		for (var j = 0; j < loser.losses; j++) {
 			loser_loses_arr.push(0);
+
+			for (var k = 0; k < winner.length; k++) {
+				loser_draws_arr.push(0.5);
+			}
 		}
 	}
-
 	return {
-		winner: parseInt(winner.wins + winner.losses),
-		loser: parseInt(loser.wins + loser.losses)
+		winner: (winner_wins_arr.length + winner_loses_arr.length + winner_draws_arr.length),
+		loser: (loser_wins_arr.length + loser_loses_arr.length + loser_draws_arr.length)
 	}
-
-/*
-	[1,2,3,4,5,6].map(function(n){
-		return this.n = 1;
-	})
-
-	var arr=[];
-	for(var i=0;i<5;i++){
-		arr.push(1);
-	}
-
-*/
 };
 // Calculate the expected score outcome from to ratings
 function expectedScore(Ra, Rb) {
@@ -936,6 +923,12 @@ function winnerScore(score, expected, k = 32) {
 // Calculate the new loser score, K-factor = 32
 function loserScore(score, expected, k = 32){
    	return score + k * (0 - expected);
+};
+function performanceRating(player1, player2){
+	var performance_rating, games;
+	games = player1.wins + player1.losses;
+
+	return performance_rating = (player2.ratings + 400 * (player1.wins - player1.losses) / games);
 }
 // Returns the top 10 highest ratings
 function topTenRatings(config){
@@ -959,7 +952,7 @@ var top10HottestFriends = function(config){
 
 	Sweetlips.photos
 		.find()
-		.sort('-wins')
+		.sort('-ratings')
 		.where({"gender": gender})
 		.limit(10)
 		//.select("gender")
@@ -972,8 +965,11 @@ var top10HottestFriends = function(config){
 			var topRank = inverted[max];
 			var topCount = rankCount[topRank];
 
-			console.log({ rank: topRank, count: topCount });
-		})
+			//console.log({ rank: topRank, count: topCount });
+
+			if (err) {config.error.call(this, err);}
+			config.success.call(this, ranks);
+		});
 
 	/*Sweetlips.photos.find({
 		gender: "female",
@@ -1133,7 +1129,7 @@ function createToken(user){
     sub: user._id
   };
 
-  return jwt.encode(payload, ENV_VAR.page_access_token);
+  return jwt.encode(payload, GLOBAL.page_access_token);
 }
 
 /*function isAuthenticated(req, res, next){
@@ -1143,7 +1139,7 @@ function createToken(user){
 
 	var header = req.headers.authorization.split(' ');
 	var token = header[1];
-	var payload = jwt.decode(token, ENV_VAR.fb_app_secret);
+	var payload = jwt.decode(token, GLOBAL.fb_app_secret);
 	var now = moment().unix();
 	if (now &amp;gt; payload.exp) {
 		return res.status(401).send({ message: 'Token has expired.' });
@@ -1232,11 +1228,6 @@ function processMessage(event){
 			// keywords and send back the corresponding movie detail.
 			// Otherwise, search for the new movie.
 			switch (formattedMsg) {
-				case "plot":
-				case "date":
-				case "runtime":
-				case "director":
-				case "cast":
 				case "rating":
 					getCandidateDetail(senderId, formattedMsg);
 					break;
@@ -1269,7 +1260,10 @@ function processBlock(userId){
 			sendMessage(userId, {text: "Something went wrong. Try again"});
 		} else {
 			user.is_blocked = true;
-			sendMessage(userId, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."})
+			user.save(function(err, response){
+				if (err) { throw err }
+				sendMessage(userId, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."})
+			});
 		}
 	});
 	return true;
@@ -1649,7 +1643,7 @@ var getCurrentUser = function(userId){
 		method: "GET",
 		url: "https://graph.facebook.com/v2.8/${userId}",
 		qs: {
-			access_token: ENV_VAR.user_access_token,
+			access_token: GLOBAL.user_access_token,
 			type: 'user',
 			fields: 'id,name,gender,'
 		}
@@ -1660,7 +1654,7 @@ var getMediaOptions = function(){
 		method: "GET",
 		uri: `https://graph.facebook.com/v2.8/${user.facebook_id}`, // req.params.id
 		qs: {
-			access_token: ENV_VAR.page_access_token,
+			access_token: GLOBAL.page_access_token,
 			type: 'user',
 			fields: 'photos.limit(2).order(reverse_chronological){link, comments.limit(2).order(reverse_chronological)}'
 		}

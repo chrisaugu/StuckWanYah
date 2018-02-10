@@ -167,21 +167,13 @@
         }, function(data) {
                 var output = "";
                 $.each(data, function(i, item) {
-                    output += "<tr>";
-                    output += "<td>";
+                    output += "<tr><td>";
                     output += "<img class='photo' src='/photos/" + item.image_url + "' data-fb-id=\""+ item.image_id +"\" width='180'>";
-                    output += "</td>";
-                    output += "<td>";
-                    output += "</td>";
-                    output += "<td>";
+                    output += "</td><td></td><td>";
                     output += item.ratings;
-                    output += "</td>";
-                    output += "<td>";
-                    output += "</td>";
-                    output += "<td>";
+                    output += "</td><td></td><td>";
                     output += item.rankings;
-                    output += "</td>";
-                    output += "</tr>";
+                    output += "</td></tr>";
                 })
                 $("#rankings").html(output);
             }
@@ -232,25 +224,13 @@
         $window.localStorage.currentUser = JSON.stringify(response.data.user);
         $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
 
-        var my_ratings = {
+        var my_ratings = [{
             "image_id": ratings.image_id,
             "image_url": ratings.image_url
-        }
-
+        }]
+        
         localStorage.setItem("c_user", userId);
         localStorage.setItem("ratings", my_ratings);
-    }
-    function isAuthenticated(){
-        return this.isAuthenticated();
-    }
-    function signup() {
-        this.signup = function() {
-            var user = {
-                email: this.email,
-                password: this.password
-            };
-            this.signup = function(user) {}
-        }
     }
     function isLoggedIn(){
         // TODO: Fix synchronous AJAX request, use async method instead
@@ -302,7 +282,7 @@
                 console.log(this.responseText);
             }
         });
-        xhr.open("POST", "https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN");
+        xhr.open("POST", `https://graph.facebook.com/v2.6/me/thread_settings?access_token=${window.PAGE_ACCESS_TOKEN}`);
         xhr.setRequestHeader("content-type", "application/json");
         xhr.send(data);
     }
@@ -344,7 +324,6 @@
         
     }, 5000); // default 10
     */
-
 
     function isBigEnough(age) {
         var min = 13, max = 21;
@@ -573,20 +552,6 @@ function sh(pageName) {
         data:{page:pageName}
     });
 }
-function addEmail(address){
-    with(this){
-        email = address;
-    }
-}
-function facebook(email,token){
-    this.email= email;
-    this.token= token;
-    this.addEmail = addEmail;
-}
-facebook.prototype.connect = function(action){
-    FB.sdk(action);
-}
-var F = new facebook();
 var photos=[];
 function getPhotos(){
     $.ajax({

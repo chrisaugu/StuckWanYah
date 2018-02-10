@@ -31,7 +31,7 @@
 			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
 			<h2>Who's hotter? Click to choose</h2>
 
-			<% if (images) { %>
+			<% if (images.length) { %>
 				<table>
 					<tr id="photos">
 						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[0].uri %>"><img src="/photos/<%= images[0].image_url %>"></a></td>
@@ -49,9 +49,9 @@
 						<td><b>Ratings:</b> <%= images[1].ratings %></td>
 					</tr>
 					<tr id="wins" align="left">
-						<td><b>Wins:</b><%= images[0].wins %>, <b>losses: </b><%= images[0].losses %></td>
+						<td><b>Wins:</b><%= images[0].wins %>, <b>losses: </b><%= images[0].losses %>, <b>Draws: </b><%= images[0].draws %></td>
 						<td></td>
-						<td><b>Wins:</b> <%= images[1].wins %>, <b>Losses: </b><%= images[1].losses %> </td>
+						<td><b>Wins:</b> <%= images[1].wins %>, <b>Losses: </b><%= images[1].losses %>, <b>Draws: </b><%= images[1].draws %> </td>
 					</tr>
 					<tr id="scores" align="left">
 						<td><b>Score:</b> <%= images[0].score %> </td>
@@ -64,6 +64,8 @@
 						<td><b>Expected:</b> <%= expected(images[0].score, images[1].score) %> </td>
 					</tr>
 				</table>
+			<% } else { %> 
+				<button onclick="location.reload()" class="button">refresh</button>
 			<% } %>
 			<% } else { %> 
 				<h4>StuckWanYah is more fun with Facebook.</h4>
