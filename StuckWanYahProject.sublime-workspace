@@ -4,16 +4,188 @@
 		"selected_items":
 		[
 			[
+				"image",
+				"images"
+			],
+			[
+				"top",
+				"topTenWinings"
+			],
+			[
+				"succe",
+				"success"
+			],
+			[
+				"con",
+				"config"
+			],
+			[
+				"per",
+				"performanceRating"
+			],
+			[
+				"playe",
+				"player1"
+			],
+			[
+				"player",
+				"player2"
+			],
+			[
+				"plaer",
+				"player1"
+			],
+			[
+				"loser",
+				"loser_draws_arr"
+			],
+			[
+				"winner",
+				"winner_draws_arr"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"obj",
+				"object"
+			],
+			[
+				"req",
+				"req"
+			],
+			[
+				"gener",
+				"gender"
+			],
+			[
+				"win",
+				"wins"
+			],
+			[
+				"retu",
+				"returned"
+			],
+			[
+				"data",
+				"database"
+			],
+			[
+				"mac",
+				"match"
+			],
+			[
+				"f",
+				"fi\t<%= Fixtures.identify(:symbol) %>"
+			],
+			[
+				"pla",
+				"player1"
+			],
+			[
+				"photo",
+				"photos"
+			],
+			[
+				"next",
+				"nextElementSibling"
+			],
+			[
+				"inn",
+				"innerText"
+			],
+			[
+				"app",
+				"appendChild"
+			],
+			[
+				"count",
+				"counter_number"
+			],
+			[
+				"com",
+				"comma"
+			],
+			[
+				"coun",
+				"counter_number"
+			],
+			[
+				"imae",
+				"image_id"
+			],
+			[
+				"challe",
+				"challengers"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"a",
+				"action\tAttr"
+			],
+			[
+				"d",
+				"delete"
+			],
+			[
+				"vo",
+				"voter"
+			],
+			[
+				"publ",
+				"publish_actions"
+			],
+			[
+				"user",
+				"user_id"
+			],
+			[
+				"hr",
+				"herokuapp"
+			],
+			[
+				"http",
+				"https"
+			],
+			[
+				"base",
+				"baseUrl"
+			],
+			[
+				"clas",
+				"className"
+			],
+			[
+				"cou",
+				"counter_number"
+			],
+			[
+				"get",
+				"getElementsByClassName"
+			],
+			[
+				"getEle",
+				"getElementsByTagName"
+			],
+			[
+				"Stuck",
+				"StuckWanYah"
+			],
+			[
+				"faceb",
+				"Facebook"
+			],
+			[
 				"loca",
 				"location"
 			],
 			[
 				"stuc",
 				"stuckwanyah"
-			],
-			[
-				"win",
-				"window"
 			],
 			[
 				"fac",
@@ -28,20 +200,12 @@
 				"CONFIG"
 			],
 			[
-				"con",
-				"console"
-			],
-			[
 				"fi",
 				"field"
 			],
 			[
 				"pro",
 				"process"
-			],
-			[
-				"http",
-				"https"
 			],
 			[
 				"me",
@@ -64,24 +228,12 @@
 				"wins"
 			],
 			[
-				"winner",
-				"winner"
-			],
-			[
-				"player",
-				"player_1"
-			],
-			[
 				"result",
 				"results"
 			],
 			[
 				"player_",
 				"player_1"
-			],
-			[
-				"image",
-				"image_id"
 			],
 			[
 				"find",
@@ -156,10 +308,6 @@
 				"submit_photo"
 			],
 			[
-				"len",
-				"len"
-			],
-			[
 				"set",
 				"setData"
 			],
@@ -178,10 +326,6 @@
 			[
 				"no",
 				"notificationName"
-			],
-			[
-				"get",
-				"getNotificationMessage"
 			],
 			[
 				"p",
@@ -240,10 +384,6 @@
 				"log"
 			],
 			[
-				"data",
-				"dataType"
-			],
-			[
 				"for",
 				"for\tfor (…) {…}"
 			],
@@ -266,14 +406,6 @@
 			[
 				"stat",
 				"status"
-			],
-			[
-				"req",
-				"request"
-			],
-			[
-				"succe",
-				"successfully"
 			],
 			[
 				"er",
@@ -304,16 +436,8 @@
 				"data-action"
 			],
 			[
-				"faceb",
-				"facebook_connect"
-			],
-			[
 				"dat",
 				"data-action"
-			],
-			[
-				"in",
-				"input"
 			],
 			[
 				"is",
@@ -360,10 +484,6 @@
 				"image_url"
 			],
 			[
-				"user",
-				"userId"
-			],
-			[
 				"arr",
 				"array"
 			],
@@ -394,126 +514,6 @@
 			[
 				"pho",
 				"photos"
-			],
-			[
-				"file",
-				"files"
-			],
-			[
-				"a",
-				"app"
-			],
-			[
-				"jas",
-				"javascripts"
-			],
-			[
-				"style",
-				"stylesheet"
-			],
-			[
-				"u-",
-				"u-padding0"
-			],
-			[
-				"Con",
-				"ConverstionRoll"
-			],
-			[
-				"messaging",
-				"messaging-conversations-container"
-			],
-			[
-				"table-",
-				"table-cell"
-			],
-			[
-				"tabe",
-				"table-row"
-			],
-			[
-				"create",
-				"createElement"
-			],
-			[
-				"cre",
-				"createElement"
-			],
-			[
-				"MEs",
-				"MessagingViewLayout"
-			],
-			[
-				"Me",
-				"MessagingViewLayout"
-			],
-			[
-				"Prof",
-				"ProfileLayoutView"
-			],
-			[
-				"creat",
-				"createElement"
-			],
-			[
-				"dr",
-				"dropdown-item"
-			],
-			[
-				"l",
-				"li\tTag"
-			],
-			[
-				"fr",
-				"friends"
-			],
-			[
-				"friend",
-				"friend_request"
-			],
-			[
-				"my",
-				"myModel"
-			],
-			[
-				"border",
-				"u-borderWidth2"
-			],
-			[
-				"bor",
-				"u-borderTopLight"
-			],
-			[
-				"paddin",
-				"u-paddingTop5"
-			],
-			[
-				"marg",
-				"u-marginTop5"
-			],
-			[
-				"u-padding",
-				"u-paddingTop13"
-			],
-			[
-				"u-m",
-				"u-marginTop5"
-			],
-			[
-				"page",
-				"pageTitle"
-			],
-			[
-				"Rea",
-				"ReactJS"
-			],
-			[
-				"app",
-				"application_root"
-			],
-			[
-				"Photo",
-				"Photo"
 			]
 		]
 	},
@@ -523,33 +523,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 44107,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app.js",
-			"settings":
-			{
-				"buffer_size": 2364,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/index.ejs",
-			"settings":
-			{
-				"buffer_size": 4319,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/connect.html",
-			"settings":
-			{
-				"buffer_size": 2475,
+				"buffer_size": 44354,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -558,7 +532,24 @@
 			"file": "views/about.html",
 			"settings":
 			{
-				"buffer_size": 4216,
+				"buffer_size": 3731,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "db.photos.insert({\n\timage_id: \"13173939\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"13173939_123485518060780_4194206923963567327_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"13335552\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"13335552_107002823055821_2099648036441521132_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"14681606\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"male\",\n\timage_url: \"14681606_177517646032302_624032032135450137_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"15107194\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"15107194_339862656374634_8224432459071081076_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"17952626\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"17952626_116014578954311_185756687594650512_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"18300922\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"18300922_134455393764459_5180115441292437749_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"21559025\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"male\",\n\timage_url: \"21559025_341751456284451_4784206509448124249_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"21616405\",\n\tname: \"\",\n\tage: 17,\n\tgender: \"female\",\n\timage_url: \"21616405_276194742885495_7269444345293685898_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22007697\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"female\",\n\timage_url: \"22007697_534132350270134_3454712886890506345_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22195701\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"22195701_286327161867700_6021210311312590329_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22228170\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"22228170_1965831803674156_32762613793692416_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22228273\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22228273_535238276816710_2049018447480810573_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22228308\",\n\tname: \"\",\n\tage: 21,\n\tgender: \"female\",\n\timage_url: \"22228308_266809920506961_3937700605185072296_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22448663\",\n\tname: \"\",\n\tage: 31,\n\tgender: \"female\",\n\timage_url: \"22448663_2012361988997913_5487445385886709153_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22449677\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"22449677_1869638299942327_9089013222443652571_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22490007\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"male\",\n\timage_url: \"22490007_772168716300719_8411585367084383230_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22491748\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22491748_383880038718508_8239439686572623717_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22527996\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"male\",\n\timage_url: \"22527996_487774551590477_5263276565262404218_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22528371\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"male\",\n\timage_url: \"22528371_1121337268006214_5802752197279776697_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22539685\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"female\",\n\timage_url: \"22539685_505455106475210_961923654732031583_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22539896\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"female\",\n\timage_url: \"22539896_336604550145206_8136289351028280272_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22549695\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"female\",\n\timage_url: \"22549695_1230151777130321_9168960304844384980_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22549964\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"female\",\n\timage_url: \"22549964_701125690095241_1222786728699406188_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22552696\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"male\",\n\timage_url: \"22552696_1126841654116067_6895478098604726619_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22552780\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"male\",\n\timage_url: \"22552780_252786061912191_5358989623247008035_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22552811\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22552811_1896827080644999_6172684468219958188_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22554831\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22554831_725551040988762_2745079434894064516_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22555194\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"22555194_786284898219595_2421649676541423225_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22555243\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22555243_324284041314631_2682874877591079545_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22687810\",\n\tname: \"\",\n\tage: 17,\n\tgender: \"female\",\n\timage_url: \"22687810_502429156802754_8287962131704477409_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22729091\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"male\",\n\timage_url: \"22729091_2380036155555592_8782618421176277703_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22780383\",\n\tname: \"\",\n\tage: 17,\n\tgender: \"female\",\n\timage_url: \"22780383_1319226184873392_8109283516790865485_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22788804\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"male\",\n\timage_url: \"22788804_495226267525633_7859460528845639878_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22814096\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"male\",\n\timage_url: \"22814096_1473731962742556_7253283415688667708_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22814133\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"22814133_801316723389150_6675799987336641849_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23755125\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"male\",\n\timage_url: \"23755125_1752625408380629_8716128352251709514_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23795684\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"23795684_1341677052628174_2780464941112581107_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23843283\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"23843283_299468033873782_2928395153419791336_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23915570\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"23915570_141523579950603_3566883689364824421_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"24909547\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"male\",\n\timage_url: \"24909547_370592206720983_6608855228505742643_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"25299331\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"female\",\n\timage_url: \"25299331_570846993259841_735144351331369815_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})",
+			"settings":
+			{
+				"buffer_size": 19005,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/index.ejs",
+			"settings":
+			{
+				"buffer_size": 5574,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -567,20 +558,9 @@
 			"file": "public/javascripts/script.js",
 			"settings":
 			{
-				"buffer_size": 29041,
+				"buffer_size": 29809,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "(function(){\n    var preview = null;\n    $(function(){\n        var hash = location.hash.substring(1);\n        if(hash !== \"\"){\n            toggleView(hash);\n        }\n        else{\n            toggleView(\"play\");\n        }\n        $(\"body\")\n            .hide()\n            .fadeIn(600)\n            .on(\"change\", \"#submit_photo\", function(){\n                if(isValidPhoto($(\"#submit_photo\").val())){\n                    if(this.files && this.files[0]){\n                        var reader = new FileReader();\n                        reader.addEventListener(\"load\", function(event){\n                            preview = event.target.result;\n                            $(\"#preview\").attr(\"src\", preview); // Set src attribute to the uploaded image\n                            $(\".img-preview\").fadeIn(600); // Fade in the preview, will only fire if the user hasn't uploaded a photo yet\n                        });\n                        reader.readAsDataURL(this.files[0]);\n                    }\n                }\n                else{\n                    showModal(\"Invalid file, please make sure it's an image file.\");\n                    $(\"#submit_photo\").val(\"\"); // Clear the currently uploaded file\n                    return false;\n                }\n            })\n            .on(\"click\", \".button\", function(){\n                if($(this).attr(\"data-action\")){\n                    handleAction($(this).attr(\"data-action\"), $(this).attr(\"data-id\") ? $(this).attr(\"data-id\") : null);\n                }\n            })\n            .on(\"click\", \"#main-display .img-player\", function(){\n                handleAction(\"submit_vote\", $(this).attr(\"id\"));\n            })\n            .on(\"click\", \".modal.closable\", function(){\n                $(this).fadeOut(600, function(){\n                    $(this).remove();\n                });\n                $(\"body\").css(\"overflow\", \"\"); // Allow scrolling again\n            })\n            .on(\"keyup\", \"form[data-form='report'] textarea\", function(){\n                var len = clean($(this).val()).length;\n                var $counter = $(\"#counter\");\n                if(len < 32){\n                    $counter.html((32 - len) + \" more characters needed\");\n                }\n                else{\n                    $counter.html((510 - len) + \" characters remaining\");\n                }\n            })\n            .on(\"submit\", \"form\", function(event){\n                event.preventDefault(); // No need to do anything else, on click for .button already takes care of things\n            });\n        $(window)\n            .on(\"hashchange\", function(){\n                toggleView(location.hash.substring(1));\n            })\n            .on(\"scroll\", function(){\n                var $header = $(\"#header\");\n                // Add .fixed to header if scrolled past inner height of header\n                if($(window).scrollTop() > $header.innerHeight()){\n                    $header.addClass(\"fixed\");\n                }\n                else{\n                    $header.removeClass(\"fixed\");\n                }\n            });\n    });\n    function clean(string){\n        return string.trim().replace(/\\s+/g, \" \"); // Remove leading/trailing whitespaces and multiple whitespaces\n    }\n    function fancy(string){\n        return clean(string).replace(/\\\\/g, \"\");\n    }\n    function getPreferredGender(){\n        var gender = store.get(\"gender\");\n        // If 'gender' doesn't exist, or if existing 'gender' isn't female or male\n        if(!store.has(\"gender\") || (gender !== \"f\" && gender !== \"m\")){\n            gender = \"f\";\n        }\n        store.set(\"gender\", gender);\n        return gender;\n    }\n    function getHashParameter(name){\n        var params = location.hash.split(\"?\")[1].split(\"&\");\n        for(var i = 0; i < params.length; i++){\n            var param = params[i].split(\"=\");\n            if(param[0] === name){\n                return param[1];\n            }\n        }\n    }\n    // https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site/3177838#3177838\n    function timeSince(time){\n        var seconds = Math.floor((new Date() - time) / 1000);\n        var interval = Math.floor(seconds / 31536000);\n        if (interval > 1) {\n            return interval + \" years\";\n        }\n        interval = Math.floor(seconds / 2592000);\n        if (interval > 1) {\n            return interval + \" months\";\n        }\n        interval = Math.floor(seconds / 86400);\n        if (interval > 1) {\n            return interval + \" days\";\n        }\n        interval = Math.floor(seconds / 3600);\n        if (interval > 1) {\n            return interval + \" hours\";\n        }\n        interval = Math.floor(seconds / 60);\n        if (interval > 1) {\n            return interval + \" minutes\";\n        }\n        return Math.floor(seconds) + \" seconds\";\n    }\n    function hasSubmitted(){\n        if(!store.has(\"submitted\")){\n            store.set(\"submitted\", false);\n        }\n        return store.get(\"submitted\");\n    }\n    function isLoggedIn(){\n        // TODO: Fix synchronous AJAX request, use async method instead\n        var loggedIn = false;\n        $.ajax({\n            url: \"/api/auth.php\",\n            type: \"post\",\n            dataType: \"json\",\n            async: false\n        })\n            .done(function(data){\n                loggedIn = data.data.logged_in;\n            })\n            .fail(function(data){\n                loggedIn = false; \n            });\n        return loggedIn;\n    }\n    function isValidPhoto(filename){\n        var extension = filename.replace(/^.*\\./, \"\"); // Replace until we're left with the file extension\n        if(filename == extension){\n            extension = \"\"; // File has no extension, so it's blank\n        }\n        else{\n            extension = extension.toLowerCase();\n        }\n        switch(extension){\n            case \"gif\":\n            case \"jpg\":\n            case \"png\":\n                return true;\n            default:\n                return false;\n        }\n    }\n    function renderDashboard(){\n        // Stop rendering if person isn't logged in\n        if(!isLoggedIn()){\n            showModal(\"Please log in first.\");\n            toggleView(\"login\");\n        }\n        $.ajax({\n            url: \"/api/data.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"all\"\n            }\n        })\n            .done(function(data){\n                var $display = $(\"#dashboard-display\");\n                $display.empty();\n                for(var i = 0; i < data.data.length; i++){\n                    var player = data.data[i];\n                    // And here you have some very ugly JavaScript code\n                    var html = \n                        \"<div class='container-player' data-id='\" + player.id + \"'>\" +\n                            \"<img src='api/photo.php?id=\" + player.id + \"' class='img-player' dragabble='false'>\" +\n                            \"<div class='player-items'>\" +\n                                \"<ul class='list-items'>\" +\n                                    \"<li class='name'>\" + fancy(player.first_name) + (player.last_name ? \" \" + fancy(player.last_name) : \"\") + \"</li>\"\n                    ;\n                    // List items for players that have been approved\n                    if(player.ready == 1){\n                        html += \n                                    \"<li><b>\" + parseInt(player.score).toLocaleString() + \"</b> point\" + (player.score == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.wins).toLocaleString() + \"</b> win\" + (player.wins == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.losses).toLocaleString() + \"</b> loss\" + (player.losses == 1 ? \"\" : \"es\") + \"</li>\" +\n                                    \"<li>From <b>\" + player.ip + \"</b></li>\" +\n                                    \"<li>\" +\n                                        \"<ul class='buttons'>\" +\n                                            \"<li><input type='button' class='button b-button' data-action='view_player' data-id='\" + player.id + \"' value='Edit'></li>\\n\" +\n                                            \"<li><input type='button' class='button r-button' data-action='delete_player' data-id='\" + player.id + \"' value='Delete'></li>\\n\" +\n                                        \"</ul>\" +\n                                    \"</li>\"\n                        ;\n                    }\n                    // Non-approved players that need approval\n                    else{\n                        html += \n                                    \"<li>From <b>\" + player.ip + \"</b></li>\" +\n                                    \"<li>Submitted <b><span title='\" + new Date(parseInt(player.created_at * 1000)).toUTCString() + \"'>\"  + timeSince(player.created_at * 1000) + \"</span></b> ago</li>\" +\n                                    \"<li>\" +\n                                        \"<ul class='buttons'>\" +\n                                            \"<li><input type='button' class='button b-button' data-action='view_player' data-id='\" + player.id + \"' value='Edit'></li>\\n\" +\n                                            \"<li><input type='button' class='button g-button' data-action='approve_player' data-id='\" + player.id + \"' value='Approve'></li>\\n\" +\n                                            \"<li><input type='button' class='button r-button' data-action='delete_player' data-id='\" + player.id + \"' value='Delete'></li>\" +\n                                        \"</ul>\" +\n                                    \"</li>\"\n                        ;\n                    }\n                    html += \n                                \"</ul>\" +\n                            \"</div>\" +\n                        \"</div>\"\n                    ;\n                    $display.append(html);\n                }\n                if($display.is(\":empty\")){\n                    $display.html(\"No new players were found.\");\n                }\n            })\n            .fail(function(data){\n                showModal(\"Failed to render dashboard.\");\n            });\n    }\n    function renderImages(){\n        $.ajax({\n            url: \"/api/data.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"random\",\n                gender: getPreferredGender()\n            }\n        })\n            .done(function(data){\n                if(data.data.length < 2){\n                    $(\"#main-display\").html(\"<p>There aren't enough players of this gender currently. You could help <a href='#submit'>change that</a>.</p>\");\n                    return;\n                }\n                var $display = $(\"#main-display\");\n                $display.hide();\n                // Player 1\n                var id = data.data[0].id;\n                $(\"#player-one\")\n                    .attr(\"src\", \"api/photo.php?id=\" + id)\n                    .attr(\"data-id\", id);\n                // Player 2\n                id = data.data[1].id;\n                $(\"#player-two\")\n                    .attr(\"src\", \"api/photo.php?id=\" + id)\n                    .attr(\"data-id\", id);\n                $display.fadeIn(600);\n            })\n            .fail(function(data){\n                showModal(\"Failed to fetch images.\");\n            });\n    }\n    function renderLeaderboard(){\n        $.ajax({\n            url: \"/api/data.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"leaderboard\",\n                gender: getPreferredGender()\n            }\n        })\n            .done(function(data){\n                if(data.data.length < 2){\n                    $(\"#leaderboard-display\").html(\"<p>There aren't enough players of this gender currently. You could help <a href='#submit'>change that</a>.</p>\");\n                    return;\n                }\n                for(var i = 0; i < data.data.length; i++){\n                    var player = data.data[i];\n                    $(\"#leaderboard-display\").append(\n                        \"<div class='container-player'>\" +\n                            \"<img src='api/photo.php?id=\" + player.id + \"' class='img-player' dragabble='false'>\" +\n                            \"<div class='player-items'>\" +\n                                \"<h2 class='rank'> \" + (i + 1) + \"</h2>\" +\n                                \"<ul class='list-items'>\" +\n                                    \"<li class='name'>\" + fancy(player.first_name) + (player.last_name ? \" \" + fancy(player.last_name) : \"\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.score).toLocaleString() + \"</b> point\" + (player.score == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.wins).toLocaleString() + \"</b> win\" + (player.wins == 1 ? \"\" : \"s\") + \"</li>\" +\n                                    \"<li><b>\" + parseInt(player.losses).toLocaleString() + \"</b> loss\" + (player.losses == 1 ? \"\" : \"es\") + \"</li>\" +\n                                    \"<li title='\" + player.ip_hash + \"'>From <b>\" + player.ip_hash.substring(0, 16) + \"</b>...</li>\" +\n                                    \"<ul class='buttons'>\" +\n                                        \"<li><input type='button' class='button b-button' data-action='view_player' data-id='\" + player.id + \"' value='\" + (isLoggedIn() ? \"Edit\" : \"View\") + \"'></li>\" +\n                                    \"</ul>\" +\n                                \"</ul>\" +\n                            \"</div>\" +\n                        \"</div>\"\n                    );\n                }\n            })\n            .fail(function(data){\n                showModal(\"Failed to render leaderboard.\");\n            });\n    }\n    function renderPlayer(id){\n        var $content = $(\"#content\");\n        $content.hide();\n        $.ajax({\n            url: \"/api/player.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"data\",\n                id: id\n            }\n        })\n            .done(function(data){\n                var player = data.data;\n                $(\"h1.heading\").html(isLoggedIn() ? \"Editing \" + player.first_name + \" (#\" + player.id + \")\" : player.first_name + \"'s stats\");\n                $(\"#player_img\").attr(\"src\", \"api/photo.php?id=\" + player.id);\n                $(\"#player_first_name\").val(player.first_name);\n                $(\"#player_last_name\").val(player.last_name);\n                $(\"#player_gender\").find(\"option[value='\" + player.gender + \"']\").attr(\"selected\", \"selected\");\n                $(\"#player_ip\").val(isLoggedIn() ? player.ip : player.ip_hash);\n                $(\"#player_score\").val(player.score + \" points\");\n                $(\"#player_wins\").val(player.wins + \" wins\");\n                $(\"#player_losses\").val(player.losses + \" losses\");\n                $(\"input[data-action]\").attr(\"data-id\", player.id);\n                if(!isLoggedIn()){\n                    // Remove empty fields from public view\n                    $(\"input\").each(function(){\n                        if($(this).val() === \"\"){\n                            $(this).remove();\n                        }\n                    });\n                    // Disable all fields\n                    $(\"input, select\").attr(\"disabled\", \"disabled\");\n                    // Remove the buttons\n                    $(\".buttons\").remove();\n                }\n                // Remove the approve button if the player is already approved\n                if(player.ready == 1){\n                    $(\"input[data-action='approve_player']\").parent().remove();\n                }\n                $content.fadeIn(600);\n            })\n            .fail(function(data){\n                showModal(\"Failed to render player profile.\");\n            });\n    }\n    function renderReports(){\n        // Stop rendering if person isn't logged in\n        if(!isLoggedIn()){\n            showModal(\"Please log in first.\");\n            toggleView(\"login\");\n        }\n        $.ajax({\n            url: \"/api/report.php\",\n            type: \"post\",\n            dataType: \"json\",\n            data: {\n                operation: \"all\"\n            }\n        })\n            .done(function(data){\n                var $display = $(\"#reports-display\");\n                $display.empty();\n                for(var i = 0; i < data.data.length; i++){\n                    var report = data.data[i];\n                    $display.append(\n                        \"<div class='container-report' data-id='\" + report.id + \"'>\" +\n                            \"<h1 class='heading'>#\" + report.id + \"</h1>\" +\n                            \"<ul class='list-items'>\" +\n                                (report.name ? \"<li><b>From:</b> \" + fancy(report.name) + (report.email ? \" (\" + report.email + \")\" : \"\") + \"</li>\" : (report.email ? \"<li><b>From</b>: \" + fancy(report.email) + \"</li>\" : \"\")) +\n                                \"<li><b>Received:</b> <span title='\" + new Date(parseInt(report.created_at * 1000)).toUTCString() + \"'>\"  + timeSince(report.created_at * 1000) + \" ago</span></li>\" +\n                                \"<li><b>Message:</b> \" + fancy(report.message) + \"</p></li>\" +\n                            \"</ul>\" +\n                            \"<ul class='buttons'>\" +\n                                \"<li><input type='button' data-action='delete_report' data-id='\" + report.id + \"' class='button r-button' value='Delete'></li>\" +\n                            \"</ul>\" +\n                        \"</div>\"\n                    );\n                }\n                if($display.is(\":empty\")){\n                    $display.html(\"No new reports were found.\");\n                }\n            })\n            .fail(function(data){\n                showModal(\"Failed to render reports.\");\n            });\n    }\n    function closeModals(){\n        $(\"body\").css(\"overflow\", \"\");\n        $(\".modal\").each(function(){\n            $(this).fadeOut(600, function(){\n                $(this).remove(); // Remove all other modals, so they don't overlap\n            });\n        });\n    }\n    function showModal(html, keep, closable){\n        closeModals();\n        html = clean(html);\n        var $modal = $(\"<div/>\");\n        $modal\n            .addClass(\"modal\")\n            .addClass(closable === undefined || closable ? \"closable\" : \"\")\n            .append(closable === undefined || closable ? \"<a class='close' title='Close'></a>\" : \"\") // If modal can be closed by click\n            .append(\"<div class='content'>\" + html + \"</div>\") // Create the close button and inner content div\n            .appendTo(\"body\")\n            .hide()\n            .fadeIn(600);\n        $(\"body\").css(\"overflow\", \"hidden\"); // Disable scrolling of the body under modal\n        if(!keep){\n            // Remove modal after n microseconds\n            setTimeout(function(){\n                closeModals();\n            }, ((html.length * 10) / 60) * 1000); // Calculate the amount of time the modal should show, based on length of message\n        }\n    }\n    function handleAction(action, data){\n        switch(action.toLowerCase()){\n            case \"approve_player\":\n                $.ajax({\n                    url: \"/api/player.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"approve\",\n                        id: data\n                    }\n                })\n                    .done(function(data){\n                        showModal(\"Approved!\");\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to approve player.\");\n                    });\n                break;\n            case \"delete_player\":\n                var id = data; // Another spaghetti\n                $.ajax({\n                    url: \"/api/player.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"delete\",\n                        id: data\n                    }\n                })\n                    .done(function(data){\n                        $(\".container-player[data-id='\" + id + \"']\").fadeOut(800);\n                        showModal(\"Deleted!\");\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to delete player.\");\n                    });\n                break;\n            case \"delete_report\":\n                var id = data; // With meatballs?\n                $.ajax({\n                    url: \"/api/report.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"delete\",\n                        id: data\n                    }\n                })\n                    .done(function(data){\n                        $(\".container-report[data-id='\" + id + \"']\").fadeOut(800);\n                        showModal(\"Deleted!\");\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to delete report.\");\n                    });\n                break;\n            case \"login\":\n                var user = clean($(\"#login_user\").val());\n                var password = clean($(\"#login_password\").val());\n                if(user && password){\n                    $.ajax({\n                        url: \"/api/auth.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            operation: \"login\",\n                            user: user,\n                            password: password\n                        }\n                    })\n                        .done(function(data){\n                            if(data.data.logged_in){\n                                showModal(\"Logging in...\");\n                                toggleView(\"dashboard\");\n                            }\n                            else{\n                                $(\"#login_password\").val(\"\");\n                                showModal(\"Failed to log in, incorrect username or password specified.\");\n                            }\n                        })\n                        .fail(function(data){\n                            showModal(\"Failed to authenticate login credentials.\");\n                        });\n                }\n                else{\n                    showModal(\"Login username or password field is empty.\");\n                }\n                break;\n            case \"logout\":\n                $.ajax({\n                    url: \"/api/auth.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        operation: \"logout\"\n                    }\n                })\n                    .done(function(data){\n                        if(data.status === \"success\"){\n                            toggleView(\"login\");\n                            showModal(\"Logging out...\");\n                        }\n                        else{\n                            showModal(\"Failed to log out.\");\n                        }\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to log out.\");\n                    });\n                break;\n            case \"render_dashboard\":\n                toggleView(\"dashboard\");\n                break;\n            case \"render_reports\":\n                toggleView(\"reports\");\n                break;\n            case \"reset\":\n                preview = null;\n                $(\"form\")[0].reset();\n                $(\"#counter\").html(\"510 characters remaining\");\n                break;\n            case \"save_player\":\n                var firstName = clean($(\"#player_first_name\").val());\n                var lastName = clean($(\"#player_last_name\").val());\n                var gender = clean($(\"#player_gender\").val());\n                if(firstName && gender){\n                    $.ajax({\n                        url: \"/api/player.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            operation: \"edit\",\n                            id: data,\n                            first_name: firstName,\n                            last_name: lastName,\n                            gender: gender\n                        }\n                    })\n                        .done(function(data){\n                            showModal(\"Saved!\");\n                        })\n                        .fail(function(data){\n                            showModal(\"Failed to save player.\");\n                        });\n                }\n                else{\n                    showModal(\"Please make sure all fields were filled out.\");\n                }\n                break;\n            case \"save_settings\":\n                var gender = $(\"#settings_gender\").val();\n                store.set(\"gender\", gender ? gender : \"f\");\n                showModal(\"Your settings have been saved.\");\n                break;\n            case \"set_gender\":\n                store.set(\"gender\", data);\n                store.set(\"played\", true);\n                toggleView(\"play\");\n                closeModals();\n                break;\n            case \"submit_photo\":\n                var firstName = clean($(\"#submit_first_name\").val());\n                var lastName = clean($(\"#submit_last_name\").val());\n                var gender = $(\"#submit_gender\").val();\n                if(firstName && gender && isValidPhoto($(\"#submit_photo\").val())){\n                    $.ajax({\n                        url: \"/api/submit_photo.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            first_name: firstName,\n                            last_name: lastName,\n                            gender: gender,\n                            photo: preview\n                        }\n                    })\n                        .done(function(data){\n                            handleAction(\"reset\");\n                            $(\".img-preview\").fadeOut(600);\n                            $(\"#preview\").attr(\"src\", \"\"); // Reset the preview image\n                            store.set(\"submitted\", true);\n                            showModal(\"Successfully submitted photo! You'll see it soon.\");\n                        })\n                        .fail(function(data){\n                            console.log(data);\n                            showModal(\"Failed to submit photo, please try again later.\");\n                        });\n                }\n                else{\n                    showModal(\"You haven't filled everything out yet!\");\n                }\n                break;\n            case \"submit_report\":\n                var name = clean($(\"#report_name\").val());\n                var email = clean($(\"#report_email\").val());\n                var message = clean($(\"#report_message\").val());\n                if(message.length >= 32 && message.length <= 510){\n                    $.ajax({\n                        url: \"/api/submit_report.php\",\n                        type: \"post\",\n                        dataType: \"json\",\n                        data: {\n                            name: name,\n                            email: email,\n                            message: message,\n                            gotcha: $(\"#report_gotcha\").val(), // Honeypot for scrapers, if value is present, email will be silently ignored\n                        }\n                    })\n                        .done(function(data){\n                            handleAction(\"reset\"); // Reset all fields in form, to discourage consecutive submissions\n                            showModal(\"Thanks for the report! We'll get to you shortly.\");\n                        })\n                        .fail(function(data){\n                            showModal(\"Failed to submit report, please try again later.\");\n                        });\n                }\n                else{\n                    showModal(\"Please fill the report out completely.\");\n                }\n                break;\n            case \"submit_vote\":\n                $.ajax({\n                    url: \"/api/vote.php\",\n                    type: \"post\",\n                    dataType: \"json\",\n                    data: {\n                        winner: $(\"#\" + data).attr(\"data-id\"),\n                        loser: $(\"#\" + (data === \"player-one\" ? \"player-two\" : \"player-one\")).attr(\"data-id\")\n                    }\n                })\n                    .done(function(data){\n                        renderImages();\n                    })\n                    .fail(function(data){\n                        showModal(\"Failed to connect, please try again.\");\n                    });\n                break;\n            case \"view_player\":\n                toggleView(\"player?id=\" + data);\n                break;\n            default:\n                showModal(\"Failed to handle, an unknown action was encountered.\");\n                break;\n        }\n    }\n    function toggleView(hash){\n        var page = hash.substring(0, hash.indexOf(\"?\") != -1 ? hash.indexOf(\"?\") : hash.length); // Removes hash params\n        // Stop if hash is a dead anchor\n        if(location.hash === \"#\"){\n            return;\n        }\n        // Set gender preference if it hasn't been set yet\n        if(!store.has(\"played\") || !store.get(\"played\")){\n            showModal(\n                \"Which gender do you prefer?\" +\n                \"<ul class='buttons'>\" +\n                    \"<li><input type='button' class='button b-button' data-action='set_gender' data-id='m' value='Male'></li>\\n\" +\n                    \"<li><input type='button' class='button r-button' data-action='set_gender' data-id='f' value='Female'></li>\" +\n                \"</ul>\"\n            , true, false);\n        }\n        var $content = $(\"#content\");\n        $.ajax({\n            url: \"/views/\" + page + \".html\",\n            dataType: \"html\"\n        })\n            .done(function(data){\n                $content.hide(); // Hide initial HTML, to prevent a sudden change\n                document.title = page.charAt(0).toUpperCase() + page.slice(1) + \" \\267 Faceclash\"; // Update page title\n                location.hash = \"#\" + hash; // Update hash\n                // Remove blinking effect on submit button if player has submitted a photo already\n                $content\n                    .html(data) // Replace current HTML with new view\n                    .fadeIn(600); // Enter new view...\n                if(hasSubmitted()){\n                    $(\"#header\").find(\".submit\").removeClass(\"blink\");\n                }\n                switch(page){\n                    case \"dashboard\":\n                        renderDashboard();\n                        break;\n                    case \"leaderboard\":\n                        renderLeaderboard();\n                        break;\n                    case \"login\":\n                        if(isLoggedIn()){\n                            toggleView(\"dashboard\");\n                        }\n                        break;\n                    case \"play\":\n                        renderImages();\n                        break;\n                    case \"player\":\n                        renderPlayer(getHashParameter(\"id\"));\n                        break;\n                    case \"reports\":\n                        renderReports();\n                        break;\n                    case \"submit\":\n                        hasSubmitted();\n                        break;\n                }\n            })\n            .fail(function(data){\n                toggleView(\"error\"); // Call toggleView again to display error\n            });\n    }\n})();",
-			"file": "/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
-			"file_size": 31896,
-			"file_write_time": 131267127540000000,
-			"settings":
-			{
-				"buffer_size": 31896,
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -659,34 +639,42 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/config.js",
+		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/disclaimer.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/package.json",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/algorithm.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/app-dev.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/submit.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/friends.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/rankings.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/connect.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/node_modules/fb/README.md",
+		"/C/Program Files/MongoDB/Server/3.4/bin/backup/sweetlipsdb/photos.bson",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/node_modules/fb/node_modules/request/lib/har.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/README.md",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/components/intro_tip.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/channel.html",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/app.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/game.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/Player.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/Game.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/config.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/package.json",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/submit.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/stylesheets/stylesheet-min.css",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/stylesheets/stylesheet.css",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/.gitignore",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/building the algorithm.yaml",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/disclaimer.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/rankings.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/friends.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/flames.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/about.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/app-dev.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/app2.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/error.ejs",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/api.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/algorithm.js",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/index.html",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.min.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/like.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/index2.ejs",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/photos.js",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/app.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/about.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html",
 		"/C/Users/Admin/WebstormProjects/chat/dev/fantastix.sublime-project",
@@ -778,15 +766,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.react.js",
 		"/C/Users/Admin/WebstormProjects/chat/app/views/components/grid-rows.html",
 		"/C/Users/Admin/WebstormProjects/chat/app/views/messages/chatroom_field.html",
-		"/F/Nodemon doesn't watch files · Issue #1101 · remy_nodemon.html",
-		"/F/(56) Lieasi Hurdy.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/helpers/infobar.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/about.vash",
-		"/C/Program Files (x86)/Ampps/www/mySite/php/test.php",
-		"/C/Program Files (x86)/Ampps/www/mySite/index.php",
-		"/C/Program Files (x86)/Ampps/www/mySite/php/openid.php",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/about/content.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/ChatMe Features.feature"
+		"/F/Nodemon doesn't watch files · Issue #1101 · remy_nodemon.html"
 	],
 	"find":
 	{
@@ -801,9 +781,23 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"length",
+			"ENV_VAR",
+			"ratings",
+			"GLOBAL",
+			"CONFIG",
+			"vote_counts: 0,",
+			"},{",
+			"client",
+			"client_id",
+			"photo",
+			".api",
+			"api",
+			"log",
+			"herokuapp",
 			".",
 			": ",
 			" {",
@@ -861,15 +855,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 44107,
+						"buffer_size": 44354,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								641,
-								641
+								9633,
+								9652
 							]
 						],
 						"settings":
@@ -878,27 +872,55 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5009.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "views/about.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3731,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1148,
+								1148
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 133.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "app.js",
+					"buffer": 2,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2364,
+						"buffer_size": 19005,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								576,
-								576
+								391,
+								391
 							]
 						],
 						"settings":
@@ -910,24 +932,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "views/index.ejs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4319,
+						"buffer_size": 5574,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4161,
-								4303
+								2901,
+								2901
 							]
 						],
 						"settings":
@@ -937,36 +959,7 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 882.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "views/connect.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2475,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1714,
-								1714
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 462.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -974,48 +967,19 @@
 				},
 				{
 					"buffer": 4,
-					"file": "views/about.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4216,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2616,
-								2616
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 294.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "public/javascripts/script.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 29041,
+						"buffer_size": 29809,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								29036,
-								29036
+								6684,
+								6684
 							]
 						],
 						"settings":
@@ -1025,40 +989,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9399.0,
+						"translation.y": 2016.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 31896,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1607,
-								1613
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 217.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
 					"type": "text"
 				}
 			]

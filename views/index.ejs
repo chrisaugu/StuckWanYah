@@ -31,7 +31,7 @@
 			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
 			<h2>Who's hotter? Click to choose</h2>
 
-			<% if (images.length) { %>
+			<% if (images) { %>
 				<table>
 					<tr id="photos">
 						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[0].uri %>"><img src="/photos/<%= images[0].image_url %>"></a></td>

@@ -8,7 +8,7 @@ check_list:
   : create a submit page for submiting 
   : create a disclaimer page for privacy policy
   : create a facebook page "Stuck Wan Yah" for serving the bot
-  : create an heroku app for deploying
+  : create an heroku app for hosting server
   : create a github repo for hosting codes
   : function for getting current user infor (name, uri, photo, gender, age)
   : function for installing images
