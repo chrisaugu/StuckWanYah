@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script type="text/javascript" src="/javascripts/Game.js"></script>
-    <script type="text/javascript" src="/javascripts/Player.js"></script>
-  </head>
+<head>
+	<title>About</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet-min.css">
+	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+	<link rel="favicon" type="icon" href="/favicon.ico">
+	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<script type="text/javascript" src="/javascripts/script.js"></script>
+</head>
+<body>
+	<main id="main">
+	<h1>Stuck Wan Yah!</h1>
 
-  <body>
+	<center>
+		<table width="500" align="center">
+			<tbody id="about">
+				<tr>
+					<td>
+						<canvas id="world" width="740" height="640">
+              This browser can not run this game (canvas support missing).
+            </canvas>
+                
+            <script type="text/javascript">
+              var game = new Game();
+            </script>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-    <canvas id="world" width="740" height="640">
-      This browser can not run this game (canvas support missing).
-    </canvas>
+		<br/><br/><br/><br/>
 
-    <script type="text/javascript">
-      var game = new Game();
-    </script>
+		<div class="footer">
+			<div class="container">
+				<ul>
+					<li><a href="/" onclick="sh('home')">Home</a></li>
+					<li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah Facebook app</a></li>
+					<li><a target="_blank" href="https://www.messenger.com/StuckWanYahBot" onclick="sh('messengerbot')">Messenger Bot</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+				</ul>
+				<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
+			</div>
+		</div>
 
-  </body>
-
+	</center>
+	</main>
+</body>
 </html>

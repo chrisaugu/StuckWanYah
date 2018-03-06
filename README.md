@@ -9,6 +9,7 @@ This is my hands-on project to get started in modern web technologies.
 
 ## What is StuckWanYah?
 StuckWanYah ["Stak Wan Yah"] or "Stuck Wan"  is a pun used used explicitly for .
+StuckWanYah is a pun for ‘stak wan’ [tok pisin]. The word has subtle meanings…
 
 This is a rewrite of [ecto / mugshot-wars](https://github.com/ecto/mugshot-wars) using MongoDB instead of Reddis and Jade templates instead of EJS.
 The script uses the [elo rating algorithm](https://en.wikipedia.org/wiki/Elo_rating_system) to compute relative value of comparison. The original version of the type of app goes back to Mark Zuckerberg's Facemash which was the predecessor to Facebook.
@@ -30,3 +31,18 @@ EEEE EEEE eEEEEe
 ### Hello
 #### Hello
 `hello`
+
+### Development of StuckWanYah
+
+#### Technology stack used
+MEEN stack
+MongoDB as database
+Express as utility for NodeJS 
+EJS as viewing template
+NodeJS as server
+
+> PHP can be hosted on Heroku while MySQL can be hosted on 000webhost
+> NodeJS can be hosted on Heroku 
+> Ruby can be hosted on Heroku
+
+> Server-side is hosted at Heroku while photos can be retrieved from facebook pictures CDN.

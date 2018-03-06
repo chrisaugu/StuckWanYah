@@ -1,7 +1,7 @@
 check_list:
   : create an index page using ejs to render two random image
   : create a get request to server the index page from backend
-  : create a put request to update images' ratings each time their are being voted
+  : create a put request to update images ratings each time their are being voted
   : create a ranking page to show top hottest friends
   : create a friends page called facebook to display all facebook friends participating
   : create a about page for information
@@ -18,7 +18,7 @@ check_list:
   : function for handling database
   : function for handling postback, sending message back to user(person using StuckWanYah), 
     blocking, unblocking user,
-  : create a sandbox database and input "MONGO_URI mongodb://admin:1234@ds061757.mongolab.com:61757/sweetlipsdb"
+  : create a sandbox database and input "MONGO_URI mongodb://admin\:1234@ds061757.mongolab.com:61757/sweetlipsdb"
     into Config Vars for ENVIRONMENT
 
 npm install --save request request-promise
@@ -207,3 +207,10 @@ Letter to Digicel PNG Ltd:
     able to call each one outside and get the returned results, but I changed it and never let it return anything so now 
     I cannot get any returned results. hope this is the probs.
     it's back to normal, yea babe
+
+  05-03-2018: 7:09pm:
+    My random picking method is not working effectively, what I mean is everytime somebody votes the hottest person between the people
+    my random method comes into play by pick any two random person again but you know some algorithm works effectively others not so much
+    so I come up with an hack that will work. I will write a conditional statement for monitoring the selection of photos and if it does not
+    match the criteria which is set to pick two pictures only, the page will be asking the player to like the StuckWanYah facebook page before
+    continue playing. cool :)

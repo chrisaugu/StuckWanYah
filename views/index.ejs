@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>StuckWanYah</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet-min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico" title="StuckWanYah">
 	<% var connected = true; %>
@@ -21,17 +21,17 @@
 
 <body>
 
-	<main id="main">
+<main id="main">
 
-		<h1>Stuck Wan Yah!</h1>
+	<h1>Stuck Wan Yah!</h1>
 		
-		<center>
-			<% if (connected) { %>
+	<center>
+		<% if (connected) { %>
+        	<% if (images) { %>
 
-			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
-			<h2>Who's hotter? Click to choose</h2>
+				<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
+				<h2>Who's hotter? Click to choose</h2>
 
-			<% if (images) { %>
 				<table>
 					<tr id="photos">
 						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[0].uri %>"><img src="/photos/<%= images[0].image_url %>"></a></td>
@@ -64,47 +64,51 @@
 						<td><b>Expected:</b> <%= expected(images[0].score, images[1].score) %> </td>
 					</tr>
 				</table>
-			<% } else { %> 
-				<button onclick="location.reload()" class="button">refresh</button>
+			<% } else { %>
+
+				<h3>Would play a game you don't like? Nope! Do you like StuckWanYah? </h3>
+		<form action="{% url 'facebook_connect' %} ? facebook_login = 1" method="post" data-form="facebook_connect">
+			<input type="hidden" value="1" name="connect">
+            <%# csrf_token %>
+
+			<button draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" onclick="F.connect(this.parentNode); return false;" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
+				<img alt="" src="/images/TSXtq24.png" draggable="false" class="gm-fullscreen-control" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">
+			</button>
+
+		</form>
+
+			<% } } else { %>
+			<h4>StuckWanYah is more fun with Facebook.</h4>
+
+			<form action="{% url 'facebook_connect' %} ? facebook_login = 1" method="post" data-form="facebook_connect">
+				<input type="hidden" value="1" name="connect">
+				<%# csrf_token %>
+
+				<button draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" onclick="F.connect(this.parentNode); return false;" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
+					<img alt="" src="/images/TSXtq24.png" draggable="false" class="gm-fullscreen-control" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">
+				</button>
+
+			</form>
+
 			<% } %>
-			<% } else { %> 
-				<h4>StuckWanYah is more fun with Facebook.</h4>
 
-				<form action="{% url 'facebook_connect' %} ? facebook_login = 1" method="post" data-form="facebook_connect">
-					<input type="hidden" value="1" name="connect">
-					<%# csrf_token %>
+		<br/><br/>
 
-					<button draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" onclick="F.connect(this.parentNode); return false;" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
-						<img alt="" src="/images/TSXtq24.png" draggable="false" class="gm-fullscreen-control" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">
-					</button>
+		<div class="footer">
+			<div class="container">
+				<ul>
+					<li><a href="/" data-action="sh('home')">Home</a></li>
+					<li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">Messenger Bot</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+				</ul>
+				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun.</span></p>
+			</div>
 
-				</form>
-
-			<% } %>
-
-			<br/><br/>
-
-			<div class="footer">
-				<div class="container">
-					<ul>
-						<li><a href="/" data-action="sh('home')">Home</a></li>
-						<li>·</li>
-						<li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">Messenger Bot</a></li>
-						<li>·</li>
-						<li><a href="/about.html" onclick="sh('about')">About</a></li>
-						<li>·</li>
-						<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
-						<li>·</li>
-						<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
-						<li>·</li>
-						<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
-						<li>·</li>
-						<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
-					</ul>
-					<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
-				</div>
-
-				<%# 
+			<%#
 				<div class="counter">
 					<span class="counter-number counter-bg dollar-sign"><p>$</p></span>
 					<span class="counter-number counter-bg "><p>4</p></span>
@@ -117,11 +121,11 @@
 				</div>
 				%>
 
-			</div>
-		</center>
-	</main>
-	<script type="text/javascript" src="/javascripts/jquery.js"></script>
-	<script data-src="http://connect.facebook.net/en_US/all.js" src="/javascripts/all.js"></script>	
-	<script type="text/javascript" src="/javascripts/script.js"></script>
+		</div>
+	</center>
+</main>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script data-src="http://connect.facebook.net/en_US/all.js" src="/javascripts/all.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
 </body>
 </html>

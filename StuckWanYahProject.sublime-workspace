@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"con",
+				"console"
+			],
+			[
+				"res",
+				"restful"
+			],
+			[
+				"getC",
+				"getCurrentUser"
+			],
+			[
+				"is",
+				"is_blocked"
+			],
+			[
+				"get",
+				"getTwoRandomPhotos"
+			],
+			[
+				"u",
+				"unique"
+			],
+			[
+				"Mon",
+				"MongoClient"
+			],
+			[
+				"mongo",
+				"mongodb"
+			],
+			[
+				"re",
+				"require"
+			],
+			[
+				"json",
+				"jsonfile"
+			],
+			[
 				"image",
 				"images"
 			],
@@ -14,10 +54,6 @@
 			[
 				"succe",
 				"success"
-			],
-			[
-				"con",
-				"config"
 			],
 			[
 				"per",
@@ -77,7 +113,7 @@
 			],
 			[
 				"f",
-				"fi\t<%= Fixtures.identify(:symbol) %>"
+				"fi	<%= Fixtures.identify(:symbol) %>"
 			],
 			[
 				"pla",
@@ -121,11 +157,11 @@
 			],
 			[
 				"in",
-				"input\tTag"
+				"input	Tag"
 			],
 			[
 				"a",
-				"action\tAttr"
+				"action	Attr"
 			],
 			[
 				"d",
@@ -162,10 +198,6 @@
 			[
 				"cou",
 				"counter_number"
-			],
-			[
-				"get",
-				"getElementsByClassName"
 			],
 			[
 				"getEle",
@@ -329,7 +361,7 @@
 			],
 			[
 				"p",
-				"proto\tPrototype"
+				"proto	Prototype"
 			],
 			[
 				"los",
@@ -373,7 +405,7 @@
 			],
 			[
 				"onc",
-				"onclick\tAttr"
+				"onclick	Attr"
 			],
 			[
 				"ara",
@@ -385,15 +417,15 @@
 			],
 			[
 				"for",
-				"for\tfor (…) {…}"
+				"for	for (…) {…}"
 			],
 			[
 				"th",
-				"th\tTag"
+				"th	Tag"
 			],
 			[
 				"e",
-				"embed\tTag"
+				"embed	Tag"
 			],
 			[
 				"fb",
@@ -440,10 +472,6 @@
 				"data-action"
 			],
 			[
-				"is",
-				"isLoggedIn"
-			],
-			[
 				"show",
 				"showModal"
 			],
@@ -476,10 +504,6 @@
 				"connected"
 			],
 			[
-				"re",
-				"router"
-			],
-			[
 				"img",
 				"image_url"
 			],
@@ -490,105 +514,25 @@
 			[
 				"mon",
 				"moment"
-			],
-			[
-				"send",
-				"sendMessage"
-			],
-			[
-				"func",
-				"function"
-			],
-			[
-				"phot",
-				"photos"
-			],
-			[
-				"xml",
-				"xmlhttp"
-			],
-			[
-				"fun",
-				"function"
-			],
-			[
-				"pho",
-				"photos"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "server.js",
+			"contents": "me?fields=id,name,friendlists.limit(2){id,name},age_range\n\nhttps://developers.facebook.com/tools/explorer/145634995501895?method=GET&path=me%3Ffields%3Did%2Cname%2Cfriendlists&version=v2.12\n\nme?fields=friendlists.limit(2){id,name},age_range,id,name,profile_pic,gender,friends{age_range,name,link,profile_pic},link\n\nwhitecollar.usanetwork.com",
 			"settings":
 			{
-				"buffer_size": 44354,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/about.html",
-			"settings":
-			{
-				"buffer_size": 3731,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "db.photos.insert({\n\timage_id: \"13173939\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"13173939_123485518060780_4194206923963567327_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"13335552\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"13335552_107002823055821_2099648036441521132_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"14681606\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"male\",\n\timage_url: \"14681606_177517646032302_624032032135450137_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"15107194\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"15107194_339862656374634_8224432459071081076_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"17952626\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"17952626_116014578954311_185756687594650512_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"18300922\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"18300922_134455393764459_5180115441292437749_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"21559025\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"male\",\n\timage_url: \"21559025_341751456284451_4784206509448124249_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"21616405\",\n\tname: \"\",\n\tage: 17,\n\tgender: \"female\",\n\timage_url: \"21616405_276194742885495_7269444345293685898_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22007697\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"female\",\n\timage_url: \"22007697_534132350270134_3454712886890506345_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22195701\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"22195701_286327161867700_6021210311312590329_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22228170\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"22228170_1965831803674156_32762613793692416_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22228273\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22228273_535238276816710_2049018447480810573_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22228308\",\n\tname: \"\",\n\tage: 21,\n\tgender: \"female\",\n\timage_url: \"22228308_266809920506961_3937700605185072296_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22448663\",\n\tname: \"\",\n\tage: 31,\n\tgender: \"female\",\n\timage_url: \"22448663_2012361988997913_5487445385886709153_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22449677\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"22449677_1869638299942327_9089013222443652571_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22490007\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"male\",\n\timage_url: \"22490007_772168716300719_8411585367084383230_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22491748\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22491748_383880038718508_8239439686572623717_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22527996\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"male\",\n\timage_url: \"22527996_487774551590477_5263276565262404218_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22528371\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"male\",\n\timage_url: \"22528371_1121337268006214_5802752197279776697_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22539685\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"female\",\n\timage_url: \"22539685_505455106475210_961923654732031583_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22539896\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"female\",\n\timage_url: \"22539896_336604550145206_8136289351028280272_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22549695\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"female\",\n\timage_url: \"22549695_1230151777130321_9168960304844384980_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22549964\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"female\",\n\timage_url: \"22549964_701125690095241_1222786728699406188_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22552696\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"male\",\n\timage_url: \"22552696_1126841654116067_6895478098604726619_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22552780\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"male\",\n\timage_url: \"22552780_252786061912191_5358989623247008035_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22552811\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22552811_1896827080644999_6172684468219958188_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22554831\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22554831_725551040988762_2745079434894064516_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22555194\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"22555194_786284898219595_2421649676541423225_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22555243\",\n\tname: \"\",\n\tage: 16,\n\tgender: \"female\",\n\timage_url: \"22555243_324284041314631_2682874877591079545_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22687810\",\n\tname: \"\",\n\tage: 17,\n\tgender: \"female\",\n\timage_url: \"22687810_502429156802754_8287962131704477409_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22729091\",\n\tname: \"\",\n\tage: 19,\n\tgender: \"male\",\n\timage_url: \"22729091_2380036155555592_8782618421176277703_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22780383\",\n\tname: \"\",\n\tage: 17,\n\tgender: \"female\",\n\timage_url: \"22780383_1319226184873392_8109283516790865485_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22788804\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"male\",\n\timage_url: \"22788804_495226267525633_7859460528845639878_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22814096\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"male\",\n\timage_url: \"22814096_1473731962742556_7253283415688667708_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"22814133\",\n\tname: \"\",\n\tage: 15,\n\tgender: \"female\",\n\timage_url: \"22814133_801316723389150_6675799987336641849_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23755125\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"male\",\n\timage_url: \"23755125_1752625408380629_8716128352251709514_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23795684\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"23795684_1341677052628174_2780464941112581107_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23843283\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"female\",\n\timage_url: \"23843283_299468033873782_2928395153419791336_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"23915570\",\n\tname: \"\",\n\tage: 14,\n\tgender: \"female\",\n\timage_url: \"23915570_141523579950603_3566883689364824421_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"24909547\",\n\tname: \"\",\n\tage: 13,\n\tgender: \"male\",\n\timage_url: \"24909547_370592206720983_6608855228505742643_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})\ndb.photos.insert({\n\timage_id: \"25299331\",\n\tname: \"\",\n\tage: 18,\n\tgender: \"female\",\n\timage_url: \"25299331_570846993259841_735144351331369815_n.jpg\",\n\tthumb_src: \"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/\",\n\turi: \"https://www.facebook.com/profile.php?id=\",\n\tis_blocked: false,\n\twins: 0,\n\tlosses: 0,\n\tdraws: 0,\n\tscore: 0,\n\tratings: 1400,\n\trankings: 0,\n\trandom: [Math.random(), 0],\n\tvoted: false,\n\tvote_by: [],\n\tchallengers: [],\n\tjoinedAt: Date.now()\n})",
-			"settings":
-			{
-				"buffer_size": 19005,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/index.ejs",
-			"settings":
-			{
-				"buffer_size": 5574,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/javascripts/script.js",
-			"settings":
-			{
-				"buffer_size": 29809,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"buffer_size": 341,
+				"line_ending": "Windows",
+				"name": "me?fields=id,name,friendlists.limit(2){id,name},ag"
 			}
 		}
 	],
 	"build_system": "",
-	"build_system_choices":
-	[
-		[
-			[
-				[
-					"Packages/Python/Python.sublime-build",
-					""
-				],
-				[
-					"Packages/Python/Python.sublime-build",
-					"Syntax Check"
-				]
-			],
-			[
-				"Packages/Python/Python.sublime-build",
-				""
-			]
-		]
-	],
-	"build_varint": "",
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "Package Control: ",
 		"selected_items":
 		[
 			[
@@ -612,17 +556,7 @@
 	},
 	"console":
 	{
-		"height": 126.0,
-		"history":
-		[
-			"sidebar",
-			"exit",
-			"ruby owner.rb",
-			"run",
-			"router h",
-			"help",
-			"router"
-		]
+		"height": 126.0
 	},
 	"distraction_free":
 	{
@@ -633,18 +567,24 @@
 		"side_bar_visible": true,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/C/Users/Admin/WebstormProjects/StuckWanYah"
-	],
 	"file_history":
 	[
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project",
+		"/C/Users/Admin/AppData/Local/Temp/Rar$EX79.536/faceclash-master/assets/js/faceclash.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/script.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/index.ejs",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/server.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/post.yaml",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/script.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/StuckWanYah.url",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/config.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/photos.js",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/disclaimer.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/about.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/package.json",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/algorithm.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/app-dev.js",
@@ -674,7 +614,6 @@
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.min.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/like.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/index2.ejs",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/photos.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/about.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html",
 		"/C/Users/Admin/WebstormProjects/chat/dev/fantastix.sublime-project",
@@ -757,24 +696,15 @@
 		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_emojiesF.vash",
 		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_metatags.vash",
 		"/C/Users/Admin/WebstormProjects/chat/app/app.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/search.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/components/jump_menu.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/user/profile5.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/users/profile4.html",
-		"/C/Users/Admin/WebstormProjects/chat/server/standby_server.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/components/people_you_may_know.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/components/grid-rows.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/messages/chatroom_field.html",
-		"/F/Nodemon doesn't watch files · Issue #1101 · remy_nodemon.html"
+		"/C/Users/Admin/WebstormProjects/chat/app/views/search.vash"
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
 		]
@@ -784,6 +714,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			" onclick=\"sh('",
+			"}",
 			"length",
 			"ENV_VAR",
 			"ratings",
@@ -827,7 +759,7 @@
 			" {",
 			"; ",
 			": ",
-			"\t",
+			"	",
 			"sub"
 		],
 		"highlight": true,
@@ -846,153 +778,33 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "server.js",
-					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 44354,
+						"buffer_size": 341,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9633,
-								9652
+								341,
+								341
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5009.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "views/about.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3731,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1148,
-								1148
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 133.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19005,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								391,
-								391
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"auto_name": "me?fields=id,name,friendlists.limit(2){id,name},ag",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "views/index.ejs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5574,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2901,
-								2901
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/EJS/EJS.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 462.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "public/javascripts/script.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 29809,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6684,
-								6684
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2016.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1000,7 +812,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 22.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1041,8 +853,6 @@
 	{
 		"height": 100.0
 	},
-	"pinned_build_system": "",
-	"project": "StuckWanYahProject.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -1051,7 +861,6 @@
 	"select_file":
 	{
 		"height": 0.0,
-		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -1060,7 +869,6 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -1070,27 +878,10 @@
 		],
 		"width": 380.0
 	},
-	"select_symbol":
-	{
-		"height": 0.0,
-		"last_filter": "",
-		"selected_items":
-		[
-		],
-		"width": 0.0
-	},
-	"selected_group": 0,
-	"settings":
-	{
-	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 221.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-		"max_columns": 1
-	}
+	"status_bar_visible": true
 }

@@ -9,5 +9,5 @@ module.exports = {
 	page_access_token: process.env.PAGE_ACCESS_TOKEN || "",
 	user_access_token: process.env.USER_ACCESS_TOKEN || "",
 	verify_token: process.env.VERIFICATION_TOKEN || "",
-	db: process.env.MONGODB_URI || "mongodb://localhost:27017/sweetlipsdb"
-}
+	db: process.env.MONGODB_URI || "mongodb://localhost:27017/sweetlipsdb" || 'mongodb://admin\:1234@ds061757.mongolab.com:61757/sweetlipsdb'
+};
