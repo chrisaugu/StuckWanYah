@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"Form",
+				"submitForm"
+			],
+			[
+				"a",
+				"ajax"
+			],
+			[
+				"stat",
+				"statics"
+			],
+			[
+				"dat",
+				"data"
+			],
+			[
 				"con",
 				"console"
 			],
@@ -158,10 +174,6 @@
 			[
 				"in",
 				"input	Tag"
-			],
-			[
-				"a",
-				"action	Attr"
 			],
 			[
 				"d",
@@ -436,10 +448,6 @@
 				"error"
 			],
 			[
-				"stat",
-				"status"
-			],
-			[
 				"er",
 				"Error"
 			],
@@ -465,10 +473,6 @@
 			],
 			[
 				"da",
-				"data-action"
-			],
-			[
-				"dat",
 				"data-action"
 			],
 			[
@@ -510,22 +514,66 @@
 			[
 				"arr",
 				"array"
-			],
-			[
-				"mon",
-				"moment"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"contents": "me?fields=id,name,friendlists.limit(2){id,name},age_range\n\nhttps://developers.facebook.com/tools/explorer/145634995501895?method=GET&path=me%3Ffields%3Did%2Cname%2Cfriendlists&version=v2.12\n\nme?fields=friendlists.limit(2){id,name},age_range,id,name,profile_pic,gender,friends{age_range,name,link,profile_pic},link\n\nwhitecollar.usanetwork.com",
+			"file": "app.js",
 			"settings":
 			{
-				"buffer_size": 341,
+				"buffer_size": 61241,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/javascripts/script.js",
+			"settings":
+			{
+				"buffer_size": 47151,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "var email = null,\n	api_key = null,\n	followingSites = [],\n	lastContainer = '';\nvar loginKey = \"login_session\",\n	followingSitesKey = \"following_sites\";\nvar defaultText = \"Do you know what runs a website? Visit whatruns.com\";\n$(document).ready(function(e) {\n	var popupExt = {\n		current: '',\n		init: function() {\n			current = popupExt;\n			this.setGlobalItems();\n			this.initClickEvents();\n			//this.initTooltip();\n			this.initSubmitEvents();\n		},\n		setGlobalItems: function() {\n			try {\n				var sendMessage = function(tabs) {\n					BROWSER.runtime.sendMessage({\n						id: GET_HOST_NAME,\n						tab: tabs[0]\n					}, function(res) {\n						currentHostName = current.getCurrentHostName(res);\n						current.getLocalStorageItem(loginKey, function(item) {\n							var data = (item.hasOwnProperty(loginKey)) ? current.parseJsonStr(item[loginKey]) : {};\n							email = (typeof data.email != \"undefined\") ? data.email : null;\n							api_key = (typeof data.api_key != \"undefined\") ? data.api_key : null;\n							current.getLocalStorageItem(followingSitesKey, function(item) {\n								followingSites = (item.hasOwnProperty(followingSitesKey)) ? current.parseJsonStr(item[followingSitesKey]) : [];\n								current.enableHeaderButtons();\n							});\n						});\n					});\n				}\n				self.tabQuery(sendMessage);\n			} catch (e) {}\n		},\n		getCurrentHostName: function(data) {\n			try {\n				var hostname = data.hostname;\n				if (invalidDomains.indexOf(hostname) >= 0 || hostname == \"newtab\") return \"\";\n				if (typeof data.rawhostname != \"undefined\") return data.rawhostname;\n				else if (typeof data.tabTechs.rawhostname != \"undefined\") return data.tabTechs.rawhostname;\n				else if (typeof data.hostname != \"undefined\") return data.hostname;\n				else if (typeof data.tabTechs.hostname != \"undefined\") return data.tabTechs.hostname;\n			} catch (e) {\n				console.log(e);\n			}\n			return \"\";\n		},\n		setData: function(data) {\n			try {\n				BROWSER.storage.local.set(data);\n			} catch (e) {}\n		},\n		getLocalStorageItem: function(key, callback) {\n			BROWSER.storage.local.get(key, callback);\n		},\n		enableHeaderButtons: function() {\n			followingSites = (followingSites instanceof Array) ? followingSites : JSON.parse(followingSites);\n			if (followingSites.indexOf(currentHostName) !== -1) {\n				$('.user-already-following').addClass(\"active\");\n			} else {\n				$('.user-follow').addClass(\"active\");\n			}\n			if (followingSites.length > 0) {\n				$('.user-following').addClass(\"active\");\n			}\n			$('.share-url').addClass(\"active\");\n			current.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n		},\n		updateUserFollowingTitleToolTip: function(title) {\n			$('.user-following').attr(\"title\", title);\n		},\n		initClickEvents: function() {\n			this.initFollowEvent();\n			this.initFollowingEvent();\n			this.initBackEvent();\n			this.initSigninEvent();\n			this.initSignupEvent();\n			this.initShareEvent();\n			this.initShareFacebookEvent();\n			this.initShareEmailEvent();\n			this.initUnFollowEvent();\n		},\n		initSubmitEvents: function() {\n			this.formSubmit();\n			this.sendEmail();\n		},\n		initFollowEvent: function() {\n			$('.btn-follow').click(function(e) {\n				if (followingSites.length < 10) current.isLoggedIn();\n			});\n		},\n		initFollowingEvent: function() {\n			$('.btn-following').click(function(e) {\n				if (followingSites.length > 0) {\n					$('.image-loader').show();\n					current.getFollowingSites();\n				}\n			});\n		},\n		initBackEvent: function() {\n			$('.btn-back').click(function(e) {\n				$('.header-btn, .container').removeClass(\"active\");\n				if (current.isValidUser()) {\n					$('.user-following').addClass(\"active\");\n				} else {\n					$('.user-follow').addClass(\"active\");\n				}\n				if (lastContainer.trim().length > 0) {\n					$('.back').addClass(\"active\");\n					$(lastContainer).addClass('active');\n					lastContainer = '';\n				} else {\n					$('.current-app-info, .share-url').addClass(\"active\");\n				}\n				if (followingSites.indexOf(currentHostName) > -1) $('.user-already-following').addClass(\"active\");\n				else $('.user-follow').addClass(\"active\");\n				if ($('.container').hasClass(\"newtab-text\")) $('.user-following').addClass(\"active\");\n			});\n		},\n		initSigninEvent: function() {\n			$('.btn-signin').click(function(e) {\n				current.showSignInForm();\n			});\n		},\n		initSignupEvent: function() {\n			$('.btn-signup').click(function(e) {\n				current.showSignUPForm();\n			});\n		},\n		initShareEvent: function() {\n			$('.btn-share').click(function(e) {\n				current.showShareURLForm();\n			});\n		},\n		initShareFacebookEvent: function() {\n			$('.share-facebook').click(function(e) {\n				var url = encodeURIComponent($('.share-url-original').val());\n				window.open(\"https://www.facebook.com/sharer/sharer.php?u=\" + url, \"myWindowName\", \"width=600, height=600\");\n				return false;\n			});\n		},\n		initShareEmailEvent: function() {\n			$('.share-email').click(function(e) {\n				lastContainer = '.share-container';\n				current.showShareEmailForm();\n			});\n		},\n		initUnFollowEvent: function() {\n			$(document).on(\"click\", '.btn-unfollow', function(e) {\n				var followingSiteName = $(this).closest('.list').find('.following-sitename').val();\n				$(this).closest('.list').remove();\n				current.updateUnFollowSite(followingSiteName);\n			});\n		},\n		showSignInForm: function() {\n			$('.container, .header-btn').removeClass(\"active\");\n			$('.signin, .back').addClass(\"active\");\n		},\n		showSignUPForm: function() {\n			$('.container').removeClass(\"active\")\n			$('.signup').addClass(\"active\")\n		},\n		showShareEmailForm: function() {\n			$('.container').removeClass(\"active\");\n			$('.email-share-container').addClass(\"active\");\n		},\n		showShareURLForm: function() {\n			$('.container, .share-url').removeClass(\"active\");\n			$('.share-container').addClass(\"active\");\n			$('.back').addClass(\"active\");\n			var twitterUrl = \"https://twitter.com/share?text=\" + encodeURIComponent(defaultText) + \"&via=whatruns\";\n			if (currentHostName.trim().length > 0) {\n				var url = DOMAIN_NAME + \"website/\" + encodeURIComponent(currentHostName);\n				$('.share-url-original').val(url);\n				var text = \"Do you know what runs \" + currentHostName + \"?\";\n				var twitterUrl = \"https://twitter.com/share?url=\" + encodeURIComponent(url) + \"&text=\" + encodeURIComponent(text) + \"&via=whatruns\";\n			}\n			$('.twitter-share-href').attr(\"href\", twitterUrl);\n		},\n		isLoggedIn: function() {\n			try {\n\n				if (current.isValidUser()) {\n					if (followingSites.indexOf(currentHostName) <= -1) {\n						followingSites.push(currentHostName);\n						var itemData = {\n							\"following_sites\": JSON.stringify(followingSites)\n						}\n						current.setData(itemData);\n						current.followSite();\n					} else {\n						current.getFollowingSites();\n					}\n				} else {\n					current.showSignInForm();\n				}\n			} catch (e) {}\n		},\n		followSite: function() {\n			try {\n\n				$.ajax({\n					type: \"POST\",\n					url: DOMAIN_NAME + \"api/follow\",\n					data: \"email=\" + email + \"&hostname=\" + currentHostName,\n					success: function(response) {\n						//appendNewFollowingSite();\n						current.getFollowingSites();\n					}\n				});\n			} catch (e) {}\n		},\n		getFollowingSites: function() {\n			try {\n				if (email && api_key) {\n					if ($('.following-sites-list').is(':empty')) {\n						var data = current.getUserCredentials();\n						$.ajax({\n							type: \"POST\",\n							data: data,\n							url: DOMAIN_NAME + \"api/get_following\",\n							success: function(response) {\n								current.appendFollowingSites(response);\n							}\n						});\n					} else {\n						current.showFollowingSites();\n					}\n				}\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		appendFollowingSites: function(response) {\n\n			try {\n				if (typeof response != \"undefined\") {\n					if (typeof response.following_sites != \"undefined\") {\n						$('.following-sites-list').empty();\n						var following_sites = response.following_sites;\n						Object.keys(following_sites).forEach(function(siteName) {\n							var siteDetectedApps = (typeof following_sites[siteName] === \"object\") ? following_sites[siteName] : JSON.parse(following_sites[siteName]);\n							current.appendAppDetails(siteDetectedApps, siteName, response.days);\n						});\n						current.showFollowingSites();\n					}\n				}\n\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		showFollowingSites: function() {\n			setTimeout(function() {\n				current.showBackButton();\n				$('.container').removeClass(\"active\")\n				$('.following').addClass(\"active\");\n				$('.image-loader').hide();\n			}, 500);\n		},\n		showBackButton: function() {\n			$('.header-btn').removeClass(\"active\");\n			$('.back').addClass(\"active\");\n		},\n		appendAppDetails: function(detectedSiteApps, hostname, daysDiff) {\n			try {\n				var list = $('<div class=\"list\"></div>');\n				var headerEl = $('<div class=\"following-heading\"><div class=\"following-hostname inline\">' + hostname + '</div><div class=\"inline unfollow\"></div><input type=\"hidden\" class=\"hide following-sitename\" value=\"' + hostname + '\"></div>');\n				var unfollowEl = $('<button class=\"btn btn-sm btn-gray sm-1 btn-unfollow\">Unfollow</button>');\n				$(list).append($(headerEl));\n				$(list).find('.unfollow').append($(unfollowEl));\n				for (var time in detectedSiteApps) {\n					var apps = detectedSiteApps[time];\n					var totalApps = [];\n					Object.keys(apps).forEach(function(categoryName) {\n						try {\n							var arr = apps[categoryName];\n							for (var i in arr) {\n								var techJson = arr[i];\n								if (totalApps.indexOf(techJson.name) <= -1) {\n									totalApps.push(techJson.name);\n									var date = current.getDateFormat(techJson.latestDetectedTime);\n									var imageUrl = \"http://scriptsused.com/images/icons/\" + techJson.icon;\n									var imgEl = $('<div class=\"app-body inline\"><div class=\"image\"><a href=\"' + techJson.website + '\" target=\"_blank\"  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"' + techJson.name + ' <br/> Last Detected: ' + date + '\"><img src=\"' + imageUrl + '\"></a></div><div class=\"border-bottom-green\" ></div></div>');\n									$(list).append($(imgEl));\n								}\n							}\n						} catch (e) {\n							console.log(e);\n						}\n					});\n				}\n				$('.following-sites-list').append($(list));\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		updateUnFollowSite: function(followingSiteName) {\n			if (current.isValidUser()) {\n				var data = {\n					email: email,\n					api_key: api_key,\n					hostname: followingSiteName\n				}\n				$.ajax({\n					type: \"POST\",\n					data: data,\n					url: DOMAIN_NAME + \"api/unfollow\",\n					success: function(response) {\n						var index = followingSites.indexOf(followingSiteName);\n						if (index > -1) {\n							followingSites.splice(index, 1);\n							var itemData = {\n								following_sites: JSON.stringify(followingSites)\n							}\n							current.setData(itemData);\n							current.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n						}\n					}\n				})\n			}\n		},\n		formSubmit: function() {\n			$('.form').on(\"submit\", function(e) {\n				console.log(e);\n				e.preventDefault();\n				var data = $(this).serialize();\n				var method = $(this).attr(\"method\");\n				var url = DOMAIN_NAME + $(this).attr(\"url\");\n				var formData = {\n					data: data,\n					method: method,\n					url: url\n				};\n				var $this = $(this);\n				BROWSER.runtime.sendMessage({\n					id: \"form\",\n					subject: formData\n				}, function(response) {\n					if (response.status != 200) {\n						$this.find('.result').addClass(\"error\");\n						$this.find('.result').text(response.msg);\n					} else {\n						if (typeof response.api_key != \"undefined\") current.setLoginData(response);\n					}\n				});\n			});\n		},\n		setLoginData: function(res) {\n			try {\n				email = res.email;\n				api_key = res.api_key;\n				var itemData = {\n					email: email,\n					api_key: api_key\n				}\n				var data = {\n					\"login_session\": JSON.stringify(itemData),\n					\"following_sites\": JSON.stringify(followingSites)\n				}\n				this.setData(data);\n				this.appendNewFollowingSite();\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		appendNewFollowingSite: function() {\n			try {\n				this.showBackButton();\n				this.appendAppDetails(detectedApps, currentHostName);\n				if (followingSites.indexOf(currentHostName) <= -1) {\n					followingSites.push(currentHostName);\n					var itemData = {\n						\"following_sites\": JSON.stringify(followingSites)\n					}\n					this.setData(itemData);\n				}\n				this.showFollowingSites();\n				$('.user-follow').removeClass(\"active\");\n				$('.back').addClass(\"active\");\n				this.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n			} catch (e) {}\n		},\n		sendEmail: function() {\n			$('#email-share-form').on('submit', function(e) {\n				e.preventDefault();\n				var $this = $(this);\n				$(this).find('.result').empty();\n				var btnEl = $(this).find('.share-email-submit');\n				var text = $(btnEl).text();\n				$(btnEl).empty();\n				$(btnEl).append('Sending...');\n				// $(btnEl).append('<i class=\"fa fa-spinner fa-spin fa-fw\" aria-hidden=\"true\"></i>');\n				$.ajax({\n					type: \"POST\",\n					data: $(this).serialize() + \"&domain=\" + currentHostName,\n					url: DOMAIN_NAME + \"share/email\",\n					success: function(res) {\n						$(btnEl).empty();\n						if (res.status == 200) {\n							$(btnEl).append('<img src=\"images/Tick.png\" style=\"max-width:10px;\"><span style=\"margin-left:5px;\">Sent</span>');\n							setTimeout(function() {\n								$(btnEl).empty();\n								$(btnEl).append(text);\n							}, 1000);\n						} else {\n							$(btnEl).append(text);\n							$this.find('.result').text(res.msg);\n						}\n					}\n				})\n			});\n		},\n		getUserCredentials: function() {\n			var userCredentials = \"email=\" + email + \"&api_key=\" + api_key;\n			userCredentials += \"&domains=\" + JSON.stringify(followingSites);\n			return userCredentials;\n		},\n		parseJsonStr: function(str) {\n			try {\n				return JSON.parse(str);\n			} catch (e) {}\n		},\n		getDateFormat: function(timestamp) {\n			try {\n				var date = new Date(parseInt(timestamp));\n				var month = current.getMonthName(date);\n				return month + \" \" + date.getFullYear();\n			} catch (e) {}\n			return \"\";\n		},\n		getMonthName: function(d) {\n			try {\n				var monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n					\"July\", \"August\", \"September\", \"October\", \"November\", \"December\"\n				];\n				return monthNames[d.getMonth()];\n			} catch (e) {}\n		},\n		isValidUser: function() {\n			try {\n				return (email && api_key && email.trim().length > 0 && api_key.trim().length > 0);\n			} catch (e) {\n\n			}\n			return false;\n		}\n	}\n	popupExt.init();\n	$('body').tooltip({\n		selector: '[data-toggle=tooltip]',\n		html: true\n	});\n\n});",
+			"settings":
+			{
+				"buffer_size": 14486,
 				"line_ending": "Windows",
-				"name": "me?fields=id,name,friendlists.limit(2){id,name},ag"
+				"name": "var email = null,"
+			}
+		},
+		{
+			"file": "views/index.ejs",
+			"settings":
+			{
+				"buffer_size": 5567,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/about.html",
+			"settings":
+			{
+				"buffer_size": 4767,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "post.yaml",
+			"settings":
+			{
+				"buffer_size": 14566,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/disclaimer.html",
+			"settings":
+			{
+				"buffer_size": 6066,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -569,13 +617,24 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
+		"/C/Users/Wantok/Documents/workspace/ChatMe/assets/ChatMe Setup.txt",
+		"/C/Users/Wantok/Documents/workspace/ChatMe/MongoDB.txt",
+		"/C/Users/Wantok/Documents/workspace/ChatMe/ChatMe App Structure.txt",
+		"/C/Users/Wantok/Documents/workspace/ChatMe/ChatMe.txt",
+		"/C/Users/Wantok/Documents/workspace/ChatMe/ReadMe.txt",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/post.yaml",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/Disclaimer.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/submit.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app2.js",
+		"/C/Program Files/MongoDB/Server/3.2/bin/mongodb.config",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX79.536/faceclash-master/assets/js/faceclash.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/script.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/index.ejs",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/server.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/post.yaml",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/script.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/StuckWanYah.url",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
@@ -685,18 +744,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/server/models/followers.js",
 		"/C/Users/Admin/WebstormProjects/chat/server/models/broadcast.js",
 		"/C/Users/Admin/WebstormProjects/chat/server/routes/api/index.js",
-		"/C/Users/Admin/WebstormProjects/chat/server/models/db.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_noscripts.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/index.vash",
-		"/C/Users/Admin/WebstormProjects/package-lock.json",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/discover.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/components/global_container.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_stylesheets.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_emojiesH.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_emojiesF.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_metatags.vash",
-		"/C/Users/Admin/WebstormProjects/chat/app/app.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/search.vash"
+		"/C/Users/Admin/WebstormProjects/chat/server/models/db.js"
 	],
 	"find":
 	{
@@ -714,6 +762,11 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"com.chatme.android.",
+			"},{",
+			"Math.random(), Math.random()",
+			"expectedScore",
+			"!1",
 			" onclick=\"sh('",
 			"}",
 			"length",
@@ -778,31 +831,197 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "app.js",
 					"settings":
 					{
-						"buffer_size": 341,
+						"buffer_size": 61241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								341,
-								341
+								16413,
+								16413
 							]
 						],
 						"settings":
 						{
-							"auto_name": "me?fields=id,name,friendlists.limit(2){id,name},ag",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 6975.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/javascripts/script.js",
+					"settings":
+					{
+						"buffer_size": 47151,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7652,
+								7652
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2325.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 14486,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8649,
+								8649
+							]
+						],
+						"settings":
+						{
+							"auto_name": "var email = null,",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3915.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "views/index.ejs",
+					"settings":
+					{
+						"buffer_size": 5567,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/EJS/EJS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 980.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "views/about.html",
+					"settings":
+					{
+						"buffer_size": 4767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2453,
+								2453
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 142.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "post.yaml",
+					"settings":
+					{
+						"buffer_size": 14566,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2792,
+								2792
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/YAML/YAML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 637.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "views/disclaimer.html",
+					"settings":
+					{
+						"buffer_size": 6066,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2485,
+								2485
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 531.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -873,7 +1092,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Admin\\WebstormProjects\\chat\\dev\\fantastix.sublime-project"
+				"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/HacknCrack.sublime-project"
 			]
 		],
 		"width": 380.0

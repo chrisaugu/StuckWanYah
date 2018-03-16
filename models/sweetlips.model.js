@@ -6,14 +6,22 @@ var restful = require("node-restful"),
 	random = require('mongoose-simple-random'),
 	//random = require('mongoose-random'),
 	Schema = mongoose.Schema;
+
 // Schema
 var SweetLipsSchema = new Schema({
 	//_id: <ObjectId>,
 	image_id: { type: String, unique: true, index: true },
+	name: String,
+	age: Number,
+	gender: String,
+	image_url: String,
+	thumb_src: String,
+	uri: String,
 	email: {type: String, require: true,
 		trim: true, unique: true,
 		match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 	},
+	facebook_friends: [],
 	facebookProvider: {
 		type: {
 			id: String,
@@ -21,12 +29,6 @@ var SweetLipsSchema = new Schema({
 		},
 		selected: false
 	},
-	name: String,
-	age: Number,
-	gender: String,
-	image_url: String,
-	thumb_src: String,
-	uri: String,
 	is_blocked: { type: Boolean, default: false },
 	wins: { type: Number, default: 0},
 	losses: { type: Number, default: 0},
@@ -42,43 +44,54 @@ var SweetLipsSchema = new Schema({
 	draws_with: [],
 	joinedAt: { type: Date, default: Date.now() },
 },{strict:false});
+
 // Attaching random plugin to the schema
 SweetLipsSchema.plugin(random);
 //SweetLipsSchema.plugin(random, { path: 'r' })
 
-SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profile, callback){
-	var that = this;
-	return this.findOne({
-		'facebookProvider.id': profile.id
-	}, function(err, user){
-		if (!user) {
-			var newUser = new that({
-				email: profile.emails[0].value,
-				facebookProvider: {
-					id: profile.id,
-					token: accessToken
-				}
-			});
+SweetLipsSchema.set('toJSON', {getters: true, virtuals: true});
 
-			newUser.save(function(error, savedUser){
-				if (error) {
-					console.log(error);
-				};
-				return callback(error, savedUser);
-			});
-		} else {
-			return callback(err, user);
-		};
-	});
+SweetLipsSchema.statics.upsertFbPhoto = function(accessToken, refreshToken, profile, callback) {
+    var $this = this;
+    return this.findOne({
+        'facebookProvider.id': profile.id
+    }, function(err, photo){
+        if (!photo) {
+            var newPhoto = new $this({
+                name: profile.name,
+                age: profile.age,
+                gender: profile.gender,
+                image_url: profile.image_url, // user public profile
+                thumb_src: profile.thumbSrc,
+                uri: profile.uri,
+                email: profile.emails[0].value,
+                facebook_friends: [profile.friends],
+                facebookProvider: {
+                    id: profile.id,
+                    token: accessToken
+                }
+            });
+
+            newPhoto.save(function(error, savedPhoto){
+                if (error) {
+                    console.log(error);
+                };
+                return callback(error, savedPhoto);
+            });
+        } else {
+            return callback(err, photo);
+        };
+    });
 };
 
 // define a method to find the closest person
 SweetLipsSchema.methods.findClosest = function(callback) {
-	return this.model('photos').find({
-		loc: {$nearSphere: this.loc},
-		name: {$ne: this.name}
-	}).limit(1).exec(callback);
+    return this.model('photos').find({
+        loc: {$nearSphere: this.loc},
+        name: {$ne: this.name}
+    }).limit(1).exec(callback);
 };
+
 
 var photos = restful.model("photos", SweetLipsSchema);
 
@@ -94,9 +107,9 @@ var battles = restful.model("battles", new Schema({
 	loser: Number
 }));
 
-// Make the photos and hits data sets available to the code 
+// Make the photos and hits data sets available to the code
 module.exports = {
-	photos: photos,
-	battles: battles,
-	hits: hits
-}
+    photos: photos,
+    battles: battles,
+    hits: hits
+};

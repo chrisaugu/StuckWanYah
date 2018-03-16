@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Submit</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet-min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico">
 	<script type="text/javascript" src="/javascripts/jquery.js"></script>
@@ -15,10 +15,10 @@
 	<h4>I'd love to hear what you think about StuckWanYah. Good or Bad. Have a suggestion for a new feature? Shoot it over to me. <br>Have a Harry Potter conspiracy theory? Share it with me!</h4>
 
 	<center>
-		<form id="submit" action="/submit.html" method="get" data-form="submit">
-			<table width="500" align="center" style="padding: 0 92px;">
+		<form id="submit" action="/api/v1/submit" method="get" ddata-form="submit">
+			<table align="center">
 				<tr><td><input type="text" name="name" placeholder="Your name" class="text"></td></tr>
-				<tr><td><input type="text" disabled required="true" name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
+				<tr><td><input type="text" required="true" name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
 				<tr><td><textarea type="text" name="message" placeholder="Message *" class="text" rows="4" style="max-width: 300px;min-width: 300px;min-height: 92px;max-height: 165px;"></textarea>
 					<span id="counter">120 characters remaining</span>
 				</td></tr>
@@ -29,7 +29,7 @@
 			</table>
 		</form>
 
-		<ul>
+		<!--ul>
 			<li>item 1
 				<ul>
 					<li>sub item 1-a</li>
@@ -42,7 +42,7 @@
 					<li>sub item 2-b</li>
 				</ul>
 			</li>
-		</ul>
+		</ul-->
 
 		<script>
             function handler( event ) {
