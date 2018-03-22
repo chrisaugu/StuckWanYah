@@ -8,30 +8,16 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico" title="StuckWanYah">
-
-	<% var connected = true; %>
-
-	<!-- Facebook Pixel Code -->
-	<!--script>
-		!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-		n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-		n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-		t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-		document,'script','https://connect.facebook.net/en_US/fbevents.js');
-		fbq('init', '220609305106091', {em: 'insert_email_variable'});
-		fbq('track', 'PageView');
-	</script-->
+	
 </head>
-
 <body>
-
 <main id="main">
 
 	<h1>Stuck Wan Yah!</h1>
-		
+
 	<center>
-		<% if (!connected) { %>
-			<% if (!images) { %>
+		<% if (connected) { %>
+			<% if (images) { %>
 
 				<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
 				<h2>Who's hotter? Click to choose</h2>
@@ -80,18 +66,15 @@
 				<div id="photos" class="container current-app-info active">
 				</div>
 
-
-		
 		<% } } else { %>
 
 			<!--h3>Will you play a game you don't like? Nope! Do you like StuckWanYah?</h3>
 			<h4>StuckWanYah is more fun with Facebook.</h4-->
 
-			<h3>In order to play StuckWanYah, you must login using Facebook</h3>
+			<h3>In order to play StuckWanYah, you must login with Facebook</h3>
 
 			<form action="/api/v1/auth/facebook" method="post" xdata-form="facebook_connect">
 				<input type="hidden" value="1" name="connect">
-				<%# csrf_token %>
 
 				<button id="loginbutton" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
 					<img alt="" src="/images/TSXtq24.png" draggable="false" class="gm-fullscreen-control" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">

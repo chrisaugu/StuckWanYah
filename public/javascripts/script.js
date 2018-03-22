@@ -37,15 +37,16 @@
 
                     FB.login(function (result) {
                         if (result.authResponse) {
-                            return $.post('http://localhost:5000/api/v1/auth/facebook', {
-                                access_token: result.authResponse.accessToken
+                            $.post('http://localhost:5000/api/v1/auth/facebook/login', {
+                                data: result
+                                //access_token: result.authResponse.accessToken
                             }).toPromise().then(function (response) {
                                 var token = response.headers.get('x-auth-token');
                                 if (token) {
                                     localStorage.setItem('id_token', token);
                                 }
                                 resolve(response.json());
-                            }).catch (function () {
+                            }).catch(function () {
                                 reject();
                             })
                         } else {
@@ -55,14 +56,13 @@
                         scope: 'publish_actions, public_profile, email, friends, user_bio user_likes, user_photos, gender, user_friends'
                     })
                 });
-            }
+            };
 
             function logout() {
                 localStorage.removeItem('id_token');
                 // FB.logout();
             };
-
-
+            
             function isLoggedIn() {
                 return new Promise(function (resolve, reject) {
                     this.getCurrentUser().then(function (user) {
@@ -157,12 +157,27 @@
         });
     });
 
+    var store = (function (setup) {
+        var store = localStorage;
+        return {
+            has: function (key) {
+                store.getItem(key);
+            },
+            get: function (key) {
+                store.getItem(key);
+            },
+            set: function (key, value) {
+                store.setItem(key, value);
+            }
+        }
+    })();
+
     var defaults = {
             init: function() {},
         },
         SITENAME = 'StuckWanYah',
         version = 'v1.0.0';
-        
+
     /**
      * StuckWanYah JavaScript
      */
@@ -179,13 +194,16 @@
         this._name = SITENAME;
         this._version = version;
 
+        this.store = store;
+
         this.init();
     };
 
+    var $this = null;
+
     StuckWanYah.prototype = {
-        self: '',
         init: function () {
-            self = StuckWanYah.prototype || this;
+            $this = StuckWanYah.prototype;
             this.setDefaultData();
             this.initPageEventListener();
             this.initClickEventListener();
@@ -197,21 +215,21 @@
         initClickEventListener: function () {
             $('body').on('click', 'a', function (e) {
                 //e.preventDefault();
-                //if (self._search(e.target.href) === '/.html/gi') {
-                //self.registerPageHit(self._fancy(e.target.href.toString()));
+                //if ($this._search(e.target.href) === '/.html/gi') {
+                //$this.registerPageHit($this._fancy(e.target.href.toString()));
                 //} else if ($(this).attr('data-action')) {
-                //self.handleAction($(this).attr('data-action'), $(this).attr('data-id') ? $(this).attr('data-id') : null);
+                //$this.handleAction($(this).attr('data-action'), $(this).attr('data-id') ? $(this).attr('data-id') : null);
                 //}
             }).on('focus', 'input', function () {
-                if ($(window).scrollTop() > 0) {
-                    $('html,body').scrollTop($(this).offset().top - 110)
-                }
+                //if ($(window).scrollTop() > 0) {
+                //    $('html,body').scrollTop($(this).offset().top - 110)
+                //}
             }).on('click', 'button, .button', function () {
                 if ($(this).attr('data-action')) {
-                    //self.handleAction($(this).attr('data-action'), $(this).attr('data-id') ? $(this).attr('data-id')  : null);
+                    //$this.handleAction($(this).attr('data-action'), $(this).attr('data-id') ? $(this).attr('data-id')  : null);
                 }
             }).on('keyup', 'form[data-form=\'submit\'] textarea', function (e) {
-                var len = self._clean($(this).val()).length;
+                var len = $this._clean($(this).val()).length;
                 var $counter = $('#counter');
                 if (len <= 120) {
                     $counter.html((120 - len) + ' characters remaining');
@@ -225,15 +243,15 @@
                     'field': e.target.value,
                     'gender': $('#ranking_type_gender').val()
                 };
-                self.renderRankList(params);
+                $this.renderRankList(params);
             }).on('change', '#ranking_type_gender', function (e) {
                 var params = {
                     'field': $('#ranking_type_field').val(),
                     'gender': e.target.value
                 };
-                self.renderRankList(params);
+                $this.renderRankList(params);
             }).on('click', '#connect_facebook', function () {
-                self.handleAction('facebook_connect', $(this).attr('id'));
+                $this.handleAction('facebook_connect', $(this).attr('id'));
             }).on('submit', 'form', function (e) {
                 //e.preventDefault(); // No need to do anything else, on click for .button already takes care of things
             })
@@ -251,24 +269,24 @@
             var l = this._slice(document.location.pathname);
             switch (l) {
                 case '/':
-                    self.registerPageHit('home');
+                    $this.registerPageHit('home');
                     break;
                 case 'friends':
-                    self.renderFriendsList();
-                    self.registerPageHit('friends');
+                    $this.renderFriendsList();
+                    $this.registerPageHit('friends');
                     break;
                 case 'flames':
-                    self.registerPageHit('flames');
+                    $this.registerPageHit('flames');
                     break;
                 case 'games':
-                    self.registerPageHit('games');
+                    $this.registerPageHit('games');
                     break;
                 case 'rankings':
-                    self.renderRankList();
-                    self.registerPageHit('rankings');
+                    $this.renderRankList();
+                    $this.registerPageHit('rankings');
                     break;
                 case 'submit':
-                    self.registerPageHit('submit');
+                    $this.registerPageHit('submit');
                     break;
             }
         },
@@ -299,15 +317,15 @@
             $.ajax({
                 async: true,
                 crossDomain: true,
-                type: 'put',
-                url: '/api/v1/hits',
+                url: "/api/v1/hits",
+                type: 'PUT',
                 data: {
                     page: pageName
-                }
-            });
+                },
+            })
         },
         renderTwoPhotos: function () {
-            self.getImages({
+            $this.getImages({
                 data: {
                     gender: '',
                     age: '13-21',
@@ -327,7 +345,7 @@
         },
         renderImages: function () {
             try {
-                self.getImages();
+                $this.getImages();
             } catch (e) {
                 console.log(e);
             }
@@ -338,10 +356,10 @@
                 type: 'GET',
                 dataType: 'json',
                 data: {
-                    gender: self.getPreferredGender()
+                    gender: $this.getPreferredGender()
                 }
             }).done(function (photo) {
-                self.appendImages(photo);
+                $this.appendImages(photo);
             }).fail(function (err) {
                 console.log(err);
             });
@@ -363,7 +381,7 @@
         },
         renderFriendsList: function () {
             try {
-                self.getFriendsList();
+                $this.getFriendsList();
             } catch (e) {
                 console.log(e);
             }
@@ -373,13 +391,14 @@
                 //if (email && api_key) {
                 if ($('#photos').is(':empty')) {
                     $.getJSON({
-                        url: '/api/v1/photos/all',
+                        url: '/api/v1/photos',
+                        //data: {"gender": "female"},
                         success: function (response) {
-                            self.appendFriendsList(response);
+                            $this.appendFriendsList(response);
                         }
                     });
                 } else {
-                    // self.showFriendsList();
+                    // $this.showFriendsList();
                 } //}
 
             } catch (e) {
@@ -394,9 +413,9 @@
                         var friends_list = response.friendslist;
                         Object.keys(friends_list).forEach(function(siteName) {
                             var siteDetectedApps = (typeof friends_list[siteName] === "object") ? friends_list[siteName] : JSON.parse(following_sites[siteName]);
-                            self.appendAppDetails(siteDetectedApps, siteName, response.days);
+                            $this.appendAppDetails(siteDetectedApps, siteName, response.days);
                         });
-                        self.showFollowingSites();
+                        $this.showFollowingSites();
                     }
                 }
             } catch(e) {
@@ -428,7 +447,7 @@
             $('#photos').html(output);
         },
         renderRankList: function () {
-            self.getRankList();
+            $this.getRankList();
         },
         getRankList: function (rankingField) {
             console.log(rankingField);
@@ -438,11 +457,11 @@
                     url: '/api/v1/photos/top',
                     data: rankingField,
                     success: function (response) {
-                        self.appendRankList(response);
+                        $this.appendRankList(response);
                     }
                 });
                 //} else {
-                //self.
+                //$this.
                 //}
             } catch (e) {
                 console.log(e);
@@ -453,13 +472,11 @@
                 var output = $('');
                 //var imgEl = $('<img class=\'photo\' src=\'/photos/' + item.image_url + '\' data-fb-id=\'' + item.image_id + '" width=\'180\'> ');
                 $.each(response, function (i, item) {
-                    output += '<tr align="center"><td>';
+                    output += '<tr align="center"><td><a href="'+ item.uri +'">';
                     output += '<img class=\'photo\' src=\'/photos/' + item.image_url + '\' data-fb-id="' + item.image_id + '" width=\'180\'>';
-                    output += '</td><td></td><td>';
+                    output += '</a></td><td></td><td>';
                     output += item.ratings;
-                    output += '</td><td></td><td>';
-                    output += item.rankings;
-                    output += '</td></tr>';
+                    output += '</td><td></td></tr>';
                 });
                 $('#rankings').append(output);
             } catch (e) {
@@ -475,7 +492,7 @@
                     var msgEl = $('<div class="server-error-msg"></div>');
                     var refreshEl = $('<input type="button" class="button" onclick="javascript:location.reload()" value="continue">');
                     $(containerEl).append(
-                        $(msgEl).append(data[0].name + ' is the stuck wan yah! (*^*)'),
+                        $(msgEl).append(data[0].name + ' dat wan yah em stuck wan eh! (*^*)'),
                         $(divEl).append(
                             $(imgEl).attr('src', '/photos/' + data[0].image_url)
                         ),
@@ -487,15 +504,44 @@
                 throw new Error(e);
             }
         },
+        attach: function(nid) {
+            //construct endpoint URL with basePath and nid from Drupal.settings (set in template.php)
+            var count_url = baseURL + "/count/up/update?nid=" + nid;
+            var xhr = new XMLHttpRequest();
+            //make http request to endpoint
+            xhr.open("GET", count_url, true);
+            xhr.onload = function (e) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log(xhr.responseText);
+                    } else {
+                        console.error(xhr.statusText);
+                    }
+                }
+            };
+            xhr.onerror = function (e) {
+                console.error(xhr.statusText);
+            };
+            xhr.send(null);
+        },
         setDefaultData: function () {
-            $('[name=name]').val(self.getData('c_user_name'));
-            $('[name=fb_id]').val(self.getData('c_user_id'));
+            $('[name=name]').val($this.getData('c_user_name'));
+            $('[name=fb_id]').val($this.getData('c_user_id'));
+
+            /*var stored = $this.getData(key);
+
+            if (stored === undefined) {
+                $this.setData(key, value);
+                return value;
+            } else {
+                return stored;
+            }*/
         },
         handleAction: function (action, data) {
             switch (action.toLowerCase()) {
                 case 'submitx':
                     $('.results').css('background', 'url(data:image/svg+xml;base64,PCEtLSBUaGlzIHZlcnNpb24gb2YgdGhlIHRocm9iYmVyIGlzIGdvb2QgZm9yIHNpemVzIGxlc3MgdGhhbiAyOHgyOGRwLAogICAgIHdoaWNoIGZvbGxvdyB0aGUgc3Ryb2tlIHRoaWNrbmVzcyBjYWxjdWxhdGlvbjogMyAtICgyOCAtIGRpYW1ldGVyKSAvIDE2IC0tPgo8c3ZnIHZlcnNpb249IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgICAgICAgICAgICAgICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgICB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDwhLS0gMTY9IFJBRElVUyoyICsgU1RST0tFV0lEVEggLS0+CgogIDx0aXRsZT5NYXRlcmlhbCBkZXNpZ24gY2lyY3VsYXIgYWN0aXZpdHkgc3Bpbm5lciB3aXRoIENTUzMgYW5pbWF0aW9uPC90aXRsZT4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgICAvKioqKioqKioqKioqKioqKioqKioqKioqKiovCiAgICAgIC8qIFNUWUxFUyBGT1IgVEhFIFNQSU5ORVIgKi8KICAgICAgLyoqKioqKioqKioqKioqKioqKioqKioqKioqLwoKICAgICAgLyoKICAgICAgICogQ29uc3RhbnRzOgogICAgICAgKiAgICAgIFJBRElVUyAgICAgID0gNi44NzUKICAgICAgICogICAgICBTVFJPS0VXSURUSCA9IDIuMjUKICAgICAgICogICAgICBBUkNTSVpFICAgICA9IDI3MCBkZWdyZWVzIChhbW91bnQgb2YgY2lyY2xlIHRoZSBhcmMgdGFrZXMgdXApCiAgICAgICAqICAgICAgQVJDVElNRSAgICAgPSAxMzMzbXMgKHRpbWUgaXQgdGFrZXMgdG8gZXhwYW5kIGFuZCBjb250cmFjdCBhcmMpCiAgICAgICAqICAgICAgQVJDU1RBUlRST1QgPSAyMTYgZGVncmVlcyAoaG93IG11Y2ggdGhlIHN0YXJ0IGxvY2F0aW9uIG9mIHRoZSBhcmMKICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNob3VsZCByb3RhdGUgZWFjaCB0aW1lLCAyMTYgZ2l2ZXMgdXMgYQogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgNSBwb2ludGVkIHN0YXIgc2hhcGUgKGl0J3MgMzYwLzUgKiAyKS4KICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEZvciBhIDcgcG9pbnRlZCBzdGFyLCB3ZSBtaWdodCBkbwogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMzYwLzcgKiAzID0gMTU0LjI4NikKICAgICAgICoKICAgICAgICogICAgICBTSFJJTktfVElNRSA9IDQwMG1zCiAgICAgICAqLwoKICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgd2lkdGg6MTZweDsgIC8qIDIqUkFESVVTICsgU1RST0tFV0lEVEggKi8KICAgICAgICBoZWlnaHQ6MTZweDsgLyogMipSQURJVVMgKyBTVFJPS0VXSURUSCAqLwogICAgICB9CiAgICAgIC5xcC1jaXJjdWxhci1sb2FkZXItcGF0aCB7CiAgICAgICAgc3Ryb2tlLWRhc2hhcnJheTogMzIuNDsgIC8qIDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgKi8KICAgICAgICBzdHJva2UtZGFzaG9mZnNldDogMzIuNDsgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiBoaWRlcyB0aGluZ3MgaW5pdGlhbGx5ICovCiAgICAgIH0KCiAgICAgIC8qIFNWRyBlbGVtZW50cyBzZWVtIHRvIGhhdmUgYSBkaWZmZXJlbnQgZGVmYXVsdCBvcmlnaW4gKi8KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciwgLnFwLWNpcmN1bGFyLWxvYWRlciAqIHsKICAgICAgICB0cmFuc2Zvcm0tb3JpZ2luOiA1MCUgNTAlOwogICAgICB9CgogICAgICAvKiBSb3RhdGluZyB0aGUgd2hvbGUgdGhpbmcgKi8KICAgICAgQGtleWZyYW1lcyByb3RhdGUgewogICAgICAgIGZyb20ge3RyYW5zZm9ybTogcm90YXRlKDBkZWcpO30KICAgICAgICB0byB7dHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTt9CiAgICAgIH0KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAxNTY4LjYzbXM7IC8qIDM2MCAqIEFSQ1RJTUUgLyAoQVJDU1RBUlRST1QgKyAoMzYwLUFSQ1NJWkUpKSAqLwogICAgICAgIGFuaW1hdGlvbi1pdGVyYXRpb24tY291bnQ6IGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiByb3RhdGU7CiAgICAgICAgYW5pbWF0aW9uLXRpbWluZy1mdW5jdGlvbjogbGluZWFyOwogICAgICB9CgogICAgICAvKiBGaWxsaW5nIGFuZCB1bmZpbGxpbmcgdGhlIGFyYyAqLwogICAgICBAa2V5ZnJhbWVzIGZpbGx1bmZpbGwgewogICAgICAgIGZyb20gewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDMyLjMgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAtIDAuMSAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC4xIGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgICA1MCUgewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDA7CiAgICAgICAgfQogICAgICAgIHRvIHsKICAgICAgICAgIHN0cm9rZS1kYXNob2Zmc2V0OiAtMzEuOSAvKiAtKDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgLSAwLjUpICovCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC41IGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgfQogICAgICBAa2V5ZnJhbWVzIHJvdCB7CiAgICAgICAgZnJvbSB7CiAgICAgICAgICB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgdHJhbnNmb3JtOiByb3RhdGUoLTM2MGRlZyk7CiAgICAgICAgfQogICAgICB9CiAgICAgIEBrZXlmcmFtZXMgY29sb3JzIHsKICAgICAgICBmcm9tIHsKICAgICAgICAgIHN0cm9rZTogIzQyODVmNDsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgc3Ryb2tlOiAjNDI4NWY0OwogICAgICAgIH0KICAgICAgfQogICAgICAucXAtY2lyY3VsYXItbG9hZGVyLXBhdGggewogICAgICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMTMzM21zLCA1MzMybXMsIDUzMzJtczsgLyogQVJDVElNRSwgNCpBUkNUSU1FLCA0KkFSQ1RJTUUgKi8KICAgICAgICBhbmltYXRpb24tZmlsbC1tb2RlOiBmb3J3YXJkczsKICAgICAgICBhbmltYXRpb24taXRlcmF0aW9uLWNvdW50OiBpbmZpbml0ZSwgaW5maW5pdGUsIGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiBmaWxsdW5maWxsLCByb3QsIGNvbG9yczsKICAgICAgICBhbmltYXRpb24tcGxheS1zdGF0ZTogcnVubmluZywgcnVubmluZywgcnVubmluZzsKICAgICAgICBhbmltYXRpb24tdGltaW5nLWZ1bmN0aW9uOiBjdWJpYy1iZXppZXIoMC40LCAwLjAsIDAuMiwgMSksIHN0ZXBzKDQpLCBsaW5lYXI7CiAgICAgIH0KCiAgPC9zdHlsZT4KCiAgPCEtLSAyLjI1PSBTVFJPS0VXSURUSCAtLT4KICA8IS0tIDggPSBSQURJVVMgKyBTVFJPS0VXSURUSC8yIC0tPgogIDwhLS0gNi44NzU9IFJBRElVUyAtLT4KICA8IS0tIDEuMTI1PSAgU1RST0tFV0lEVEgvMiAtLT4KICA8ZyBjbGFzcz0icXAtY2lyY3VsYXItbG9hZGVyIj4KICAgIDxwYXRoIGNsYXNzPSJxcC1jaXJjdWxhci1sb2FkZXItcGF0aCIgZmlsbD0ibm9uZSIgCiAgICAgICAgICBkPSJNIDgsMS4xMjUgQSA2Ljg3NSw2Ljg3NSAwIDEgMSAxLjEyNSw4IiBzdHJva2Utd2lkdGg9IjIuMjUiCiAgICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPgo=)').css('padding', '1px 8px');
-                    self.submitForm(action);
+                    $this.submitForm(action);
                     return true;
                     break;
                 case 'connect_facebook':
@@ -526,7 +572,7 @@
             //getTwoRandomPhotos();
         },
         getPreferredGender: function () {
-            var gender = self.getData('gender');
+            var gender = $this.getData('gender');
             // If 'gender' doesn't exist, or if existing 'gender' isn't female or male
             if (!store.has('gender') || (gender !== 'f' && gender !== 'm')) {
                 gender = 'f';
@@ -535,13 +581,15 @@
             return gender;
         },
         getData: function (key) {
-            return localStorage.getItem(key);
+            if (localStorage[key] !== undefined) {
+                return localStorage[key];
+            }
         },
-        setData: function (data) {
-            var key = data.key,
-                value = JSON.stringify(data.value);
+        setData: function (key, value) {
+            var dataKey = key,
+                dataValue = JSON.stringify(value);
             try {
-                localStorage.setItem(key, value);
+                localStorage.setItem(dataKey, dataValue);
             } catch (e) {
             }
         },
@@ -567,19 +615,19 @@
         },
         isLoggedIn1: function () {
             try {
-                if (self.isValidUser()) {
+                if ($this.isValidUser()) {
                     if (followingSites.indexOf(currentHostName) <= - 1) {
                         followingSites.push(currentHostName);
                         var itemData = {
                             'following_sites': JSON.stringify(followingSites)
                         };
-                        self.setData(itemData);
-                        self.followSite();
+                        $this.setData(itemData);
+                        $this.followSite();
                     } else {
-                        self.getFollowingSites();
+                        $this.getFollowingSites();
                     }
                 } else {
-                    self.showSignInForm();
+                    $this.showSignInForm();
                 }
             } catch (e) {
             }
@@ -607,7 +655,7 @@
             return false;
         },
         isAuthenticated: function () {
-            if (self.getItem('c_user_name') === '' || !self.getItem('c_user_name')) {
+            if ($this.getItem('c_user_name') === '' || !$this.getItem('c_user_name')) {
                 return true;
             }
             return true;
@@ -664,7 +712,7 @@
                 method: method,
                 url: url
             };
-            var self = $(this);
+            var $this = $(this);
             return new Promise(function (resolve, reject) {
                 $.ajax({
                     url: '/api/v1/submit',
@@ -679,16 +727,16 @@
                         $('.results').html('Failed to submit form, please try again later.');
                         reject(false);
                     } else {
-                        if (typeof response.api_key != 'undefined') self.setLoginData(response);
+                        if (typeof response.api_key != 'undefined') $this.setLoginData(response);
                         //$('.results').html('Sent successfully'); resolve(true);
                     }
                 });
             });
         },
         showFbLoginButton: function () {
-            if (!self.isLoggedIn()) {
+            if (!$this.isLoggedIn()) {
                 $('<div id="#loginbutton"></div>')
-            } else if (self.isLoggedIn()) {
+            } else if ($this.isLoggedIn()) {
                 $('<div id="#logoutbutton"></div>');
             }
         },
@@ -762,7 +810,7 @@
             return string.trim().replace(/\s+/g, ' '); // Remove leading/trailing whitespaces and multiple whitespaces
         },
         _fancy: function (string) {
-            return self._clean(string).replace(/\\/g, '');
+            return $this._clean(string).replace(/\\/g, '');
         },
         dummy: function (text, callback) {
             callback(text);
@@ -773,6 +821,32 @@
         },
         getByClass: function (className) {
             return document.getElementsByClassName(className);
+        },
+        hasImageExntesion: function(email) {
+            try {
+                return (/\.(gif|jpg|jpeg|tiff|png)$/i).test(email)
+            } catch (e) {
+                console.log(e);
+            }
+            return false;
+        },
+        postData: function(type, url, data, callback) {
+            $.ajax({
+                type: type,
+                url: url,
+                data: data,
+                success: callback,
+            });
+        },
+        postFormData: function(url, data, callback) {
+            $.ajax({
+                async: true,
+                crossDomain: true,
+                url: url,
+                type: 'POST',
+                data: data,
+                success: callback
+            })
         }
     };
 
@@ -814,6 +888,16 @@
     */
     var stuckwanyah = new StuckWanYah(this, 'init');
 
+    function ajax(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4)
+                callback(xhr.responseText);
+        };
+        xhr.open("GET", "jsonview.css", true);
+        xhr.send(null);
+    };
+
     function ajaxRequest(data, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
@@ -824,7 +908,8 @@
         xhr.open(data.method, data.url, !data.async); // "GET" || "POST"
         xhr.setRequestHeader('Content-type', !data.header);
         xhr.send(data.param ? 'x=' + data.param : null);
-    }
+    };
+
     function change_myselect() {
         var obj,
             param;
@@ -855,11 +940,11 @@
                 document.getElementById('demo').innerHTML = txt;
             }
         });
-    }
+    };
 
     StuckWanYah.prototype.storeCurrentUser = function (userId, ratings) {
-        $window.localStorage.currentUser = JSON.stringify(response.data.user);
-        $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+        window.localStorage.currentUser = JSON.stringify(response.data.user);
+        var currentUser = JSON.parse(window.localStorage.currentUser);
         var my_ratings = {
             'image_id': ratings.image_id,
             'image_url': ratings.image_url
@@ -932,7 +1017,7 @@
         img.width = typeof width == null ? '' : width;
         img.height = typeof height == null ? '' : height;
         return img;
-    }
+    };
 
     /*
     document.getElementsByClassName('code') [0].addEventListener('click', function (e) {
@@ -1119,3 +1204,82 @@ Game.prototype.drawRectangle = function (color, x, y, width, height) {
     this.context.fillStyle = color;
     this.context.fillRect(x, y, width, height);
 };
+
+/*
+function saveCredentials() {
+    localStorage["appId"] = document.getElementById("app_id").value;
+    localStorage["accessToken"] = document.getElementById("access_token").value;
+    document.getElementById("msg").innerHTML = "Successfully change!";
+    setTimeout(function(){document.getElementById("msg").innerHTML = '';}, 1500);
+}
+
+function eraseCredentials() {
+    localStorage.removeItem("appId");
+    localStorage.removeItem("accessToken");
+    location.reload();
+}
+
+function saveOptions() {
+    localStorage["mobileNumber"] = $('#mobile_number').val();
+    localStorage["message"] = $('#message').val();
+    $("#msgOptions").text("Successfully change!");
+    setTimeout(function(){$("#msgOptions").text('');}, 1500);
+}
+
+function eraseOptions() {
+    localStorage.removeItem("mobileNumber");
+    localStorage.removeItem("message");
+    $("#msgOptions").text("Successfully clear!");
+    setTimeout(function(){$("#msgOptions").text('');}, 1500);
+    $("#mobile_number").val('');
+    $("#message").val('');
+}
+
+window.onload = function () {
+
+    if (localStorage['message'] == undefined)
+        localStorage['message'] = "Hi, check this out:";
+
+    $("#app_id").val(localStorage["appId"] == undefined ? "" : localStorage["appId"]);
+    $("#access_token").val(localStorage["accessToken"] == undefined ? "" : localStorage["accessToken"]);
+    $("#mobile_number").val(localStorage["mobileNumber"] == undefined ? "" : localStorage["mobileNumber"]);
+    $("#message").val(localStorage["message"] == undefined ? "" : localStorage["message"]);
+
+    document.querySelector('input[value="Save"]').onclick=saveCredentials;
+    document.querySelector('input[value="Clear"]').onclick=eraseCredentials;
+
+    document.querySelector('input[id="save2"]').onclick=saveOptions;
+    document.querySelector('input[id="clear2"]').onclick=eraseOptions;
+
+    var content = $(".menuitem");
+
+    var swapContents= function(target) {
+        // swap the content
+        var currentSelected = $(target).parent().siblings("#content").children(".contentitem.selected");
+        currentSelected.removeClass("selected");
+
+        var selectedContent = $("#" + target.id + "-content");
+        selectedContent.addClass("selected");
+
+        // swap the menu
+        var currentSelectedMenu = $(target).parent().children(".menuitem.selected");
+        currentSelectedMenu.removeClass("selected");
+
+        $(target).css("background-color", "");
+        $(target).addClass("selected");
+    }
+
+    content.hover(
+        function () {
+            if (!$(this).hasClass("selected"))
+                $(this).css("background-color", "#E4FFE1");
+        },
+        function () {
+            if (!$(this).hasClass("selected"))
+                $(this).css("background-color", "#DADEE0");
+        });
+
+    content.click(function() {
+        swapContents(this);
+    });
+}*/

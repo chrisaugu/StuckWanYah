@@ -15,7 +15,7 @@
 	<h4>I'd love to hear what you think about StuckWanYah. Good or Bad. Have a suggestion for a new feature? Shoot it over to me. <br>Have a Harry Potter conspiracy theory? Share it with me!</h4>
 
 	<center>
-		<form id="submit" action="/api/v1/submit" method="get" ddata-form="submit">
+		<form id="submit" action="/api/v1/submit" method="post" ddata-form="submit">
 			<table align="center">
 				<tr><td><input type="text" name="name" placeholder="Your name" class="text"></td></tr>
 				<tr><td><input type="text" required="true" name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
@@ -60,7 +60,8 @@
 			<div class="container">
 				<ul>
 					<li><a href="/" onclick="sh('home')">Home</a></li>
-					<li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">Messenger Bot</a></li>
+					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<li><a target="_blank" href="https://app.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah on Facebook</a></li>
 					<li><a href="/about.html" onclick="sh('about')">About</a></li>
 					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>

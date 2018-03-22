@@ -11,7 +11,7 @@ var restful = require("node-restful"),
 var SweetLipsSchema = new Schema({
 	//_id: <ObjectId>,
 	image_id: { type: String, unique: true, index: true },
-	name: String,
+	fullName: String,
 	age: Number,
 	gender: String,
 	image_url: String,
@@ -30,12 +30,12 @@ var SweetLipsSchema = new Schema({
 		selected: false
 	},
 	is_blocked: { type: Boolean, default: false },
-	wins: { type: Number, default: 0},
-	losses: { type: Number, default: 0},
-	draws: { type: Number, default: 0},
-	score: { type: Number, default: 0},
-	ratings: { type: Number, default: 1400},
-	rankings: { type: Number, default: 0},
+	wins: { type: Number, default: 0 },
+	losses: { type: Number, default: 0 },
+	draws: { type: Number, default: 0 },
+	score: { type: Number, default: 0 },
+	ratings: { type: Number, default: 1400 },
+	rankings: { type: Number, default: 0 },
     // define the geospatial field
 	random: { type: [Number], index: '2d' },
 	voted: { type: Boolean, default: false },
@@ -58,18 +58,23 @@ SweetLipsSchema.statics.upsertFbPhoto = function(accessToken, refreshToken, prof
     }, function(err, photo){
         if (!photo) {
             var newPhoto = new $this({
-                name: profile.name,
+                // image_id is the facebook id
+                image_id: profile.id,
+                fullName: profile.displayName,
                 age: profile.age,
                 gender: profile.gender,
-                image_url: profile.image_url, // user public profile
+                image_url: profile.displayPicture, // user public profile
                 thumb_src: profile.thumbSrc,
                 uri: profile.uri,
-                email: profile.emails[0].value,
-                facebook_friends: [profile.friends],
+                // email: profile.emails[0].value,
+                facebook_friends: profile.friends,
                 facebookProvider: {
                     id: profile.id,
                     token: accessToken
-                }
+                },
+                // leave is_blocked false
+                ratings: 1400
+                // leave the rest to default
             });
 
             newPhoto.save(function(error, savedPhoto){
@@ -92,6 +97,11 @@ SweetLipsSchema.methods.findClosest = function(callback) {
     }).limit(1).exec(callback);
 };
 
+SweetLipsSchema.methods.findById = function (id, callback) {
+	return this.model('photos').find({
+        "image_id": id
+	}).exec(callback);
+};
 
 var photos = restful.model("photos", SweetLipsSchema);
 

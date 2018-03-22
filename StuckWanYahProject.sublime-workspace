@@ -129,7 +129,7 @@
 			],
 			[
 				"f",
-				"fi	<%= Fixtures.identify(:symbol) %>"
+				"fi\t<%= Fixtures.identify(:symbol) %>"
 			],
 			[
 				"pla",
@@ -173,7 +173,7 @@
 			],
 			[
 				"in",
-				"input	Tag"
+				"input\tTag"
 			],
 			[
 				"d",
@@ -373,7 +373,7 @@
 			],
 			[
 				"p",
-				"proto	Prototype"
+				"proto\tPrototype"
 			],
 			[
 				"los",
@@ -417,7 +417,7 @@
 			],
 			[
 				"onc",
-				"onclick	Attr"
+				"onclick\tAttr"
 			],
 			[
 				"ara",
@@ -429,15 +429,15 @@
 			],
 			[
 				"for",
-				"for	for (…) {…}"
+				"for\tfor (…) {…}"
 			],
 			[
 				"th",
-				"th	Tag"
+				"th\tTag"
 			],
 			[
 				"e",
-				"embed	Tag"
+				"embed\tTag"
 			],
 			[
 				"fb",
@@ -520,23 +520,36 @@
 	"buffers":
 	[
 		{
-			"file": "app.js",
+			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 61241,
+				"buffer_size": 63343,
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"file": "views/home.html",
+			"settings":
+			{
+				"buffer_size": 5094,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "/*!\n * Copyright © 2018-present, StuckWanYah. All rights reserved.\n * (c) 2018 Christian J.F. Augustyn\n */\n/* Movie Sleep Over */\n;(function ($, document, window) {\n    'use strict';\n\n    var baseURL = 'https://stuckwanyah.herokuapp.com/'\n        , DOMAIN_NAME = baseURL\n        , apiURL = baseURL.substr( - 1) + '/api/v1/'\n        , keyStrokeCount = 0\n        , xmlhttp = null\n        , photos = []\n        , current_page = document.location.pathname;\n\n    $(document).ready(function () {\n\n        $.ajaxSetup({\n            cache: true\n        });\n        $.getScript('/javascripts/sdk.js', function () {\n            FB.init({\n                appId: '1791165357568831', // 'YOUR-APP-ID-HERE'\n                // appSecret: 'APP-SECRET_HERE',\n                status: false, // the SDK will attempt to get info about the current user immediately after init\n                cookie: false, // enable cookies to allow the server to access\n                // the session\n                xfbml: false, // With xfbml set to true, the SDK will parse your page's DOM to find and initialize any social plugins that have been added using XFBML\n                version: 'v2.8' // use graph api version 2.5 or v2.1, 2.2, 2.3, ...\n            });\n\n            $('#loginbutton,#feedbutton').removeAttr('disable');\n\n            function fbLogin() {\n                return new Promise(function (resolve, reject) {\n\n                    FB.login(function (result) {\n                        if (result.authResponse) {\n                            $.post('http://localhost:5000/api/v1/auth/facebook/login', {\n                                access_token: result.authResponse.accessToken\n                            }).toPromise().then(function (response) {\n                                var token = response.headers.get('x-auth-token');\n                                if (token) {\n                                    localStorage.setItem('id_token', token);\n                                }\n                                resolve(response.json());\n                            }).catch(function () {\n                                reject();\n                            })\n                        } else {\n                            reject();\n                        }\n                    }, {\n                        scope: 'publish_actions, public_profile, email, friends, user_bio user_likes, user_photos, gender, user_friends'\n                    })\n                });\n            };\n\n            function logout() {\n                localStorage.removeItem('id_token');\n                // FB.logout();\n            };\n            \n            function isLoggedIn() {\n                return new Promise(function (resolve, reject) {\n                    this.getCurrentUser().then(function (user) {\n                        resolve(true)\n                    }).catch (function () {\n                        reject(false);\n                    });\n                });\n            };\n\n            function getCurrentUser() {\n                return new Promise(function (resolve, reject) {\n                    $.get('http://localhost:5000/api/v1/auth/me').toPromise().then(function (response) {\n                        resolve(response.json());\n                    });\n                });\n            };\n\n            function checkLogin() {\n                return new Promise(function (resolve, reject) {\n                    this.isLoggedIn().then(function () {\n                        resolve(true);\n                    }).catch (function () {\n                        window.location.href = '/welcome';\n                        reject(false);\n                    })\n                });\n            };\n\n            /* updateStatusCallback */\n            FB.getLoginStatus(function (response) {\n                if (response.status === 'connected') {\n                    console.log('Logged in');\n                } else {\n                    fbLogin();\n                }\n            });\n\n            function getFriendsList() {\n                return new Promise(function (resolve, reject) {\n                    FB.api('/me/friends').then(function (result) {\n                        resolve(result.json());\n                    }).catch (function (error) {\n                        console.error(error);\n                        reject(false);\n                    })\n                });\n            }\n\n            $('#loginbutton').click(function (e) {\n                fbLogin();\n            });\n\n            $('#logoutbutton').click(function (e) {\n                logout();\n            });\n\n            function postToFacebook(message) {\n                return new Promise(function (resolve, reject) {\n                    FB.api('/me/feed', 'post', {\n                        message: 'Hello, world!'\n                    });\n                })\n            }\n\n            $('#postToFacebook').click(function (e) {\n                return new Promise(function (resolve, reject) {\n                    FB.ui({\n                        method: 'share',\n                        action_type: 'og.likes',\n                        actions_properties: JSON.stringify({\n                            object: 'https://developers.facebook.com/docs/'\n                        })\n                    }).then(function (response) {\n                        console.log(response);\n                    }).catch (function (err) {\n                        console.error(err);\n                        reject(true);\n                    });\n                });\n            });\n\n            function addtab() {\n                FB.ui({\n                    method: 'pagetab',\n                    redirect_uri: 'YOUR_URL'\n                }, function (response) {\n\n                })\n            }\n\n        });\n    });\n\n    var store = (function (setup) {\n        var store = localStorage;\n        return {\n            has: function (key) {\n                store.getItem(key);\n            },\n            get: function (key) {\n                store.getItem(key);\n            },\n            set: function (key, value) {\n                store.setItem(key, value);\n            }\n        }\n    })();\n\n    var defaults = {\n            init: function() {},\n        },\n        SITENAME = 'StuckWanYah',\n        version = 'v1.0.0';\n\n    /**\n     * StuckWanYah JavaScript\n     */\n    function StuckWanYah(element, options) {\n        this.element = element;\n\n        // jQuery has an extend method which merges the contents of two or\n        // more objects, storing the result in the first object. The first object\n        // is generally empty as we don't want to alter the default options for\n        // future instances of the plugin\n        this.settings = $.extend({}, defaults, options);\n\n        this._defaults = defaults;\n        this._name = SITENAME;\n        this._version = version;\n\n        this.store = store;\n\n        this.init();\n    };\n\n    var $this = null;\n\n    StuckWanYah.prototype = {\n        init: function () {\n            $this = StuckWanYah.prototype;\n            this.setDefaultData();\n            this.initPageEventListener();\n            this.initClickEventListener();\n            this.initSubmitEvent();\n            this.initShareEvent();\n            //this.show_error_messages();\n            this.show_top_ranked_photo();\n        },\n        initClickEventListener: function () {\n            $('body').on('click', 'a', function (e) {\n                //e.preventDefault();\n                //if ($this._search(e.target.href) === '/.html/gi') {\n                //$this.registerPageHit($this._fancy(e.target.href.toString()));\n                //} else if ($(this).attr('data-action')) {\n                //$this.handleAction($(this).attr('data-action'), $(this).attr('data-id') ? $(this).attr('data-id') : null);\n                //}\n            }).on('focus', 'input', function () {\n                //if ($(window).scrollTop() > 0) {\n                //    $('html,body').scrollTop($(this).offset().top - 110)\n                //}\n            }).on('click', 'button, .button', function () {\n                if ($(this).attr('data-action')) {\n                    //$this.handleAction($(this).attr('data-action'), $(this).attr('data-id') ? $(this).attr('data-id')  : null);\n                }\n            }).on('keyup', 'form[data-form=\\'submit\\'] textarea', function (e) {\n                var len = $this._clean($(this).val()).length;\n                var $counter = $('#counter');\n                if (len <= 120) {\n                    $counter.html((120 - len) + ' characters remaining');\n                }\n                if ((120 - len) === 0) {\n                    // stop the textarea from accepting the keypress\n                    $counter.html('works');\n                }\n            }).on('change', '#ranking_type_field', function (e) {\n                var params = {\n                    'field': e.target.value,\n                    'gender': $('#ranking_type_gender').val()\n                };\n                $this.renderRankList(params);\n            }).on('change', '#ranking_type_gender', function (e) {\n                var params = {\n                    'field': $('#ranking_type_field').val(),\n                    'gender': e.target.value\n                };\n                $this.renderRankList(params);\n            }).on('click', '#connect_facebook', function () {\n                $this.handleAction('facebook_connect', $(this).attr('id'));\n            }).on('submit', 'form', function (e) {\n                //e.preventDefault(); // No need to do anything else, on click for .button already takes care of things\n            })\n        },\n        initShareEvent: function () {\n            $('[data-share-url]').click(function (e) {\n                e.preventDefault();\n            });\n        },\n        initSubmitEvent: function () {\n            this.validateForm();\n            //this.submitForm();\n        },\n        initPageEventListener: function () {\n            var l = this._slice(document.location.pathname);\n            switch (l) {\n                case '/':\n                    $this.registerPageHit('home');\n                    break;\n                case 'friends':\n                    $this.renderFriendsList();\n                    $this.registerPageHit('friends');\n                    break;\n                case 'flames':\n                    $this.registerPageHit('flames');\n                    break;\n                case 'games':\n                    $this.registerPageHit('games');\n                    break;\n                case 'rankings':\n                    $this.renderRankList();\n                    $this.registerPageHit('rankings');\n                    break;\n                case 'submit':\n                    $this.registerPageHit('submit');\n                    break;\n            }\n        },\n        initShareFacebookEvent: function () {\n            $('.btn-share-facebook').click(function (e) {\n                var url = encodeURIComponent($('.share-url-original').val());\n                window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, 'myWindowName', 'width=600, height=600');\n                return false;\n            });\n        },\n        onClickShareButton: function (e) {\n            e.preventDefault && e.preventDefault();\n            var link = this.getAttribute('data-href') || 'https://stuckwanyah.herokuapp.com/';\n            window.open('http://www.facebook.com/dialog/share?app_id=362497390470077&href=' +\n                encodeURIComponent(link) + '&redirect_uri=' +\n                encodeURIComponent('https://stuckwanyah.herokuapp.com/') + '&display=popup', 'StuckWanYah', 'resizable,scrollbars,status,width=500,height=500');\n            return false;\n        },\n        onSubmitButtonClick: function () {\n            $('#kval').val(keyStrokeCount);\n            var a = new Date() - start;\n            $('#loadtime').val(a)\n        },\n        updateKeyStrokeCount: function () {\n            keyStrokeCount = keyStrokeCount + 1\n        },\n        registerPageHit: function (pageName) {\n            $.ajax({\n                async: true,\n                crossDomain: true,\n                url: \"/api/v1/hits\",\n                type: 'PUT',\n                data: {\n                    page: pageName\n                },\n            })\n        },\n        renderTwoPhotos: function () {\n            $this.getImages({\n                data: {\n                    gender: '',\n                    age: '13-21',\n                    limit: 2,\n                }\n            }, function (photos) {\n                $.each(photos, function (i, photo) {\n                    $('#photos [name=contenderId]').eq(i).attr('value', photo.user_id);\n                    $('#photos input:image').eq(i).attr('src', photo.image_url);\n                    $('#ratings .ratings').eq(i).html(photo.ratings);\n                    $('#wins .winings').eq(i).html(photo.wins);\n                    $('#wins .losings').eq(i).html(photo.losses);\n                    $('#scores .scorings').eq(i).html(photo.scores);\n                    $('#expectations .expectations').eq(i).html(photo.expectations);\n                });\n            });\n        },\n        renderImages: function () {\n            try {\n                $this.getImages();\n            } catch (e) {\n                console.log(e);\n            }\n        },\n        getImages: function () {\n            $.ajax({\n                url: '/api/v1/photos',\n                type: 'GET',\n                dataType: 'json',\n                data: {\n                    gender: $this.getPreferredGender()\n                }\n            }).done(function (photo) {\n                $this.appendImages(photo);\n            }).fail(function (err) {\n                console.log(err);\n            });\n        },\n        appendImages: function (photo) {\n            if (data.data.length < 2) {\n                $('#main-display').html('<p>There aren\\'t enough players of this gender currently. You could help <a href=\\'#submit\\'>change that</a>.</p>');\n                return;\n            }\n            var $display = $('#main-display');\n            $display.hide();\n            // Player 1\n            var id = data.data[0].id;\n            $('#player-one').attr('src', '/api/v1/photo.php?id=' + id).attr('data-id', id);\n            // Player 2\n            id = data.data[1].id;\n            $('#player-two').attr('src', '/api/v1/photo.php?id=' + id).attr('data-id', id);\n            $display.fadeIn(600);\n        },\n        renderFriendsList: function () {\n            try {\n                $this.getFriendsList();\n            } catch (e) {\n                console.log(e);\n            }\n        },\n        getFriendsList: function () {\n            try {\n                //if (email && api_key) {\n                if ($('#photos').is(':empty')) {\n                    $.getJSON({\n                        url: '/api/v1/photos',\n                        //data: {\"gender\": \"female\"},\n                        success: function (response) {\n                            $this.appendFriendsList(response);\n                        }\n                    });\n                } else {\n                    // $this.showFriendsList();\n                } //}\n\n            } catch (e) {\n                console.log(e);\n            }\n        },\n        appendFriendsList: function (response) {\n            /*try {\n                if (typeof response != \"undefined\") {\n                    if (typeof response.friendslist != \"undefined\") {\n                        $('#photos').empty();\n                        var friends_list = response.friendslist;\n                        Object.keys(friends_list).forEach(function(siteName) {\n                            var siteDetectedApps = (typeof friends_list[siteName] === \"object\") ? friends_list[siteName] : JSON.parse(following_sites[siteName]);\n                            $this.appendAppDetails(siteDetectedApps, siteName, response.days);\n                        });\n                        $this.showFollowingSites();\n                    }\n                }\n            } catch(e) {\n                console.log(e);\n            }*/\n            try {\n                if (typeof response !== 'undefined') {\n                    if (typeof response.friendslist !== 'undefined') {\n                        $('#photos').empty();\n                        var friends_list = response.friendslist;\n                        Object.keys(friends_list).forEach(function (siteName) {\n                        });\n                    }\n                }\n            } catch (e) {\n                console.log(e);\n            }\n\n            var output = '';\n            output += '<tr>';\n            output += '<td class=\"photos\" style=\"width: 902px;\">';\n            $.each(response, function (i, item) {\n                output += '<a href=\"' + item.uri + '\" data-fb-id=\"' + item.image_id + '\">';\n                output += '<img class=\"photo\" src=\"/photos/' + item.image_url + '\" style=\"width:70px!important\">';\n                output += '</a>';\n            });\n            output += '</td>';\n            output += '</tr>';\n            $('#photos').html(output);\n        },\n        renderRankList: function () {\n            $this.getRankList();\n        },\n        getRankList: function (rankingField) {\n            console.log(rankingField);\n            try {\n                //if ($('#rankings').is(':empty')) {\n                $.getJSON({\n                    url: '/api/v1/photos/top',\n                    data: rankingField,\n                    success: function (response) {\n                        $this.appendRankList(response);\n                    }\n                });\n                //} else {\n                //$this.\n                //}\n            } catch (e) {\n                console.log(e);\n            }\n        },\n        appendRankList: function (response) {\n            try {\n                var output = $('');\n                //var imgEl = $('<img class=\\'photo\\' src=\\'/photos/' + item.image_url + '\\' data-fb-id=\\'' + item.image_id + '\" width=\\'180\\'> ');\n                $.each(response, function (i, item) {\n                    output += '<tr align=\"center\"><td><a href=\"'+ item.uri +'\">';\n                    output += '<img class=\\'photo\\' src=\\'/photos/' + item.image_url + '\\' data-fb-id=\"' + item.image_id + '\" width=\\'180\\'>';\n                    output += '</a></td><td></td><td>';\n                    output += item.ratings;\n                    output += '</td><td></td></tr>';\n                });\n                $('#rankings').append(output);\n            } catch (e) {\n                console.log(e);\n            }\n        },\n        show_top_ranked_photo: function () {\n            try {\n                $.getJSON('/api/v1/photos/top', function (data) {\n                    var containerEl = $('<div class=\"container\"></div>');\n                    var divEl = $('<div class=\"server-error-img-div\"></div>');\n                    var imgEl = $('<img style=\"border:0px;\">');\n                    var msgEl = $('<div class=\"server-error-msg\"></div>');\n                    var refreshEl = $('<input type=\"button\" class=\"button\" onclick=\"javascript:location.reload()\" value=\"continue\">');\n                    $(containerEl).append(\n                        $(msgEl).append(data[0].name + ' dat wan yah em stuck wan eh! (*^*)'),\n                        $(divEl).append(\n                            $(imgEl).attr('src', '/photos/' + data[0].image_url)\n                        ),\n                        $(msgEl).append($(refreshEl))\n                    );\n                    $('.current-app-info').append($(containerEl));\n                });\n            } catch (e) {\n                throw new Error(e);\n            }\n        },\n        attach: function(nid) {\n            //construct endpoint URL with basePath and nid from Drupal.settings (set in template.php)\n            var count_url = baseURL + \"/count/up/update?nid=\" + nid;\n            var xhr = new XMLHttpRequest();\n            //make http request to endpoint\n            xhr.open(\"GET\", count_url, true);\n            xhr.onload = function (e) {\n                if (xhr.readyState === 4) {\n                    if (xhr.status === 200) {\n                        console.log(xhr.responseText);\n                    } else {\n                        console.error(xhr.statusText);\n                    }\n                }\n            };\n            xhr.onerror = function (e) {\n                console.error(xhr.statusText);\n            };\n            xhr.send(null);\n        },\n        setDefaultData: function () {\n            $('[name=name]').val($this.getData('c_user_name'));\n            $('[name=fb_id]').val($this.getData('c_user_id'));\n\n            /*var stored = $this.getData(key);\n\n            if (stored === undefined) {\n                $this.setData(key, value);\n                return value;\n            } else {\n                return stored;\n            }*/\n        },\n        handleAction: function (action, data) {\n            switch (action.toLowerCase()) {\n                case 'submitx':\n                    $('.results').css('background', 'url(data:image/svg+xml;base64,PCEtLSBUaGlzIHZlcnNpb24gb2YgdGhlIHRocm9iYmVyIGlzIGdvb2QgZm9yIHNpemVzIGxlc3MgdGhhbiAyOHgyOGRwLAogICAgIHdoaWNoIGZvbGxvdyB0aGUgc3Ryb2tlIHRoaWNrbmVzcyBjYWxjdWxhdGlvbjogMyAtICgyOCAtIGRpYW1ldGVyKSAvIDE2IC0tPgo8c3ZnIHZlcnNpb249IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgICAgICAgICAgICAgICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgICB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDwhLS0gMTY9IFJBRElVUyoyICsgU1RST0tFV0lEVEggLS0+CgogIDx0aXRsZT5NYXRlcmlhbCBkZXNpZ24gY2lyY3VsYXIgYWN0aXZpdHkgc3Bpbm5lciB3aXRoIENTUzMgYW5pbWF0aW9uPC90aXRsZT4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgICAvKioqKioqKioqKioqKioqKioqKioqKioqKiovCiAgICAgIC8qIFNUWUxFUyBGT1IgVEhFIFNQSU5ORVIgKi8KICAgICAgLyoqKioqKioqKioqKioqKioqKioqKioqKioqLwoKICAgICAgLyoKICAgICAgICogQ29uc3RhbnRzOgogICAgICAgKiAgICAgIFJBRElVUyAgICAgID0gNi44NzUKICAgICAgICogICAgICBTVFJPS0VXSURUSCA9IDIuMjUKICAgICAgICogICAgICBBUkNTSVpFICAgICA9IDI3MCBkZWdyZWVzIChhbW91bnQgb2YgY2lyY2xlIHRoZSBhcmMgdGFrZXMgdXApCiAgICAgICAqICAgICAgQVJDVElNRSAgICAgPSAxMzMzbXMgKHRpbWUgaXQgdGFrZXMgdG8gZXhwYW5kIGFuZCBjb250cmFjdCBhcmMpCiAgICAgICAqICAgICAgQVJDU1RBUlRST1QgPSAyMTYgZGVncmVlcyAoaG93IG11Y2ggdGhlIHN0YXJ0IGxvY2F0aW9uIG9mIHRoZSBhcmMKICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNob3VsZCByb3RhdGUgZWFjaCB0aW1lLCAyMTYgZ2l2ZXMgdXMgYQogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgNSBwb2ludGVkIHN0YXIgc2hhcGUgKGl0J3MgMzYwLzUgKiAyKS4KICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEZvciBhIDcgcG9pbnRlZCBzdGFyLCB3ZSBtaWdodCBkbwogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMzYwLzcgKiAzID0gMTU0LjI4NikKICAgICAgICoKICAgICAgICogICAgICBTSFJJTktfVElNRSA9IDQwMG1zCiAgICAgICAqLwoKICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgd2lkdGg6MTZweDsgIC8qIDIqUkFESVVTICsgU1RST0tFV0lEVEggKi8KICAgICAgICBoZWlnaHQ6MTZweDsgLyogMipSQURJVVMgKyBTVFJPS0VXSURUSCAqLwogICAgICB9CiAgICAgIC5xcC1jaXJjdWxhci1sb2FkZXItcGF0aCB7CiAgICAgICAgc3Ryb2tlLWRhc2hhcnJheTogMzIuNDsgIC8qIDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgKi8KICAgICAgICBzdHJva2UtZGFzaG9mZnNldDogMzIuNDsgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiBoaWRlcyB0aGluZ3MgaW5pdGlhbGx5ICovCiAgICAgIH0KCiAgICAgIC8qIFNWRyBlbGVtZW50cyBzZWVtIHRvIGhhdmUgYSBkaWZmZXJlbnQgZGVmYXVsdCBvcmlnaW4gKi8KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciwgLnFwLWNpcmN1bGFyLWxvYWRlciAqIHsKICAgICAgICB0cmFuc2Zvcm0tb3JpZ2luOiA1MCUgNTAlOwogICAgICB9CgogICAgICAvKiBSb3RhdGluZyB0aGUgd2hvbGUgdGhpbmcgKi8KICAgICAgQGtleWZyYW1lcyByb3RhdGUgewogICAgICAgIGZyb20ge3RyYW5zZm9ybTogcm90YXRlKDBkZWcpO30KICAgICAgICB0byB7dHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTt9CiAgICAgIH0KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAxNTY4LjYzbXM7IC8qIDM2MCAqIEFSQ1RJTUUgLyAoQVJDU1RBUlRST1QgKyAoMzYwLUFSQ1NJWkUpKSAqLwogICAgICAgIGFuaW1hdGlvbi1pdGVyYXRpb24tY291bnQ6IGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiByb3RhdGU7CiAgICAgICAgYW5pbWF0aW9uLXRpbWluZy1mdW5jdGlvbjogbGluZWFyOwogICAgICB9CgogICAgICAvKiBGaWxsaW5nIGFuZCB1bmZpbGxpbmcgdGhlIGFyYyAqLwogICAgICBAa2V5ZnJhbWVzIGZpbGx1bmZpbGwgewogICAgICAgIGZyb20gewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDMyLjMgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAtIDAuMSAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC4xIGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgICA1MCUgewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDA7CiAgICAgICAgfQogICAgICAgIHRvIHsKICAgICAgICAgIHN0cm9rZS1kYXNob2Zmc2V0OiAtMzEuOSAvKiAtKDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgLSAwLjUpICovCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC41IGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgfQogICAgICBAa2V5ZnJhbWVzIHJvdCB7CiAgICAgICAgZnJvbSB7CiAgICAgICAgICB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgdHJhbnNmb3JtOiByb3RhdGUoLTM2MGRlZyk7CiAgICAgICAgfQogICAgICB9CiAgICAgIEBrZXlmcmFtZXMgY29sb3JzIHsKICAgICAgICBmcm9tIHsKICAgICAgICAgIHN0cm9rZTogIzQyODVmNDsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgc3Ryb2tlOiAjNDI4NWY0OwogICAgICAgIH0KICAgICAgfQogICAgICAucXAtY2lyY3VsYXItbG9hZGVyLXBhdGggewogICAgICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMTMzM21zLCA1MzMybXMsIDUzMzJtczsgLyogQVJDVElNRSwgNCpBUkNUSU1FLCA0KkFSQ1RJTUUgKi8KICAgICAgICBhbmltYXRpb24tZmlsbC1tb2RlOiBmb3J3YXJkczsKICAgICAgICBhbmltYXRpb24taXRlcmF0aW9uLWNvdW50OiBpbmZpbml0ZSwgaW5maW5pdGUsIGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiBmaWxsdW5maWxsLCByb3QsIGNvbG9yczsKICAgICAgICBhbmltYXRpb24tcGxheS1zdGF0ZTogcnVubmluZywgcnVubmluZywgcnVubmluZzsKICAgICAgICBhbmltYXRpb24tdGltaW5nLWZ1bmN0aW9uOiBjdWJpYy1iZXppZXIoMC40LCAwLjAsIDAuMiwgMSksIHN0ZXBzKDQpLCBsaW5lYXI7CiAgICAgIH0KCiAgPC9zdHlsZT4KCiAgPCEtLSAyLjI1PSBTVFJPS0VXSURUSCAtLT4KICA8IS0tIDggPSBSQURJVVMgKyBTVFJPS0VXSURUSC8yIC0tPgogIDwhLS0gNi44NzU9IFJBRElVUyAtLT4KICA8IS0tIDEuMTI1PSAgU1RST0tFV0lEVEgvMiAtLT4KICA8ZyBjbGFzcz0icXAtY2lyY3VsYXItbG9hZGVyIj4KICAgIDxwYXRoIGNsYXNzPSJxcC1jaXJjdWxhci1sb2FkZXItcGF0aCIgZmlsbD0ibm9uZSIgCiAgICAgICAgICBkPSJNIDgsMS4xMjUgQSA2Ljg3NSw2Ljg3NSAwIDEgMSAxLjEyNSw4IiBzdHJva2Utd2lkdGg9IjIuMjUiCiAgICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPgo=)').css('padding', '1px 8px');\n                    $this.submitForm(action);\n                    return true;\n                    break;\n                case 'connect_facebook':\n                    if (!isLoggedIn()) {\n                        $.ajax({\n                            url: '/api/v1/auth/login',\n                            type: 'post',\n                            dataType: 'json',\n                            data: {\n                            }\n                        }).done(function (data) {\n                        }).fail(function (data) {\n                        })\n                    }\n                    break;\n                case 'flamed':\n                    flamed();\n                    break;\n                case 'facebook_connect':\n                    facebook_connect();\n                    break;\n            }\n        },\n        rate: function (ev) {\n            //ev.preventDefualt();\n            console.log(ev.target.previousElementSibling.getAttribute('value'));\n            //updateTwoRandomPhotos();\n            //getTwoRandomPhotos();\n        },\n        getPreferredGender: function () {\n            var gender = $this.getData('gender');\n            // If 'gender' doesn't exist, or if existing 'gender' isn't female or male\n            if (!store.has('gender') || (gender !== 'f' && gender !== 'm')) {\n                gender = 'f';\n            }\n            store.set('gender', gender);\n            return gender;\n        },\n        getData: function (key) {\n            if (localStorage[key] !== undefined) {\n                return localStorage[key];\n            }\n        },\n        setData: function (key, value) {\n            var dataKey = key,\n                dataValue = JSON.stringify(value);\n            try {\n                localStorage.setItem(dataKey, dataValue);\n            } catch (e) {\n            }\n        },\n        setLoginData: function (res) {\n            try {\n                var email,\n                    api_key;\n                email = res.email;\n                api_key = res.api_key;\n                var itemData = {\n                    email: email,\n                    api_key: api_key\n                };\n                var data = {\n                    'login_session': JSON.stringify(itemData),\n                    'following_sites': JSON.stringify(followingSites)\n                };\n                this.setData(data);\n                this.appendNewFollowingSite();\n            } catch (e) {\n                console.log(e);\n            }\n        },\n        isLoggedIn1: function () {\n            try {\n                if ($this.isValidUser()) {\n                    if (followingSites.indexOf(currentHostName) <= - 1) {\n                        followingSites.push(currentHostName);\n                        var itemData = {\n                            'following_sites': JSON.stringify(followingSites)\n                        };\n                        $this.setData(itemData);\n                        $this.followSite();\n                    } else {\n                        $this.getFollowingSites();\n                    }\n                } else {\n                    $this.showSignInForm();\n                }\n            } catch (e) {\n            }\n        },\n        isLoggedIn: function () {\n            // TODO: Fix synchronous AJAX request, use async method instead\n            var loggedIn = false;\n            $.ajax({\n                url: '/api/v1/auth',\n                type: 'post',\n                dataType: 'json',\n                async: false\n            }).done(function (data) {\n                loggedIn = data.data.logged_in;\n            }).fail(function (data) {\n                loggedIn = false;\n            });\n            return loggedIn;\n        },\n        isValidUser: function () {\n            try {\n                return (email && api_key && email.trim().length > 0 && api_key.trim().length > 0);\n            } catch (e) {\n            }\n            return false;\n        },\n        isAuthenticated: function () {\n            if ($this.getItem('c_user_name') === '' || !$this.getItem('c_user_name')) {\n                return true;\n            }\n            return true;\n        }, // if(firstName && gender && isValidPhoto($(\"#submit_photo\").val())){\n        isValidPhoto: function (filename) {\n            var extension = filename.replace(/^.*\\./, ''); // Replace until we're left with the file extension\n            if (filename == extension) {\n                extension = ''; // File has no extension, so it's blank\n            }\n            else {\n                extension = extension.toLowerCase();\n            }\n            switch (extension) {\n                case 'gif':\n                case 'jpg':\n                case 'png':\n                    return true;\n                default:\n                    return false;\n            }\n        },\n        validateForm: function (e) {\n            var m = $('textarea');\n            typeof m.val() ? m.val()  : null;\n            if (m.val() == null) {\n                $('.results').html('Cannot send empty values');\n                m.focus();\n            }\n            var options = {\n                beforeSubmit: showRequest, // pre-submit callback\n                success: showResponse // post-submit callback\n            };\n            // bind to the form's submit event\n            //e.submit(function () {\n            //$(this).ajaxSubmit(options); // always return false to prevent standard browser submit and page navigation\n            //return false;\n            //});\n            // pre-submit callback\n            function showRequest(formData, jqForm, options) {\n                alert('Sending message to ' + formData);\n                return true;\n            } // post-submit callback\n\n            function showResponse(responseText, statusText, xhr, $form) {\n                alert('status: ' + statusText + '\\n\\nresponseText: \\n' + responseText);\n            }\n        },\n        submitForm: function (e) {\n            var data = $(this).serialize(); // var form = $(this).parents('form');\n            var method = $(this).attr('method');\n            var url = DOMAIN_NAME + $(this).attr('url');\n            var formData = {\n                data: data,\n                method: method,\n                url: url\n            };\n            var $this = $(this);\n            return new Promise(function (resolve, reject) {\n                $.ajax({\n                    url: '/api/v1/submit',\n                    type: 'POST',\n                    data: data /*{\n                        name: $('[name=name]'),\n                        id: $('[name=fb_id]'),\n                        message: $('[name=message]')\n                    }*/\n                }, function (response) {\n                    if (response.status != 200) {\n                        $('.results').html('Failed to submit form, please try again later.');\n                        reject(false);\n                    } else {\n                        if (typeof response.api_key != 'undefined') $this.setLoginData(response);\n                        //$('.results').html('Sent successfully'); resolve(true);\n                    }\n                });\n            });\n        },\n        showFbLoginButton: function () {\n            if (!$this.isLoggedIn()) {\n                $('<div id=\"#loginbutton\"></div>')\n            } else if ($this.isLoggedIn()) {\n                $('<div id=\"#logoutbutton\"></div>');\n            }\n        },\n        show_error_messages: function () {\n            var msgArr = [\n                {\n                    'message': 'What runs WhatRuns is going through a server maintenance 💁&zwj;♀️ &nbsp; &#x1f6a7; Can you try again in a minute or two?',\n                    'icon': '2.png'\n                },\n                {\n                    'message': 'We believe you are addicted to WhatRuns 🤒  &nbsp;We care about your health and we want to give you a few hours of break. Please check back later. (Seriously? Server upgrade).',\n                    'icon': '3.png'\n                },\n                {\n                    'message': 'Give it a rest! 😾 <br> Just joking. Our bad. We’re updating services that is required to keep this supercool extension running.',\n                    'icon': '1.png'\n                }\n            ];\n            var containerEl = $('<div class=\"container current-app-info active\"></div>');\n            var divEl = $('<div class=\"server-error-img-div\"></div>');\n            var imgEl = $('<img src=\"/images/2.png\" style=\"border:0px;\">');\n            var msgEl = $('<div class=\"server-error-msg\"></div>');\n\n            for (var i = 0; i < msgArr.length; i++) {\n                $(containerEl).append(\n                    $(divEl).append(\n                        $(imgEl).attr('src', '/images/' + msgArr[i].icon)\n                    ),\n                    $(msgEl).append(msgArr[i].message)\n                );\n            }\n            $('.current-app-info').append($(containerEl));\n        },\n        randomizePhotos: function (array) {\n            /* round the product of random number and photos length and add 1 */\n            var rand = (Math.floor(Math.random() * array.length) + 1);\n            /* check if rand is not exceeding photo lengths and below 0 */\n            if (rand < 0) {\n                if (rand >= array.length) {\n                    return (rand / 2);\n                }\n                random_item();\n            }\n            return rand;\n        },\n        random: function (a) {\n            return a[Math.floor(Math.random() * a.length + 1)];\n        },\n        _random: function (b) {\n            return Math.floor(Math.random() * b + 1);\n        },\n        _slice: function (b) {\n            return b.toString().slice(1, - 5);\n        },\n        _trim: function (s) {\n            if (!s || s == '') return '';\n            while ((s.charAt(0) == ' ') || (s.charAt(0) == '\\n') || (s.charAt(0, 1) == '\\r')) s = s.substring(1, s.length);\n            while ((s.charAt(s.length - 1) == ' ') || (s.charAt(s.length - 1) == '\\n') || (s.charAt(s.length - 1) == '\\r')) s = s.substring(0, s.length - 1);\n            return s;\n        },\n        _search: function (string, query) {\n            return string.search(/.html/gi);\n        },\n        _isMatch: function (string, query) {\n            var regx1 = /str1/gi;\n            var regx2 = /str2/gi;\n            if (string.match(regx2)) {\n            }\n        },\n        _clean: function (string) {\n            return string.trim().replace(/\\s+/g, ' '); // Remove leading/trailing whitespaces and multiple whitespaces\n        },\n        _fancy: function (string) {\n            return $this._clean(string).replace(/\\\\/g, '');\n        },\n        dummy: function (text, callback) {\n            callback(text);\n            //text.map(callback);\n        },\n        getByID: function (id) {\n            return document.getElementById(id);\n        },\n        getByClass: function (className) {\n            return document.getElementsByClassName(className);\n        },\n        hasImageExntesion: function(email) {\n            try {\n                return (/\\.(gif|jpg|jpeg|tiff|png)$/i).test(email)\n            } catch (e) {\n                console.log(e);\n            }\n            return false;\n        },\n        postData: function(type, url, data, callback) {\n            $.ajax({\n                type: type,\n                url: url,\n                data: data,\n                success: callback,\n            });\n        },\n        postFormData: function(url, data, callback) {\n            $.ajax({\n                async: true,\n                crossDomain: true,\n                url: url,\n                type: 'POST',\n                data: data,\n                success: callback\n            })\n        }\n    };\n\n    /*$.fn[SITENAME] = function (options) {\n        var args = arguments;\n\n        // Is the first parameter an object (options), or was omited, instantiate a new instance\n        if (options === undefined || typeof options === 'object') {\n            return this.each(function () {\n\n                // Only allow the plugin to be instantiated once due to methods\n                if (!$.data(this, 'plugin_' + SITENAME)) {\n\n                    // if it has no instance, create a new one, pass options to our plugin constructor,\n                    // and store the plugin instance in the element jQuery data object.\n                    $.data(this, 'plugin_' + SITENAME, new StuckWanYah( this, options ));\n                }\n            });\n        } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {\n\n            // Cache the method call to make it possible to return a value\n            var returns;\n\n            this.each(function () {\n                var instance = $.data(this, 'plugin_' + SITENAME);\n\n                // Tests that there's already a plugin-instance and checks that the requested public method exits\n                if (instance instanceof StuckWanYah && typeof instance[options] === 'function') {\n\n                    // Call the method of our plugin instance, and pass it the supplied arguments.\n                    returns = instance[options].apply( instance, Array.prototype.slice.call( args, 1 ) );\n                }\n            });\n\n            // If the earlier cached method gives a value back return the value, otherwise return this to preserve chainability.\n            return returns !== undefined ? returns : this;\n        }\n    }\n    */\n    var stuckwanyah = new StuckWanYah(this, 'init');\n\n    function ajax(callback) {\n        var xhr = new XMLHttpRequest();\n        xhr.onreadystatechange = function() {\n            if (xhr.readyState == 4)\n                callback(xhr.responseText);\n        };\n        xhr.open(\"GET\", \"jsonview.css\", true);\n        xhr.send(null);\n    };\n\n    function ajaxRequest(data, callback) {\n        var xhr = new XMLHttpRequest();\n        xhr.onreadystatechange = function () {\n            if (xhr.readyState === 4 && this.status === 200) {\n                callback(xhr.responseText);\n            }\n        };\n        xhr.open(data.method, data.url, !data.async); // \"GET\" || \"POST\"\n        xhr.setRequestHeader('Content-type', !data.header);\n        xhr.send(data.param ? 'x=' + data.param : null);\n    };\n\n    function change_myselect() {\n        var obj,\n            param;\n        obj = {\n            async: true,\n            method: 'post',\n            url: '/api/v1/photos/top',\n            header: 'application/x-www-formurlencoded',\n            data: {\n                'field': $('.ranking_type_field'),\n                'gender': $('.ranking_type_gender')\n            }\n        };\n        param = JSON.stringify(obj);\n\n        ajaxRequest(param, function () {\n            if (this.readyState === 4 && this.status === 200) {\n                var myObj,\n                    txt,\n                    x,\n                    txt;\n                myObj = JSON.parse(this.responseText);\n                txt += '<table border=\\'1\\'>';\n                for (x in myObj) {\n                    txt += '<tr><td>' + myObj[x].name + '</td></tr>';\n                }\n                txt += '</table>';\n                document.getElementById('demo').innerHTML = txt;\n            }\n        });\n    };\n\n    StuckWanYah.prototype.storeCurrentUser = function (userId, ratings) {\n        window.localStorage.currentUser = JSON.stringify(response.data.user);\n        var currentUser = JSON.parse(window.localStorage.currentUser);\n        var my_ratings = {\n            'image_id': ratings.image_id,\n            'image_url': ratings.image_url\n        };\n        localStorage.setItem('c_user', userId);\n        localStorage.setItem('ratings', my_ratings);\n    };\n\n    function RequestGraphApi() {\n        var settings = {\n            'async': true,\n            'crossDomain': true,\n            'url': 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN',\n            'method': 'POST',\n            'headers': {\n                'content-type': 'application/json'\n            },\n            'processData': false,\n            'data': '{\\n\\t\"setting_type\": \"call_to_actions\",\\n\\t\"thread_state\": \"new_thread\",\\n\\t\"call_to_actions\": [\\n\\t\\t{\\n\\t\\t\\t\"payload\": \"GET_STARTED\"\\n\\t\\t}\\n\\t]\\n}'\n        };\n        $.ajax(settings).done(function (response) {\n            console.log(response);\n        });\n    }\n\n    function RequestGraphApi2() {\n        var data = JSON.stringify({\n            'setting_type': 'call_to_actions',\n            'thread_state': 'new_thread',\n            'call_to_actions': [\n                {\n                    'payload': 'GET_STARTED'\n                }\n            ]\n        });\n        var xhr = new XMLHttpRequest();\n        xhr.withCredentials = true;\n        xhr.addEventListener('readystatechange', function () {\n            if (this.readyState === 4) {\n                console.log(this.responseText);\n            }\n        });\n        xhr.open('POST', 'https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN');\n        xhr.setRequestHeader('content-type', 'application/json');\n        xhr.send(data);\n    }\n\n    StuckWanYah.prototype.isBigEnough = function (age) {\n        var min = 13,\n            max = 21;\n        if (age >= min && age <= max) {\n            return true;\n        }\n        return false;\n    };\n\n    StuckWanYah.prototype.createDiv = function (id, className, child) {\n        var div = document.createElement('div');\n        div.id = id;\n        div.className = className;\n        div.append(child);\n        return div;\n    };\n\n    StuckWanYah.prototype.createImage = function (id, className, src, width, height) {\n        var img = document.createElement('img');\n        img.id = id;\n        img.className = className;\n        img.src = '/photos/' + src.slice(1, - 4) + '.jpg';\n        img.width = typeof width == null ? '' : width;\n        img.height = typeof height == null ? '' : height;\n        return img;\n    };\n\n    /*\n    document.getElementsByClassName('code') [0].addEventListener('click', function (e) {\n        var range = document.createRange();\n        range.selectNode(document.getElementsByClassName(e.target.className));\n        window.getSelection().addRange(range);\n    });\n    var buttons = document.getElementsByClassName('custom-fb-share');\n    for (var i = 0; i < buttons.length; i++) {\n        buttons[i].onmouseup = onClickShareButton;\n    }*/\n\n}(jQuery, document, window));\n\nfunction sh(pageName) {\n    $.ajax({\n        async: true,\n        crossDomain: true,\n        type: 'PUT',\n        url: '/api/v1/hits',\n        data: { page: pageName }\n    });\n}\n\nfunction rank() {\n    var list, i, switching, b, shouldSwitch, ranking = 0;\n    list = $('#rankings');\n    switching = true;\n    while (switching) {\n        switching = false;\n        b = list.find('tr');\n        for (i = 0; i < (b.length - 1); i++) {\n            shouldSwitch = false;\n            if (b[i].childNodes[1].innerText > b[i + 1].childNodes[1].innerText) {\n                shouldSwitch = true;\n                break;\n            }\n        }\n        if (shouldSwitch) {\n            b[i].parentNode.insertBefore(b[i + 1], b[i]);\n            // b[i].childNodes[2].innerText = ranking++;\n            switching = true;\n        }\n    }\n}\n\nfunction stuckwanify() {\n    var a = [\n        ],\n        i,\n        n = this,\n        max;\n    for (i = 0; i < n.length; i++) {\n        max = a[0];\n        for (i = 0; i < n.length; i++) {\n            if (a[i] > max) {\n                max = a[i];\n            }\n        }\n    }\n    console.log(max);\n}\n\nfunction sortList() {\n    var list,\n        i,\n        switching,\n        b,\n        shouldSwitch;\n    list = document.getElementById('rankings');\n    switching = true;\n    /* Make a loop that will continue until no switching has been done: */\n    while (switching) {\n        // Start by saying: no switching is done:\n        switching = false;\n        b = list.getElementsByTagName('tr');\n        // Loop through all list items:\n        for (i = 0; i < (b.length - 1); i++) {\n            // Start by saying there should be no switching:\n            shouldSwitch = false;\n            /* Check if the next item should switch place with the current item: */\n            if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {\n                /* If next item is alphabetically lower than current item,\n                        mark as a switch and break the loop: */\n                shouldSwitch = true;\n                break;\n            }\n        }\n        if (shouldSwitch) {\n            /* If a switch has been marked, make the switch and mark the switch as done: */\n            b[i].parentNode.insertBefore(b[i + 1], b[i]);\n            switching = true;\n        }\n    }\n}\n\nfunction sortListDir() {\n    var list, i, switching, b, shouldSwitch, dir, switchcount = 0;\n    list = document.getElementById('id01');\n    switching = true;\n    // Set the sorting direction to ascending:\n    dir = 'asc';\n    // Make a loop that will continue until no switching has been done:\n    while (switching) {\n        // Start by saying: no switching is done:\n        switching = false;\n        b = list.getElementsByTagName('LI');\n        // Loop through all list-items:\n        for (i = 0; i < (b.length - 1); i++) {\n            // Start by saying there should be no switching:\n            shouldSwitch = false;\n            /* Check if the next item should switch place with the current item,\n                based on the sorting direction (asc or desc): */\n            if (dir == 'asc') {\n                if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {\n                    /* If next item is alphabetically lower than current item,\n                        mark as a switch and break the loop: */\n                    shouldSwitch = true;\n                    break;\n                }\n            } else if (dir == 'desc') {\n                if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {\n                    /* If next item is alphabetically higher than current item,\n                        mark as a switch and break the loop: */\n                    shouldSwitch = true;\n                    break;\n                }\n            }\n        }\n        if (shouldSwitch) {\n            /* If a switch has been marked, make the switch\n                and mark that a switch has been done: */\n            b[i].parentNode.insertBefore(b[i + 1], b[i]);\n            switching = true;\n            // Each time a switch is done, increase switchcount by 1:\n            switchcount++;\n        } else {\n            /* If no switching has been done AND the direction is \"asc\",\n                set the direction to \"desc\" and run the while loop again. */\n            if (switchcount == 0 && dir == 'asc') {\n                dir = 'desc';\n                switching = true;\n            }\n        }\n    }\n}\n/**\n * JavaScript Game\n */\n\nvar Player = function (game) {\n    this.game = game;\n    this.x = 100;\n    this.y = 100;\n};\nPlayer.prototype.update = function () {\n    this.x += 1;\n    this.y += 1;\n};\nPlayer.prototype.draw = function () {\n    this.game.drawRectangle('#f00', this.x, this.y, 10, 10);\n};\nvar Game = function () {\n    this.fps = 60;\n    var canvas = document.getElementById('world');\n    this.context = canvas.getContext('2d');\n    this.context_width = canvas.width;\n    this.context_height = canvas.height;\n    this.player = new Player(this);\n    var game = this;\n    var gameloop = setInterval(function () {\n        game.updateAll();\n        game.drawAll();\n    }, 1000 / this.fps);\n};\nGame.prototype.updateAll = function () {\n    this.player.update();\n};\nGame.prototype.drawAll = function () {\n    this.drawRectangle('#ffffff', 0, 0, this.context_width, this.context_height);\n    this.player.draw();\n};\nGame.prototype.drawRectangle = function (color, x, y, width, height) {\n    this.context.fillStyle = color;\n    this.context.fillRect(x, y, width, height);\n};\n\n/*\nfunction saveCredentials() {\n    localStorage[\"appId\"] = document.getElementById(\"app_id\").value;\n    localStorage[\"accessToken\"] = document.getElementById(\"access_token\").value;\n    document.getElementById(\"msg\").innerHTML = \"Successfully change!\";\n    setTimeout(function(){document.getElementById(\"msg\").innerHTML = '';}, 1500);\n}\n\nfunction eraseCredentials() {\n    localStorage.removeItem(\"appId\");\n    localStorage.removeItem(\"accessToken\");\n    location.reload();\n}\n\nfunction saveOptions() {\n    localStorage[\"mobileNumber\"] = $('#mobile_number').val();\n    localStorage[\"message\"] = $('#message').val();\n    $(\"#msgOptions\").text(\"Successfully change!\");\n    setTimeout(function(){$(\"#msgOptions\").text('');}, 1500);\n}\n\nfunction eraseOptions() {\n    localStorage.removeItem(\"mobileNumber\");\n    localStorage.removeItem(\"message\");\n    $(\"#msgOptions\").text(\"Successfully clear!\");\n    setTimeout(function(){$(\"#msgOptions\").text('');}, 1500);\n    $(\"#mobile_number\").val('');\n    $(\"#message\").val('');\n}\n\nwindow.onload = function () {\n\n    if (localStorage['message'] == undefined)\n        localStorage['message'] = \"Hi, check this out:\";\n\n    $(\"#app_id\").val(localStorage[\"appId\"] == undefined ? \"\" : localStorage[\"appId\"]);\n    $(\"#access_token\").val(localStorage[\"accessToken\"] == undefined ? \"\" : localStorage[\"accessToken\"]);\n    $(\"#mobile_number\").val(localStorage[\"mobileNumber\"] == undefined ? \"\" : localStorage[\"mobileNumber\"]);\n    $(\"#message\").val(localStorage[\"message\"] == undefined ? \"\" : localStorage[\"message\"]);\n\n    document.querySelector('input[value=\"Save\"]').onclick=saveCredentials;\n    document.querySelector('input[value=\"Clear\"]').onclick=eraseCredentials;\n\n    document.querySelector('input[id=\"save2\"]').onclick=saveOptions;\n    document.querySelector('input[id=\"clear2\"]').onclick=eraseOptions;\n\n    var content = $(\".menuitem\");\n\n    var swapContents= function(target) {\n        // swap the content\n        var currentSelected = $(target).parent().siblings(\"#content\").children(\".contentitem.selected\");\n        currentSelected.removeClass(\"selected\");\n\n        var selectedContent = $(\"#\" + target.id + \"-content\");\n        selectedContent.addClass(\"selected\");\n\n        // swap the menu\n        var currentSelectedMenu = $(target).parent().children(\".menuitem.selected\");\n        currentSelectedMenu.removeClass(\"selected\");\n\n        $(target).css(\"background-color\", \"\");\n        $(target).addClass(\"selected\");\n    }\n\n    content.hover(\n        function () {\n            if (!$(this).hasClass(\"selected\"))\n                $(this).css(\"background-color\", \"#E4FFE1\");\n        },\n        function () {\n            if (!$(this).hasClass(\"selected\"))\n                $(this).css(\"background-color\", \"#DADEE0\");\n        });\n\n    content.click(function() {\n        swapContents(this);\n    });\n}*/",
 			"file": "public/javascripts/script.js",
+			"file_size": 52876,
+			"file_write_time": 131660021554876074,
 			"settings":
 			{
-				"buffer_size": 47151,
+				"buffer_size": 52872,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "var email = null,\n	api_key = null,\n	followingSites = [],\n	lastContainer = '';\nvar loginKey = \"login_session\",\n	followingSitesKey = \"following_sites\";\nvar defaultText = \"Do you know what runs a website? Visit whatruns.com\";\n$(document).ready(function(e) {\n	var popupExt = {\n		current: '',\n		init: function() {\n			current = popupExt;\n			this.setGlobalItems();\n			this.initClickEvents();\n			//this.initTooltip();\n			this.initSubmitEvents();\n		},\n		setGlobalItems: function() {\n			try {\n				var sendMessage = function(tabs) {\n					BROWSER.runtime.sendMessage({\n						id: GET_HOST_NAME,\n						tab: tabs[0]\n					}, function(res) {\n						currentHostName = current.getCurrentHostName(res);\n						current.getLocalStorageItem(loginKey, function(item) {\n							var data = (item.hasOwnProperty(loginKey)) ? current.parseJsonStr(item[loginKey]) : {};\n							email = (typeof data.email != \"undefined\") ? data.email : null;\n							api_key = (typeof data.api_key != \"undefined\") ? data.api_key : null;\n							current.getLocalStorageItem(followingSitesKey, function(item) {\n								followingSites = (item.hasOwnProperty(followingSitesKey)) ? current.parseJsonStr(item[followingSitesKey]) : [];\n								current.enableHeaderButtons();\n							});\n						});\n					});\n				}\n				self.tabQuery(sendMessage);\n			} catch (e) {}\n		},\n		getCurrentHostName: function(data) {\n			try {\n				var hostname = data.hostname;\n				if (invalidDomains.indexOf(hostname) >= 0 || hostname == \"newtab\") return \"\";\n				if (typeof data.rawhostname != \"undefined\") return data.rawhostname;\n				else if (typeof data.tabTechs.rawhostname != \"undefined\") return data.tabTechs.rawhostname;\n				else if (typeof data.hostname != \"undefined\") return data.hostname;\n				else if (typeof data.tabTechs.hostname != \"undefined\") return data.tabTechs.hostname;\n			} catch (e) {\n				console.log(e);\n			}\n			return \"\";\n		},\n		setData: function(data) {\n			try {\n				BROWSER.storage.local.set(data);\n			} catch (e) {}\n		},\n		getLocalStorageItem: function(key, callback) {\n			BROWSER.storage.local.get(key, callback);\n		},\n		enableHeaderButtons: function() {\n			followingSites = (followingSites instanceof Array) ? followingSites : JSON.parse(followingSites);\n			if (followingSites.indexOf(currentHostName) !== -1) {\n				$('.user-already-following').addClass(\"active\");\n			} else {\n				$('.user-follow').addClass(\"active\");\n			}\n			if (followingSites.length > 0) {\n				$('.user-following').addClass(\"active\");\n			}\n			$('.share-url').addClass(\"active\");\n			current.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n		},\n		updateUserFollowingTitleToolTip: function(title) {\n			$('.user-following').attr(\"title\", title);\n		},\n		initClickEvents: function() {\n			this.initFollowEvent();\n			this.initFollowingEvent();\n			this.initBackEvent();\n			this.initSigninEvent();\n			this.initSignupEvent();\n			this.initShareEvent();\n			this.initShareFacebookEvent();\n			this.initShareEmailEvent();\n			this.initUnFollowEvent();\n		},\n		initSubmitEvents: function() {\n			this.formSubmit();\n			this.sendEmail();\n		},\n		initFollowEvent: function() {\n			$('.btn-follow').click(function(e) {\n				if (followingSites.length < 10) current.isLoggedIn();\n			});\n		},\n		initFollowingEvent: function() {\n			$('.btn-following').click(function(e) {\n				if (followingSites.length > 0) {\n					$('.image-loader').show();\n					current.getFollowingSites();\n				}\n			});\n		},\n		initBackEvent: function() {\n			$('.btn-back').click(function(e) {\n				$('.header-btn, .container').removeClass(\"active\");\n				if (current.isValidUser()) {\n					$('.user-following').addClass(\"active\");\n				} else {\n					$('.user-follow').addClass(\"active\");\n				}\n				if (lastContainer.trim().length > 0) {\n					$('.back').addClass(\"active\");\n					$(lastContainer).addClass('active');\n					lastContainer = '';\n				} else {\n					$('.current-app-info, .share-url').addClass(\"active\");\n				}\n				if (followingSites.indexOf(currentHostName) > -1) $('.user-already-following').addClass(\"active\");\n				else $('.user-follow').addClass(\"active\");\n				if ($('.container').hasClass(\"newtab-text\")) $('.user-following').addClass(\"active\");\n			});\n		},\n		initSigninEvent: function() {\n			$('.btn-signin').click(function(e) {\n				current.showSignInForm();\n			});\n		},\n		initSignupEvent: function() {\n			$('.btn-signup').click(function(e) {\n				current.showSignUPForm();\n			});\n		},\n		initShareEvent: function() {\n			$('.btn-share').click(function(e) {\n				current.showShareURLForm();\n			});\n		},\n		initShareFacebookEvent: function() {\n			$('.share-facebook').click(function(e) {\n				var url = encodeURIComponent($('.share-url-original').val());\n				window.open(\"https://www.facebook.com/sharer/sharer.php?u=\" + url, \"myWindowName\", \"width=600, height=600\");\n				return false;\n			});\n		},\n		initShareEmailEvent: function() {\n			$('.share-email').click(function(e) {\n				lastContainer = '.share-container';\n				current.showShareEmailForm();\n			});\n		},\n		initUnFollowEvent: function() {\n			$(document).on(\"click\", '.btn-unfollow', function(e) {\n				var followingSiteName = $(this).closest('.list').find('.following-sitename').val();\n				$(this).closest('.list').remove();\n				current.updateUnFollowSite(followingSiteName);\n			});\n		},\n		showSignInForm: function() {\n			$('.container, .header-btn').removeClass(\"active\");\n			$('.signin, .back').addClass(\"active\");\n		},\n		showSignUPForm: function() {\n			$('.container').removeClass(\"active\")\n			$('.signup').addClass(\"active\")\n		},\n		showShareEmailForm: function() {\n			$('.container').removeClass(\"active\");\n			$('.email-share-container').addClass(\"active\");\n		},\n		showShareURLForm: function() {\n			$('.container, .share-url').removeClass(\"active\");\n			$('.share-container').addClass(\"active\");\n			$('.back').addClass(\"active\");\n			var twitterUrl = \"https://twitter.com/share?text=\" + encodeURIComponent(defaultText) + \"&via=whatruns\";\n			if (currentHostName.trim().length > 0) {\n				var url = DOMAIN_NAME + \"website/\" + encodeURIComponent(currentHostName);\n				$('.share-url-original').val(url);\n				var text = \"Do you know what runs \" + currentHostName + \"?\";\n				var twitterUrl = \"https://twitter.com/share?url=\" + encodeURIComponent(url) + \"&text=\" + encodeURIComponent(text) + \"&via=whatruns\";\n			}\n			$('.twitter-share-href').attr(\"href\", twitterUrl);\n		},\n		isLoggedIn: function() {\n			try {\n\n				if (current.isValidUser()) {\n					if (followingSites.indexOf(currentHostName) <= -1) {\n						followingSites.push(currentHostName);\n						var itemData = {\n							\"following_sites\": JSON.stringify(followingSites)\n						}\n						current.setData(itemData);\n						current.followSite();\n					} else {\n						current.getFollowingSites();\n					}\n				} else {\n					current.showSignInForm();\n				}\n			} catch (e) {}\n		},\n		followSite: function() {\n			try {\n\n				$.ajax({\n					type: \"POST\",\n					url: DOMAIN_NAME + \"api/follow\",\n					data: \"email=\" + email + \"&hostname=\" + currentHostName,\n					success: function(response) {\n						//appendNewFollowingSite();\n						current.getFollowingSites();\n					}\n				});\n			} catch (e) {}\n		},\n		getFollowingSites: function() {\n			try {\n				if (email && api_key) {\n					if ($('.following-sites-list').is(':empty')) {\n						var data = current.getUserCredentials();\n						$.ajax({\n							type: \"POST\",\n							data: data,\n							url: DOMAIN_NAME + \"api/get_following\",\n							success: function(response) {\n								current.appendFollowingSites(response);\n							}\n						});\n					} else {\n						current.showFollowingSites();\n					}\n				}\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		appendFollowingSites: function(response) {\n\n			try {\n				if (typeof response != \"undefined\") {\n					if (typeof response.following_sites != \"undefined\") {\n						$('.following-sites-list').empty();\n						var following_sites = response.following_sites;\n						Object.keys(following_sites).forEach(function(siteName) {\n							var siteDetectedApps = (typeof following_sites[siteName] === \"object\") ? following_sites[siteName] : JSON.parse(following_sites[siteName]);\n							current.appendAppDetails(siteDetectedApps, siteName, response.days);\n						});\n						current.showFollowingSites();\n					}\n				}\n\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		showFollowingSites: function() {\n			setTimeout(function() {\n				current.showBackButton();\n				$('.container').removeClass(\"active\")\n				$('.following').addClass(\"active\");\n				$('.image-loader').hide();\n			}, 500);\n		},\n		showBackButton: function() {\n			$('.header-btn').removeClass(\"active\");\n			$('.back').addClass(\"active\");\n		},\n		appendAppDetails: function(detectedSiteApps, hostname, daysDiff) {\n			try {\n				var list = $('<div class=\"list\"></div>');\n				var headerEl = $('<div class=\"following-heading\"><div class=\"following-hostname inline\">' + hostname + '</div><div class=\"inline unfollow\"></div><input type=\"hidden\" class=\"hide following-sitename\" value=\"' + hostname + '\"></div>');\n				var unfollowEl = $('<button class=\"btn btn-sm btn-gray sm-1 btn-unfollow\">Unfollow</button>');\n				$(list).append($(headerEl));\n				$(list).find('.unfollow').append($(unfollowEl));\n				for (var time in detectedSiteApps) {\n					var apps = detectedSiteApps[time];\n					var totalApps = [];\n					Object.keys(apps).forEach(function(categoryName) {\n						try {\n							var arr = apps[categoryName];\n							for (var i in arr) {\n								var techJson = arr[i];\n								if (totalApps.indexOf(techJson.name) <= -1) {\n									totalApps.push(techJson.name);\n									var date = current.getDateFormat(techJson.latestDetectedTime);\n									var imageUrl = \"http://scriptsused.com/images/icons/\" + techJson.icon;\n									var imgEl = $('<div class=\"app-body inline\"><div class=\"image\"><a href=\"' + techJson.website + '\" target=\"_blank\"  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"' + techJson.name + ' <br/> Last Detected: ' + date + '\"><img src=\"' + imageUrl + '\"></a></div><div class=\"border-bottom-green\" ></div></div>');\n									$(list).append($(imgEl));\n								}\n							}\n						} catch (e) {\n							console.log(e);\n						}\n					});\n				}\n				$('.following-sites-list').append($(list));\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		updateUnFollowSite: function(followingSiteName) {\n			if (current.isValidUser()) {\n				var data = {\n					email: email,\n					api_key: api_key,\n					hostname: followingSiteName\n				}\n				$.ajax({\n					type: \"POST\",\n					data: data,\n					url: DOMAIN_NAME + \"api/unfollow\",\n					success: function(response) {\n						var index = followingSites.indexOf(followingSiteName);\n						if (index > -1) {\n							followingSites.splice(index, 1);\n							var itemData = {\n								following_sites: JSON.stringify(followingSites)\n							}\n							current.setData(itemData);\n							current.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n						}\n					}\n				})\n			}\n		},\n		formSubmit: function() {\n			$('.form').on(\"submit\", function(e) {\n				console.log(e);\n				e.preventDefault();\n				var data = $(this).serialize();\n				var method = $(this).attr(\"method\");\n				var url = DOMAIN_NAME + $(this).attr(\"url\");\n				var formData = {\n					data: data,\n					method: method,\n					url: url\n				};\n				var $this = $(this);\n				BROWSER.runtime.sendMessage({\n					id: \"form\",\n					subject: formData\n				}, function(response) {\n					if (response.status != 200) {\n						$this.find('.result').addClass(\"error\");\n						$this.find('.result').text(response.msg);\n					} else {\n						if (typeof response.api_key != \"undefined\") current.setLoginData(response);\n					}\n				});\n			});\n		},\n		setLoginData: function(res) {\n			try {\n				email = res.email;\n				api_key = res.api_key;\n				var itemData = {\n					email: email,\n					api_key: api_key\n				}\n				var data = {\n					\"login_session\": JSON.stringify(itemData),\n					\"following_sites\": JSON.stringify(followingSites)\n				}\n				this.setData(data);\n				this.appendNewFollowingSite();\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		appendNewFollowingSite: function() {\n			try {\n				this.showBackButton();\n				this.appendAppDetails(detectedApps, currentHostName);\n				if (followingSites.indexOf(currentHostName) <= -1) {\n					followingSites.push(currentHostName);\n					var itemData = {\n						\"following_sites\": JSON.stringify(followingSites)\n					}\n					this.setData(itemData);\n				}\n				this.showFollowingSites();\n				$('.user-follow').removeClass(\"active\");\n				$('.back').addClass(\"active\");\n				this.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n			} catch (e) {}\n		},\n		sendEmail: function() {\n			$('#email-share-form').on('submit', function(e) {\n				e.preventDefault();\n				var $this = $(this);\n				$(this).find('.result').empty();\n				var btnEl = $(this).find('.share-email-submit');\n				var text = $(btnEl).text();\n				$(btnEl).empty();\n				$(btnEl).append('Sending...');\n				// $(btnEl).append('<i class=\"fa fa-spinner fa-spin fa-fw\" aria-hidden=\"true\"></i>');\n				$.ajax({\n					type: \"POST\",\n					data: $(this).serialize() + \"&domain=\" + currentHostName,\n					url: DOMAIN_NAME + \"share/email\",\n					success: function(res) {\n						$(btnEl).empty();\n						if (res.status == 200) {\n							$(btnEl).append('<img src=\"images/Tick.png\" style=\"max-width:10px;\"><span style=\"margin-left:5px;\">Sent</span>');\n							setTimeout(function() {\n								$(btnEl).empty();\n								$(btnEl).append(text);\n							}, 1000);\n						} else {\n							$(btnEl).append(text);\n							$this.find('.result').text(res.msg);\n						}\n					}\n				})\n			});\n		},\n		getUserCredentials: function() {\n			var userCredentials = \"email=\" + email + \"&api_key=\" + api_key;\n			userCredentials += \"&domains=\" + JSON.stringify(followingSites);\n			return userCredentials;\n		},\n		parseJsonStr: function(str) {\n			try {\n				return JSON.parse(str);\n			} catch (e) {}\n		},\n		getDateFormat: function(timestamp) {\n			try {\n				var date = new Date(parseInt(timestamp));\n				var month = current.getMonthName(date);\n				return month + \" \" + date.getFullYear();\n			} catch (e) {}\n			return \"\";\n		},\n		getMonthName: function(d) {\n			try {\n				var monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n					\"July\", \"August\", \"September\", \"October\", \"November\", \"December\"\n				];\n				return monthNames[d.getMonth()];\n			} catch (e) {}\n		},\n		isValidUser: function() {\n			try {\n				return (email && api_key && email.trim().length > 0 && api_key.trim().length > 0);\n			} catch (e) {\n\n			}\n			return false;\n		}\n	}\n	popupExt.init();\n	$('body').tooltip({\n		selector: '[data-toggle=tooltip]',\n		html: true\n	});\n\n});",
+			"contents": "var email = null,\n\tapi_key = null,\n\tfollowingSites = [],\n\tlastContainer = '';\nvar loginKey = \"login_session\",\n\tfollowingSitesKey = \"following_sites\";\nvar defaultText = \"Do you know what runs a website? Visit whatruns.com\";\n$(document).ready(function(e) {\n\tvar popupExt = {\n\t\tcurrent: '',\n\t\tinit: function() {\n\t\t\tcurrent = popupExt;\n\t\t\tthis.setGlobalItems();\n\t\t\tthis.initClickEvents();\n\t\t\t//this.initTooltip();\n\t\t\tthis.initSubmitEvents();\n\t\t},\n\t\tsetGlobalItems: function() {\n\t\t\ttry {\n\t\t\t\tvar sendMessage = function(tabs) {\n\t\t\t\t\tBROWSER.runtime.sendMessage({\n\t\t\t\t\t\tid: GET_HOST_NAME,\n\t\t\t\t\t\ttab: tabs[0]\n\t\t\t\t\t}, function(res) {\n\t\t\t\t\t\tcurrentHostName = current.getCurrentHostName(res);\n\t\t\t\t\t\tcurrent.getLocalStorageItem(loginKey, function(item) {\n\t\t\t\t\t\t\tvar data = (item.hasOwnProperty(loginKey)) ? current.parseJsonStr(item[loginKey]) : {};\n\t\t\t\t\t\t\temail = (typeof data.email != \"undefined\") ? data.email : null;\n\t\t\t\t\t\t\tapi_key = (typeof data.api_key != \"undefined\") ? data.api_key : null;\n\t\t\t\t\t\t\tcurrent.getLocalStorageItem(followingSitesKey, function(item) {\n\t\t\t\t\t\t\t\tfollowingSites = (item.hasOwnProperty(followingSitesKey)) ? current.parseJsonStr(item[followingSitesKey]) : [];\n\t\t\t\t\t\t\t\tcurrent.enableHeaderButtons();\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tself.tabQuery(sendMessage);\n\t\t\t} catch (e) {}\n\t\t},\n\t\tgetCurrentHostName: function(data) {\n\t\t\ttry {\n\t\t\t\tvar hostname = data.hostname;\n\t\t\t\tif (invalidDomains.indexOf(hostname) >= 0 || hostname == \"newtab\") return \"\";\n\t\t\t\tif (typeof data.rawhostname != \"undefined\") return data.rawhostname;\n\t\t\t\telse if (typeof data.tabTechs.rawhostname != \"undefined\") return data.tabTechs.rawhostname;\n\t\t\t\telse if (typeof data.hostname != \"undefined\") return data.hostname;\n\t\t\t\telse if (typeof data.tabTechs.hostname != \"undefined\") return data.tabTechs.hostname;\n\t\t\t} catch (e) {\n\t\t\t\tconsole.log(e);\n\t\t\t}\n\t\t\treturn \"\";\n\t\t},\n\t\tsetData: function(data) {\n\t\t\ttry {\n\t\t\t\tBROWSER.storage.local.set(data);\n\t\t\t} catch (e) {}\n\t\t},\n\t\tgetLocalStorageItem: function(key, callback) {\n\t\t\tBROWSER.storage.local.get(key, callback);\n\t\t},\n\t\tenableHeaderButtons: function() {\n\t\t\tfollowingSites = (followingSites instanceof Array) ? followingSites : JSON.parse(followingSites);\n\t\t\tif (followingSites.indexOf(currentHostName) !== -1) {\n\t\t\t\t$('.user-already-following').addClass(\"active\");\n\t\t\t} else {\n\t\t\t\t$('.user-follow').addClass(\"active\");\n\t\t\t}\n\t\t\tif (followingSites.length > 0) {\n\t\t\t\t$('.user-following').addClass(\"active\");\n\t\t\t}\n\t\t\t$('.share-url').addClass(\"active\");\n\t\t\tcurrent.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n\t\t},\n\t\tupdateUserFollowingTitleToolTip: function(title) {\n\t\t\t$('.user-following').attr(\"title\", title);\n\t\t},\n\t\tinitClickEvents: function() {\n\t\t\tthis.initFollowEvent();\n\t\t\tthis.initFollowingEvent();\n\t\t\tthis.initBackEvent();\n\t\t\tthis.initSigninEvent();\n\t\t\tthis.initSignupEvent();\n\t\t\tthis.initShareEvent();\n\t\t\tthis.initShareFacebookEvent();\n\t\t\tthis.initShareEmailEvent();\n\t\t\tthis.initUnFollowEvent();\n\t\t},\n\t\tinitSubmitEvents: function() {\n\t\t\tthis.formSubmit();\n\t\t\tthis.sendEmail();\n\t\t},\n\t\tinitFollowEvent: function() {\n\t\t\t$('.btn-follow').click(function(e) {\n\t\t\t\tif (followingSites.length < 10) current.isLoggedIn();\n\t\t\t});\n\t\t},\n\t\tinitFollowingEvent: function() {\n\t\t\t$('.btn-following').click(function(e) {\n\t\t\t\tif (followingSites.length > 0) {\n\t\t\t\t\t$('.image-loader').show();\n\t\t\t\t\tcurrent.getFollowingSites();\n\t\t\t\t}\n\t\t\t});\n\t\t},\n\t\tinitBackEvent: function() {\n\t\t\t$('.btn-back').click(function(e) {\n\t\t\t\t$('.header-btn, .container').removeClass(\"active\");\n\t\t\t\tif (current.isValidUser()) {\n\t\t\t\t\t$('.user-following').addClass(\"active\");\n\t\t\t\t} else {\n\t\t\t\t\t$('.user-follow').addClass(\"active\");\n\t\t\t\t}\n\t\t\t\tif (lastContainer.trim().length > 0) {\n\t\t\t\t\t$('.back').addClass(\"active\");\n\t\t\t\t\t$(lastContainer).addClass('active');\n\t\t\t\t\tlastContainer = '';\n\t\t\t\t} else {\n\t\t\t\t\t$('.current-app-info, .share-url').addClass(\"active\");\n\t\t\t\t}\n\t\t\t\tif (followingSites.indexOf(currentHostName) > -1) $('.user-already-following').addClass(\"active\");\n\t\t\t\telse $('.user-follow').addClass(\"active\");\n\t\t\t\tif ($('.container').hasClass(\"newtab-text\")) $('.user-following').addClass(\"active\");\n\t\t\t});\n\t\t},\n\t\tinitSigninEvent: function() {\n\t\t\t$('.btn-signin').click(function(e) {\n\t\t\t\tcurrent.showSignInForm();\n\t\t\t});\n\t\t},\n\t\tinitSignupEvent: function() {\n\t\t\t$('.btn-signup').click(function(e) {\n\t\t\t\tcurrent.showSignUPForm();\n\t\t\t});\n\t\t},\n\t\tinitShareEvent: function() {\n\t\t\t$('.btn-share').click(function(e) {\n\t\t\t\tcurrent.showShareURLForm();\n\t\t\t});\n\t\t},\n\t\tinitShareFacebookEvent: function() {\n\t\t\t$('.share-facebook').click(function(e) {\n\t\t\t\tvar url = encodeURIComponent($('.share-url-original').val());\n\t\t\t\twindow.open(\"https://www.facebook.com/sharer/sharer.php?u=\" + url, \"myWindowName\", \"width=600, height=600\");\n\t\t\t\treturn false;\n\t\t\t});\n\t\t},\n\t\tinitShareEmailEvent: function() {\n\t\t\t$('.share-email').click(function(e) {\n\t\t\t\tlastContainer = '.share-container';\n\t\t\t\tcurrent.showShareEmailForm();\n\t\t\t});\n\t\t},\n\t\tinitUnFollowEvent: function() {\n\t\t\t$(document).on(\"click\", '.btn-unfollow', function(e) {\n\t\t\t\tvar followingSiteName = $(this).closest('.list').find('.following-sitename').val();\n\t\t\t\t$(this).closest('.list').remove();\n\t\t\t\tcurrent.updateUnFollowSite(followingSiteName);\n\t\t\t});\n\t\t},\n\t\tshowSignInForm: function() {\n\t\t\t$('.container, .header-btn').removeClass(\"active\");\n\t\t\t$('.signin, .back').addClass(\"active\");\n\t\t},\n\t\tshowSignUPForm: function() {\n\t\t\t$('.container').removeClass(\"active\")\n\t\t\t$('.signup').addClass(\"active\")\n\t\t},\n\t\tshowShareEmailForm: function() {\n\t\t\t$('.container').removeClass(\"active\");\n\t\t\t$('.email-share-container').addClass(\"active\");\n\t\t},\n\t\tshowShareURLForm: function() {\n\t\t\t$('.container, .share-url').removeClass(\"active\");\n\t\t\t$('.share-container').addClass(\"active\");\n\t\t\t$('.back').addClass(\"active\");\n\t\t\tvar twitterUrl = \"https://twitter.com/share?text=\" + encodeURIComponent(defaultText) + \"&via=whatruns\";\n\t\t\tif (currentHostName.trim().length > 0) {\n\t\t\t\tvar url = DOMAIN_NAME + \"website/\" + encodeURIComponent(currentHostName);\n\t\t\t\t$('.share-url-original').val(url);\n\t\t\t\tvar text = \"Do you know what runs \" + currentHostName + \"?\";\n\t\t\t\tvar twitterUrl = \"https://twitter.com/share?url=\" + encodeURIComponent(url) + \"&text=\" + encodeURIComponent(text) + \"&via=whatruns\";\n\t\t\t}\n\t\t\t$('.twitter-share-href').attr(\"href\", twitterUrl);\n\t\t},\n\t\tisLoggedIn: function() {\n\t\t\ttry {\n\n\t\t\t\tif (current.isValidUser()) {\n\t\t\t\t\tif (followingSites.indexOf(currentHostName) <= -1) {\n\t\t\t\t\t\tfollowingSites.push(currentHostName);\n\t\t\t\t\t\tvar itemData = {\n\t\t\t\t\t\t\t\"following_sites\": JSON.stringify(followingSites)\n\t\t\t\t\t\t}\n\t\t\t\t\t\tcurrent.setData(itemData);\n\t\t\t\t\t\tcurrent.followSite();\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcurrent.getFollowingSites();\n\t\t\t\t\t}\n\t\t\t\t} else {\n\t\t\t\t\tcurrent.showSignInForm();\n\t\t\t\t}\n\t\t\t} catch (e) {}\n\t\t},\n\t\tfollowSite: function() {\n\t\t\ttry {\n\n\t\t\t\t$.ajax({\n\t\t\t\t\ttype: \"POST\",\n\t\t\t\t\turl: DOMAIN_NAME + \"api/follow\",\n\t\t\t\t\tdata: \"email=\" + email + \"&hostname=\" + currentHostName,\n\t\t\t\t\tsuccess: function(response) {\n\t\t\t\t\t\t//appendNewFollowingSite();\n\t\t\t\t\t\tcurrent.getFollowingSites();\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t} catch (e) {}\n\t\t},\n\t\tgetFollowingSites: function() {\n\t\t\ttry {\n\t\t\t\tif (email && api_key) {\n\t\t\t\t\tif ($('.following-sites-list').is(':empty')) {\n\t\t\t\t\t\tvar data = current.getUserCredentials();\n\t\t\t\t\t\t$.ajax({\n\t\t\t\t\t\t\ttype: \"POST\",\n\t\t\t\t\t\t\tdata: data,\n\t\t\t\t\t\t\turl: DOMAIN_NAME + \"api/get_following\",\n\t\t\t\t\t\t\tsuccess: function(response) {\n\t\t\t\t\t\t\t\tcurrent.appendFollowingSites(response);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcurrent.showFollowingSites();\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} catch (e) {\n\t\t\t\tconsole.log(e);\n\t\t\t}\n\t\t},\n\t\tappendFollowingSites: function(response) {\n\n\t\t\ttry {\n\t\t\t\tif (typeof response != \"undefined\") {\n\t\t\t\t\tif (typeof response.following_sites != \"undefined\") {\n\t\t\t\t\t\t$('.following-sites-list').empty();\n\t\t\t\t\t\tvar following_sites = response.following_sites;\n\t\t\t\t\t\tObject.keys(following_sites).forEach(function(siteName) {\n\t\t\t\t\t\t\tvar siteDetectedApps = (typeof following_sites[siteName] === \"object\") ? following_sites[siteName] : JSON.parse(following_sites[siteName]);\n\t\t\t\t\t\t\tcurrent.appendAppDetails(siteDetectedApps, siteName, response.days);\n\t\t\t\t\t\t});\n\t\t\t\t\t\tcurrent.showFollowingSites();\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t} catch (e) {\n\t\t\t\tconsole.log(e);\n\t\t\t}\n\t\t},\n\t\tshowFollowingSites: function() {\n\t\t\tsetTimeout(function() {\n\t\t\t\tcurrent.showBackButton();\n\t\t\t\t$('.container').removeClass(\"active\")\n\t\t\t\t$('.following').addClass(\"active\");\n\t\t\t\t$('.image-loader').hide();\n\t\t\t}, 500);\n\t\t},\n\t\tshowBackButton: function() {\n\t\t\t$('.header-btn').removeClass(\"active\");\n\t\t\t$('.back').addClass(\"active\");\n\t\t},\n\t\tappendAppDetails: function(detectedSiteApps, hostname, daysDiff) {\n\t\t\ttry {\n\t\t\t\tvar list = $('<div class=\"list\"></div>');\n\t\t\t\tvar headerEl = $('<div class=\"following-heading\"><div class=\"following-hostname inline\">' + hostname + '</div><div class=\"inline unfollow\"></div><input type=\"hidden\" class=\"hide following-sitename\" value=\"' + hostname + '\"></div>');\n\t\t\t\tvar unfollowEl = $('<button class=\"btn btn-sm btn-gray sm-1 btn-unfollow\">Unfollow</button>');\n\t\t\t\t$(list).append($(headerEl));\n\t\t\t\t$(list).find('.unfollow').append($(unfollowEl));\n\t\t\t\tfor (var time in detectedSiteApps) {\n\t\t\t\t\tvar apps = detectedSiteApps[time];\n\t\t\t\t\tvar totalApps = [];\n\t\t\t\t\tObject.keys(apps).forEach(function(categoryName) {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tvar arr = apps[categoryName];\n\t\t\t\t\t\t\tfor (var i in arr) {\n\t\t\t\t\t\t\t\tvar techJson = arr[i];\n\t\t\t\t\t\t\t\tif (totalApps.indexOf(techJson.name) <= -1) {\n\t\t\t\t\t\t\t\t\ttotalApps.push(techJson.name);\n\t\t\t\t\t\t\t\t\tvar date = current.getDateFormat(techJson.latestDetectedTime);\n\t\t\t\t\t\t\t\t\tvar imageUrl = \"http://scriptsused.com/images/icons/\" + techJson.icon;\n\t\t\t\t\t\t\t\t\tvar imgEl = $('<div class=\"app-body inline\"><div class=\"image\"><a href=\"' + techJson.website + '\" target=\"_blank\"  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"' + techJson.name + ' <br/> Last Detected: ' + date + '\"><img src=\"' + imageUrl + '\"></a></div><div class=\"border-bottom-green\" ></div></div>');\n\t\t\t\t\t\t\t\t\t$(list).append($(imgEl));\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t} catch (e) {\n\t\t\t\t\t\t\tconsole.log(e);\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\t$('.following-sites-list').append($(list));\n\t\t\t} catch (e) {\n\t\t\t\tconsole.log(e);\n\t\t\t}\n\t\t},\n\t\tupdateUnFollowSite: function(followingSiteName) {\n\t\t\tif (current.isValidUser()) {\n\t\t\t\tvar data = {\n\t\t\t\t\temail: email,\n\t\t\t\t\tapi_key: api_key,\n\t\t\t\t\thostname: followingSiteName\n\t\t\t\t}\n\t\t\t\t$.ajax({\n\t\t\t\t\ttype: \"POST\",\n\t\t\t\t\tdata: data,\n\t\t\t\t\turl: DOMAIN_NAME + \"api/unfollow\",\n\t\t\t\t\tsuccess: function(response) {\n\t\t\t\t\t\tvar index = followingSites.indexOf(followingSiteName);\n\t\t\t\t\t\tif (index > -1) {\n\t\t\t\t\t\t\tfollowingSites.splice(index, 1);\n\t\t\t\t\t\t\tvar itemData = {\n\t\t\t\t\t\t\t\tfollowing_sites: JSON.stringify(followingSites)\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\tcurrent.setData(itemData);\n\t\t\t\t\t\t\tcurrent.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t})\n\t\t\t}\n\t\t},\n\t\tformSubmit: function() {\n\t\t\t$('.form').on(\"submit\", function(e) {\n\t\t\t\tconsole.log(e);\n\t\t\t\te.preventDefault();\n\t\t\t\tvar data = $(this).serialize();\n\t\t\t\tvar method = $(this).attr(\"method\");\n\t\t\t\tvar url = DOMAIN_NAME + $(this).attr(\"url\");\n\t\t\t\tvar formData = {\n\t\t\t\t\tdata: data,\n\t\t\t\t\tmethod: method,\n\t\t\t\t\turl: url\n\t\t\t\t};\n\t\t\t\tvar $this = $(this);\n\t\t\t\tBROWSER.runtime.sendMessage({\n\t\t\t\t\tid: \"form\",\n\t\t\t\t\tsubject: formData\n\t\t\t\t}, function(response) {\n\t\t\t\t\tif (response.status != 200) {\n\t\t\t\t\t\t$this.find('.result').addClass(\"error\");\n\t\t\t\t\t\t$this.find('.result').text(response.msg);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tif (typeof response.api_key != \"undefined\") current.setLoginData(response);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t},\n\t\tsetLoginData: function(res) {\n\t\t\ttry {\n\t\t\t\temail = res.email;\n\t\t\t\tapi_key = res.api_key;\n\t\t\t\tvar itemData = {\n\t\t\t\t\temail: email,\n\t\t\t\t\tapi_key: api_key\n\t\t\t\t}\n\t\t\t\tvar data = {\n\t\t\t\t\t\"login_session\": JSON.stringify(itemData),\n\t\t\t\t\t\"following_sites\": JSON.stringify(followingSites)\n\t\t\t\t}\n\t\t\t\tthis.setData(data);\n\t\t\t\tthis.appendNewFollowingSite();\n\t\t\t} catch (e) {\n\t\t\t\tconsole.log(e);\n\t\t\t}\n\t\t},\n\t\tappendNewFollowingSite: function() {\n\t\t\ttry {\n\t\t\t\tthis.showBackButton();\n\t\t\t\tthis.appendAppDetails(detectedApps, currentHostName);\n\t\t\t\tif (followingSites.indexOf(currentHostName) <= -1) {\n\t\t\t\t\tfollowingSites.push(currentHostName);\n\t\t\t\t\tvar itemData = {\n\t\t\t\t\t\t\"following_sites\": JSON.stringify(followingSites)\n\t\t\t\t\t}\n\t\t\t\t\tthis.setData(itemData);\n\t\t\t\t}\n\t\t\t\tthis.showFollowingSites();\n\t\t\t\t$('.user-follow').removeClass(\"active\");\n\t\t\t\t$('.back').addClass(\"active\");\n\t\t\t\tthis.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n\t\t\t} catch (e) {}\n\t\t},\n\t\tsendEmail: function() {\n\t\t\t$('#email-share-form').on('submit', function(e) {\n\t\t\t\te.preventDefault();\n\t\t\t\tvar $this = $(this);\n\t\t\t\t$(this).find('.result').empty();\n\t\t\t\tvar btnEl = $(this).find('.share-email-submit');\n\t\t\t\tvar text = $(btnEl).text();\n\t\t\t\t$(btnEl).empty();\n\t\t\t\t$(btnEl).append('Sending...');\n\t\t\t\t// $(btnEl).append('<i class=\"fa fa-spinner fa-spin fa-fw\" aria-hidden=\"true\"></i>');\n\t\t\t\t$.ajax({\n\t\t\t\t\ttype: \"POST\",\n\t\t\t\t\tdata: $(this).serialize() + \"&domain=\" + currentHostName,\n\t\t\t\t\turl: DOMAIN_NAME + \"share/email\",\n\t\t\t\t\tsuccess: function(res) {\n\t\t\t\t\t\t$(btnEl).empty();\n\t\t\t\t\t\tif (res.status == 200) {\n\t\t\t\t\t\t\t$(btnEl).append('<img src=\"images/Tick.png\" style=\"max-width:10px;\"><span style=\"margin-left:5px;\">Sent</span>');\n\t\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\t\t$(btnEl).empty();\n\t\t\t\t\t\t\t\t$(btnEl).append(text);\n\t\t\t\t\t\t\t}, 1000);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t$(btnEl).append(text);\n\t\t\t\t\t\t\t$this.find('.result').text(res.msg);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t})\n\t\t\t});\n\t\t},\n\t\tgetUserCredentials: function() {\n\t\t\tvar userCredentials = \"email=\" + email + \"&api_key=\" + api_key;\n\t\t\tuserCredentials += \"&domains=\" + JSON.stringify(followingSites);\n\t\t\treturn userCredentials;\n\t\t},\n\t\tparseJsonStr: function(str) {\n\t\t\ttry {\n\t\t\t\treturn JSON.parse(str);\n\t\t\t} catch (e) {}\n\t\t},\n\t\tgetDateFormat: function(timestamp) {\n\t\t\ttry {\n\t\t\t\tvar date = new Date(parseInt(timestamp));\n\t\t\t\tvar month = current.getMonthName(date);\n\t\t\t\treturn month + \" \" + date.getFullYear();\n\t\t\t} catch (e) {}\n\t\t\treturn \"\";\n\t\t},\n\t\tgetMonthName: function(d) {\n\t\t\ttry {\n\t\t\t\tvar monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n\t\t\t\t\t\"July\", \"August\", \"September\", \"October\", \"November\", \"December\"\n\t\t\t\t];\n\t\t\t\treturn monthNames[d.getMonth()];\n\t\t\t} catch (e) {}\n\t\t},\n\t\tisValidUser: function() {\n\t\t\ttry {\n\t\t\t\treturn (email && api_key && email.trim().length > 0 && api_key.trim().length > 0);\n\t\t\t} catch (e) {\n\n\t\t\t}\n\t\t\treturn false;\n\t\t}\n\t}\n\tpopupExt.init();\n\t$('body').tooltip({\n\t\tselector: '[data-toggle=tooltip]',\n\t\thtml: true\n\t});\n\n});",
 			"settings":
 			{
 				"buffer_size": 14486,
@@ -545,18 +558,10 @@
 			}
 		},
 		{
-			"file": "views/index.ejs",
-			"settings":
-			{
-				"buffer_size": 5567,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "views/about.html",
 			"settings":
 			{
-				"buffer_size": 4767,
+				"buffer_size": 4824,
 				"line_ending": "Unix"
 			}
 		},
@@ -564,23 +569,20 @@
 			"file": "post.yaml",
 			"settings":
 			{
-				"buffer_size": 14566,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/disclaimer.html",
-			"settings":
-			{
-				"buffer_size": 6066,
+				"buffer_size": 16774,
 				"line_ending": "Windows"
 			}
 		}
 	],
 	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 392.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -604,7 +606,10 @@
 	},
 	"console":
 	{
-		"height": 126.0
+		"height": 126.0,
+		"history":
+		[
+		]
 	},
 	"distraction_free":
 	{
@@ -615,8 +620,17 @@
 		"side_bar_visible": true,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah"
+	],
 	"file_history":
 	[
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/disclaimer.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/index.ejs",
+		"/C/Users/Wantok/WebstormProjects/node_modules/node-notifier/vendor/snoreToast/SnoreToast.exe",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app.js",
+		"/C/Users/Wantok/WebstormProjects/chat/app/assets/home.svg",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
 		"/C/Users/Wantok/Documents/workspace/ChatMe/assets/ChatMe Setup.txt",
@@ -633,7 +647,6 @@
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX79.536/faceclash-master/assets/js/faceclash.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/script.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/index.ejs",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/server.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/script.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/StuckWanYah.url",
@@ -740,11 +753,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/server/chat.js",
 		"/C/Users/Admin/WebstormProjects/chat/server/routes/api/v1/api.js",
 		"/C/Users/Admin/WebstormProjects/chat/server/server.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_scriptsF.vash",
-		"/C/Users/Admin/WebstormProjects/chat/server/models/followers.js",
-		"/C/Users/Admin/WebstormProjects/chat/server/models/broadcast.js",
-		"/C/Users/Admin/WebstormProjects/chat/server/routes/api/index.js",
-		"/C/Users/Admin/WebstormProjects/chat/server/models/db.js"
+		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_scriptsF.vash"
 	],
 	"find":
 	{
@@ -762,6 +771,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"player",
 			"com.chatme.android.",
 			"},{",
 			"Math.random(), Math.random()",
@@ -812,7 +822,7 @@
 			" {",
 			"; ",
 			": ",
-			"	",
+			"\t",
 			"sub"
 		],
 		"highlight": true,
@@ -831,23 +841,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app.js",
+					"file": "server.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 61241,
+						"buffer_size": 63343,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16413,
-								16413
+								4812,
+								4812
 							]
 						],
 						"settings":
@@ -857,41 +868,75 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6975.0,
+						"translation.y": 1476.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/javascripts/script.js",
+					"file": "views/home.html",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 47151,
+						"buffer_size": 5094,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7652,
-								7652
+								2872,
+								2872
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1012.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/javascripts/script.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 52872,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2493,
+								2493
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2325.0,
+						"translation.y": 2423.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
+					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 14486,
@@ -901,8 +946,8 @@
 						"selection":
 						[
 							[
-								8649,
-								8649
+								6686,
+								6686
 							]
 						],
 						"settings":
@@ -912,17 +957,19 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3915.0,
+						"translation.y": 2970.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "views/index.ejs",
+					"buffer": 4,
+					"file": "views/about.html",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5567,
+						"buffer_size": 4824,
 						"regions":
 						{
 						},
@@ -935,33 +982,6 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/EJS/EJS.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 980.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "views/about.html",
-					"settings":
-					{
-						"buffer_size": 4767,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2453,
-								2453
-							]
-						],
-						"settings":
-						{
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -969,22 +989,24 @@
 						"translation.y": 142.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
 					"file": "post.yaml",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14566,
+						"buffer_size": 16774,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2792,
-								2792
+								0,
+								0
 							]
 						],
 						"settings":
@@ -994,36 +1016,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 637.0,
+						"translation.y": 487.0,
 						"zoom_level": 1.0
 					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "views/disclaimer.html",
-					"settings":
-					{
-						"buffer_size": 6066,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2485,
-								2485
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 531.0,
-						"zoom_level": 1.0
-					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1072,6 +1068,8 @@
 	{
 		"height": 100.0
 	},
+	"pinned_build_system": "",
+	"project": "StuckWanYahProject.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -1080,6 +1078,7 @@
 	"select_file":
 	{
 		"height": 0.0,
+		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -1088,19 +1087,36 @@
 	"select_project":
 	{
 		"height": 500.0,
+		"last_filter": "",
 		"selected_items":
 		[
 			[
 				"",
-				"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/HacknCrack.sublime-project"
+				"/C/Users/Wantok/WebstormProjects/chat/dev/fantastix.sublime-project"
 			]
 		],
 		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
 	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 221.0,
-	"status_bar_visible": true
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
 }
