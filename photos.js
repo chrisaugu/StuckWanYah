@@ -1,7 +1,7 @@
 // Facebook dummy data
-module.exports = [
+[
     {
-        id: "100004177278169",
+        "id": "100004177278169",
         displayName: "Lieasi Hurdy",
         age: 18,
         gender: "male",
