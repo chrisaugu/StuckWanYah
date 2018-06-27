@@ -8,11 +8,9 @@ require 'date';
 // reddit's own epoch. 
 var $our_epoch = Time.local(2005, 12, 8, 7, 46, 43).to_time
 
-
 def epoch_seconds(t)
   (t.to_i - $our_epoch.to_i).to_f
 end
-
 
 // date is a ruby Time
 def hot(ups, downs, date)
@@ -55,13 +53,7 @@ function hot(ups, downs, date) {
 
 
 
-
-var Ea, Eb;
-
-Ea = Math.log
-
-
-// ELO Algorithm based on PHP writting
+// ELO Algorithm based on PHP implementation
 
 function elo_rating(S1, S2, R1, R2) {
   var E, R[];
@@ -106,23 +98,6 @@ function elo_rating(S1, S2, R1, R2) {
 
   return R;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -695,3 +670,67 @@ function greetUser() {
     var arr = [1, 9, 4, 2, 5];
     var sorted = arr.sort();
     //printl(sorted);
+
+
+function select(list[1..n], k) {
+    for (var i = 0; i < k; i++) {
+        minIndex = i;
+        minValue = list[i];
+        for (var j = 0; j < i; i+1) {
+            if (list[j] < minValue) {
+                minIndex = j;
+                minValue = list[j];
+                swap list[i] and list[minIndex]
+            }
+        }
+    }
+    return list[k];
+}
+
+/**
+ * Processing Images
+ */
+fs.readdir(sourceDirectory, function (err, files){
+    if (err) console.log("1236: " + err);
+
+    files.forEach(function(file){
+        scaleImage(file);
+    });
+});
+
+function scaleImage(file){
+    /*lwip.open(sourceDirectory + file, function(err, image){
+        if (err) console.log("1248: " + err);
+        if (image) {
+            var width = 400,
+                height = 400,
+                imageHeight = image.height(),
+                imageWidth = image.width(),
+                ratio;
+            ratio = Math.max(width / imageWidth, height / imageHeight);
+
+            image.batch()
+                .scale(ratio)
+                .crop(400, 400)
+                .writeFile(destinationDirectory + file, function(err){
+                    if (err) console.log(err);
+                    console.log(file + ": has been processed");
+                });
+        } else {
+            console.log("1265: " + 'couldn\'t find no photo');
+        }
+    });*/
+}
+
+
+// Randomly pick two friends from my facebook friends list
+// using Permutation and Combinations
+function factorial(choose, objects) {
+    let total = objects.length;
+
+    for (var i=total; i>0; i--) {
+        console.log(i);
+    };
+};
+
+//factorial(2, 5);

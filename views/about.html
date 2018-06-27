@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html id="stuckwanyah">
 <head>
-	<title>About</title>
+	<title>About • StuckWanYah</title>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico">
+  	<script src="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
 <main id="main">
-	<h1>Stuck Wan Yah!</h1>
+	<h1>StuckWanYah</h1>
 	<h2>About</h2>
 	<h3>It's a thing to know</h3>
 
@@ -17,51 +18,62 @@
 			<tbody id="about">
 			<tr>
 				<td>
-					<h4>What is "Stuck Wan Yah"?</h4>
+					<h4>What is "Stuck Wan Yah, Stak wan yah or stak wan" ?</h4>
 					<p>
-						"Stuck Wan Yah" is a pun for "stak wan yah or stak wan" [in tok pisin]. The term has subtle meanings. It is not known exactly when it was first coined up but was first used in the song "Narawan", the 2016 single released from a collaboration between PNG's well-known artists: 5-STAR, Jaro Local and Dr Doxx. From the song the meaning of the term refers to a person that has a major effect on someone's life or say that a girl, her crazyness, smile just won't fade away. It's stuck on your mind.
-						<br>
-						Its another meaning is used explicitly to refer to a person's looks. "Ol sa tok Hey stuck wan yeh".
-						<br>
-						When teens started using the term everywhere, in school, streets, social media, frankly the last time I looked up the term on Facebook I got 20 hits in relation to the term. Listening to teens same age as mine using the term and it got frenzy that caught my attention which led to the birth of 'Stuck Wan Yah' site.
-						<br>
+						<b>"Stak wan yah" or "stak wan"</b> <i>[in tok pisin]</i> is a pun that has subtle meanings. It is not known exactly when it was first coined up but was first used in the song "Narawan"; a 2016 single released from a collaboration between PNG's well-known artists 5-STAR, Jaro Local and Dr Doxx. From the song the meaning of the term refers to someone that has major effect on your life or say that a girl, her crazyness, smile just won't fade away. It's stuck on your mind.
 					</p>
 					<p>
-						The StuckWanYah website is a PNG revamp version of Facemash - a Howard version of hotornot.com website created by Mark Zuckerberg for rating Howard students based on their looks back in 2003. The site was set up in one night and got 22000 page hits that same night which put Mark into suspension for breaching Howard students privacy rights.
-						Unlike Facemash, StuckWanYah works alongside Facebook. The website is embeded onto Facebook letting you vote for your friends' hotness. You give full rights to StuckWanYah to manipulate your photos on Facebook. In other words StuckWanYah lets you vote your Facebook friends.
+						Its another meaning is used explicitly to refer to a person's looks. "stack wan yah".
+						When teens started using the term it gain massive hits everywhere, in school, around streets, on social media and frankly the last time I looked up the term on Facebook I got 20 hits in relation to the term. Listening to teens same age as mine using the term I picked up the idea to make more cool if we can and it got media frenzy that caught my attention that led to the creation of 'StuckWanYah'.
 					</p>
-					<a href="https://www.messenger.com/t/1135063803224611" class="messenger_bot_link">Message StuckWanYah Bot</a>
-					<blockquote class="quote">
-						When you play stuckwanyah your friends will like you.
-					</blockquote>
-					<blockquote class="quote">
-						It's time for putting your #1 on your friends' hotness.
-					</blockquote>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<h4>Timeline</h4>
+					<h4>About "StuckWanYah"?</h4>
+					<p>
+						<b>StuckWanYah</b> is a PNG revamp version of Facemash; a Howard version of <b>hotornot.com</b> website created by <b>Mark Zuckerberg</b> for rating Howard students based on their looks back in 2003. The entire website was set up in one night, a span of eight hours near midnight to be specific. By morning, the site had accumulated a total of <b>22,000</b> hits which led to his suspension over violation of copyright, privacy, and breaching of Howard network security. The photos were programmatically <i>scraped</i> from the online facebooks of the nine houses at Harvard, starting with the Kirkland house. The site was later permanently taken down over the weekend.
+					</p>
+					<p>
+						Unlike Facemash, StuckWanYah lets people vote their Facebook friends' hotness. The user logs in with Facebook and all his/her friends are retrieved from Facebook and stored on StuckWanYah's own database. Later two friends are randomly picked and their photos are put up next to each other letting user vote which one is hotter. User has the option to be voted and not to be voted, he/she can block his/her photo if he/she does not want to participate.
+					</p>
+					<blockquote class="quote">
+						When you play stuckwanyah, your friends will like you!
+					</blockquote>
+					<p>
+						StuckWanYah started out as a learning experiment with the <b>NodeJs</b>, <b>MongoDB</b>, <b>JavaScript</b> and <b>AJAX</b> technologies and later extend to <b>Facebook Platform</b> with the idea of manipulating Facebook user database. Also the project is for experimenting on algorithm implementation and data structure.
+					</p>
+					<h4>Technologies used</h4>
+					<p>
+						Unlike Facemash which was built on LAMP stack, StuckWanYah is built on its creator's taste of technology stack. NodeJs runs the server, serving the database while rendering EJS in html which serves the client. StuckWanYah also makes use of Facebook Messenger Bot API. User sends a text message via StuckWanYah Official Facebook Page and the server will send a response. StuckWanYah also uses Facebook Login for keeping stateless persistant login of user using cookies and session.
+					</p>
 					<p align="center">
-						<img src="/images/fm-about-9.jpg" width="500" border="0" alt="facemash" align="middle" style="width:100%;">
+						<img class="img" src="/images/fm-about-9.jpg" width="500" border="0" alt="facemash" align="middle" style="width:100%;">
 					</p>
 					<p>
-						Huh yea, StuckWanYah is driven by a popular rating algorithm "ELO" Rating System.
-					</p>
-
-					<p>
-						Each photo has a base rating of say 1400.
-						At any given time "Girl A" has a rating	Ra and "Girl B" has a rating Rb.
-						When any two photos are matched up, there's an expectation of which will win based on their current rating.
-						And all those expectations are express this way.
+						Heck yea, StuckWanYah implements a popular rating algorithm called <b><a href="http://en.wikipedia.org/wiki/Elo_rating_system"> Elo Rating System</a></b>. The system is used by large organisations to rank two-players game. Here's how it works. Each photo has a base rating of 1400. At any given time "Girl A" has a rating Ra and "Girl B" has a rating Rb. When any two photos are matched up, there's an expectation of which will win based on their current rating. And all those expectations are express this way.
 					</p>
 					<img src="/images/elo_formula_ea.png" srcset="/images/elo_formula_ea.png" alt="Formula for ELO Rating System" style="padding:2px;border:0px;width:206px;">
 					<br>
 					<img src="/images/elo_formula_eb.png" srcset="/images/elo_formula_eb.png" alt="Formula for ELO Rating System" style="padding:2px;border:0px;width:206px">
 
-
-					<br><br>
-
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h4>Photos</h4>
+					<p align="center">
+						<img class="img" src="/images/fm-about-1.jpg" width="500" border="0" alt="stuckwanyah development" align="middle" style="width:100%;">
+					</p>
+					<p align="center">
+						<img class="img" src="/images/fm-about-2.png" width="500" border="0" alt="facemash" align="middle" style="width:100%;">
+					</p>
+					<p align="center">
+						<img class="img" src="/images/fm-about-3.png" width="500" border="0" alt="stuckwanyah development" align="middle" style="width:100%;">
+					</p>
+					<p align="center">
+						<img class="img" src="/images/fm-about-8.jpg" width="500" border="0" alt="facemash mokeup" align="middle" style="width:100%;">
+					</p>
 				</td>
 			</tr>
 			</tbody>
@@ -73,28 +85,34 @@
 			<div class="container">
 				<ul>
 					<li><a href="/" onclick="sh('home')">Home</a></li>
-					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
-					<li><a target="_blank" href="https://app.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah on Facebook</a></li>
-					<li><a href="/about.html" onclick="sh('facebookpage')">About</a></li>
+					<!--li><a target="_blank" href="https://www.messenger.com/t/CrisIoTheBot" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
 					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+				<p class="copyright"><span>StuckWanYah &copy; 2018&nbsp;&#x00B7;&nbsp;Made in PNG for fun.</span></p>
 				<div class="fb-like"
-					 data-href="https://stuckwanyah.herokuapp.com/about.html"
+					 data-href="https://stuckwanyah.herokuapp.com/"
 					 data-layout="standard"
 					 data-action="like"
 					 data-show-faces="true">
 				</div>
-
-				<p class="copyright"><span>StuckWanYah &copy; 2018&nbsp;&#x00B7;&nbsp;Made in PNG for fun.</span></p>
+				<br>
 			</div>
 		</div>
 
 	</center>
 </main>
-<script type="text/javascript" src="/javascripts/jquery.js"></script>
-<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript" src="javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
 </body>
 </html>

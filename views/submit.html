@@ -5,54 +5,33 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico">
-	<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<script src="/javascripts/sdk.js" xsrc="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
 <main id="main">
 
-	<h1>Stuck Wan Yah!</h1>
+	<h1>StuckWanYah</h1>
 	<h2>Got A Comment Or Question?</h2>
 	<h4>I'd love to hear what you think about StuckWanYah. Good or Bad. Have a suggestion for a new feature? Shoot it over to me. <br>Have a Harry Potter conspiracy theory? Share it with me!</h4>
 
 	<center>
-		<form id="submit" action="/api/v1/submit" method="post" ddata-form="submit">
+		<form id="submitForm" enctype="multipart/form-data" action="" method="post">
 			<table align="center">
 				<tr><td><input type="text" name="name" placeholder="Your name" class="text"></td></tr>
-				<tr><td><input type="text" required="true" name="fb_id" data-fb-id="" placeholder="Your Facebook ID *" class="text"></td></tr>
-				<tr><td><textarea type="text" name="message" placeholder="Message *" class="text" rows="4" style="max-width: 300px;min-width: 300px;min-height: 92px;max-height: 165px;"></textarea>
+				<tr><td><input type="text" required="true" name="sender" placeholder="Your Facebook ID *" class="text"></td></tr>
+				<tr><td><textarea type="text" name="message" placeholder="Message *" class="text" rows="4" style="max-width: 300px;min-width: 300px;min-height: 92px;max-height: 165px;" minlength="10" maxlength="120" ></textarea>
 					<span id="counter">120 characters remaining</span>
 				</td></tr>
 				<tr><td>
-					<input type="submit" data-action="submit" value="Send message" class="button">
+        			<input type="file" name="imgUploader" multiple />
+        			<label class="button">
+						<input type="submit" value="Send message" class="button">
+        			</label>
 					<div class="results" style="display:inline;"></div>
+					<a href="https://www.messenger.com/t/1135063803224611" class="messenger_bot_link">message StuckWanYah Bot</a>
 				</td></tr>
 			</table>
 		</form>
-
-		<!--ul>
-			<li>item 1
-				<ul>
-					<li>sub item 1-a</li>
-					<li>sub item 1-b</li>
-				</ul>
-			</li>
-			<li>item 2
-				<ul>
-					<li>sub item 2-a</li>
-					<li>sub item 2-b</li>
-				</ul>
-			</li>
-		</ul-->
-
-		<script>
-            function handler( event ) {
-                var target = $( event.target );
-                if ( target.is( "li" ) ) {
-                    target.children().toggle();
-                }
-            }
-            $( "ul" ).click( handler ).find( "ul" ).hide();
-		</script>
 
 		<br/><br/><br/><br/>
 
@@ -61,18 +40,25 @@
 				<ul>
 					<li><a href="/" onclick="sh('home')">Home</a></li>
 					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
-					<li><a target="_blank" href="https://app.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah on Facebook</a></li>
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
 					<li><a href="/about.html" onclick="sh('about')">About</a></li>
 					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p> 
 				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun.</span></p>
 			</div>
 		</div>
 	</center>
 </main>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
 <script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
 </body>
 </html>

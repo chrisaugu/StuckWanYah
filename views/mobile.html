@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>StuckWanYah</title>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="full-screen" content="yes"/>
+	<meta name="screen-orientation" content="portrait"/>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+	<link rel="favicon" type="icon" href="/favicon.ico" title="StuckWanYah">
+
+</head>
+<body>
+	<!--script type="text/javascript" src="https://connect.facebook.net/en_US/fbinstant.6.0.js"></script-->
+  
+  <!-- build:js -->
+  <!--script type="text/javascript" src="/javascripts/fbinstant.6.0.js"></script-->
+  <script src="/javascripts/mock/fbinstant.6.0.mock.js"></script>
+  <!-- endbuild -->
+
+  <script src="/javascripts/lib/html2canvas.min.js" ></script>
+  <script src="/javascripts/data.js" ></script>
+  <script src="/javascripts/game.js" ></script>
+  <script src="/javascripts/lobby.js" ></script>
+  <script type="text/javascript">
+
+    //const BACKEND_URL = 'https://fbinstant-tictactoe-server.herokuapp.com' || 'https://stuckwanyah.herokuapp.com';
+    const BACKEND_URL = 'http://localhost:5000';
+    const IMAGES = ['title_img', 'love', 'like', 'fill']
+    var preloaded = {};
+    
+    window.onload = function() {
+      FBInstant.initializeAsync().then(function() {
+
+        // Preload images
+        IMAGES.forEach(function(imgName, index){
+          var img = new Image();
+          img.src = './images/' + imgName + '.png';
+          preloaded[imgName] = img;
+          FBInstant.setLoadingProgress(Math.ceil(index / IMAGES.length) * 100);
+        })
+
+        // Finished loading. Start the game
+        FBInstant.startGameAsync().then(function() {
+          startGame();          
+        });
+      });
+    };
+
+    function selectContext() {
+      FBInstant.context.chooseAsync()
+        .then(function() {
+            startGame();          
+        })
+    };
+
+    function startGame() {
+      if (FBInstant.context.getType() !== 'SOLO') {
+        // clear scene
+        var sceneRoot = document.getElementById('scene');
+        while (sceneRoot.firstChild) {
+          sceneRoot.removeChild(sceneRoot.firstChild);
+        }
+        // start game
+        var game = new gameplayScene(FBInstant, new backendClient(BACKEND_URL), html2canvas);
+        game.start();
+      }
+    };
+  
+  </script>
+<script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else {
+      // The person is not logged into your app or we are unable to tell.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1791165357568831',
+      cookie     : true,  // enable cookies to allow the server to access 
+                          // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.8' // use graph api version 2.8
+    });
+
+    // Now that we've initialized the JavaScript SDK, we call 
+    // FB.getLoginStatus().  This function gets the state of the
+    // person visiting this page and can return one of three states to
+    // the callback you provide.  They can be:
+    //
+    // 1. Logged into your app ('connected')
+    // 2. Logged into Facebook, but not your app ('not_authorized')
+    // 3. Not logged into Facebook and can't tell if they are logged into
+    //    your app or not.
+    //
+    // These three cases are handled in the callback function.
+
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome! Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+
+  function getFacebookFriends() {
+    
+  }
+</script>
+<main id="main">
+
+	<h1>StuckWanYah</h1>
+	<h3>Mobile Instant Game</h3>
+
+	<center>
+
+		<!--
+		Below we include the Login Button social plugin. This button uses
+		the JavaScript SDK to present a graphical Login button that triggers
+		the FB.login() function when clicked.
+		-->
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+
+<div id="status"></div>
+
+<div class="panel" id="scene">
+  <p>Please select an opponent</p>
+  <input type="button" class="button" value="Choose opponent" onclick="selectContext();" />
+</div>
+
+<pre id="debug">
+</pre>
+
+		<br/><br/><br/><br/>
+
+		<div class="footer">
+			<div class="container">
+				<ul>
+					<li><a href="/" onclick="sh('home')">Home</a></li>
+					<li><a target="_blank" href="https://www.messenger.com/t/Stuck-Wan-Yah-508382589546607" onclick="sh('messengerbot')">Messenger Bot</a></li>
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian JF Augustyn production</a></p>
+				<p class="copyright"><span>StuckWanYah&nbsp;&copy;&nbsp;2018&nbsp;&#x00B7;&nbsp;Made&nbsp;in&nbsp;PNG&nbsp;for&nbsp;fun.</span></p>
+				<br>
+			</div>
+		</div>
+	</center>
+</main>
+</body>
+</html>

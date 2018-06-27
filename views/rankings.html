@@ -6,18 +6,26 @@
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico">
 </head>
-<body id="main">
-	<h1>Stuck Wan Yah!</h1>
+<body>
+	<script type="text/javascript">(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+    	js.src = "https://connect.facebook.net/en_US/sdk.js";
+    	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<main id="main">
+	<h1>StuckWanYah</h1>
 	<h2>Rankings</h2>
-	<h3>Top 10 hottest friends<!--by
-		<select id="ranking_type_field">
+	<h3>Top 10 hottest friends <!--by
+		<select id="ranking_type_field" onchange="change_myselect(this.value)">
 			<option accesskey="w" value="wins">winings</option>
 			<option accesskey="l" value="losses">losings</option>
 			<option accesskey="d" value="draws">drawings</option>
 			<option accesskey="r" value="ratings">ratings</option>
 		</select>
 		by gender
-		<select id="ranking_type_gender">
+		<select id="ranking_type_gender" onchange="change_myselect(this.value)">
 			<option accesskey="f" value="both">both</option>
 			<option accesskey="f" value="female">female</option>
 			<option accesskey="m" value="male">male</option>
@@ -27,13 +35,13 @@
 	<center>
 		<table align="center" style="padding:0 15px;width:0;">
 			<thead>
-				<tr>
-					<th onclick="sortList()">Contender</th>
-					<th></th>
-					<th onclick="sortList()">Ratings</th>
-					<!--th></th>
-					<th onclick="sortList()">Ranks</th-->
-				</tr>
+			<tr>
+				<th onclick="sortList()">Player</th>
+				<th></th>
+				<th onclick="sortList()">Ratings</th>
+				<!--th></th>
+                <th onclick="sortList()">Ranks</th-->
+			</tr>
 			</thead>
 			<tbody id="rankings">
 			</tbody>
@@ -47,19 +55,26 @@
 				<ul>
 					<li><a href="/" onclick="sh('home')">Home</a></li>
 					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
-					<li><a target="_blank" href="https://app.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah on Facebook</a></li>
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
 					<li><a href="/about.html" onclick="sh('about')">About</a></li>
 					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p> 
 				<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
 			</div>
 		</div>
 
 	</center>
-	<script type="text/javascript" src="/javascripts/jquery.js"></script>
-	<script type="text/javascript" src="/javascripts/script.js"></script>
+</main>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript" src="javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
 </body>
 </html>

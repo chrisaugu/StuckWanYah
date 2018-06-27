@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Friends</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
-	<link rel="favicon" type="icon" href="/favicon.ico">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" title="StuckWanYah">
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+
+  	<script src="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
-<body id="main">
-	<h1>Stuck Wan Yah!</h1>
+<body>
+<main id="main">
+	<h1>StuckWanYah</h1>
 	<h2>My Facebook friends</h2>
 	<h3>Here are all the current Facebook profile pictures for all your friends. Click each picture to go to their Facebook profile.</h3>
 
@@ -18,26 +25,32 @@
 
 		<br/><br/><br/><br/>
 
-
 		<div class="footer">
 			<div class="container">
 				<ul>
 					<li><a href="/" onclick="sh('home')">Home</a></li>
 					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
-					<li><a target="_blank" href="https://app.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah on Facebook</a></li>
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
 					<li><a href="/about.html" onclick="sh('about')">About</a></li>
 					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
 				<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
 			</div>
 		</div>
 
 	</center>
+</main>
 
-	<script type="text/javascript" src="javascripts/jquery.js"></script>
-	<script type="text/javascript" src="javascripts/script.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
 </body>
 </html>

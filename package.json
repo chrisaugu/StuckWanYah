@@ -2,27 +2,23 @@
   "name": "stuckwanyah",
   "version": "1.0.0",
   "description": "My own version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
+  "engines": {
+    "node": "6.10.2"
+  },
+  "private": true,
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-  },
-  "engines": {
-    "node": "8.9.4"
+    "test": "gulp test",
+    "start": "nodemon server.js",
+    "mock": "gulp mock",
+    "push": "gulp push"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chrisaugu/stuckwanyah.git"
   },
-  "directories": {
-    "models": "models",
-    "public": {
-      "images": "images",
-      "javascript": "javascript",
-      "photos": "photos",
-      "stylesheets": "stylesheets"
-    },
-    "views": "views"
+  "bin": {
+    "ginit": "./server.js"
   },
   "keywords": [
     "stuck wan",
@@ -35,8 +31,8 @@
     "facemash",
     "rating people's pictures"
   ],
-  "author": "Christian J.F. Augustyn",
-  "license": "ISC",
+  "author": "Christian JF Augustyn",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/chrisaugu/stuckwanyah/issues"
   },
@@ -47,39 +43,43 @@
     "body-parser": "~1.18.2",
     "colors": "latest",
     "cookie-parser": "~1.3.3",
-    "cors": "latest",
+    "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.3",
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^5.0.1",
     "ejs": "~> 2.5.5",
     "express": "4.16.2",
-    "express-session": "latest",
     "express-jwt": "latest",
+    "express-session": "latest",
     "favicon": "latest",
-    "fb": "^2.0.0",
-    "fbjs": "latest",
     "fs": "latest",
+    "gulp": "3.9.1",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-webserver": "^0.9.1",
+    "gulp-zip": "^4.1.0",
+    "html2canvas": "^1.0.0-alpha.10",
     "jwt-simple": "latest",
-    "memory-cache": "latest",
+    "method-override": "~2.2.0",
     "moment": "latest",
     "mongoose": "~3.8.15",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "latest",
-    "method-override": "~2.2.0",
-    "node-dir": "^0.1.17",
     "node-restful": "latest",
+    "open": "^0.0.5",
     "parseurl": "latest",
     "passport": "latest",
-    "passport-facebook": "latest",
-    "passport-facebook-token": "latest",
+    "passport-facebook": "^2.1.1",
+    "passport-facebook-token": "^3.3.0",
+    "passport-oauth2": "^1.4.0",
     "path": "latest",
+    "platform": "^1.3.5",
     "promise": "latest",
-    "request-promise": "^4.2.2",
-    "xtend": "latest"
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "lwip": "latest",
-    "nightmare": "^1.8.2",
-    "request": "^2.40.0",
-    "should": "~4.0.4",
-    "supertest": "~0.13.0",
-    "xml2js": "latest"
+    "xml2js": "latest",
+    "gulp-cli": "^2.0.1"
   }
 }

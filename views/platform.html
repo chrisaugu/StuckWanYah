@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1791165357568831',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.12'
+    });
+
+    // Now that we've initialized the JavaScript SDK, we call 
+    // FB.getLoginStatus().  This function gets the state of the
+    // person visiting this page and can return one of three states to
+    // the callback you provide.  They can be:
+    //
+    // 1. Logged into your app ('connected')
+    // 2. Logged into Facebook, but not your app ('not_authorized')
+    // 3. Not logged into Facebook and can't tell if they are logged into
+    //    your app or not.
+    //
+    // These three cases are handled in the callback function.
+
+    FB.AppEvents.logPageView();
+
+    function checkLoginState() {
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    }
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "/javascripts/sdk.js#xfbml=1&version=v2.12&appId=1791165357568831&autoLogAppEvents=1"; //"https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else {
+      // The person is not logged into your app or we are unable to tell.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome! Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+
+  function getMyFriendslist() {
+    FB.api('/me','GET', {
+      'fields':'id, full_name, last_name, age_range, birthday, picture, profile_pic, friendlist, friends'
+    }, function (response) {
+      if (response) {
+        for (let i=0; i<response.friends.length; i++) {
+          response.friends[i].id
+        }
+      }
+    })
+  }
+</script>
+<!--
+Below we include the Login Button social plugin. This button uses
+the JavaScript SDK to present a graphical Login button that triggers
+the FB.login() function when clicked.
+-->
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+<div id="status"></div>
+<main>
+	<center>
+		<script type="text/javascript">
+			function addtab() {
+				FB.ui({
+					method: 'pagetab',
+					redirect_uri: 'YOUR_URL'
+				}, function(response){});
+			}
+		</script>
+		<a href="#" onclick="addtab();">Add As Page Tab</a>
+		<a href="https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&redirect_uri=YOUR_URL">Add As Page Tab</a>
+		<a href="https://www.facebook.com/dialog/add.php?api_key=YOUR_APP_ID&pages">Add As Page Tab</a>
+
+    <div class="custom-fb-share" data-href="https://stuckwanyah.herokuapp.com/">Share</div>
+    
+    <div class="fb-share-button" data-href="https://stuckwanyah.herokuapp.com/" data-layout="button_count" data-size="small" data-mobile-iframe="true">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fstuckwanyah.herokuapp.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    
+    <div class="fb-login-button" data-max-rows="1" data-size="small" data-button-type="continue_with" data-show-faces="true" data-auto-logout-link="false" data-use-continue-as="false"></div>
+    
+    <div class="fb-like"
+        data-href="https://stuckwanyah.herokuapp.com/"
+        data-layout="button_count"
+        data-action="like"
+        data-show-faces="false">
+    </div>
+
+    <button type="button" data-action="facebook_login" name="connect_facebook" id="LoginFacebook"  class="button _fbNub">Connect to Facebook</button>
+    <button type="button" name="my_full_name" id="ShowMyName" class="button _fbNub">Get my name from Facebook</button>
+    <a href="http://www.facebook.com/authorize.php?api_key=233754760011884&amp;v=1.0&amp;ext_perm=read_stream">CLICK ME AFTER YOU LOG IN</a>
+                            
+	</center>
+</main>
+</body>
+</html>

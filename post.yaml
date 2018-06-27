@@ -59,10 +59,18 @@ $ heroku ps:scale web=1
 
 
 
+"lwip": "latest",
+"nightmare": "^1.8.2",
+"should": "~4.0.4",
+"supertest": "~0.13.0",
+
+
+
 
 # Alternatively, you can visit https://mlab.com/databases/your-db-name/collections/contacts and observe your new contact there.
 
 
+https://www.facebook.com/dialog/oauth?response_type=code&client_id=657854390977827&redirect_uri=https://satellizer.herokuapp.com/&display=popup&scope=email
 
 me?fields=id,name,friendlists.limit(2){id,name},age_range
 me?fields=friendlists.limit(2){id,name},age_range,id,name,profile_pic,gender,friends{age_range,name,link,profile_pic},link
@@ -107,7 +115,6 @@ https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32/25299066_1427075520736791_7
 https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/c0.0.32.32/p32x32/25395848_328134744329406_8742747643512503740_n.jpg?oh=27936e7f8acd73b3c471dabc5d16cd26&oe=5AB7B45A
 https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/25398952_508400639544802_1868320785980351014_n.png?oh=44580410770e140865a10d5866c2272a&oe=5AB72B4B
 
-
 whitecollar.usanetwork.com
 
 https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&next=YOUR_URL
@@ -115,6 +122,10 @@ https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&redirect_uri=YOUR_URL
 https://www.facebook.com/dialog/pagetab?app_key=YOUR_APP_ID&pages
 
 
+/me/?fields=first_name,last_name,birthday,age_range,genderphotos{picture,link},friends{id,first_name,last_name,birthday,picture{url},friends}
+100004177278169/?fields=id,first_name,last_name,age_range,birthday,gender,picture{url},friends{birthday,age_range,picture{url}}
+
+https://graph.facebook.com/100004177278169/picture?type=small
 
 # https://apps.facebook.com/stuckwanyah/
 # https://stuckwanyah.herokuapp.com/
@@ -131,7 +142,66 @@ https://www.facebook.com/dialog/pagetab?app_key=YOUR_APP_ID&pages
 > connecting server on heroku to mlab
 > function for adding on my friendslist to database
 > function for un/blocking friends
-> function for 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Well building a website to retrieve all friends of every user participating on the site from Facebook via its Graph API is a piece of cake but if I want to retrieve all friends of every user participating, checking if each friend is a user but create new user if each friend is not a user. That is a lot of hard work to do. 
+Algorithm.
+Step1: First a user logs in with Facebook.
+Step2: Then I will use the facebook id of the user to query the database to check if the user exists, 
+       log use in but create new user if not and log in user.
+Step3: Then I will have to retrieve the list of friends of a user and store them along with their id.
+Step4: Then I will check the entire friends list if each friend is a user by querying the database using friend id.
+Step5: Then if the friend is found as a user leave out and go to the next friend until all friends are checked.
+Step6: Then if the friend is not found as a user, create a new user by using its id to query the facebook for its data.
+Step7: Then retrieve the friend's data from faceook via graph api and create a new user out of the data.
+Step8: repeat Step2.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 posts:

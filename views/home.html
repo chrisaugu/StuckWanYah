@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html id="stuckwanyah">
 <head>
 	<meta charset="utf-8">
 	<title>StuckWanYah</title>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
-	<link rel="favicon" type="icon" href="/favicon.ico" title="StuckWanYah">
-	
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" title="StuckWanYah">
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+	<script src="//connect.facebook.net/en_US/sdk.js"></script>
+
 </head>
 <body>
 <main id="main">
 
-	<h1>Stuck Wan Yah!</h1>
+	<h1>StuckWanYah</h1>
 
 	<center>
-		<% if (connected) { %>
-			<% if (images) { %>
+		<% if (images) { %>
 
-				<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
-				<h2>Who's hotter? Click to choose</h2>
+			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
+			<h2>Who's hotter? Click to choose</h2>
 
 				<table>
 					<tr id="photos">
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].image_id %>&loser=<%= images[1].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[0].uri %>"><img src="/photos/<%= images[0].image_url %>"></a></td>
-						<td id="OR" width="55" align="center"><a href="tie?player1=<%= images[0].image_id %>&player2=<%= images[1].image_id %>" style="text-decoration:none;"><b>OR</b></a></td>
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].image_id %>&loser=<%= images[0].image_id %>" onclick="sh('vote')" data-fb-id="<%= images[1].uri %>"><img src="/photos/<%= images[1].image_url %>"></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].facebookId %>"><img class="img" src="/photos/<%= images[0].picture %>"></a></td>
+						<td id="OR" width="55" align="center"><a href="tie?player1=<%= images[0].imageId %>&player2=<%= images[1].imageId %>" style="text-decoration:none;"><b>OR</b></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].facebookId %>"><img class="img" src="/photos/<%= images[1].picture %>"></a></td>
 					</tr>
 					<tr align="center">
 						<td><%= images[0].name %></td>
@@ -39,7 +40,7 @@
 						<td><b>Ratings:</b> <%= images[1].ratings %></td>
 					</tr>
 					<tr id="wins" align="left">
-						<td><b>Wins:</b><%= images[0].wins %>, <b>losses: </b><%= images[0].losses %>, <b>Draws: </b><%= images[0].draws %></td>
+						<td><b>Wins:</b> <%= images[0].wins %>, <b>Losses: </b><%= images[0].losses %>, <b>Draws: </b><%= images[0].draws %></td>
 						<td></td>
 						<td><b>Wins:</b> <%= images[1].wins %>, <b>Losses: </b><%= images[1].losses %>, <b>Draws: </b><%= images[1].draws %> </td>
 					</tr>
@@ -49,40 +50,21 @@
 						<td><b>Score:</b> <%= images[1].score %> </td>
 					</tr>
 					<tr id="expectations" align="left">
-						<td><b>Expected:</b> <%= expected(images[1].score, images[0].score) %> </td>
+						<td><b>Expected:</b> <%= expected(images[1].ratings, images[0].ratings) %> </td>
 						<td></td>
-						<td><b>Expected:</b> <%= expected(images[0].score, images[1].score) %> </td>
+						<td><b>Expected:</b> <%= expected(images[0].ratings, images[1].ratings) %> </td>
 					</tr>
 				</table>
-			<% } else { %>
 
-				<!--h3>👇👇😍 Stuck Wan Yah </h3>
+            <% } else { %>
 				<table>
-					<tr id="photos">
-						<td valign="top" align="center" class="photo"><img src="/photos/<%=  %>"></td>
+					<tr>
+						<td valign="top" align="center">
+							<div id="heck" class="container current-app-info"></div>
+						</td>
 					</tr>
-				</table-->
-
-				<div id="photos" class="container current-app-info active">
-				</div>
-
-		<% } } else { %>
-
-			<!--h3>Will you play a game you don't like? Nope! Do you like StuckWanYah?</h3>
-			<h4>StuckWanYah is more fun with Facebook.</h4-->
-
-			<h3>In order to play StuckWanYah, you must login with Facebook</h3>
-
-			<form action="/api/v1/auth/facebook" method="post" xdata-form="facebook_connect">
-				<input type="hidden" value="1" name="connect">
-
-				<button id="loginbutton" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
-					<img alt="" src="/images/TSXtq24.png" draggable="false" class="gm-fullscreen-control" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">
-				</button>
-
-			</form>
-
-		<% } %>
+				</table>
+        <% } %>
 
 		<br/><br/>
 
@@ -90,13 +72,15 @@
 			<div class="container">
 				<ul>
 					<li><a href="/" data-action="sh('home')">Home</a></li>
-					<li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">Messenger Bot</a></li>
+					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
 					<li><a href="/about.html" onclick="sh('about')">About</a></li>
 					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
 				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun.</span></p>
 			</div>
 
@@ -116,7 +100,12 @@
 		</div>
 	</center>
 </main>
-<script type="text/javascript" src="/javascripts/jquery.js"></script>
-<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript" src="javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
 </body>
 </html>

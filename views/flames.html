@@ -5,108 +5,116 @@
 	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 	<link rel="favicon" type="icon" href="/favicon.ico">
+  	<script src="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
-<body id="main">
-<h1>Stuck Wan Yah!</h1>
-<h2>Flaming! <emoji color="red" data-emoji="beating_heart">🔥</emoji> or !Flaming</h2>
-<h4>Enter full names and click the button</h4>
+<body>
+<main id="main">
+	<h1>StuckWanYah</h1>
+	<h2>Flaming! <emoji color="red" data-emoji="beating_heart">🔥</emoji> or !Flaming</h2>
+	<h4>Enter full names and click button</h4>
 
-<center>
-	<table>
-		<tbody id="flames">
-		<tr>
-			<td><label>boy name</label></td>
-			<td></td>
-			<td><label>girl name</label></td>
-		</tr>
-		<tr>
-			<td><input type="text" name="boy" placeholder="Mark Zuckerberg" class="text"></td>
-			<td></td>
-			<td><input type="text" name="girl" placeholder="Priscilla Chan" class="text"></td>
-		</tr>
-		<tr id="results" align="center" >
-			<td colspan="3" height="35"></td>
-		</tr>
-		<tr align="center">
-			<td colspan="3">
-				<button id="main_button" onclick="sh('flames')">Get Flamed</button>
-			</td>
-		</tr>
-		</tbody>
-	</table>
+	<center>
+		<table>
+			<tbody id="flames">
+			<tr>
+				<td><label>[boy name]</label></td>
+				<td></td>
+				<td><label>[girl name]</label></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="boy" placeholder="Mark Zuckerberg" class="text"></td>
+				<td></td>
+				<td><input type="text" name="girl" placeholder="Priscilla Chan" class="text"></td>
+			</tr>
+			<tr id="results" align="center" >
+				<td colspan="3" height="35"></td>
+			</tr>
+			<tr align="center">
+				<td colspan="3">
+					<button id="main_button" onclick="sh('flames')">Get Flamed</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
 
-	<br/><br/><br/><br/>
+		<br/><br/><br/><br/>
 
 
-	<div class="footer">
-		<div class="container">
-			<ul>
-				<li><a href="/" onclick="sh('home')">Home</a></li>
-				<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
-				<li><a target="_blank" href="https://app.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah on Facebook</a></li>
-				<li><a href="/about.html" onclick="sh('about')">About</a></li>
-				<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
-				<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
-				<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
-				<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
-			</ul>
+		<div class="footer">
+			<div class="container">
+				<ul>
+					<li><a href="/" onclick="sh('home')">Home</a></li>
+					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p> 
 				<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
+			</div>
 		</div>
-	</div>
 
-</center>
-
-<script type="text/javascript" src="/javascripts/jquery.js"></script>
-<script type="text/javascript" src="/javascripts/script.js"></script>
+	</center>
+</main>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript" src="javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
 
 <script type="text/javascript">
-	(function(){
-		"use strict";
+    (function(){
+        "use strict";
 
-		var $resultEl, $results, $boyName, $girlName, $boyNameVal, $girlNameVal, $boyNameField, $girlNameField;
-		var $FLAMES = ["FRIENDS", "LOVERS", "ADMIRE", "MARRIAGE", "ENEMIES"];
+        var $resultEl, $results, $boyName, $girlName, $boyNameVal, $girlNameVal, $boyNameField, $girlNameField;
+        var $FLAMES = ["FRIENDS", "LOVERS", "ADMIRE", "MARRIAGE", "ENEMIES"];
 
-		$resultEl = document.querySelector("#results td");
-		$boyNameField = document.getElementsByName("boy")[0];
-		$girlNameField = document.getElementsByName("girl")[0];
+        $resultEl = document.querySelector("#results td");
+        $boyNameField = document.getElementsByName("boy")[0];
+        $girlNameField = document.getElementsByName("girl")[0];
 
-		// get fields value
-		$boyNameVal = $boyNameField.value;
-		$girlNameVal = $girlNameField.value;
+        // get fields value
+        $boyNameVal = $boyNameField.value;
+        $girlNameVal = $girlNameField.value;
 
-		function checkingAvailability(){
-			// checking conditions
-			if ($boyNameVal !== "" && $girlNameVal !== "") {
-				$results = Hot("<3");
-				$resultEl.innerHTML = $results;
-			} else {
-				$results = Err("One or two fields are empty");
-				$resultEl.innerHTML = $results;
-			}
-		}
+        function checkingAvailability(){
+            // checking conditions
+            if ($boyNameVal !== "" && $girlNameVal !== "") {
+                $results = Hot("<3");
+                $resultEl.innerHTML = $results;
+            } else {
+                $results = Err("One or two fields are empty");
+                $resultEl.innerHTML = $results;
+            }
+        }
 
-		function Err(e) {
-			return ("<h2 class='error'>"+e+"</h2>");
-		}
-		function Hot(m) {
-			return ("<h1 class='hot'>"+$boyNameVal+" "+m+" "+$girlNameVal+"</h1>");
-		}
-		function Cold(c) {
-			return ("<h1 class='hot'>"+c+"</h1>");
-		}
+        function Err(e) {
+            return ("<h2 class='error'>"+e+"</h2>");
+        }
+        function Hot(m) {
+            return ("<h1 class='hot'>"+$boyNameVal+" "+m+" "+$girlNameVal+"</h1>");
+        }
+        function Cold(c) {
+            return ("<h1 class='hot'>"+c+"</h1>");
+        }
 
-		var caps = function (str) {
-			return [str.charAt(0).toUpperCase(), str.substring(1)].join(" ");
-		};
-		var processNames = function(fn, str) {
-			return str.split(" ").map(fn).join(" ");
-		};
+        var caps = function (str) {
+            return [str.charAt(0).toUpperCase(), str.substring(1)].join(" ");
+        };
+        var processNames = function(fn, str) {
+            return str.split(" ").map(fn).join(" ");
+        };
 
-		document.getElementById("main_button").addEventListener("click", function(e) {
-			processNames(caps, value);
-		})
+        document.getElementById("main_button").addEventListener("click", function(e) {
+            processNames(caps, value);
+        })
 
-	}());
+    }());
 
 </script>
 </body>

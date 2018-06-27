@@ -1,11 +1,13 @@
+#!/usr/bin/env node
+
 // Invoke JavaScript Strict mode
 'use strict';
 // Initializing dependencies
 var express = require("express"),
     ejs = require('ejs'),
     session = require("express-session"),
+    restful = require('node-restful'),
     mongoose = require("mongoose"),
-    Promise = require('promise'),
     _ = require('underscore'),
     moment = require("moment"),
     cookieParser = require('cookie-parser'),
@@ -13,66 +15,174 @@ var express = require("express"),
     path = require("path"),
     favicon = require('serve-favicon'),
     parseurl = require('parseurl'),
-    request = require("request"),
-    //cors = require('cors'),
+    request = require('request-promise'),
+    passport = require('passport'),
+    FacebookTokenStrategy = require('passport-facebook-token'),
+    FacebookStrategy = require('passport-facebook').Strategy,
     jwt = require('jwt-simple'),
     //expressJwt = require('express-jwt'),
+    xml2js = require("xml2js"),
+    fs = require('fs'),
     async = require("async"),
     colors = require('colors'),
-    //xml2js = require("xml2js"),
-    //lwip = require('lwip'),
-    fs = require('fs'),
-    FB = require('fb'),
-    GLOBAL = require("./config")
-//passport = require('passport'),
-//FacebookTokenStrategy = require('passport-facebook-token');
+    Elo = require('arpad'),
+    dotenv = require('dotenv').config(),
+    cors = require('cors'),
+    keys = require("./config/keys");
 
 // Creating Global instance for express
-const app = module.exports = express();
+const app = express();
 const router = express.Router();
+
+var sourceDirectory = "app/photos/";
+// Invoke model
+var Sweetlips = require("./models/sweetlips");
+// Register photos model
+var Photos = Sweetlips.photos;
+var Hits = Sweetlips.hits;
+var BlockedPhotos = Sweetlips.blockedPhotos;
+Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
+Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
 // configure the instance
 app.set('port', (process.env.PORT || 5000));
-
 // Tell express where it can find the templates
 app.set('views', path.join(__dirname + '/views'));
 //Set ejs as the default template
 app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
-// Make the files in the public/ folder avilable to the world
+// Make the files in the app/ folder avilable to the world
 app.use(express.static(path.join(__dirname, 'views')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app')));
 // Parse POST request data. It will be available in the req.body object
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
+app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 //RESTful API requirements
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
-
+app.use(cors());
+app.use(cookieParser(keys.cookieSecret));
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
     key: 'user_sid',
-    secret: 'sweetlips',
-    resave: true,
-    saveUninitialized: true,
+    secret: keys.session.secret,
+    keys: [keys.session.cookieKey],
+    resave: false,
+    saveUninitialized: false,
     cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000 }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+/** Registers a function used to serialize user objects into the session. */
+passport.serializeUser((user, done) => {
+    console.log(user);
+    //done(null, user._id);
+    done(null, user.id);
+});
+
+/** Registers a function used to deserialize user objects out of the session. */
+passport.deserializeUser((id, done) => {
+    Photos.findById(id).then((user) => {
+        done(null, user);
+    });
+});
+
+/*passport.use(new FacebookStrategy({
+    // options for the facebook strat
+    clientID: keys.facebook.appID, //FACEBOOK_APP_ID,
+    clientSecret: keys.facebook.clientSecret, //FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:5000/api/v1/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos', 'birthday', 'gender', 'profileUrl']
+}, function (accessToken, refreshToken, profile, done) {
+    let options = {accessToken, refreshToken, profile}
+    Photos.findOrCreate({ "facebookProvider.id": profile.id }, options, function (err, user) {
+        return done(err, user);
+    });
+}));
+
+passport.use(new FacebookStrategy({
+    // options for the facebook strat
+    clientID: keys.facebook.appID, //FACEBOOK_APP_ID,
+    clientSecret: keys.facebook.clientSecret, //FACEBOOK_APP_SECRET,
+    callbackURL: "https://sweetlipsdb.herokuapp.com/api/v1/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos', 'birthday', 'gender', 'profileUrl'],
+    enableProof: true
+}, function (accessToken, refreshToken, profile, done) {
+
+    // check if photo already exists in the db
+    Photos.findOne({"facebookProvider.id": profile.id}).then((currentUser) => {
+        if (!currentUser) {
+            // already have the photo
+            console.log("user is:", currentUser);
+            done(null, currentUser);
+        } else {
+            // if not, create user in the db
+            new Photos({
+                displayName: profile.displayName,
+                facebookProvider: {id: profile.id}
+            }).save().then((newPhoto) => {
+                console.log('new photo created:' + newPhoto);
+            })
+        }
+    });
+}));*/
+
+passport.use(new FacebookStrategy({
+    clientID: keys.facebook.appID,
+    clientSecret: keys.facebook.clientSecret,
+    callbackURL: keys.facebook.callbackURL,
+    profileFields:['id','displayName','emails']
+}, function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+    var me = new user({
+        email:profile.emails[0].value,
+        name:profile.displayName
+    });
+
+    /* save if new */
+    user.findOne({email:me.email}, function(err, u) {
+        if(!u) {
+            me.save(function(err, me) {
+                if(err) return done(err);
+                done(null,me);
+            });
+        } else {
+            console.log(u);
+            done(null, u);
+        }
+    });
+}));
+
+/*
+passport.use(new FacebookTokenStrategy({
+    clientID: keys.facebook.appID,
+    clientSecret: keys.facebook.clientSecret,
+    callbackURL: "/api/v1/auth/facebook/token",
+}, function (accessToken, refreshToken, profile, done) {
+    Photos.upsertFbUser(accessToken, refreshToken, profile, function(err, user) {
+        return done(err, user);
+    });
+}));
+*/
+
+app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.status(500);
+    res.render('connect.html');
+});
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
-app.use(function (req, res, next) {
-    if (req.cookies.user_sid && !req.session.user) {
+// Middleware for some local variables to be used in the template
+app.use((req, res, next) => {
+    let loggedIn = req.session.id ? true : false;
+
+    if (req.cookies.user_sid && !req.session.user_id) {
         res.clearCookie('user_sid');
     }
-
-    if (!req.session.views) {
-        req.session.views = {}
-    }
-
+    if (!req.session.views) req.session.views = {}
     // get the url pathname
-    var pathname = parseurl(req).pathname;
-
+    let pathname = parseurl(req).pathname;
     // count the views
     req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
 
@@ -84,20 +194,32 @@ app.use(function (req, res, next) {
         res.setHeader('X-Seen-You', 'false');
     }
 
-    next();
+    res.locals.session = req.session;
+    res.locals.loggedIn = loggedIn;
 
+    next();
 });
 
+
 // middleware function to check for logged-in users
-var sessionChecker = function (req, res, next) {
-    if (req.session.user && req.cookies.user_sid) {
-        connected = true;
-        res.redirect('/');
-    } else {
-        connected = false;
+const sessionChecker = (req, res, next) => {
+    if (req.session.user_id && req.cookies.user_sid) {
+        req.session.authenticated = true;
         next();
+    } else {
+        req.session.authenticated = false;
+        res.redirect('/foo');
     }
 };
+
+function authenticationMiddleware () {
+    return function (req, res, next) {
+        if (req.isAuthenticated()) {
+            return next()
+        }
+        res.redirect('/');
+    }
+}
 
 app.use('/api/v1', router);
 
@@ -108,10 +230,25 @@ app.listen(app.get('port'), function(){
     console.log("Server running on port %d".magenta, app.get('port'));
     console.log("---------------------------".blue);
 });
-
+var opts = {
+    server: {
+        socketOptions: { keepAlive: 1 }
+    }
+};
+mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
-mongoose.connect(GLOBAL.db);
-mongoose.connection.on("open", function(){
+switch(app.get('env')) {
+    case 'development':
+        mongoose.connect(keys.mongodb.testDbURL, opts);
+        break;
+    case 'production':
+        mongoose.connect(keys.mongodb.mongodbURI, opts);
+        break;
+    default: 
+        throw new error('Unknown execution environment: ', app.get('env'));
+}
+//mongoose.connect(keys.mongodb.testDbURL);
+mongoose.connection.on("connected", function(){
     console.log("-----------------------------------------------".blue);
     console.log("Connected: Successfully connect to mongo server".green);
     console.log("-----------------------------------------------".blue);
@@ -120,92 +257,6 @@ mongoose.connection.on('error', function(){
     console.log("--------------------------------------------------------------------".blue);
     console.log("Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
     console.log("--------------------------------------------------------------------".blue);
-});
-
-// Invoke model
-var Sweetlips = require("./models/sweetlips.model");
-// Register photos model
-var Photos = Sweetlips.photos;
-var Hits = Sweetlips.hits;
-Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
-Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
-
-var sourceDirectory = "public/photos/";
-
-/*
-passport.use(new FacebookTokenStrategy({
-        clientID: '1791165357568831', //'YOUR-FACEBOOK-CLIENT-ID',
-        clientSecret: '70b43373323e9c92705ecec5b1189f78' //'YOUR-FACEBOOK-CLIENT-SECRET'
-    },
-    function (accessToken, refreshToken, profile, done) {
-        Photos.upsertFbPhoto(accessToken, refreshToken, profile, function(err, user) {
-            return done(err, user);
-        });
-    })
-);
-*/
-
-var options = FB.options({
-    appId		: GLOBAL.fb_app_id, // 'YOUR-APP-ID-HERE'
-    appSecret	: GLOBAL.fb_app_secret,
-    status		: false, // the SDK will attempt to get info about the current user immediately after init
-    cookie		: true,  // enable cookies to allow the server to access the session
-    xfbml		: false,  // With xfbml set to true, the SDK will parse your page's DOM to find and initialize any social plugins that have been added using XFBML
-    version		: 'v2.8' // use graph api version 2.5
-});
-
-var fb = new FB.Facebook(options);
-FB.setAccessToken('access_token'); // process.env.PAGE_ACCESS_TOKEN
-
-// Global Vars
-var accessToken; // = FB.getAccessToken();
-var userId;
-var userCountry;
-var userGender = "male";
-var gender = shimOrhim(userGender);
-var connected;
-
-var signedRequestValue = 'signed_request_value';
-var signedRequest  = FB.parseSignedRequest(signedRequestValue);
-if(signedRequest) {
-    accessToken = signedRequest.oauth_token;
-    userId = signedRequest.user_id;
-    userCountry = signedRequest.user.country;
-}
-
-app.get('/foo', function (req, res, next) {
-    let session = req.session;
-
-    session.someAttribute = "foo";
-    session.seenyou = true;
-    session.connected = true;
-    // Assign email to session.email variable
-    session.email = req.body.email;
-    session.c_user;
-    session.username;
-    session.isAuthenticated = true;
-
-    res.write('Returning with some text: ' + session.someAttribute + '\n');
-    res.write('you viewed this page ' + req.session.views['/foo'] + ' times\n');
-    res.end('done');
-});
-
-app.get('/bar', function (req, res, next) {
-
-    var someAttribute = req.session.someAttribute;
-
-    if (req.session.views) {
-        //req.session.views++;
-        res.setHeader('Content-Type', 'text/html');
-        res.write('<p>views: ' + req.session.views['/bar'] + '</p>');
-        res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>');
-        res.end()
-    } else {
-        req.session.views = 1;
-        res.end('welcome to the session demo. refresh!');
-    }
-
-    res.write(`This will print the attribute I set earlier: ${ someAttribute }`);
 });
 
 /**
@@ -245,8 +296,62 @@ app.get("/tie", function(req, res, next){
         error: function(err){
             next(err);
         }
-    })
+    });
 });
+
+// connect to facebook page
+app.route('/foo')
+    .get(function (req, res) {
+        if (!req.session.user_id) {
+            res.render('connect.html');
+        } else if (req.session.user_id !== ''){
+            res.send(`Welcome ${req.session.user_id}`);
+        }
+    })
+    .post(function (req, res) {
+        let session = req.session;
+        let userId = req.body.userid;
+        // Query database with the userid
+        Photos.findOne({"facebookProvider.id": userId}, (err, user) => {
+            if (!user) {
+                // create new user
+                res.send("user does not exist")
+            } else if (user) {
+                // Assign userid to session.user_id variables
+                session.user_id = userId;
+                res.setHeader('userId', session.user_id);
+                res.redirect('/bar'); // redirect to homepage /
+            }
+        });
+    });
+
+app.get('/bar', sessionChecker, function (req, res, next) {
+    let session = req.session;
+    let someAttribute = session.someAttribute;
+
+    session.someAttribute = "foo";
+    session.seenyou = true;
+    session.user_id;
+    session.gender = "male";
+    session.authenticated = true;
+    session.access_token;
+
+    if (req.session.views) {
+        res.write(`<p>Welcome user: ${session.user_id} </p>\n`);
+        res.write('<p>Returning with some text: ' + session.someAttribute + '</p> \n');
+        res.write('<p>you viewed this page ' + req.session.views['/bar'] + ' times </p> \n');
+        res.write('<p>expires in: ' + (session.cookie.maxAge / 1000) + 's</p>');
+        res.write(`<p>This will print the attribute I set earlier: ${ someAttribute }</p>\n`);
+        res.end('done');
+    } else {
+        req.session.views = 1;
+        res.end('welcome to the session demo. refresh!');
+    }
+});
+
+require('./bot')(app);
+require('./app')(app);
+
 
 /**
  * REST API Routes Endpoints
@@ -254,73 +359,59 @@ app.get("/tie", function(req, res, next){
 
 /**
  * GET /api/v1/photos
+ * For StuckWanYah Facebook InstantGame, runs on user Facebook feeds
  * Returns 2 random photos of the same gender that have not been voted yet.
  */
-//router.route("/photos")
-    /*.get(sessionChecker, function(req, res, next){
-        var choices = ['female', 'male'];
-        var randomGender = _.sample(choices);
+router.get("/photos/twophotos", function(req, res, next){
+    var choices = ['female', 'male'];
+    var randomGender = _.sample(choices);
+
+    Photos
+    .find(/*{random: {$near: [Math.random(), 0]}}*/)
+    .where("voted", false)
+    .where("gender", randomGender)
+    .limit(2)
+    .exec(function(err, photos){
+        if (err)
+            return next(err);
+
+        if (photos.length === 2) {
+            return res.send(photos);
+        }
+
+        var oppositeGender = _.first(_.without(choices, randomGender));
 
         Photos.find({
-            random: {
-                $ne: [Math.random(), 0]
-            }
-        }).where("voted", false).where("gender", randomGender).limit(2).exec(function(err, photos){
+            /*random: {
+                $near: [Math.random(), 0]
+            }*/
+        }).where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos){
             if (err)
                 return next(err);
 
-            if (photos.length === 2) {
+            if (photos.length === 2)
                 return res.send(photos);
-            }
 
-            var oppositeGender = _.first(_.without(choices, randomGender));
-
-            Photos.find({
-                random: {
-                    $ne: [Math.random(), 0]
+            Photos.update({}, {
+                $set: {
+                    voted: false
                 }
-            }).where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos){
+            }, {
+                multi: true
+            }, function(err){
                 if (err)
                     return next(err);
-
-                if (photos.length === 2)
-                    return res.send(photos);
-
-                Photos.update({}, {
-                    $set: {
-                        voted: false
-                    }
-                }, {
-                    multi: true
-                }, function(err){
-                    if (err)
-                        return next(err);
-                    res.send([]);
-                });
+                res.send([]);
             });
         });
-    });*/
+    });
+});
 
 /**
  * POST /api/v1/photos
  * Adds new photo to the database.
  */
-router.route('/photos')
-    .post(function(req, res, next){
-        var query = req.body;
-        Photos.create(query, function(err, photos){
-            if(err)
-                res.json(err);
-            else {
-                res.send(200, {
-                    photos: photos
-                });
-            }
-        });
-    });
-
-/*
-router.route('/photos').post(function(req, res, next){
+router.post('/photos', function(req, res, next){
     var gender = req.body.gender;
     var characterName = req.body.name;
     var characterIdLookupUrl = 'https://api.eveonline.com/eve/CharacterID.xml.aspx?names=' + characterName;
@@ -374,16 +465,14 @@ router.route('/photos').post(function(req, res, next){
                 });
             });
         }
-        ]);
+    ]);
 });
-*/
 
 /**
  * PUT /api/v1/photos
  * Update winning and losing count for both photos.
  */
-router.route('/photos')
-    .put(function(req, res, next){
+router.put('/photos', function(req, res, next){
         var winner = req.body.winner;
         var loser = req.body.loser;
 
@@ -395,24 +484,23 @@ router.route('/photos')
         }
 
         async.parallel([
-                function(callback){
+            function(callback){
                     Photos.findOne({
-                        image_id: winner
+                        imageId: winner
                     }, function(err, winner){
                         callback(err, winner);
                     });
                 },
                 function(callback){
                     Photos.findOne({
-                        image_id: loser
+                        imageId: loser
                     }, function(err, loser){
                         callback(err, loser);
                     });
                 }
             ],
             function(err, results){
-                if (err)
-                    return next(err);
+                if (err) return next(err);
 
                 var winner = results[0];
                 var loser =results[1];
@@ -457,126 +545,149 @@ router.route('/photos')
     });
 
 /**
- * GET /api/v1/photos/top
- * Return 10 highest ranked photos. Filter by gender
  * GET /api/v1/photos/top?race=caldari&bloodline=civire&gender=male
+ * Return 10 highest ranked photos. Filter by gender
  */
-router.route('/photos/top')
-    .get(sessionChecker, function(req, res, next){
-        console.log('470: ' + req.query);
+router.get('/photos/top', sessionChecker, function(req, res, next){
+    console.log('527: ' + req.query);
 
-        top10HottestFriends({
-            params: req,
-            success: function(obj){
-                res.send(obj);
-            },
-            error: function(err){
-                //console.error("Error occurred: ", err);
-            }
-        });
+    top10HottestFriends({
+        params: req,
+        success: function(obj){
+            res.send(obj);
+        }
     });
+});
+
+/**
+ * GET /api/v1/photos/top/share
+ * Share the top 10 highest ranked photos on Facebook
+ */
+router.get('/photos/top/share', function(req, res, next){
+    var userId = req.session.user_id;
+
+    var content = {
+        sender: userId,
+        caption: "",
+        url: ''
+    };
+
+    publishTopTenHottestPhotos(content);
+});
+router.get('/photos/hottest', function (req, res, next) {
+    let gender = shimOrhim(req.session.gender);
+
+    Photos.find({})
+    .sort({'ratings': -1})
+    .where({"gender": gender})
+    .limit(1)
+    .exec(function(err, result){
+        if (err) res.send(err);
+        res.json(result);
+    });
+});
+router.get('/photos/me/block', function (req, res, next) {
+    var userId = req.session.user_id; //req.query.userId;
+    processBlockUnblock(userId);
+});
+router.get('/photos/voters', function(req, res, next) {
+    Photos.aggregate(
+        // select the fields we want to deal with
+        { $project: { displayName: 1, voters: 1 } },
+        // unwind 'likes', which will create a document for each like
+        //{ $unwind: '$voters' },
+        // group everything by the like and then add each name with that like to
+        // the set for the like
+        { $group: {
+                _id: { name: '$voters' },
+                voters: { $addToSet: '$displayName' }
+            } }, function(err, result) {
+            if (err) throw err;
+            res.send(result);
+        }
+    );
+});
 
 /**
  * GET /api/v1/stats
  * Display Database statistics
  */
-router.route('/stats')
-    .get(function(req, res, next){
-        async.parallel([
-                function(callback){
-                    // GET /api/v1/photos/count
-                    // Returns the total # of photos in the Database
-                    // total photos
-                    Photos.count({}, function(err, count){
-                        callback(err, count);
-                    });
-                },
-                function(callback){
-                    // total females
-                    Photos.count({gender: "female"}, function(err, femaleCount){
-                        callback(err, femaleCount);
-                    });
-                },
-                function(callback){
-                    // total males
-                    Photos.count({"gender":"male"}, function(err, maleCount){
-                        callback(err, maleCount);
-                    });
-                },
-                function(callback){
-                    // total votes cast
-                    Photos.aggregate(
-                        { $group: { _id: null, total: { $sum: '$wins' } } },
-                        function(err, winsCount){
-                            callback(err, winsCount[0].total);
-                        }
-                    )
-                },
-                function(callback){
-                    // total page hits
-                    Hits.aggregate(
-                        { $group: {_id: null, total: { $sum: '$hits' } } },
-                        function(err, pageHits){
-                            var pageHits = pageHits.length ? pageHits[0].total : 0;
-                            callback(err, pageHits);
-                        }
-                    )
-                },
-                function(callback){
-                    // total blocked photos
-                    Photos.count({'is_blocked':true}, function(err, blocked){
-                        callback(err, blocked)
-                    });
-                }
-            ],
-            function(err, results){
-                if (err) return next(err);
-
-                var totalCount = results[0];
-                var femaleCount = results[1];
-                var maleCount = results[2];
-                var totalVotes = results[3];
-                var pageHits = results[4];
-                var blockedPhotos = results[5];
-
-                res.send({
-                    totalPlayerCount: totalCount,
-                    femalePlayerCount: femaleCount,
-                    malePlayerCount: maleCount,
-                    blockedPhotos: blockedPhotos,
-                    totalVotes: totalVotes,
-                    totalPageHits: pageHits
-                });
+router.get('/stats', function(req, res, next){
+    async.parallel([
+        function(callback){
+            // GET /api/v1/photos/count
+            // Returns the total # of photos in the Database
+            // total photos
+            Photos.count({}, function(err, count){
+                callback(err, count);
             });
-    });
-
-/**
- * POST /api/v1/submit
- * Sends direct message to StuckWanYah Facebook page
- */
-router.route("/submit")
-    .post(function(req, res, next){
-        return new Promise(function(resolve, reject){
-            request.post({
-                url: `https://graph.facebook.com/v2.6/${ GLOBAL.fb_page_id }/messages`,
-                qs: { access_token: GLOBAL.page_access_token },
-                method: "POST",
-                json: {
-                    recipient: { id: GLOBAL.fb_page_id },
-                    sender: req.body.fb_id,
-                    message: req.body.message
+        },
+        function(callback){
+            // total females
+            Photos.count({gender: "female"}, function(err, femaleCount){
+                callback(err, femaleCount);
+            });
+        },
+        function(callback){
+            // total males
+            Photos.count({"gender":"male"}, function(err, maleCount){
+                callback(err, maleCount);
+            });
+        },
+        function(callback){
+            // total votes cast
+            Photos.aggregate(
+                { $group: { _id: null, total: { $sum: '$wins' } } },
+                function(err, winsCount){
+                    callback(err, winsCount[0].total);
                 }
-            }).then(function(response){
-                //console.log("Message sent successfully to StuckWanYah Facebook page");
-                res.status(200).redirect('/submit.html');
-                resolve(true);
-            }).catch(function (error) {
-                //console.log("Error sending direct message to StuckWanYah Facebook page.");
-                res.status(404).redirect('/submit.html');
-                reject(false);
-            })
+            )
+        },
+        function(callback){
+            // total page hits
+            Hits.aggregate(
+                { $group: {_id: null, total: { $sum: '$hits' } } },
+                function(err, pageHits){
+                    var pageHits = pageHits.length ? pageHits[0].total : 0;
+                    callback(err, pageHits);
+                }
+            )
+        },
+        function(callback){
+            // total blocked photos
+            Photos.count({'is_blocked':true}, function(err, blocked){
+                callback(err, blocked);
+            });
+        },
+        function(callback){
+            // total number of visitors per month
+            Hits.count('monthly', function(err, visitors) {
+                callback(err, visitors);
+            });
+        }
+    ],
+    function(err, results){
+        if (err) return next(err);
+
+        var totalCount = results[0];
+        var femaleCount = results[1];
+        var maleCount = results[2];
+        var totalVotes = results[3];
+        var pageHits = results[4];
+        var blockedPhotos = results[5];
+        var totalVisitors = results[6];
+
+        res.send({
+            totalPlayerCount: totalCount,
+            femalePlayerCount: femaleCount,
+            malePlayerCount: maleCount,
+            blockedPhotos: blockedPhotos,
+            totalVotes: totalVotes,
+            totalPageHits: pageHits,
+            totalVisitors: totalVisitors
         });
     });
+});
 
 /**
  * PUT /api/v1/hits
@@ -589,87 +700,38 @@ router.put("/hits", function(req, res, next){
             res.send(obj);
         },
         error: function(err){
-            //console.error("Error occurred: ", err);
+            console.error("Error occurred: ", err);
         }
     });
 });
-
-
-app.route('/welcome')
-    .get(function (req, res) {
-        if (!req.session.dummyUser && !req.session.dummyEmail) {
-            res.setHeader('Content-Type', 'text/html');
-            res.write('<form action="/welcome" method="post">');
-            res.write('<input type="text" name="username" placeholder="Username">');
-            res.write('</br>');
-            res.write('<input type="text" name="email" placeholder="Email">');
-            res.write('</br>');
-            res.write('<input type="submit" value="Submit">');
-            res.write('</form>');
-            res.end();
-        } else {
-            //res.send(`Welcome ${req.session.dummyUser}, your email: ${req.session.dummyEmail}`);
-            res.redirect('/');
-        }
-    })
-    .post(function (req, res, next) {
-        let session = req.session;
-        session.dummyUser = req.body.username;
-        session.dummyEmail = req.body.email;
-
-        res.send(`Welcome ${session.dummyUser}, your email: ${session.dummyEmail}`);
-    });
-
-
-// Facebook Webhook
-// Used for verification
-router.get("/auth/facebook/webhook", function(req, res) {
-    if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN) {
-        console.log("Verified webhook");
-        res.status(200).send(req.query["hub.challenge"]);
-    } else {
-        console.error("Verification failed. The tokens do not match.");
-        res.sendStatus(403);
-    }
-});
-
-// All callbacks for Messenger will be Posted here
-router.post("/auth/facebook/webhook", function(req, res) {
-    // Make sure this is a page subscribtion
-    if (req.body.object === "page") {
-        // Iterate over each entry
-        // there may be multiple entries if batched
-        req.body.entry.forEach(function(entry){
-            // Iterate over each messaging event
-            entry.messaging.forEach(function(entry){
-                if (event.postback) {
-                    processPostback(event);
-                } else if (event.message) {
-                    processMessage(event);
-                }
-            });
-        });
-        res.sendStatus(200);
-    }
-});
-
-
-var authUrl = 'https://graph.facebook.com/oauth/access_token';
-function loginWithAccessToken(accessToken) {
-    if (!accessToken) {
-        console.info('A user attempted to log in via Facebook OAuth without specifying an OAuth token.');
-        return oauth.errorResponder(req, res, new Error('Access token parameter required.'));
-    }
-
-    var userData = {
-        providerData: {
-            accessToken: accessToken,
-            providerId: 'facebook'
-        }
-    };
-}
 
 /**
+ * GET /api/v1/auth/me/
+ * Retrieve current user status
+ */
+router.get('/auth/me', authenticate, getCurrentUser, getOne);
+
+/**
+ * Facebook Endpoints
+ * @Router /api/v1/auth/facebook
+ * Request will be redirected to Facebook
+ */
+router.get('/auth/facebook', 
+    passport.authenticate('facebook', { 
+        scope: ['public_profile', 'id', 'user_photos', 'picture', 'age_range', 'gender', 'user_friends', 'friends',] 
+    }));
+router.get('/auth/facebook/callback', 
+    passport.authenticate('facebook', {
+        successRedirect: '/',
+        failureRedirect: '/foo' 
+    //}), function(req, res) {
+    // Successful authentication, redirect home
+    //res.json(req.user);
+    //res.redirect('/');
+}));
+
+/**
+ * GET /auth/facebook/token?access_token=<TOKEN_HERE>
  * Authenticate user Facebook login
  *
  * This controller logs in an existing user with Facebook passport.
@@ -687,181 +749,111 @@ function loginWithAccessToken(accessToken) {
  *  - Then I retrieve the StuckWanYah account object for the user, and log
  *    them in using our normal session support.
  *
- * The URL this controller is bound to, and the view used to render this page
- * can all be controlled.
- *
  * Logic from stormpath
  *
  * @method
  */
+router.post('/auth/facebook/token', passport.authenticate('facebook-token', {session: false}), function (req, res, next){
+    var access_token = req.query.access_token;
+    console.log("776: " + access_token);
 
-router.route('/auth/facebook')
-    .post(function (req, res, done) {
-        var accessToken = req.query.access_token;
-        var refreshToken = req.cookies.token;
-        var profile = req.session.user_sid;
-        console.log("678: " + req.query.access_token);
-
-        Photos.upsertFbPhoto(accessToken, refreshToken, profile, function (err, user) {
-            return done(err, user);
-        })
-
-        /*function (accessToken, refreshToken, profile, done) {
-            User.upsertFbPhoto(accessToken, , profile, function(err, user) {
-                return done(err, user);
-            });
-        })*/
-    });
-/*.post(passport.authenticate('facebook-token', { session: false }), function(req, res, next){
     if (!req.user) {
-        return res.send(401, 'User Not Authenticated');
-    };
+        return res.send(req.session.c_user ? 200 : 401, 'User Not Authenticated');
+    }
 
     // prepare token for API
     req.auth = {
         id: req.user.id
     };
+    res.session.access_token = access_token;
 
     next();
-}, generateToken, sendToken);*/
-
-
-/**
- * GET /api/v1/auth/me/
- * Retrieve current user status
- */
-router.route('/auth/me')
-    .get(authenticate, getCurrentUser, getOne);
+}, /*generateToken,*/ sendToken);
 
 /**
- * POST /api/v1/connect/facebook/
- * Login with facebook in order to use voter's pictures, friends list
+ * POST /api/v1/auth/facebook/login
+ * Login with facebook in order to use user's pictures, friends list, etc...
  */
-router.route('/auth/facebook/login')
-    .get(//passport.authenticate('facebook', {
-        //	scope: ['publish_actions', 'manage_pages', 'user_photos', 'publish_actions', 'public_profile', 'email', 'friends', 'user_bio', 'user_likes', 'user_photos', 'gender', 'user_friends']
-        //});
-    )
-    .post(function (req, res) {
-        var username = req.params.username,
-            password = req.params.password,
-            userId = req.session.userId;
+router.post('/auth/facebook/login', notLoggedIn, function (req, res) {
+    var accessToken = req.query.authResponse.accessToken;
+    var userId = req.query.authResponse.userId;
+    var expires = req.query.authResponse.expiresIn;
 
-        Photos.findOne({ where: { 'facebookProvider.id': userId } }).then(function (user) {
-            if (!user) {
-                res.redirect('/auth/facebook/login');
-            } else if (!user.validatePassword(password)) {
-                res.redirect('/auth/facebook/login');
-            } else {
-                // automatically sets user's is_blocked to false
-                user.is_blocked = false;
-                req.session.user = user.dataValues;
-                req.session.c_user = user.id;
-                res.redirect('/');
-            }
-        });
-    });
-
-/**
- * POST /api/v1/connect/facebook/
- * Logout with facebook
- */
-router.post("/auth/facebook/logout",
-        //passport.authenticate('facebook', {
-        // log user out
-        //});
-        function (req, res, next) {
-            if (req.session.user && req.cookies.user_sid) {
-                res.clearCookie('user_sid');
-                req.logout();
-                res.redirect('/');
-            }
-
-            /*req.session.destroy(function (err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.redirect('/');
+    Photos.findOne({ where: { 'facebookProvider.id': userId } }).then(function (err, user) {
+        if (!user) {
+            // creates new user from facebook
+            getUserDetailsFromFacebook(userId);
+        } else {
+            getUserFriends(userId);
+            setSessionAttachHeaders({
+                req: req, res: res,
+                user: {
+                    id: userId,
+                    name: user.displayName,
+                    gender: user.gender
+                },
+                accessToken: {
+                    access_token: accessToken,
+                    expiry_date: expires
                 }
-            });*/
-
-            next();
+            });
+            res.redirect('/');
         }
-);
-
-
-
-router.get("/auth/facebook/connect", function(req, res, next) {
-    const { queryTerm, searchType } = req.body;
-
-    FB.getLoginUrl({
-        scope: 'email, user_likes, user_photos, publish_actions, gender',
-        redirect_uri: 'https://stuckwanyah.herokuapp.com/'
     });
-
-    var friends = getFriends(1234);
-
-    res.send(`Done: ${friends}`);
 });
 
-router.route('/auth/facebook/connect/me')
-    .get(sessionChecker, function (req, res) {
-        res.send('sign up');
-    })
-    .post(function(req, res) {
-        Photos.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
-        })
-            .then(function (user) {
-                res.session.user = user.dataValues;
-                res.redirect('/');
-            })
-            .catch(function (error) {
-                res.redirect('/auth/me');
-            });
-    });
+/**
+ * POST /api/v1/foo/facebook/logout
+ * Logout with facebook
+ */
+router.post("/auth/facebook/logout", isLoggedIn, function (req, res, next) {
+    let url = req.session.reset() ? '/login' : '/';
+    if (req.session.user_id && req.cookies.user_sid) {
+        res.clearCookie('user_sid');
+        req.logout();
+
+        req.session.destroy(function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.redirect(url);
+            }
+        });
+    }
+    next();
+});
 
 /**
  * Instagram Endpoints
+ * @Router /api/v1/auth/instagram
  */
-router.get('/auth/instagram/callback', function (req, res, next) {
-    next();
+router.get('/auth/instagram', passport.authenticate('instagram'), function(req, res) {
+    // request will be redirected to Instagram
+});
+router.get('/auth/instagram/callback', passport.authenticate('instagram'), function(req, res) {
+    res.json(req.user);
 });
 
-/*
-FB.api('oauth/access_token', {
-    client_id: 'app_id',
-    client_secret: 'app_secret',
-    grant_type: 'client_credentials'
-}, function(res) {
-    if(!res || res.error) {
-        console.log(!res ? 'error occurred' : res.error);
-        return;
-    }
-
-    var accessToken = res.access_token;
-});*/
-
 /**
+ * GET /api/v1/instagam/photos
  * Get photos from instagram
  */
-
-router.route("/photos/instagram")
+router.route("/instagram/photos")
     .get(function (req, res, next) {
         res.send("Welcome to StuckWanYah instagram. I collect peeple's photos from instagram, you vote who's hotter?")
     })
     .post(function(req, res, next){
-        User.findOne({ instagramId: body.user.id }, function(err, existingUser){
+        var body = req.body;
+        Photo.findOne({ instagramId: body.user.id }, function(err, existingUser){
             if (existingUser) {
                 var token = createToken(existingUser);
                 return res.send({ token: token, user: existingUser });
             }
+
             var user = new User({
                 instagramId: body.user.id,
                 username: body.user.username,
-                fullName: body.user.full_name,
+                displayName: body.user.full_name,
                 picture: body.user.profile_picture,
                 accessToken: body.access_token
             });
@@ -873,15 +865,16 @@ router.route("/photos/instagram")
         });
     });
 
-router.post('/photos/:id/block', function (req, res, next) {
-    var userid = req.params.id;
-    processBlock(userid);
+/**
+ * Twitter Endpoints
+ * @Router /api/v1/auth/twitter
+ */
+router.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
+    // request will be redirected to Twitter
 });
-router.post('/photos/:id/unblock', function (req, res, next) {
-    var userid = req.params.id;
-    processUnblock(userid);
+router.get('/auth/twitter/callback', passport.authenticate('twitter'), function(req, res) {
+    res.json(req.user);
 });
-
 
 // Global Functions
 var renderIndexPage = function(config){
@@ -892,32 +885,35 @@ var getTwoRandomPhotos = function(config){
     var randomImages;
     var choices = ['female', 'male'];
     var randomGender = _.sample(choices);
-
-    var filter = { gender: gender, voted: false, is_blocked: false };
-    var fields = {};
-    var options = { limit: 2 };
+    var gender = shimOrhim(config.params.session.gender);
+    var userId = config.params.session.user_id;
 
     Photos
-    //.findRandom(filter, fields, options)
-        .find({ random: { $ne: [Math.random(), 0] } })
-        .where("voted", false)
-        .where("is_blocked", false)
-        .where("gender", gender) //randomGender)
+        .find({
+            random: {$near: [Math.random(), 0]},
+            "facebookProvider.id": {$ne: userId}
+        })
+        .where({age: {$gt: 13}})
+        .where({gender: gender}) //randomGender)
+        .where({is_blocked: false})
+        .where({voted: false})
+        .lean()
         .limit(2)
         .exec()
-        .then(function(photos){
+        .then(function(error, photos){
             // Assign all 2 random pictures to randomPictures
-            if (photos.length === 2 && photos[0].image_id !== photos[1].image_id) {
+            if (photos.length === 2 && photos[0].imageId !== photos[1].imageId) {
                 randomImages = photos;
-            } else if (photos.length < 2 || photos.length !== 2) {
-
-                //if (photos[0].image_id === photos[1].image_id) {}
-
+            } else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
+                
                 var oppositeGender = _.first(_.without(choices, randomGender));
 
                 Photos
-                //.findRandom({ gender: gender, voted: false, is_blocked: false }, {}, { limit: 2 })
-                    .find({random: {$ne: [Math.random(), 0]}})
+                    .find({
+                        random: {$near: [Math.random(), 0]},
+                        "facebookId": { $ne: userId }
+                    })
+                    .where("is_blocked", false)
                     .where("gender", gender) //randomGender)
                     .where("voted", false)
                     .limit(2)
@@ -929,8 +925,7 @@ var getTwoRandomPhotos = function(config){
                         // When there no more photo pairs left of either gender
                         // reset the flags, and start the vote again
                         else if (photos.length < 2) {
-                            Photos.update({}, {
-                                    $set: {"voted": false}
+                            Photos.update({}, {$set: {"voted": false}
                                 }, {multi: true}, function (err) {
                                     if (err) config.error.call(this, err);
                                 }
@@ -939,20 +934,16 @@ var getTwoRandomPhotos = function(config){
                     })
                     .catch(function (err) {
                         config.error.call(err);
-                    })
+                    });
             }
-        })
-        .then(function(topRatings){
+
             config.success.call(this, {
                 images: randomImages,
-                expected: expectedScore,
-                connected: connected
-                //stuckwanyah: stuckwanphoto
-                //topRatings: topRatings[0]
+                expected: expectedScore
             });
         })
         .catch(function(error){
-            config.error.call(this,error);
+            config.error.call(this, error);
         });
 
 };
@@ -960,109 +951,116 @@ var getTwoRandomPhotos = function(config){
 var rateImages = function(config){
     var winnerID = config.params.query.winner;
     var loserID = config.params.query.loser;
+    // getting the current user id from session
+    var voter = config.params.session.user_id;
 
     if (winnerID && loserID) {
-
         async.parallel([
-                function(callback){
-                    Photos.findOne({ image_id: winnerID }, function(err, winner){
-                        callback(err, winner);
-                    });
-                },
-                function(callback) {
-                    Photos.findOne({ image_id: loserID }, function(err, loser) {
-                        callback(err, loser);
-                    });
-                }
-            ],
-            function(err, results) {
-
+            function(callback){
+                Photos.findOne({ imageId: winnerID }, function(err, winner){
+                    callback(err, winner);
+                });
+            },
+            function(callback) {
+                Photos.findOne({ imageId: loserID }, function(err, loser) {
+                    callback(err, loser);
+                });
+            }
+        ], function(err, results) {
                 var winner = results[0],
-                    loser = results[1],
-                    rating, score, voter;
+                    loser = results[1];
 
-                // getting the current user id from facebook graph
-                voter = {
-                    id: '1234',
-                    name: 'kitten'
-                };
+                var score = actualScore(winner, loser);
 
-                // voter = getCurrentUser;
+                // Odds and Expectations
+                var winnerExpected = expectedScore(loser.ratings, winner.ratings);
+                var winnerNewScore = winnerScore(winner.ratings, winnerExpected);
+                var winnerNewRatings = newRating(winnerExpected, 1, winner.ratings);
 
-                //rating = getRating(winner, loser);
-                score = getScore(winner, loser);
-
-                //console.log('883: ' + performanceRating(winner, loser));
-
-                var expected_score = expectedScore(winner.ratings, loser.ratings);
-                var new_winner_rating = newRating(expected_score, score.winner, winner.ratings);
-                var new_loser_rating = newRating(expected_score, score.loser, loser.ratings);
+                var loserExpected = expectedScore(winner.ratings, loser.ratings);
+                var loserNewScore = loserScore(loser.ratings, loserExpected);
+                var loserNewRatings = newRating(loserExpected, 0, loser.ratings);
 
                 async.parallel({
-                        winner: function(callback){
-                            winner.wins++;
-                            winner.score = score.winner;
-                            winner.ratings = new_winner_rating;// rating.winner;
-                            winner.voted = true;
-                            winner.random = [Math.random(), 0];
-                            // keep record who voted who and who plays who
-                            winner.vote_by.push(voter.id);
-                            winner.challengers.push(loser.image_id);
+                    winner: function(callback){
+                        winner.wins++;
+                        winner.score = score.player1_actual_score;
+                        winner.ratings = winnerNewRatings; //winnerNewScore;
+                        winner.voted = true;
+                        winner.random = [Math.random(), 0];
+                        // keep record who voted who and who plays who
+                        winner.voted_by.push(voter);
+                        winner.challengers.push(loser.imageId);
 
-                            winner.save(function(err){
-                                callback(err);
-                            });
-                        },
-                        loser: function(callback) {
-                            loser.losses++;
-                            loser.score = score.loser;
-                            loser.ratings = new_loser_rating;// rating.loser;
-                            loser.voted = true;
-                            loser.random = [Math.random(), 0];
-                            // keep record who voted who and who plays who
-                            loser.vote_by.push(voter.id);
-                            loser.challengers.push(winner.image_id);
-
-                            loser.save(function(err){
-                                callback(err);
-                            });
-                        }
+                        winner.save(function(err){
+                            callback(err);
+                        });
                     },
-                    function(err, results){
-                        if (err) config.error.call(this, err);
-                        config.success.call(this);
-                    });
+                    loser: function(callback) {
+                        loser.losses++;
+                        loser.score = score.player2_actual_score;
+                        loser.ratings = loserNewRatings; //loserNewScore;
+                        loser.voted = true;
+                        loser.random = [Math.random(), 0];
+                        // keep record who voted who and who plays who
+                        loser.voted_by.push(voter);
+                        loser.challengers.push(winner.imageId);
+
+                        loser.save(function(err){
+                            callback(err);
+                        });
+                    }
+                },
+                function(err, results){
+                    if (err) config.error.call(this, err);
+                    config.success.call(this);
+                });
             });
     } else {
-        config.error.call(this, 'Voting requires two photos.' );
+        config.error.call(this, null, 'Voting requires two photos.' );
     }
 };
 
 var tieBreaker = function(config){
     var player_1 = config.params.query.player1;
     var player_2 = config.params.query.player2;
+    var voter = config.params.session.user_id;
 
     if (player_1 && player_2){
-        async.parallel([
-            function(callback){
-                Photos.findOne({ image_id: player_1 }, function(err, player1){
+        async.parallel({
+            player1: function(callback){
+                Photos.findOne({imageId: player_1}, function(err, player1){
                     callback(err, player1);
                 });
             },
-            function(callback){
-                Photos.findOne({ image_id: player_2 }, function(err, player2){
+            player2: function(callback){
+                Photos.findOne({imageId: player_2}, function(err, player2){
                     callback(err, player2)
                 });
             }
-        ], function(err, results){
+        }, function(err, results){
             var player_1 = results[0];
             var player_2 = results[1];
+
+            var score = actualScore(player_1, player_2);
+
+            var player1ExpectedScore = expectedScore(player_1.ratings, player_2.ratings);
+            var player2ExpectedScore = expectedScore(player_2.ratings, player_1.ratings);
+ 
+            var player1NewRatings = elo.newRating(player1ExpectedScore, 0.5, player_1.ratings);
+            var player2NewRatings = elo.newRating(player2ExpectedScore, 0.5, player_2.ratings);
+
+            var player1NewScore = winnerScore(player_1.score, player1ExpectedScore);
+            var player2NewScore = loserScore(player_2.score, player2ExpectedScore);
 
             async.parallel({
                 player1: function(callback){
                     // increment the number of draws and push player2 id to challenger list
                     player_1.draws++;
-                    player_1.challengers.push(player_2.image_id);
+                    player_1.score = score.player1_actual_score;
+                    player_1.ratings = player1NewRatings; //player1NewScore;
+                    player_1.challengers.push(player_2.imageId);
+                    player_1.voted_by.push(voter);
                     player_1.save(function(err){
                         callback(err);
                     });
@@ -1070,7 +1068,10 @@ var tieBreaker = function(config){
                 player2: function(callback){
                     // increment the number of draws and push player1 id to challenger list
                     player_2.draws++;
-                    player_2.challengers.push(player_1.image_id);
+                    player_2.score = score.player2_actual_score;
+                    player_2.ratings = player2NewRatings; //player2NewScore;
+                    player_2.challengers.push(player_1.imageId);
+                    player_2.voted_by.push(voter);
                     player_2.save(function(err){
                         callback(err);
                     });
@@ -1081,113 +1082,114 @@ var tieBreaker = function(config){
             })
         });
     } else {
-        config.error.call(this, "Voting requires two photos");
+        config.error.call(this, null, "Voting requires two photos");
     }
 };
 
 /**
  * ELO Rating System Implementation
  */
-function getRating(winner, loser) {
-    var K = 32,
-        winnerExpected,
-        loserExpected;
+var uscf = {
+  default: 32,
+  2100: 24,
+  2400: 16
+};
 
-    winnerExpected = (1 / (1 + (Math.pow(10, (loser.ratings - winner.ratings) / 400))));
-    loserExpected = (1 / (1 + (Math.pow(10, (winner.ratings - loser.ratings) / 400))));
-    return {
-        winner: Math.round(winner.ratings + (K * (1 - winnerExpected))),
-        loser: Math.round(loser.ratings + (K * (0 - loserExpected)))
-    };
-}
-// The calculated new rating of the player based on the expected outcome, actual outcome, and previous score
+var min_score = 100;
+var max_score = 10000;
+
+const elo = new Elo(uscf, min_score, max_score);
+
+/**
+ * The calculated new rating based on the expected outcome, actual outcome, and previous score
+ *
+ * @param {Number} expected_score The expected score, e.g. 0.25
+ * @param {Number} actual_score The actual score, e.g. 1
+ * @param {Number} previous_rating The previous rating of the player, e.g. 1200
+ * @return {Number} The new rating of the player, e.g. 1256
+ */
 function newRating(expected_score, actual_score, previous_rating) {
     var difference = actual_score - expected_score;
     return Math.round(previous_rating + 32 * difference);
-}
-// score = new getScore(player_1_score, player_2_score)
-// expected_score = new expectedScore(player_1_rating, player_2_rating)
-// new_rating = newRating(expected_score, score, player_1_rating)
-function getScore(winner, loser) {
-    // Use the number of wins to add 1's to new array
-
-    var winner_wins_arr = [];
-    var winner_loses_arr = [];
-    var winner_draws_arr = [];
-
-    for (var i = 0; i < winner.wins; i++) {
-        winner_wins_arr.push(1);
-
-        for (var j = 0; j < winner.losses; j++) {
-            winner_loses_arr.push(0);
-
-            for (var k = 0; k < winner.length; k++) {
-                winner_draws_arr.push(0.5);
-            }
-        }
-    }
-
-    var loser_wins_arr = [];
-    var loser_loses_arr = [];
-    var loser_draws_arr = [];
-
-    for (var i = 0; i < loser.wins; i++) {
-        loser_wins_arr.push(1);
-
-        for (var j = 0; j < loser.losses; j++) {
-            loser_loses_arr.push(0);
-
-            for (var k = 0; k < winner.length; k++) {
-                loser_draws_arr.push(0.5);
-            }
-        }
-    }
+};
+function actualScore(player1, player2) {
     return {
-        winner: (winner_wins_arr.length + winner_loses_arr.length + winner_draws_arr.length),
-        loser: (loser_wins_arr.length + loser_loses_arr.length + loser_draws_arr.length)
-    }
-}
-// Calculate the expected score outcome from to ratings
+        player1_actual_score: (player1.wins * 1) + (player1.losses * 0) + (player1.draws * 0.5),
+        player2_actual_score: (player2.wins * 1) + (player2.losses * 0) + (player2.draws * 0.5)
+    };
+};
+function simpleEloRating(rating, opponent_rating) {
+    this.Ra = rating;
+    this.Rb = opponent_rating;
+    this.Qa = Math.pow(10, Ra/400);
+    this.Qb = Math.pow(10, Rb/400);
+    this.Ea = function(Qa, Qb) {
+        return Qa/(Qa + Qb)
+    };
+    this.Eb = function(Qa, Qb) {
+        return Qb/(Qa + Qb)
+    };
+    return {
+        expectationOfPlayerA: this.Ea(Qa, Qb),
+        expectationOfPlayerB: this.Eb(Qa, Qb)
+    };
+};
+/**
+ * Calculate the expected score outcome from to ratings
+ *
+ * Determines the expected "score" of a match
+ *
+ * @param {Number} Ra The rating of the person whose expected score we're looking for, e.g. 1200
+ * @param {Number} Rb the rating of the challenging person, e.g. 1200
+ * @return {Number} The score we expect the person to recieve, e.g. 0.5
+ */
 function expectedScore(Ra, Rb) {
-    return parseFloat((1 / (1 + Math.pow(10, (Rb - Ra) / 400))).toFixed(4));
-    // return (1 / (1 + Math.pow(10, (Rb - Ra) / 400)));
-    // return 1 / (1 + Math.pow(10, ($b - $a) / 400));
-}
+    //return parseFloat((1 / (1 + Math.pow(10, (Rb - Ra) / 400))).toFixed(2));
+    return (1 / (1 + Math.pow(10, (Rb - Ra) / 400)));
+};
 // Calculate the new winner score, K-factor = 32
 function winnerScore(score, expected, k = 32) {
-    return score + k * (1 - expected);
-    // return $score + 32 * (1 - $expected);
-}
+    return Math.round(score + k * (1 - expected));
+};
 // Calculate the new loser score, K-factor = 32
 function loserScore(score, expected, k = 32){
-    return score + k * (0 - expected);
-    // return $score + 32 * (0 - $expected);
-}
+    return Math.round(score + k * (0 - expected));
+};
 function performanceRating(player1, player2){
-    var performance_rating, games;
-    games = player1.wins + player1.losses;
+    var games = player1.wins + player1.losses + player1.draws;
+    var performance_rating = (player2.ratings + 400 * (player1.wins - player1.losses) / games);
+    return performance_rating;
+};
+function updateValue(id1, id2, score1, score2){
+    var Rpre1 = score1;
+    var Rpre2 = score2;
+    var K = 30;
+    var S = 1;
 
-    return performance_rating = (player2.ratings + 400 * (player1.wins - player1.losses) / games);
-}
-function stuckwanyah(){
-    Photos
-        .find()
-        .sort('-ratings')
-        .where({'gender': gender})
-        .limit(1)
-        .exec(function (err, photo) {
-            if (err) throw new Error(err);
-            console.log("1068: " + photo);
-            return photo;
-        });
-}
+    var E1 = E(Rpre1, Rpre2);
+    var E2 = E(Rpre2, Rpre1);
+
+    var R1 = parseInt(Rpre1 + (K*(S-E1)));
+    var R2 = parseInt(Rpre2 - (K*(S-E2)));
+
+    console.log("Rpre1: " + Rpre1 + " Rpre2: " + Rpre2 + " E1: " + E1 + " E2: " + E2 + " R1: " + R1 + " R2: " + R2);
+    findAndUpdateDB(id1, id2, R1, R2);
+};
+function findAndUpdateDB(id1, id2, R1, R2){
+    Photos.update({ imageId: id1 }, { $set: { score: R1 }}, function(err, updated){
+        console.log(R1 + " " + R2);
+    });
+    Photos.update({ imageId: id2 }, { $set: { score: R2 }}, function(err, updated){
+    });
+};
 
 /**
  * Retrieving photos using query
  * @param config
+ * Returns the top 10 highest ratings
  */
-// Returns the top 10 highest ratings
-function topTenRatings(config){
+var topTenRatings = function(config){
+    var gender = shimOrhim(config.params.session.gender);
     Photos.find().sort({
         'ratings': -1
     }).where({
@@ -1200,30 +1202,43 @@ function topTenRatings(config){
     }).catch(function(err){
         config.error.call(this, err);
     });
-}
+};
+
+/*
+// Sort the photos 
+
+            all_photos.sort(function(p1, p2){
+                return (p2.likes - p2.dislikes) - (p1.likes - p1.dislikes);
+            });
+
+
+findId = function(obj){
+                return obj.id === vote.id;
+            }
+            elem = pending.filter(findId);
+*/
 
 var top10HottestFriends = function(config){
-
-    console.log("1197: " + config.params.query.field);
+    console.log("1264: " + config.params.query.field);
     var query_field = config.params.query.field;
     var query_gender = config.params.query.gender;
+    var query_limit = config.params.query.limit;
 
     Photos
-        .find()
-        .sort('-ratings') //.sort('-1')
-        .where({'gender': gender})//.where({'gender': query_gender})
+        .find({"facebookId": { $ne: config.params.session.user_id } })
+        .sort('-ratings')
+        //.where({'gender': query_gender})
         .limit(10)
-        //.select(query_field)
         .exec(function(err, ranks){
-            if (err) console.error("1164: " + err);
+            if (err) console.error("1275: " + err);
 
-            var rankCount = _.countBy(ranks, function(rank) { return rank});
+            var rankCount = _.countBy(ranks, function(rank) { return rank });
             var max = _.max(rankCount, function(rank) { return rank });
             var inverted = _.invert(rankCount);
             var topRank = inverted[max];
             var topCount = rankCount[topRank];
 
-            //console.log("1114: " + { rank: topRank, count: topCount });
+            //console.log("1284: " + { rank: topRank, count: topCount });
 
             if (err) {config.error.call(this, err);}
             config.success.call(this, ranks);
@@ -1255,6 +1270,7 @@ var top10HottestFriends = function(config){
 var topTenWinings = function(config){
     // Query params object
     var params = config.params.query;
+    var gender = shimOrhim(config.params.session.gender);
     var conditions = {};
 
     _.each(params, function(value, key){
@@ -1289,113 +1305,22 @@ var processPageHits = function(config){
     });
 };
 
-/**
- * Installing all photos in /photos/ directory onto mongodb
- */
-function installImages(){
-
-    var images = [];
-
-    //Load all images from the photos folder into the database
-    var photos_on_disk = fs.readdirSync(sourceDirectory);
-    //insert the photos in the database. This is executed on every
-    //start up of the your application, but because there is a unique
-    // constraint on the name field, subsequesnt writes will fail
-    // and you will still have only one record per image:
-    photos_on_disk.forEach(function(photo){
-        if (photo.substr(-4) === ".jpg") {
-            Photos.insert({
-                "image_id":"", // get id from facebook via graph api
-                "name":"", // get name from facebook via graph api
-                "age":"",
-                "gender":"", // get gender from facebook via graph api
-                "image_src":"https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/"+photo, // get current profile pic
-                "uri":"https://web.facebook.com/profile.php?id=", // get current user facebook profile link
-                "is_blocked":false,
-                "rating":0,
-                "wins":0,
-                "losses":0,
-                "random":0,
-                "voted":false,
-                "vote_counts":0,
-                "vote_timestamp":Date.now(),
-                "rankings":0
-            }, function(err, photos){
-                if (err)
-                    return (err);
-                res.status(200).send(photos);
-                console.log("1215: " + "Photos uploaded successfully");
-            });
-        }
-    });
-}
-app.get("/photos/local", function(req, res, next){
-    fs.readdir(sourceDirectory, function(err, photos){
-        if (err) return next(err);
-        //photos.forEach(function(photo){
-        //if (photo.substr(-4) === ".jpg") {
-        res.send(photos);
-        //}
-        //})
-    })
-});
-
-/**
- * Processing Images
- */
-fs.readdir(sourceDirectory, function (err, files){
-    if (err)
-        console.log("1236: " + err);
-    //console.log(files);
-
-    files.forEach(function(file){
-        scaleImage(file);
-    });
-
-});
-
-function scaleImage(file){
-    /*
-        lwip.open(sourceDirectory + file, function(err, image){
-            if (err) console.log("1248: " + err);
-            if (image) {
-                var width = 400,
-                    height = 400,
-                    imageHeight = image.height(),
-                    imageWidth = image.width(),
-                    ratio;
-                ratio = Math.max(width / imageWidth, height / imageHeight);
-
-                image.batch()
-                    .scale(ratio)
-                    .crop(400, 400)
-                    .writeFile(destinationDirectory + file, function(err){
-                        if (err) console.log(err);
-                        console.log(file + ": has been processed");
-                    });
-            } else {
-                console.log("1265: " + 'couldn\'t find no photo');
-            }
-        });
-    */
-}
 
 /**
  * User Authentication utils
- * Session, Cookies, Database Manipulation
+ * Session, Cookies, Database
  */
 var generateToken = function(req, res, next){
     req.token = createToken(req.auth);
     next();
 };
-
 function createToken(auth){
     return jwt.sign({
         id: auth.id
-    }, 'my-secret', {
+    }, 'stuckwanyah', {
         expiresIn: 60 * 120
     });
-}
+};
 /*function createToken(user){
   var payload = {
     exp: moment().add(14, 'days').unix(),
@@ -1403,18 +1328,15 @@ function createToken(auth){
     sub: user._id
   };
 
-  return jwt.encode(payload, GLOBAL.page_access_token);
+  return jwt.encode(payload, keys.facebook.pageAccessToken);
 };*/
-
 function sendToken(req, res){
     res.setHeader('x-auth-token', req.token);
     res.status(200).send(req.auth);
 };
-
 function authenticate(req, res) {
     generateToken(req, res);
-}
-
+};
 /*
 var authenticate = expressJwt({
     secret: 'my-secret',
@@ -1427,7 +1349,6 @@ var authenticate = expressJwt({
     }
 });
 */
-
 function isAuthenticated(req, res, next){
     if (!(req.headers && req.headers.authorization)) {
         return res.status(400).send({ message: 'You did not provide a JSON Web Token in the Authorization header.' });
@@ -1435,39 +1356,47 @@ function isAuthenticated(req, res, next){
 
     var header = req.headers.authorization.split(' ');
     var token = header[1];
-    var payload = jwt.decode(token, GLOBAL.fb_app_secret);
+    var payload = jwt.decode(token, keys.facebook.appSecret);
     var now = moment().unix();
     if (now && payload.exp) {
         return res.status(401).send({ message: 'Token has expired.' });
     }
 
-    User.findById(payload.sub, function(err, user){
+    Photo.findById(payload.sub, function(err, user){
         if (!user) {
             return res.status(400).send({ message: 'User no longer exists.' });
         }
 
         req.user = user;
         next();
-    })
-}
-function isLoggedIn(req, res, next){
-    !req.session.id ? res.redirect('/auth/login') : next();
-
-    //return req.session.id ? true : false;
-
-    //req.session.id ? res.redirect('/') : next()
-}
-function getCurrentUser(req, res, next){
-    Photos.findById(req.auth.id, function(err, user){
+    });
+};
+function isLoggedIn (req, res, next) {
+    //req.loggedIn = !!req.user;
+    //next();
+    //!req.session.user_id ? res.redirect('/auth/facebook/login') : next();
+    return req.session.user_id ? true : false;
+};
+function notLoggedIn(req, res, next) {
+    req.session.id ? res.redirect('/auth/facebook/login') : next();
+};
+function getCurrentUser(req, res, next) {
+    var userId = req.session.user_id;
+    Photos.findOne({ imageId: userId }, (err, user) => { //req.auth.id
         if (err) {
             next(err);
         } else {
             req.user = user;
+            req.session.user_id = user.imageId;
             next();
         }
     });
-}
-
+};
+function getUser(userId) {
+    Photos.findOne({"facebookProvider.id": userId}, (err, user) => {
+        return user
+    });
+};
 function getOne(req, res) {
     var user = req.user.toObject();
 
@@ -1475,10 +1404,22 @@ function getOne(req, res) {
     delete user['__v'];
 
     res.json(user);
-}
+};
+function setSessionAttachHeaders(event) {
+    // otherwise log user in and set session
+    event.res.setHeader('userId', event.user.id);
+    // Assign id to session.user_id variable
+    event.req.session.user_id = event.user.id;
+    event.req.session.gender = event.user.gender;
+    event.req.session.authenticated = isAuthenticated(event.req, event.res);
+    event.req.session.access_token = event.accessToken.access_token;
+    event.req.session.expires = event.accessToken.expiry_date;
+};
 
 /**
+ * Messenger API
  * Process postback for payloads
+ * @param event
  */
 function processPostback(event){
     var senderId = event.sender.id;
@@ -1486,7 +1427,7 @@ function processPostback(event){
 
     if (payload === "GET_STARTED") {
 
-        processVoterSex(senderId);
+        processUserSex(senderId);
 
         // Getting user's first name from user Profile API
         // and include it in the greeting
@@ -1500,7 +1441,7 @@ function processPostback(event){
         }, function(error, response, body){
             var greeting, name = "";
             if (error) {
-                console.log("1391: " + "Error getting user's name: " + error);
+                console.log("1361: " + "Error getting user's name: " + error);
             } else {
                 var bodyObj = JSON.parse(body);
                 name = bodyObj.first_name;
@@ -1510,24 +1451,26 @@ function processPostback(event){
             sendMessage(senderId, { text: message });
         });
     } else if (payload === "Block Me") {
-        processBlock(senderId);
+        processBlockUnblock(senderId);
         sendMessage(senderId, { text: "Your photos has been blocked. You will not be able to be voted or vote." });
     } else if (payload === "Unblock Me") {
-        processUnblock(senderId);
+        processBlockUnblock(senderId);
         sendMessage(senderId, { text: "Your photos has been restored and you can be able to be voted or vote" });
-    }
-}
+    } else if (payload === "") {}
+};
 
 /**
+ * Messenger API
  * Process message from user for any matching keyword and perform actions
+ * @param event
  */
 function processMessage(event){
     if (!event.message.is_echo) {
         var message = event.message;
         var senderId = event.sender.id;
 
-        console.log("1417: " + "Received message from senderId: " + senderId);
-        console.log("1418: " + "Message is: " + JSON.stringify(message));
+        console.log("1531: " + "Received message from senderId: " + senderId);
+        console.log("1532: " + "Message is: " + JSON.stringify(message));
 
         // You may get a text or attachment but not both
         if (message.text) {
@@ -1537,14 +1480,22 @@ function processMessage(event){
             // keywords and send back the corresponding movie detail.
             // Otherwise, search for the new movie.
             switch (formattedMsg) {
-                case "rating":
-                    getCandidateDetail(senderId, formattedMsg);
+                case "rankings":
+                    getPlayerDetail(senderId, formattedMsg);
                     break;
                 case "block me":
-                    processBlock(senderId);
+                    processBlockUnblock(senderId);
                     break;
                 case "unblock me":
-                    processUnblock(senderId);
+                    processBlockUnblock(senderId);
+                    break;
+                case "share":
+                    publishTopTenHottestPhotos(senderId, null);
+                    break;
+                case "publish":
+                    publishTopTenHottestPhotos(senderId, null);
+                case "post":
+                    publishTopTenHottestPhotos(senderId, null);
                 default:
                     findMovie(senderId, formattedMsg);
             }
@@ -1552,15 +1503,18 @@ function processMessage(event){
             sendMessage(senderId, {text: "Sorry, I don\'t understand your request."});
         }
     }
-}
+};
 
 /**
+ * Messenger API
  * Sends message to user
+ * @param recipientId
+ * @param message
  */
 function sendMessage(recipientId, message){
     request({
         url: "https://graph.facebook.com/v.2.6/me/messages",
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+        qs: { access_token: keys.facebook.pageAccessToken },
         method: "POST",
         json: {
             recipient: { id: recipientId },
@@ -1571,11 +1525,17 @@ function sendMessage(recipientId, message){
             console.log("Error sending message: " + response.error);
         }
     });
-}
+};
 
+/**
+ * Messenger API
+ * Finds movie on OMDBAPI Database
+ * @param userId
+ * @param movieTitle
+ */
 function findMovie(userId, movieTitle){
     var message;
-    request("http://www.omdbapi.com/?type=movie&amp;t=" + movieTitle, function(error, response, body){
+    request("http://www.omdbapi.com/?type=movie&amp;t=" + movieTitle, function(error, response, body) {
         if (!error && response.statusCode === 200) {
             var movieObj = JSON.parse(body);
             if (movieObj.Response == "True") {
@@ -1592,8 +1552,8 @@ function findMovie(userId, movieTitle){
                     poster_url: movieObj.Poster
                 };
 
-                var options = {upsert: true};
-                Movie.findOneAndUpdate(query, update, options, function(error, movie){
+                var options = { upsert: true };
+                Photos.findOneAndUpdate(query, update, options, function(error, movie){
                     if (error) {
                         console.log("Database error: " + error);
                     } else {
@@ -1605,7 +1565,7 @@ function findMovie(userId, movieTitle){
                                     elements: [{
                                         title: movieObj.Title,
                                         subtitle: "Is this the movie you are looking for?",
-                                        image_url: movieObj.Poster === "N/A" ? "http://placehold.it/350x150" : movieObj.Poster,
+                                        imageUrl: movieObj.Poster === "N/A" ? "http://placehold.it/350x150" : movieObj.Poster,
                                         buttons: [{
                                             type: "postback",
                                             title: "Hot",
@@ -1630,180 +1590,414 @@ function findMovie(userId, movieTitle){
             sendMessage(userId, {text: "Something went wrong. Try again."});
         }
     });
-}
-
-function findPhotoById(id){
-    Photos.findById({ image_id: id}, function(err, photo){
-        if (err) throw err;
-        return photo;
-    });
-}
-
+};
 
 /**
+ * Messenger API
  * Process blocking and unblocking user/photo
+ * Check if the provide id is currently blocked then unblock it other wise block it
+ * @param userId
+ * @return {}
  */
-function processBlock(userId){
-    var query = { image_id: userId };
+function processBlockUnblock(userId){
+    var query = { "imageId": userId };
     var attempts = 0;
-    Photos.findOne(query, function(err, user){
-        if (err){
-            attempts++;
-            if (attempts > 2)
-            //sendMessage(userId, {text: "Sorry it's my fault. Try again later."});
-                attempts=0;
-            //sendMessage(userId, {text: "Something went wrong. Try again"});
-        } else {
-            user.is_blocked = true;
-            user.save(function(err, response){
-                if (err) { throw err }
-                //sendMessage(userId, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."})
-            });
-        }
-    });
-    return true;
-}
-
-function processUnblock(userId){
-    var query = { image_id: userId };
     Photos.findOne(query, function(err, photo){
-        if (!photo) {
+        if (photo) {
+            if (photo.is_blocked)
+                unblockPhoto(photo);
+            else if (!photo.is_blocked)
+                blockPhoto(photo);
+        } else if (!photo)
+            attempts++;
+            if (attempts > 2) attempts = 0; 
+                sendMessage(userId, {text: "Something went wrong. Try again later"});
             console.log('no photo found');
-            //sendMessage(userId, {text: "Something went wrong. Try again"});
-        } else {
-            unblockPhoto(photo.id);
-            //sendMessage(userId, {text: "Your photo has been unblocked. You can now vote for your friends hotness."});
-        }
-    })
-}
-
-function blockPhoto(id){
-    Photos.update({ "image_id": id},
-        { $set: {'is_blocked': true} }, function(err){
-            if(err) throw err;
-            return true;
-        }
-    );
-}
-
-function unblockPhoto(id){
-    Photos.update({ "image_id": id},
-        { $set: { 'is_blocked': false } }, function(err){
-            if (!err) return 1;
-        }
-    );
-}
-
-/**
- * User/Sender/Voter -> is the person doing the voting
- * Candidate -> is the person being voted for his/her hotness
- * Candidate/s is/are the sender's friend/s within the 13-21 age group
- **/
-// Retrieve all female friends from age 14 - 23 
+    });
+};
+function blockPhoto(callback){
+    callback.is_blocked = true;
+    callback.save(function(error, response){
+        if (error) 
+            throw error;
+        else 
+            console.log("Your photo has been blocked. You will not be able to be voted nor vote again in the future."); 
+            sendMessage(callback.facebookId, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."});
+    });
+    new BlockedPhotos({id: callback.imageId,is_blocked: true}).save();
+    return callback;
+};
+function unblockPhoto(callback){
+    callback.is_blocked = false;
+    callback.save(function(error, response){
+        if (error) throw error;
+        else 
+            console.log("Your photo has been unblocked. Your photo can be voted by your friends."); 
+            sendMessage(callback.facebookId, {text: "Your photo has been unblocked. Your photo can be voted by your friends."});
+    });
+    BlockedPhotos.remove({id: callback.imageId}).save();
+    return callback;
+};
 
 /**
+ * User/Sender/Voter -> is the person using the app and doing the ratings
+ * Player -> is the person being voted/rated for it's hotness
+ * Player/s is/are the sender's friend/s within the 13-21 age group range
+ *
  * Girls rating girls, boys rating boys not really a exciting thing
  * Get voter's gender so
- * if user is a female she rates her friends that are boys
- * if user is a male he rates his friends that are girls
+ * if user is a female, she rates her friends that are boys
+ * if user is a male, he rates his friends that are girls
  */
-function processVoterSex(user_id){
-    //var user_id = typeof event === ? user_id : event.user.id;
+function processUserGender(event){
+    var senderId = event.sender.id;    
+    // Getting user's gender from user Profile API
+    // and redirect to respective function
     request({
-        url: `https://graph.facebook.com/v2.6/me/${user_id}`,
+        url: `https://graph.facebook.com/v2.6/${senderId}`,
         qs: {
-            access_token: GLOBAL.page_access_token,
+            access_token: keys.facebook.pageAccessToken,
             fields: "gender"
         },
         method: "GET"
     }, function(error, response, body){
+        var greeting = "";
         if (error) {
-            console.log('1753: ' + "Error getting user gender: " + error);
+            console.log('1815: ' + "Error getting user's gender: " + error);
         } else {
             var bodyObj = JSON.parse(body);
-            gender = bodyObj.gender;
+            var gender = bodyObj.gender;
+            // Checking user's gender
             if (gender === "male") {
+                // boys vote for girls hotness
                 rateGirls();
             } else if (gender === "female") {
+                // girls vote for boys hotness
                 rateBoys();
             }
         }
     });
-}
+};
 
-// Getting user gender
-function processUserSex(event){
-    var senderId = event.sender.id;
-    var payload = event.postback.payload;
-
-    if (payload === "Greeting") {
-        // Getting user's gender from user Profile API
-        // and redirect to respective functin
-        request({
-            url: "https://graph.facebook.com/v2.6/" + senderId + "/friendlists",
-            qs: {
-                access_token: process.env.PAGE_ACCESS_TOKEN,
-                fields: "gender"
-            },
-            method: "GET"
-        }, function(error, response, body){
-            var greeting = "";
-            if (error) {
-                console.log('1783: ' + "Error getting user's gender: " + error);
-            } else {
-                var bodyObj = JSON.parse(body);
-                gender = bodyObj.gender;
-
-            }
-        })
-    }
-    // Checking user's gender
-    else if (senderGender === "female") {
-        // girls vote for boys hotness
-    } else {
-        // boys vote for girls hotness
-    }
-}
-// Process gender
+/**
+ * Process and swap user gender so male votes female and vise versa
+ * @param gender
+ * @returns {string}
+ */
 function shimOrhim(gender){
-    // return (typeof gender == 'female' ? 'female' : 'male');
-    if (gender === "male")
-        return gender = "female";
-    else if (gender === "female")
-        return gender = "male";
-}
-function getCurrentUserDetails(userId){
-    Photos.findOne({ "image_id": userId }, function (err, user) {
+    return gender == 'female' ? 'male' : 'female';
+};
+
+function randomQuery(config){
+    var filter = {
+        "gender": gender,
+        "voted": false, 
+        "is_blocked": false, 
+        "facebookProvider.id": {$ne: userId}
+    };
+    var fields = {};
+    var options = {"limit": 2};
+
+    Photos.findRandom(filter, fields, options, function(err, results) {
+        if (!err) {
+            console.log("query 1: " + results); // 2 objects
+        }
+    });
+    Photos.findOneRandom(function(err, result) {
+        if (!err) {
+            console.log("query 2: " + result);
+        }
+    });
+};
+
+/**
+ * Algorithm for StuckWanYah
+ * After user has logged in with facebook, these action is invoked
+ */
+/*
+ * Checks if user logging in is an existing user @goto getUserFriends()
+ * if not creates a new user @goto getUserDetailsFromFacebook()
+ * @params facebookId User Facebook ID from Facebook
+ */
+
+//checkUserExistance(123456789);
+
+function /* step: 1 */ checkUserExistance(facebookId) {
+    Photos.findOne({"facebookProvider.id": facebookId}).then((user) => {
         if (!user) {
-            // create new user and inherite info from facebook
-        }
-
-        userGender = user.gender;
-    });
-}
-
-var getContenderDetail = function(userId, field){
-    Photos.findOne({image_id: userId}, function(err, movie){
-        if (err) {
-            sendMessage(userId, {text: "Something went wrong. Try again"});
+            /* user doesn't exist */
+            /* goto: -> step: 2 */ getUserDetailsFromFacebook(facebookId);
         } else {
-            sendMessage(userId, {text: movie[field]});
+            /* user exists */
+            /* goto: -> step: 5 */ getUserFriends(user, facebookId);
+        }
+    }).catch((error) => {
+        throw new Error(error);
+    });
+};
+
+/** Get user */ // https://graph.facebook.com/{{fb_user.id}}/picture?type=square&height=200&width=200
+function /* step: 2 */ getUserDetailsFromFacebook(userId){
+    return request({
+        url:`https://graph.facebook.com/v2.6/${userId}/`,
+        qs: {
+            access_token: keys.facebook.userAccessToken,
+            fields:"id,name,gender,age,picture.type(square).width(200).height(200),link"
+        },
+        method: "GET"
+    }, (error, response, body) => {
+        if (error) throw new Error(error);
+        if (response) {
+            var bodyObj = JSON.parse(body);
+            /* goto: -> step: 3 */ createNewUser(bodyObj);
         }
     });
 };
 
-var retrievePlayerFriends = function(userId) {
-    Photos.findOne({"image_id":userId}, function(error, player){
+/** creates new user cause it does not exist in the database */
+function /* step: 3 */ createNewUser(object){
+    var params = {
+        imageId: object.id,
+        displayName: object.name,
+        age: object.age,
+        gender: object.gender,
+        picture: object.picture,
+        profileUrl: object.link,
+        facebookProvider: {id: object.id}
+    };
+    Photos.create(params).then(newUser => {
+        /* goto: -> step: 5 */ getUserFriends(newUser.facebookId);
+    }).catch(error => {
+        throw new Error(error);
+    });
+};
+
+function /* step: 4 */ getUserProfilePictureFromFacebook(fb_userid) {
+    request({
+        url: `https://graph.facebook.com/${fb_userid}/picture?type=square&height=200&width=200`,
+        qs: {
+            access_token: keys.facebook.userAccessToken
+        },
+        method: "GET"
+    }, (error, response, body) => {
+        /* goto: -> step: 5 */ 
+    });
+};
+
+function /* step: 5 */ getUserFriends(userId){
+    return request({
+        url:`https://graph.facebook.com/v2.12/${userId}/friendslist`,
+        qs: {
+            access_token: keys.facebook.userAccessToken,
+            fields:"id,user_friends,gender,age"
+        },
+        method: "GET"
+    }, (error, response, body) => {
+        if (error) throw new Error(error);
+        if (response) {
+            var bodyObj = JSON.parse(body);            
+            /* goto: -> step: 6 */ updateUserFriendsList(userId, bodyObj);
+        }
+    });
+};
+
+function /* step: 6 */ updateUserFriendsList(userId, object) {
+    var gender = object.gender;
+    var id = object.id;
+    var age = object.age;
+    var update = {
+        facebookFriends: id
+    };
+    Photos.update({ "facebookProvider.id": userId }, { $set: update },{ upsert: true })
+    .then(updatedProfile => {
+        /* goto: -> step: 7 */ checkFriendExistanceAsUser(userId, updatedProfile.facebookFriends);
+    }).catch(error => {
+        throw new Error(error);
+    });
+};
+
+/* check database if particular friend id exists already as user*/
+function /* step: 7 */ checkFriendExistanceAsUser(userId, friendslist) {
+    async.each(friendslist, (friend, callback) => {
+        Photos.findOne({"facebookProvider.id": friend.id}).then((friend) => {
+            if (!friend) {
+                /* goto: -> step: 8 */ getFriendDetailsFromFacebook(friend.id);
+            }
+        });
+    });
+};
+
+function /* step: 8 */ getFriendDetailsFromFacebook(friendId){
+    return request({
+        url:`https://graph.facebook.com/v2.6/${friendId}/`,
+        qs: {
+            access_token: keys.facebook.userAccessToken,
+            fields:"id,name,gender,age,picture.type(square).width(960).height(960),link"
+        },
+        method: "GET"
+    }, (error, response, body) => {
+        if (error) friendId.error.call(this, error);
+        if (response) {
+            var bodyObj = JSON.parse(body);            
+            /* goto: -> step: 9 */ createNewUserFromFacebookFriends(userId, bodyObj);
+        }
+    });
+};
+
+function /* step: 9 */ createNewUserFromFacebookFriends(object) {
+    var id = object.id;
+    var name = object.name;
+    var age = object.age;
+    var gender = object.gender;
+    var picture = object.picture;
+    var link = object.link;
+
+    new Photos({
+        imageId: id,
+        displayName: name,
+        age: age,
+        gender: gender,
+        picture: picture,
+        profileUrl: link,
+        facebookProvider: {id: id}
+    }).save().then(newUser => {
+        console.log("new user has been created from facebook friends" + newUser);
+    }).catch(error => {
+        throw new Error(error);
+    });
+};
+
+// Checks user id exists by querying the database using user id from InstantGame and TabApp 
+function /* step: 10 */ checksInstantGameAndTabApp(userId) {
+    Photos.findOne({where: {"facebookProvider.instantGameId": userId}}, function(error, response, body) {
         if (error) {
-            sendMessage(userId, {text: "Error retrieving your Facebook friends."});
+            throw new Error(error);
         }
-        if (!player) {
-
-        }
+        return response;
     });
 };
 
-//createNewPlayer(require('./photos'));
+/*
+Photos.findOneAndUpdate(query, update, options, function(err, results){
+        if (err) throw err;
+        //console.log('Are the results MongooseDocuments?: %s', results[0] instanceof mongoose.Document);
+        console.log(`created ${results.length} (+), updated ${results.length} (~)`);
+    });
+*/
+/**
+ * Improved version of renderTwoPhotos to render two photos based on specific criteria
+ * Criteria age >= 13 && <= 21; male vote for female friends; only display photos user friends
+ * Here's how it works
+ * => Aggregate user friends including age, voters, is_blocked, wins, losses, draws, gender
+ * => Run random pick of two on aggregated search based on user gender. If user is male render female, or vice versa.
+ * @param req
+ * @param res
+ * @param next
+ */
+function newRenderTwoPhotos(config){
+    var gender = shimOrhim(config.params.session.gender);
+    var randomImages;
+
+    Photos.aggregate(
+        // select the fields we want to deal with
+        { $project: { name: 1, ratings: 1 } },
+        // unwind 'likes', which will create a document for each like
+        //{ $unwind: '$facebookFriends'},
+        // group everything by the like and then add each name with that like to
+        // the set for the like
+        { $group: {
+            _id: { name: '$displayName' },
+            friends: { $addToSet: '$facebookFriends' }
+        } }, function(err, data) {
+            if (err) throw err;
+            config.success.call(this, data);
+        });
+};
+// display my profile
+router.get('/photos/me', function (req, res, next) {
+    var userId = req.session.user_id;
+    Photos.findOne({imageId:userId}).then((user) => {
+        if (!user) console.log('user not found');
+        res.json(user);
+    });
+});
+// list all my facebook friends playing stuckwanyah
+router.get('/photos/me/friends', sessionChecker, function(req, res, next){
+    var userId = req.session.user_id;
+    Photos
+    .find({imageId: userId})
+    .lean()
+    .populate('friends')
+    .select(['displayName', 'imageId', 'age', 'gender', 'picture', 'link'])
+    .exec(function(err, friendslist) {
+        if (!err) {
+            res.json(friendslist[0].friends);
+        } else {
+            return new Error(err);
+        }
+    });
+});
+// populate my facebook friends list with names
+router.get('/photos/me/friends/populate', function (req, res, next) {
+    var userId = req.session.user_id;
+    //populateFriendsList('100004177278169');
+    Photos.find({}, function(err, friendslist) {
+        if (friendslist) {
+            Photos.findOne({imageId: userId}).then((user) => {
+                if (!user) console.log('user not found');
+                else {
+                    var i;
+                    for (i = 0; i < friendslist.length; i++) {
+                        if (friendslist[i].id === user.id) {
+                            console.log("can't add yourself to your list");
+                            continue;
+                        }
+                        //user.facebookFriends.every(function(item){
+                        //    console.log(item == friendslist[i].id)
+                        //    //console.log("can't add same person multiple times");
+                        //})
+                        user.friends.push({
+                            _id: friendslist[i].id,
+                            facebookProvider: {id: friendslist[i].imageId}
+                        });
+                    };
+                    user.save(function (error, savedProfile) {
+                        if (error) console.log(error);
+                        else console.log('friends list updated');
+                    });
+                }
+            });
+        }
+    });
+});
+
+router.route("/dummy")
+    .get(function(req, res){
+        console.log(req.query);
+        res.json({
+            "meta": {
+                "type": "success",
+                "code": 200,
+                "message": "",
+                "responseId": "43qtf3hk03y34gm41",
+                "seesionID": req.sessionID,
+                "seesion": req.session,
+                "user_sid": req.cookies.user_sid
+            },
+            "data": {
+                "id": 1,
+                "name": "Joe Burns"
+            }
+        });
+    })
+    .post(function(req, res){
+        console.log("Query: " + req.query)
+        console.log("Body: " + req.body)
+        console.log("Params: " + req.params)
+        res.status(400);
+    });
+
+//createNewPlayer(require('./photos').photos);
 
 /**
  * Retrieve current user's profile picture, friends list,
@@ -1813,96 +2007,140 @@ var retrievePlayerFriends = function(userId) {
 function createNewPlayer(data) {
     // create all of the dummy people
     async.each(data, function(profile, callback) {
-        var update = [{
-            // image_id is the facebook id
-            image_id: profile.id,
-            fullName: profile.displayName,
-            age: profile.age,
-            gender: profile.gender,
-            image_url: profile.displayPicture,
-            thumb_src: profile.thumSrc,
-            uri: profile.uri,
-            facebook_friends: profile.friends,
-            // leave is_blocked false
-            ratings: 1400
-            // leave the rest to default
-        }];
+        // find each user by profile
+        Photos.findOne({imageId: profile.id}, function (error, photo) {
+            // if the user with that id doesn't already exist create it
+            if (!photo) {
+                var update = {
+                    // imageId is the facebook id
+                    imageId: profile.id,
+                    displayName: profile.displayName,
+                    age: profile.age,
+                    gender: profile.gender,
+                    picture: profile.displayPicture,
+                    imageUrl: profile.thumbSrc,
+                    profileUrl: profile.profileUrl,
+                    facebookProvider: {
+                        instantGameId: profile.instant_game.id,
+                        id: profile.id,
+                        token: Math.random().toString().substr(2, 19),
+                        friends: profile.friends,
+                    },
+                    // leave is_blocked false
+                    random: [Math.random(), 0],
+                    // leave the rest to default
+                };
 
-        Photos.create(update, callback);
+                Photos.update({ imageId: profile.id }, { $set: update },{ upsert: true }, function (error, photo) {
+                    if (error) console.log(error);
+                    return callback(error, photo);
+                });
+
+                //console.log(`created ${results.length} (+) new players`.cyan);
+
+                /*var photos = new Photos(update);
+                photos.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('meow');
+                    }
+                });*/
+
+            }
+        });
     }, function(err) {
         if (err) {
             // handler error
-            //throw err;
+            throw new Error(err);
         }
+    });
+};
 
-        var q = Photos.find({age: {$lt: 1000}}).sort('age').lean();
-        q.exec(function (err, results) {
-            if (err) throw err;
-            //console.log('Are the results MongooseDocuments?: %s', results[0] instanceof mongoose.Document);
-
-            console.log(`created ${results.length} (+) new players`.cyan);
+app.route("/perfectMatch")
+    .get(function(req, res, next){
+        var choices = ["male", "female"];
+        var randomGender = _.sample(choices);
+        var oppositeGender = _.first(_.without(choices, randomGender));
+        async.parallel({
+            female: function(callback){
+                Photos.findOneRandom({gender: "female", imageId: {$ne: req.session.user_id}}, function(error, female){
+                    callback(error, female);
+                });
+            },
+            male: function(callback){
+                Photos.findOneRandom({gender: "male"}, function(error, male){
+                    callback(error, male);
+                });
+            }
+        }, function(error, results){
+            if (error) return next(error);
+            res.render("perfectMatch.html", {match: results});
         });
+    })
+    .post(function(req, res, next){
+        var maleId = req.query.male;
+        var femaleId = req.query.female;
+        async.parallel({
+            female: function(callback){
+                Photos.findById(femaleId).then(function(response){
+                    callback(null, response);
+                }).catch(function(error){
+                    callback(error);
+                });
+            },
+            male: function(callback){
+                Photos.findById(maleId).then(function(response){
+                    callback(null, response);
+                }).catch(function(response){
+                    callback(error);
+                });
+            }
+        }, function(error, results){
+            if (error) return next(error);
+            res.redirect("/perfectMatch");
+        })
     });
-};
 
-function dd() {
-    var options = { upsert: true };
-    var query = { user };
-
-    Photos.findOneAndUpdate(query, update, options, function(err, results){
-        if (err) throw err;
-        //console.log('Are the results MongooseDocuments?: %s', results[0] instanceof mongoose.Document);
-
-        console.log(`created ${results.length} (+), updated ${results.length} (~)`);
-    });
-}
-
-function getFriends(fb_id){
-    request.get({
-        url:`https://graph.facebook.com/v2.6/${fb_id}/friends`,
-        qs: {
-            access_token: GLOBAL.page_access_token,
-            fields:"id,name,picture.type(square).width(1000).height(1000)"
-        }
-    });
-
-}
-
-var getDate = function(){
-    var date = new Date();
-    var hour = date.getHours();
-    var period = "AM";
-    var monthNames;
-    if (hour > 12){
-        hour = hour % 12;
-        period = "PM";
-    }
-    var form_date = monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
-    return form_date;
-};
-
-// Auto Publish top ten hottest friends in carousel post
-function publishPost(pageId, article){
+/**
+ * Publish the top 10 hottest friends on StuckWanYah Facebook page in carousel post
+ * and hashtag all 10 photos plus the player posting the photos
+ * @param userId
+ * @param content
+ */
+function publishTopTenHottestPhotos(content){
+    var defaultCaption = "Top 10 Hottest friends 😍😍😍"+
+                         "#stuckwanyah, #dat_wan_how, #sweetlips";
     request({
-        url: "https://www.facebook.com/Stuck-Wan-Yah-508382589546607/",
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-        method: "POST",
-        json: {
-            recipient: {id: pageId},
-            message: article
-        }
+        url: "https://www.facebook.com/Stuck-Wan-Yah-508382589546607/feed",
+        qs: {
+            access_token: keys.facebook.pageAccessToken,
+            no_story: false,
+            caption: typeof content.caption == "string" ? content.caption : defaultCaption,
+            url: [content.url]
+        },
+        method: "POST"
     }, function(error, response, body){
-        if (err) {
-            console.error(`Error posting article: ${response.error}`)
+        if (error) {
+            if (content.sender) {
+                sendMessage(content.sender, {text: `Error posting article: ${response.error}`});
+            } else {
+                console.error(`Error posting article: ${response.error}`);
+            }
+        }
+        if (content.sender) {
+            sendMessage(content.sender, {text: "Post published."});
+        } else {
+            console.error("Post published.");
         }
     });
-}
+};
 var getMediaOptions = function(event){
     var options = {
         method: "GET",
-        uri: `https://graph.facebook.com/v2.8/${event.user.id}`, // req.params.id
+        uri: `https://graph.facebook.com/v2.8/${event.user.id}`,
         qs: {
-            access_token: GLOBAL.page_access_token,
+            access_token: keys.facebook.pageAccessToken,
             type: 'user',
             fields: 'photos.limit(2).order(reverse_chronological){link, comments.limit(2).order(reverse_chronological)}'
         }
@@ -1910,9 +2148,8 @@ var getMediaOptions = function(event){
 
     return request(options).then(function(fbRes){
         res.json(fbRes);
-    })
+    });
 };
-
 function postingImage(){
     const id = 'page or user id goes here';
     const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
@@ -1928,23 +2165,18 @@ function postingImage(){
     };
 
     request.post(postImageOptions);
-}
-// Process ranks for each contender against all contenders
-function rankUser(){
-    var len = this.length;
-    var res = new Array(len);
-    for (var i = 0; i < users.length; i++) {
-        if (i in this) {
-            users[i]
-        }
-    }
-}
+};
+function getUserProfilePicture(userId) {
+    return "https://graph.facebook.com/"+ userId +"/picture?type=large"
+};
 
-// TODO: Fixed: Fix synchronous AJAX request, use async method instead
+// Deployment date 01/04/18
+// Testing date 02/04/18 - 05/04/18
+// Completion date 05/04/18
+// Launching date 06/04/18 after school
+
 // TODO: Fix: Fix Heroku issues
-// TODO: Fix: Fix Facebook login
-// TODO: Fix: Fix session
+// TODO: Fixed: Fix persistent login with 
+//       Facebook login, set up facebook login, set session 
 // TODO: Fix: Fix mongodb issues
 // TODO: Fix: Checking each user if exist, check if one data can be updated i.e. if profile picture changed, update with new propic uri, create new user
-// TODO: Fix: Fix rating algorithm
-// TODO: Fix:

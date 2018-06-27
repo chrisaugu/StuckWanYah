@@ -1,44 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-PG">
 <head>
-	<title>Connect</title>
-
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet-min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login with Facebook</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="/javascripts/sdk.js" xsrc="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
-	<fb:serverFbml width="760">
-		<script type="text/fbml">
-			<fb:fbml>
-				<fb:request-form method="POST" type="My Demo Application" action="http://apps.facebook.com/code-netmag-demo/tell-your-friends/" content="This is the content to show">
-					<fb:multi-friend-selector actiontext="Invite your friends" showborder="False" rows="2" email_invite="True" bypass="cancel" >
-				</fb:request-form>
-			</fb:fbml>
-		</script>
-	</fb:serverFbml>
+<main id="main">
+    <h1>StuckWanYah</h1>
+    <h2></h2>
+    <h3>In order to play StuckWanYah, you must login with Facebook</h3>
 
+    <span>By clicking 'Login with Facebook' button, you have read and agreed to the site's <a href="/disclaimer.html">terms of use</a>.</span>
 
-<!--div style="text-align:center;font-size:1.5em;position:relative;padding-right:98px;padding-top:13px;margin-bottom:15px;">Hey, do you like this page? <div style="position:absolute; top: 15px; right: 471px;">
-				<fb:like layout="button_count" send="false" show_faces="false" width="120" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=362497390470077&amp;container_width=0&amp;href=http%3A%2F%2Fwww.symbols-n-emoticons.com%2Fp%2Ffacebook-emoticons-list.html&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=120">
-					<span style="vertical-align: bottom; width: 83px; height: 20px;">
-						<iframe name="f115a007ccd88c4" width="120px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="/like.html" style="border: none; visibility: visible; width: 83px; height: 20px;" class=""></iframe>
-					</span>
-				</fb:like>
-			</div></div-->
+    <center>
+        <table id="connect" align="center" style="padding:0 15px;">
+            <tr>
+                <td>
+                    <button id="loginbutton" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
+                        <img alt="" src="/images/TSXtq24.png" draggable="false" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">
+                    </button>
 
+                    <!--form name="connect" x-action="/api/v1/auth/facebook" action="/foo" method="post">
+                        <input type="hidden" name="token" value="1234567890">
+                        <input type="text" name="userid" placeholder="Facebook User ID" class="text"></br>
+                        <button type="submit" cid="loginbutton" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: relative;cursor: pointer;user-select: none;width: 245px;height: 47px;overflow: hidden;top: 0px;right: 0px;">
+                            <img alt="" src="/images/TSXtq24.png" draggable="false" style="position: absolute;left: 0px;top: 0px;width: 245px;height: 47px;user-select: none;border: 0px;padding: 0px;margin: 0px;">
+                        </button>
+                    </form-->
 
-			<input type="button" data-action="facebook_login" class="button _fb-connect" value="Connect to Facebook">
-			<button draggable="false" title="Toggle fullscreen view" aria-label="Toggle fullscreen view" type="button" style="background: none;border: 0px;margin: 10px 14px;padding: 0px;position: absolute;cursor: pointer;user-select: none;width: 25px;height: 25px;overflow: hidden;top: 0px;right: 0px;"><img alt="" src="http://maps.gstatic.com/mapfiles/api-3/images/sv9.png" draggable="false" class="gm-fullscreen-control" style="position: absolute;left: -52px;top: -86px;width: 164px;height: 175px;user-select: none;border: 0px;padding: 0px;margin: 0px;"></button>
-			<fb:login-button autologoutlink="true" onlogin="OnRequestPermission();"></fb:login-button>
-			<fb:like href="http://apps.facebook.com/code-netmag-demo/" layout="button_count"></fb:like>
-			<div class="custom-fb-share" data-href="https://stuckwanyah.herokuapp.com/">Share</div>
-			<button name="my_full_name" onclick="ShowMyName()" value="My Name">Get my Name from Facebook</button>
-			<button name="my_full_name" onclick="postToFacebook()" value="My Name">Post to Facebook</button>
+                </td>
+            </tr>
+        </table>
 
-			<form action="api/photos/deleteAll" method="post">
-				<input type="button" name="deleteAll" value="deleteAll">
-			</form>
+        <br/><br/><br/><br/>
 
-	<script type="text/javascript" src="/javascripts/jquery.js"></script>
-	<script type="text/javascript" src="/javascripts/script.js"></script>
+        <div class="footer">
+            <div class="container">
+                <ul>
+                    <li><a href="/" onclick="sh('home')">Home</a></li>
+                    <!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+                    <li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+                    <li><a href="/about.html" onclick="sh('facebookpage')">About</a></li>
+                    <li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+                    <li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+                    <li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+                    <li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+                </ul>
+                <p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+                <p class="copyright"><span>StuckWanYah &copy; 2018&nbsp;&#x00B7;&nbsp;Made in PNG for fun.</span></p>
+            </div>
+        </div>
+    </center>
+</main>
+
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        App.init(!0);
+    }
+</script>
 </body>
 </html>

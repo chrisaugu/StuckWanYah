@@ -1,0 +1,8 @@
+{
+	"name": "StuckWanYah",
+	"description": "A Rating app for voting your friends hotness",
+	"repository": "https://github.com/chrisaugu/stuckwanyah",
+	"logo": "",
+	"keywords": ["stuckwanyah", "stuckwan", "hot", "friends"],
+	"image": "heroku/nodejs"
+}

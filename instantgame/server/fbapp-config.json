@@ -1,0 +1,36 @@
+{
+  "instant_games": {
+    "platform_version": "RICH_GAMEPLAY",
+    "custom_update_templates": {
+      "play_turn": {
+        "example": "Edgar played their move"
+      },
+      "match_won": {
+        "example": "Edgar just won the match"
+      },
+      "match_tie": {
+        "example": "It's a tie!"
+      }
+    }
+  },
+  "surfaceable_stats": {
+    "rank": {
+      "priority": 1,
+      "order": 1,
+      "label": {
+        "localizations": {
+          "en_US": "Rank",
+          "th_TH": "\u{0E22}\u{0E28}",
+          "pd_PG": "Renk"
+        },
+        "fallback": "Rank"
+      },
+      "values": {
+        "0": "Unranked",
+        "1": "Bronze",
+        "2": "Silver",
+        "3": "Gold",
+      }
+    }
+  }
+}
