@@ -11,6 +11,7 @@ var express = require("express"),
     _ = require('underscore'),
     moment = require("moment"),
     cookieParser = require('cookie-parser'),
+    cookieSession = require('cookie-session'),
     bodyParser = require("body-parser"),
     path = require("path"),
     favicon = require('serve-favicon'),
@@ -60,15 +61,17 @@ app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(cookieParser(keys.cookieSecret));
+app.use(cookieParser(keys.session.cookieSecret));
 // initialize express-session to allow us track the logged-in user across sessions.
-app.use(session({
-    key: 'user_sid',
-    secret: keys.session.secret,
+app.use(cookieSession({ //session({
+    name: 'session',
+    //key: 'user_sid',
+    //secret: keys.session.cookieSecret,
     keys: [keys.session.cookieKey],
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000 }
+    //resave: false,
+    //saveUninitialized: false,
+    //cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
+    maxAge: 3 * 24 * 60 * 60 * 1000 // 72 hours (3 days)
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -79,7 +82,6 @@ passport.serializeUser((user, done) => {
     //done(null, user._id);
     done(null, user.id);
 });
-
 /** Registers a function used to deserialize user objects out of the session. */
 passport.deserializeUser((id, done) => {
     Photos.findById(id).then((user) => {
@@ -92,22 +94,15 @@ passport.deserializeUser((id, done) => {
     clientID: keys.facebook.appID, //FACEBOOK_APP_ID,
     clientSecret: keys.facebook.clientSecret, //FACEBOOK_APP_SECRET,
     callbackURL: "http://localhost:5000/api/v1/auth/facebook/callback",
-    profileFields: ['id', 'displayName', 'photos', 'birthday', 'gender', 'profileUrl']
+    //callbackURL: "https://sweetlipsdb.herokuapp.com/api/v1/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos', 'birthday', 'gender', 'profileUrl', 'link', 'age'],
+    enableProof: true
 }, function (accessToken, refreshToken, profile, done) {
+
     let options = {accessToken, refreshToken, profile}
     Photos.findOrCreate({ "facebookProvider.id": profile.id }, options, function (err, user) {
         return done(err, user);
     });
-}));
-
-passport.use(new FacebookStrategy({
-    // options for the facebook strat
-    clientID: keys.facebook.appID, //FACEBOOK_APP_ID,
-    clientSecret: keys.facebook.clientSecret, //FACEBOOK_APP_SECRET,
-    callbackURL: "https://sweetlipsdb.herokuapp.com/api/v1/auth/facebook/callback",
-    profileFields: ['id', 'displayName', 'photos', 'birthday', 'gender', 'profileUrl'],
-    enableProof: true
-}, function (accessToken, refreshToken, profile, done) {
 
     // check if photo already exists in the db
     Photos.findOne({"facebookProvider.id": profile.id}).then((currentUser) => {
@@ -131,23 +126,27 @@ passport.use(new FacebookStrategy({
     clientID: keys.facebook.appID,
     clientSecret: keys.facebook.clientSecret,
     callbackURL: keys.facebook.callbackURL,
-    profileFields:['id','displayName','emails']
+    profileFields: ['id','displayName','birthday','age','gender','profileUrl','link','emails','photos'],
+    enableProof: true
 }, function(accessToken, refreshToken, profile, done) {
+
     console.log(profile);
-    var me = new user({
+    var me = new Photos({
         email:profile.emails[0].value,
         name:profile.displayName
     });
 
     /* save if new */
-    user.findOne({email:me.email}, function(err, u) {
+    Photos.findOne({ email: me.email }, function(err, u) {
         if(!u) {
-            me.save(function(err, me) {
-                if(err) return done(err);
-                done(null,me);
+            me.save().then(function(newUser) {
+                console.log("new user created: " + newUser);
+                done(null, newUser);
+            }).catch(function(err){
+                return done(err);
             });
         } else {
-            console.log(u);
+            console.log("user is: " + u);
             done(null, u);
         }
     });
@@ -717,18 +716,19 @@ router.get('/auth/me', authenticate, getCurrentUser, getOne);
  * Request will be redirected to Facebook
  */
 router.get('/auth/facebook', 
-    passport.authenticate('facebook', { 
-        scope: ['public_profile', 'id', 'user_photos', 'picture', 'age_range', 'gender', 'user_friends', 'friends',] 
+    passport.authenticate('facebook', {
+        authType: 'rerequest',
+        scope: ['public_profile', 'id', 'name', 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends'] 
     }));
 router.get('/auth/facebook/callback', 
     passport.authenticate('facebook', {
         successRedirect: '/',
         failureRedirect: '/foo' 
-    //}), function(req, res) {
-    // Successful authentication, redirect home
-    //res.json(req.user);
-    //res.redirect('/');
-}));
+    }), function(req, res) {
+        // Successful authentication, redirect home
+        res.json(req.user);
+        res.redirect('/');
+    });
 
 /**
  * GET /auth/facebook/token?access_token=<TOKEN_HERE>
@@ -2145,7 +2145,6 @@ var getMediaOptions = function(event){
             fields: 'photos.limit(2).order(reverse_chronological){link, comments.limit(2).order(reverse_chronological)}'
         }
     };
-
     return request(options).then(function(fbRes){
         res.json(fbRes);
     });

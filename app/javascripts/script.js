@@ -8,6 +8,15 @@ var current_page = document.location.pathname,
     xhr = null;
 var photos = [];
 var friendslist = [];
+var initialized = false;
+var currentLoginStatus = null;
+var alreadyInitializing = false;
+var facebookStatusCodes = {
+    declined: "declined",
+    granted: "granted",
+    connected: "connected",
+    not_authorized: "not_authorized"
+};
 
 //"<img src=\"https://graph.facebook.com/" + user.facebookid + "/picture?type=square&height=200&width=200\" alt=\"userimg\" class=\"fbpic\">"
   
@@ -33,8 +42,7 @@ var Api = function() {
         });
     },
     d = function(cuid) {
-        //var count_url = Api.getApiUrl() + '/photos?user_id=' + cuid;
-        var count_url = cuid;
+        var count_url = Api.getApiUrl() + '/photos?user_id=' + cuid;
         var xhr = new XMLHttpRequest();
         //make http request to endpoint
         xhr.open('GET', count_url, true);
@@ -59,8 +67,7 @@ var Api = function() {
             cache: false,
             data: JSON.stringify(data),
             dataType: "json",
-            //contentType: "application/x-www-form-urlencoded",
-            contentType: "application/json; charset=UTF-8",
+            contentType: "application/json; charset=UTF-8", //contentType: "application/x-www-form-urlencoded",
             success: function(data) {
                 cb(null, data)
             },
@@ -68,21 +75,6 @@ var Api = function() {
                 //cb(qXHR, textStatus, errorThrown)
                 cb(true, qXHR.responseJSON, errorThrown)
             },
-        });
-    },
-    get = function(url, data, options, cb) {
-        $.ajax({
-            type: "GET",
-            url: url,
-            cache: false,
-            data: data,
-            dataType: "json",
-            success: function(data) {
-                cb(null, data)
-            },
-            error: function(qXHR, textStatus, errorThrown) {
-                cb(true, qXHR.responseJSON, errorThrown)
-            }
         });
     }
     return {
@@ -137,19 +129,19 @@ var Api = function() {
             return /^www./.test(c) && (c = c.slice(4)), c;
         },
         getTwoRandomImages: function () {
-            b({url: this.getApiUrl() + '/photos', data: {limit:2}, type:'GET'});
+            return b({url: this.getApiUrl() + '/photos', data: {limit:2}, type:'GET'});
         },
         getPhotoById: function (id) {
-            b(this.getApiUrl() + '/photos/' + id);
+            return b(this.getApiUrl() + '/photos/' + id);
         },
         displayPhoto: function (src) {
-            b(this.getApiUrl() + '/photos/' + src);
+            return b(this.getApiUrl() + '/photos/' + src);
         },
         getRankings: function () {
-            d(this.getApiUrl() + '/photos/top');
+            return d(this.getApiUrl() + '/photos/top');
         },
-        getFriendsList2: function () {
-            b( this.getApiUrl() + '/photos/me/friends' );
+        getFriends: function () {
+            return b( this.getApiUrl() + '/photos/me/friends' );
         },
         getFriendsList: function () {
             return new Promise(function (resolve, reject) {
@@ -161,43 +153,162 @@ var Api = function() {
                 })
             });
         },
-        getFriends: function () {
-            FB.api('/me', 'GET', {
-                'fields': 'id, name, friendlist'
+        userFriendslist: function () {
+            FB.api('/me','GET', {
+                fields: 'id, full_name, first_name, last_name, age_range, age, birthday, picture, profile_pic, friendlist, friends'
             }, function (response) {
-                // Insert your code here 
+                if (response) {
+                    for (var i=0; i<response.friends.length; i++) {
+                        response.friends[i].id
+                    }
+                }
+                return response;
             });
         },
         getAccessToken: function() {
             return Utils.readItemFromLocalStorage('access_token');
         },
-        checkLogin: function () {
-            return new Promise(function (resolve, reject) {
-                Api.isLoggedIn().then(function (response) {
-                    resolve(true);
-                }).catch (function (e) {
-                    //window.location.href = '/foo';
-                    reject(false);
-                })
+        checkLoginState: function () {
+            Utils.log("checking login state...");
+            return new Promise(function(resolve, reject){
+                FB.getLoginStatus(function (response) {
+                    Utils.log("checked: " + response);
+                    currentLoginStatus = response;
+                    this.statusChangeCallback(response);
+                    //resolve(response);
+                });
             });
         },
-        checkLoginStatus: function () {
-            console.log("checked");
-            FB.getLoginStatus(function statusChangeCallback(response) {
-                var fbAccessToken = response.getAccessToken();
-                Utils.writeItemToLocalStorage("access_token", fbAccessToken);
-                var fbUser = response.getUserID;
-                if (response.status) {
-                    if (response.status === 'connected') {
-                        console.log('Logged in as: ' + fbUser);
-                    } else if (response.status === 'not_authorized' || response.status === 'unknown') {
-                        Utils.login();
-                    }
+        statusChangeCallback: function(response) {
+            Utils.log('statusChangeCallback');
+            console.log(response);
+            var fbAccessToken = response.authResponse.accessToken;//response.getAccessToken();
+            Utils.writeItemToLocalStorage("access_token", fbAccessToken);
+            var fbUser = response.authResponse.userID; //response.getUserID;
+            if (response.status) {
+                if (response.status === 'connected') {
+                    console.log('Logged in as: ' + fbUser);
+                    Utils.writeItemToLocalStorage("c_user_status", response.status);
+                    // Logged into your app and Facebook.
+                    this.userDetailsFromFb();
+                } else if (response.status === 'not_authorized' || response.status === 'unknown') {
+                    Utils.login();
                 } else {
+                    console.log('Please log into this app.');
                 }
+            } else {
+            }
+        },
+        /* {
+            status: 'connected',
+            authResponse: {
+                accessToken: '...',
+                expiresIn:'...',
+                signedRequest:'...',
+                userID:'...'
+            }
+        } */
+        fblogin: function (resolve, reject) {
+            var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
+            FB.login(function (response) {
+                // receive response sent by Facebook 
+                if (response.authResponse) {
+                    //FB.getLoginStatus(function() {
+                    this.checkLoginState().then(function(){
+                        if (response.authResponse === null) {
+                            setTimeout(function () {
+                                reject({ success: false, reason: "cancel" });
+                            }, 1000);
+                        }
+                        else {
+                            this.userDetailsFromFb().then(function(fbResponse){
+                                if (fbResponse) {
+                                    resolve({ success: true, authResponse: response.authResponse, userData: fbResponse });
+                                }
+                                reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
+                            })
+                        }
+                    });
+                } else {
+                    reject({ success: false, reason: "cancel" });
+                }
+            }, options );
+        },
+        login: function () {
+            var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
+            new Promise(function (resolve, reject) {
+                // Invoke Facebook login 
+                FB.login(function (fbRes) {
+                    // receive response sent by Facebook 
+                    if (fbRes.authResponse) {
+                        // pass response to server 
+                        $.post(Api.getApiUrl() + '/auth/facebook/token', {
+                            authResponse: fbRes.authResponse
+                        }).toPromise().then(function(response) {
+                            // server receive response, query database and reply with response, sets response to localStorage 
+                            var token = response.headers.get ('x-auth-token');
+                            if (token) {
+                                Utils.writeItemToLocalStorage('c_user', response.headers.get('userId'));
+                                Utils.writeItemToLocalStorage('display_name', response.headers.get('userName'));
+                                Utils.writeItemToLocalStorage('access_token', token);
+                            }
+                            resolve(response.json());
+                        }).catch (function () {
+                            reject();
+                        })
+                    } else {
+                        reject({ success: false, reason: "cancel" });
+                    }
+                }, {
+                    options
+                });
             });
         },
-        isLoggedIn: function () {
+        logout: function () {
+            FB.logout(function(response) {
+                localStorage.removeItem('access_token');
+            });
+        },
+        getCurrentUser: function () {
+            return new Promise(function(resolve, reject) {
+                FB.getUserID(function(response){
+                    resolve(response);
+                });
+            });
+            /*return new Promise(function (resolve, reject) {
+                $.get(Api.getApiUrl() + '/auth/me').toPromise().then(function (response) {
+                    resolve(response);
+                });
+            });*/
+        },
+        getCurrentUserFromCookies: function (a) {
+            chrome.cookies.get({
+                url: 'https://facebook.com',
+                name: 'c_user'
+            }, function (b) {
+                null == b ? (App.userId = 0, clearInterval(), setTimeout(function () {
+                    this.Api.getCurrentUser(a)
+                }, 6000))  : a(b.value)
+            });
+        },
+        storeCurrentUser: function (store, obj) {
+            return new Promise(function (resolve, reject) {
+                Utils.log(JSON.stringify(obj));
+                Utils.store.set(store, JSON.stringify(obj));
+                resolve();
+            });
+        },
+        userDetailsFromFb: function () {
+            console.log('Welcome! Fetching your information.... ');
+            return new Promise(function (resolve) {
+                FB.api("/me", { fields: "name, email, permissions" }, function (response) {
+                    console.log('Successful login for: ' + response.name);
+                    document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+                    resolve(response);
+                });
+            });
+        },
+        isLoggedInAndisAuthenticated: function () {
             // TODO: Fix synchronous AJAX request, use async method instead
             return new Promise(function (resolve, reject) {
                 Api.getCurrentUser().then(function (user) {
@@ -230,99 +341,6 @@ var Api = function() {
                         }).fail(function (data) {
                         })
                     }*/
-        },
-        login: function () {
-            return new Promise(function (resolve, reject) {
-                // Invoke Facebook login 
-                FB.login(function (result) {
-                    // receive response sent by Facebook 
-                    if (result.authResponse) {
-                        // pass response to server 
-                        $.post(Api.getApiUrl() + '/auth/facebook/token', {
-                            authResponse: result.authResponse
-                        }).toPromise().then(function (response) {
-                            // server receive response, query database and reply with response, sets response to localStorage 
-                            var token = response.headers.get('x-auth-token');
-                            if (token) {
-                                localStorage.setItem('c_user', response.headers.get('userId'));
-                                localStorage.setItem('display_name', response.headers.get('userName'));
-                                localStorage.setItem('access_token', token);
-                            }
-                            resolve(response.json());
-                        }).catch (function () {
-                            reject();
-                        })
-                    } else {
-                        reject();
-                    }
-                }, {
-                    scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends'
-                });
-            });
-        },
-        logout: function () {
-            localStorage.removeItem('access_token'); 
-            FB.logout(); 
-        },
-        getCurrentUser: function () {
-            FB.getUserID();
-
-            /*return new Promise(function (resolve, reject) {
-                $.get(Api.getApiUrl() + '/auth/me').toPromise().then(function (response) {
-                    resolve(response.json());
-                });
-            });*/
-        },
-        getCurrentUserFromCookies: function (a) {
-            chrome.cookies.get({
-                url: 'https://facebook.com',
-                name: 'c_user'
-            }, function (b) {
-                null == b ? (App.userId = 0, Timer.clearInterval(), setTimeout(function () {
-                    App.getCurrentUser(a)
-                }, 6000))  : a(b.value)
-            });
-        },
-        storeCurrentUser: function (store, obj) {
-            return new Promise(function (resolve, reject) {
-                Utils.log(JSON.stringify(obj));
-                Utils.store.set(store, JSON.stringify(obj));
-                resolve();
-            });
-        },
-        setLoginData: function (res) {
-            try {
-                var email,
-                api_key;
-                email = res.email;
-                api_key = res.api_key;
-                var itemData = {
-                    email: email,
-                    api_key: api_key
-                };
-                var data = {
-                    'login_session': JSON.stringify(itemData),
-                    'following_sites': JSON.stringify(followingSites)
-                };
-                Utils.writeItemToLocalStorage(data);
-                Utils.appendNewFollowingSite();
-            } catch (e) {
-                console.log(e);
-            }
-        },
-        isValidUser: function () {
-            try {
-                return (email && api_key && email.trim().length > 0 && api_key.trim().length > 0);
-            } catch (e) {
-            }
-            return false;
-        },
-        isAuthenticated: function () {
-            if (Utils.geItemToLocalStorage('display_name') !== '' && !Utils.readItemFromLocalStorage('c_user')) {
-                return true;
-            } else {
-                return false;
-            }
         },
         postStoryOnFacebook: function (message, facebookid) {
             return new Promise(function (resolve, reject) {
@@ -384,56 +402,6 @@ var Api = function() {
 }()
 , Utils = function () {
     return {
-        store: {
-            init: function () {
-            },
-            has: function (key) {
-                var item = localStorage[key];
-                if (item == undefined) return false;
-                else return true
-            },
-            get: function (key) {
-                return new Promise(function (resolve, reject) {
-                    var data = localStorage.getItem(key);
-                    var response = {};
-                    if (data) {
-                        data = JSON.parse(data);
-                        keys.forEach(function (key) {
-                            if (data[key] !== 'undefined') {
-                                response[key] = data[key];
-                            }
-                        });
-                    }
-                    resolve(response);
-                });
-            },
-            set: function (key, value) {
-                localStorage.setItem(key, JSON.stringify(value));
-                resolve();
-            }
-        },
-        DB: function () {
-            return {
-                init: function () {
-                },
-                set: function (a, b) {
-                    b = 'object' == typeof b || 'array' == typeof b ? JSON.stringify(b)  : b,
-                    localStorage[a] = b
-                },
-                get: function (a) {
-                    return void 0 !== localStorage[a] ? JSON.parse(localStorage[a])  : void 0
-                }
-            }
-        },        
-        getPreferredGender: function () {
-            var gender = Utils.readItemFromLocalStorage('gender');
-            // If 'gender' doesn't exist, or if existing 'gender' isn't female or male
-            if (!Utils.store.has('gender') || (gender !== 'f' && gender !== 'm')) {
-                gender = 'f';
-            }
-            Utils.store.set('gender', gender);
-            return gender;
-        },
         readItemFromLocalStorage: function (key) {
             if (localStorage[key] !== undefined) {
                 return localStorage[key];
@@ -449,7 +417,7 @@ var Api = function() {
         },
         log: function () {
             args = [];
-            args.push('[StuckWanYah]:');
+            args.push('[StuckWanYah]: ');
             for (var i = 0; i < arguments.length; i++) {
                 args.push(arguments[i]);
             }
@@ -583,6 +551,23 @@ var Api = function() {
             callback(text);
             //text.map(callback);
         },
+        cookie: function(cname) {
+            var c, ca, i, name;
+            name = cname + '=';
+            ca = document.cookie.split(';');
+            i = 0;
+            while (i < ca.length) {
+                c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+                i++;
+            }
+            return '';
+        },
         getByID: function (id) {
             return document.getElementById(id);
         },
@@ -700,11 +685,10 @@ var Api = function() {
             name = "StuckWanYah";
             version = "v1.0.0";
             current = App;
-            this.initFacebookAsync();
+            this.initFacebookApi();
             this.setDefaultData();
             this.initPageEventListener();
             this.initClickEventListener();
-            Api.checkLoginStatus();
         },
         setDefaultData: function () {
             $('[name=name]').val(Utils.readItemFromLocalStorage('display_name'));
@@ -717,14 +701,16 @@ var Api = function() {
                 return stored;
             }*/
         },
-        initFacebookAsync: function () {
+        initFacebookApi: function () {
             FB.init({
-              appId      : '1791165357568831',
-              cookie     : true,  // enable cookies to allow the server to access 
-                                  // the session
-              xfbml      : true,  // parse social plugins on this page
-              version    : 'v2.8' // use graph api version 2.8
+              appId: Api._production.FACEBOOK_APP_ID.toString(),
+              cookie: true,
+              xfbml: true,
+              status: true,
+              version: 'v2.10'
             });
+            initialized = true;
+            Api.checkLoginState();
         },
         initClickEventListener: function () {
             $('body')
@@ -771,7 +757,10 @@ var Api = function() {
 
             $('#loginbutton, #feedbutton').removeAttr('disable');
         },
-        initPageEventListener: function () {    
+        initPageEventListener: function () {
+            if (initialized) {
+                FB.AppEvents.logPageView();
+            }  
             var l = current_page;
             if (current_page.indexOf('.html') > - 1) {
                 l = Utils._slice(current_page);
@@ -930,9 +919,9 @@ var Api = function() {
             output += '<tr>';
             output += '<td class="photos" style="width: 902px;">';
             $.each(response, function (i, item) {
-                output += '<a href="' + item.link + '" data-fb-id="' + item.image_id + '">';
-                output += '<img class="photo" src="/photos/' + itepicture + '" style="width:70px!important">';
-                //output += '<img class=\"photo\" src\"https://graph.facebook.com/\"' + iteimageId + "/picture?type=small\""; //https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32
+                output += '<a href="' + item.profileUrl + '" data-fb-id="' + item.imageId + '">';
+                output += '<img class="photo" src="/photos/' + item.picture + '" style="width:70px!important">';
+                //output += '<img class=\"photo\" src\"https://graph.facebook.com/\"' + item.imageId + "/picture?type=small\""; //https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32
                 output += '</a>';
             });
             output += '</td>';
@@ -981,12 +970,12 @@ var Api = function() {
         appendRankList: function (response) {
             try {
                 var output = $('');
-                //var imgEl = $('<img class=\'photo\' src=\'/photos/' + iteimage_url + '\' data-fb-id=\'' + iteimage_id + '" width=\'180\'> ');
+                //var imgEl = $('<img class=\'photo\' src=\'/photos/' + item.imageUrl + '\' data-fb-id=\'' + item.imageId + '" width=\'180\'> ');
                 $.each(response, function (i, item) {
-                    output += '<tr align="center"><td><a href="' + itelink + '">';
-                    output += '<img class=\'photo\' src=\'/photos/' + itepicture + '\' data-fb-id="' + iteimage_id + '" width=\'180\'>';
+                    output += '<tr align="center"><td><a href="' + item.profileUrl + '">';
+                    output += '<img class=\'photo\' src=\'/photos/' + item.picture + '\' data-fb-id="' + item.imageId + '" width=\'180\'>';
                     output += '</a></td><td></td><td>';
-                    output += iteratings;
+                    output += item.ratings;
                     output += '</td><td></td></tr>';
                 });
                 $('#rankings').append(output);
@@ -1216,6 +1205,12 @@ var settings = {
     },
     get email() {
         return getSetting('email', null);
+    },
+    set userName(val) {
+        return setSetting('name', val);
+    },
+    get userName() {
+        return getSetting('name', null);
     }
 };
 var isBigEnough = function (age) {
@@ -1407,4 +1402,19 @@ function sh(pageName) {
     }, function (error, response, body) {
         console.log(response);
     });
+};
+function search_emoji(a) {
+    var b = $("body").text().search(a);
+    console.log(b);
+};
+function copy(e) {
+    var input = document.getElementById('copyInput');
+    input.value = "bell face";
+    input.select();
+    document.execCommand('Copy');
+};
+function unixtime() {
+    var lastCheck = 1530186013911,
+    timeNow = (new Date()).getTime();
+    return (timeNow - lastCheck > 60 * 30 * 1000);
 };

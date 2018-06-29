@@ -21,7 +21,7 @@ img{border:2px solid #cccccc;padding:0;border:1px solid;border-color:#e5e6e9 #df
 td{font-size:12px;}
 td h5{margin:1.5em 0 1em;}
 #connect>tbody{text-align:center;}
-p{font-size:12px;line-height:17px;}
+p{margin-top: 0;margin-bottom: 10px;line-height:17px;}
 p a{font-weight:600;}
 p.copyright{color:#878e96;font-size:10px;letter-spacing:0.7px;}
 p.copyright span{color:#878e96;}

@@ -25,6 +25,6 @@ module.exports = {
 	},
     session: {
 	    cookieKey: 'sweetlips',
-	    secret:"sweetlips"
+	    cookieSecret:"sweetlips"
 	}
 }

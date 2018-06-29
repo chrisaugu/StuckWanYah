@@ -4,352 +4,60 @@
 		"selected_items":
 		[
 			[
-				"jos",
-				"json_data"
-			],
-			[
-				"jo",
-				"json_data"
-			],
-			[
-				"jso",
-				"json_data"
-			],
-			[
-				"paam",
-				"params"
-			],
-			[
-				"doma",
-				"crossDomain"
-			],
-			[
-				"req",
-				"req"
-			],
-			[
-				"re",
-				"req"
-			],
-			[
 				"data",
-				"dataType"
+				"data"
 			],
 			[
-				"pos",
-				"post"
-			],
-			[
-				"mes",
-				"messages"
-			],
-			[
-				"AP",
-				"Api"
-			],
-			[
-				"form",
-				"formData"
-			],
-			[
-				"stat",
-				"statusText"
-			],
-			[
-				"faceb",
-				"facebook"
+				"profile",
+				"profile"
 			],
 			[
 				"image",
-				"image_id"
+				"image_url"
 			],
 			[
-				"call",
-				"callback"
+				"ex",
+				"expires"
 			],
 			[
-				"imag",
-				"imageId"
+				"au",
+				"authResponse"
 			],
 			[
-				"blo",
-				"block"
-			],
-			[
-				"bloc",
-				"blockedPhotos"
-			],
-			[
-				"im",
-				"imageId"
-			],
-			[
-				"res",
-				"resolve"
-			],
-			[
-				"dis",
-				"display_name"
-			],
-			[
-				"lo",
-				"log"
-			],
-			[
-				"check",
-				"checkLoginStatus"
-			],
-			[
-				"ser",
-				"serialize"
-			],
-			[
-				"getA",
-				"getApiUrl"
-			],
-			[
-				"Ap",
-				"Api"
+				"acc",
+				"accessToken"
 			],
 			[
 				"cons",
 				"console"
 			],
 			[
-				"ge",
-				"getUserID"
-			],
-			[
-				"loca",
-				"localStorage"
-			],
-			[
-				"acce",
-				"access_token"
-			],
-			[
-				"loc",
-				"localStorage"
-			],
-			[
-				"ta",
-				"target"
-			],
-			[
-				"stri",
-				"stringify"
-			],
-			[
-				"getFace",
-				"getFacebookAppId"
-			],
-			[
-				"su",
-				"submit"
-			],
-			[
-				"A",
-				"Api"
-			],
-			[
-				"preve",
-				"preventDefault"
-			],
-			[
-				"get",
-				"getBaseUrl"
-			],
-			[
-				"ba",
-				"getBaseUrl"
-			],
-			[
-				"_",
-				"_stage"
-			],
-			[
-				"face",
-				"FACEBOOK_PAGE_URL"
-			],
-			[
-				"FACE",
-				"FACEBOOK_APP_URL"
-			],
-			[
-				"htt",
-				"https"
-			],
-			[
-				"ac",
-				"action\tAttr"
-			],
-			[
-				"F",
-				"FACEBOOK_APP_ID"
-			],
-			[
-				"sta",
-				"_stage"
-			],
-			[
-				"read",
-				"readyState"
-			],
-			[
-				"profile",
-				"profileUrl"
-			],
-			[
-				"para",
-				"params"
-			],
-			[
-				"acc",
-				"access_token"
-			],
-			[
-				"che",
-				"checkUserExistance"
-			],
-			[
-				"mong",
-				"mongoose"
-			],
-			[
-				"sw",
-				"switch"
-			],
-			[
-				"profi",
-				"profileUrl"
-			],
-			[
-				"pro",
-				"profile"
-			],
-			[
-				"err",
-				"error"
-			],
-			[
-				"con",
-				"console"
-			],
-			[
-				"val",
-				"value"
-			],
-			[
-				"add",
-				"addEventListener"
-			],
-			[
-				"cur",
-				"current"
-			],
-			[
-				"api",
-				"apiUrl"
-			],
-			[
-				"curre",
-				"current_page"
-			],
-			[
-				"curr",
-				"current_page"
-			],
-			[
-				"stuckwan",
-				"stuckwanyah"
-			],
-			[
-				"produc",
-				"_production"
-			],
-			[
-				"fun",
-				"function"
-			],
-			[
-				"inn",
-				"innerHTML"
-			],
-			[
-				"ini",
-				"initFacebookApi"
-			],
-			[
-				"__se",
-				"__settingsBase"
-			],
-			[
-				"__",
-				"__settingsBase"
-			],
-			[
-				"win",
-				"window"
-			],
-			[
-				"_se",
-				"__settingsBase"
-			],
-			[
-				"_s",
-				"__settingsBase"
-			],
-			[
-				"total",
-				"totalVisitors"
-			],
-			[
-				"toa",
-				"totalVisitors"
-			],
-			[
-				"rend",
-				"renderFile"
-			],
-			[
-				"au",
-				"authenticationMiddleware"
-			],
-			[
 				"auth",
-				"authentication"
+				"authResponse"
 			],
 			[
-				"new",
-				"newUser"
+				"log",
+				"login"
 			],
 			[
-				"config",
-				"configAuth"
+				"conn",
+				"connected"
 			],
 			[
-				"gra",
-				"graph"
+				"if",
+				"if	if"
 			],
 			[
-				"cont",
-				"context_height"
-			],
-			[
-				"conte",
-				"context_width"
-			],
-			[
-				"dra",
-				"drawRectangle"
-			],
-			[
-				"gravi",
-				"gravitySpeed"
+				"funnc",
+				"function"
 			],
 			[
 				"min",
 				"minIndex"
+			],
+			[
+				"face",
+				"facebook_friends"
 			],
 			[
 				"frien",
@@ -364,8 +72,20 @@
 				"ajax"
 			],
 			[
+				"stat",
+				"statics"
+			],
+			[
 				"dat",
 				"data"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"res",
+				"restful"
 			],
 			[
 				"getC",
@@ -374,6 +94,10 @@
 			[
 				"is",
 				"is_blocked"
+			],
+			[
+				"get",
+				"getTwoRandomPhotos"
 			],
 			[
 				"u",
@@ -386,6 +110,10 @@
 			[
 				"mongo",
 				"mongodb"
+			],
+			[
+				"re",
+				"require"
 			],
 			[
 				"json",
@@ -432,8 +160,16 @@
 				"object"
 			],
 			[
+				"req",
+				"req"
+			],
+			[
 				"gener",
 				"gender"
+			],
+			[
+				"win",
+				"wins"
 			],
 			[
 				"retu",
@@ -445,7 +181,7 @@
 			],
 			[
 				"f",
-				"fi\t<%= Fixtures.identify(:symbol) %>"
+				"fi	<%= Fixtures.identify(:symbol) %>"
 			],
 			[
 				"pla",
@@ -458,6 +194,10 @@
 			[
 				"next",
 				"nextElementSibling"
+			],
+			[
+				"inn",
+				"innerText"
 			],
 			[
 				"app",
@@ -485,7 +225,7 @@
 			],
 			[
 				"in",
-				"input\tTag"
+				"input	Tag"
 			],
 			[
 				"d",
@@ -514,6 +254,266 @@
 			[
 				"base",
 				"baseUrl"
+			],
+			[
+				"clas",
+				"className"
+			],
+			[
+				"cou",
+				"counter_number"
+			],
+			[
+				"getEle",
+				"getElementsByTagName"
+			],
+			[
+				"Stuck",
+				"StuckWanYah"
+			],
+			[
+				"faceb",
+				"Facebook"
+			],
+			[
+				"loca",
+				"location"
+			],
+			[
+				"stuc",
+				"stuckwanyah"
+			],
+			[
+				"fac",
+				"connect_facebook"
+			],
+			[
+				"fb_",
+				"fb_app_secret"
+			],
+			[
+				"conf",
+				"CONFIG"
+			],
+			[
+				"fi",
+				"field"
+			],
+			[
+				"pro",
+				"process"
+			],
+			[
+				"me",
+				"method"
+			],
+			[
+				"getM",
+				"getMediaOptions"
+			],
+			[
+				"wns",
+				"wins"
+			],
+			[
+				"result",
+				"results"
+			],
+			[
+				"player_",
+				"player_1"
+			],
+			[
+				"find",
+				"findOne"
+			],
+			[
+				"call",
+				"callback"
+			],
+			[
+				"para",
+				"parallel"
+			],
+			[
+				"player_1",
+				"player_1_score"
+			],
+			[
+				"tie",
+				"tieBreaker"
+			],
+			[
+				"succ",
+				"success"
+			],
+			[
+				"winer",
+				"winner"
+			],
+			[
+				"winner_",
+				"winner_loses_arr"
+			],
+			[
+				"w",
+				"winner"
+			],
+			[
+				"lose",
+				"losses"
+			],
+			[
+				"wii",
+				"winning"
+			],
+			[
+				"new",
+				"new_winner_rating"
+			],
+			[
+				"rat",
+				"ratings"
+			],
+			[
+				"strin",
+				"stringify"
+			],
+			[
+				"local",
+				"localhost"
+			],
+			[
+				"conne",
+				"connect_facebook"
+			],
+			[
+				"dataf",
+				"data-fb-id"
+			],
+			[
+				"su",
+				"submit_photo"
+			],
+			[
+				"set",
+				"setData"
+			],
+			[
+				"ini",
+				"initSubmitEvents"
+			],
+			[
+				"Stu",
+				"StuckWanYah"
+			],
+			[
+				"te",
+				"templateSettings"
+			],
+			[
+				"no",
+				"notificationName"
+			],
+			[
+				"p",
+				"proto	Prototype"
+			],
+			[
+				"los",
+				"losses"
+			],
+			[
+				"Los",
+				"losses"
+			],
+			[
+				"exp",
+				"expected"
+			],
+			[
+				"ran",
+				"rank"
+			],
+			[
+				"chi",
+				"childNodes"
+			],
+			[
+				"inner",
+				"innerHTML"
+			],
+			[
+				"ch",
+				"childNodes"
+			],
+			[
+				"shou",
+				"shouldSwitch"
+			],
+			[
+				"tr",
+				"true"
+			],
+			[
+				"sho",
+				"shouldSwitch"
+			],
+			[
+				"onc",
+				"onclick	Attr"
+			],
+			[
+				"ara",
+				"array"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"th",
+				"th	Tag"
+			],
+			[
+				"e",
+				"embed	Tag"
+			],
+			[
+				"fb",
+				"fb_id"
+			],
+			[
+				"err",
+				"error"
+			],
+			[
+				"er",
+				"Error"
+			],
+			[
+				"ACCE",
+				"PAGE_ACCESS_TOKEN"
+			],
+			[
+				"mess",
+				"message"
+			],
+			[
+				"cure",
+				"current_page"
+			],
+			[
+				"add",
+				"addEmail"
+			],
+			[
+				"Fa",
+				"facebook"
 			]
 		]
 	},
@@ -523,8 +523,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 73296,
-				"encoding": "UTF-8",
+				"buffer_size": 73299,
 				"line_ending": "Windows"
 			}
 		},
@@ -533,7 +532,6 @@
 			"settings":
 			{
 				"buffer_size": 58688,
-				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -541,47 +539,41 @@
 			"file": "views/disclaimer.html",
 			"settings":
 			{
-				"buffer_size": 8125,
-				"encoding": "UTF-8",
+				"buffer_size": 8127,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "var email = null,\n	api_key = null,\n	followingSites = [],\n	lastContainer = '';\nvar loginKey = \"login_session\",\n	followingSitesKey = \"following_sites\";\nvar defaultText = \"Do you know what runs a website? Visit whatruns.com\";\n$(document).ready(function(e) {\n	var popupExt = {\n		current: '',\n		init: function() {\n			current = popupExt;\n			this.setGlobalItems();\n			this.initClickEvents();\n			//this.initTooltip();\n			this.initSubmitEvents();\n		},\n		setGlobalItems: function() {\n			try {\n				var sendMessage = function(tabs) {\n					BROWSER.runtime.sendMessage({\n						id: GET_HOST_NAME,\n						tab: tabs[0]\n					}, function(res) {\n						currentHostName = current.getCurrentHostName(res);\n						current.getLocalStorageItem(loginKey, function(item) {\n							var data = (item.hasOwnProperty(loginKey)) ? current.parseJsonStr(item[loginKey]) : {};\n							email = (typeof data.email != \"undefined\") ? data.email : null;\n							api_key = (typeof data.api_key != \"undefined\") ? data.api_key : null;\n							current.getLocalStorageItem(followingSitesKey, function(item) {\n								followingSites = (item.hasOwnProperty(followingSitesKey)) ? current.parseJsonStr(item[followingSitesKey]) : [];\n								current.enableHeaderButtons();\n							});\n						});\n					});\n				}\n				self.tabQuery(sendMessage);\n			} catch (e) {}\n		},\n		getCurrentHostName: function(data) {\n			try {\n				var hostname = data.hostname;\n				if (invalidDomains.indexOf(hostname) >= 0 || hostname == \"newtab\") return \"\";\n				if (typeof data.rawhostname != \"undefined\") return data.rawhostname;\n				else if (typeof data.tabTechs.rawhostname != \"undefined\") return data.tabTechs.rawhostname;\n				else if (typeof data.hostname != \"undefined\") return data.hostname;\n				else if (typeof data.tabTechs.hostname != \"undefined\") return data.tabTechs.hostname;\n			} catch (e) {\n				console.log(e);\n			}\n			return \"\";\n		},\n		setData: function(data) {\n			try {\n				BROWSER.storage.local.set(data);\n			} catch (e) {}\n		},\n		getLocalStorageItem: function(key, callback) {\n			BROWSER.storage.local.get(key, callback);\n		},\n		enableHeaderButtons: function() {\n			followingSites = (followingSites instanceof Array) ? followingSites : JSON.parse(followingSites);\n			if (followingSites.indexOf(currentHostName) !== -1) {\n				$('.user-already-following').addClass(\"active\");\n			} else {\n				$('.user-follow').addClass(\"active\");\n			}\n			if (followingSites.length > 0) {\n				$('.user-following').addClass(\"active\");\n			}\n			$('.share-url').addClass(\"active\");\n			current.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n		},\n		updateUserFollowingTitleToolTip: function(title) {\n			$('.user-following').attr(\"title\", title);\n		},\n		initClickEvents: function() {\n			this.initFollowEvent();\n			this.initFollowingEvent();\n			this.initBackEvent();\n			this.initSigninEvent();\n			this.initSignupEvent();\n			this.initShareEvent();\n			this.initShareFacebookEvent();\n			this.initShareEmailEvent();\n			this.initUnFollowEvent();\n		},\n		initSubmitEvents: function() {\n			this.formSubmit();\n			this.sendEmail();\n		},\n		initFollowEvent: function() {\n			$('.btn-follow').click(function(e) {\n				if (followingSites.length < 10) current.isLoggedIn();\n			});\n		},\n		initFollowingEvent: function() {\n			$('.btn-following').click(function(e) {\n				if (followingSites.length > 0) {\n					$('.image-loader').show();\n					current.getFollowingSites();\n				}\n			});\n		},\n		initBackEvent: function() {\n			$('.btn-back').click(function(e) {\n				$('.header-btn, .container').removeClass(\"active\");\n				if (current.isValidUser()) {\n					$('.user-following').addClass(\"active\");\n				} else {\n					$('.user-follow').addClass(\"active\");\n				}\n				if (lastContainer.trim().length > 0) {\n					$('.back').addClass(\"active\");\n					$(lastContainer).addClass('active');\n					lastContainer = '';\n				} else {\n					$('.current-app-info, .share-url').addClass(\"active\");\n				}\n				if (followingSites.indexOf(currentHostName) > -1) $('.user-already-following').addClass(\"active\");\n				else $('.user-follow').addClass(\"active\");\n				if ($('.container').hasClass(\"newtab-text\")) $('.user-following').addClass(\"active\");\n			});\n		},\n		initSigninEvent: function() {\n			$('.btn-signin').click(function(e) {\n				current.showSignInForm();\n			});\n		},\n		initSignupEvent: function() {\n			$('.btn-signup').click(function(e) {\n				current.showSignUPForm();\n			});\n		},\n		initShareEvent: function() {\n			$('.btn-share').click(function(e) {\n				current.showShareURLForm();\n			});\n		},\n		initShareFacebookEvent: function() {\n			$('.share-facebook').click(function(e) {\n				var url = encodeURIComponent($('.share-url-original').val());\n				window.open(\"https://www.facebook.com/sharer/sharer.php?u=\" + url, \"myWindowName\", \"width=600, height=600\");\n				return false;\n			});\n		},\n		initShareEmailEvent: function() {\n			$('.share-email').click(function(e) {\n				lastContainer = '.share-container';\n				current.showShareEmailForm();\n			});\n		},\n		initUnFollowEvent: function() {\n			$(document).on(\"click\", '.btn-unfollow', function(e) {\n				var followingSiteName = $(this).closest('.list').find('.following-sitename').val();\n				$(this).closest('.list').remove();\n				current.updateUnFollowSite(followingSiteName);\n			});\n		},\n		showSignInForm: function() {\n			$('.container, .header-btn').removeClass(\"active\");\n			$('.signin, .back').addClass(\"active\");\n		},\n		showSignUPForm: function() {\n			$('.container').removeClass(\"active\")\n			$('.signup').addClass(\"active\")\n		},\n		showShareEmailForm: function() {\n			$('.container').removeClass(\"active\");\n			$('.email-share-container').addClass(\"active\");\n		},\n		showShareURLForm: function() {\n			$('.container, .share-url').removeClass(\"active\");\n			$('.share-container').addClass(\"active\");\n			$('.back').addClass(\"active\");\n			var twitterUrl = \"https://twitter.com/share?text=\" + encodeURIComponent(defaultText) + \"&via=whatruns\";\n			if (currentHostName.trim().length > 0) {\n				var url = DOMAIN_NAME + \"website/\" + encodeURIComponent(currentHostName);\n				$('.share-url-original').val(url);\n				var text = \"Do you know what runs \" + currentHostName + \"?\";\n				var twitterUrl = \"https://twitter.com/share?url=\" + encodeURIComponent(url) + \"&text=\" + encodeURIComponent(text) + \"&via=whatruns\";\n			}\n			$('.twitter-share-href').attr(\"href\", twitterUrl);\n		},\n		isLoggedIn: function() {\n			try {\n\n				if (current.isValidUser()) {\n					if (followingSites.indexOf(currentHostName) <= -1) {\n						followingSites.push(currentHostName);\n						var itemData = {\n							\"following_sites\": JSON.stringify(followingSites)\n						}\n						current.setData(itemData);\n						current.followSite();\n					} else {\n						current.getFollowingSites();\n					}\n				} else {\n					current.showSignInForm();\n				}\n			} catch (e) {}\n		},\n		followSite: function() {\n			try {\n\n				$.ajax({\n					type: \"POST\",\n					url: DOMAIN_NAME + \"api/follow\",\n					data: \"email=\" + email + \"&hostname=\" + currentHostName,\n					success: function(response) {\n						//appendNewFollowingSite();\n						current.getFollowingSites();\n					}\n				});\n			} catch (e) {}\n		},\n		getFollowingSites: function() {\n			try {\n				if (email && api_key) {\n					if ($('.following-sites-list').is(':empty')) {\n						var data = current.getUserCredentials();\n						$.ajax({\n							type: \"POST\",\n							data: data,\n							url: DOMAIN_NAME + \"api/get_following\",\n							success: function(response) {\n								current.appendFollowingSites(response);\n							}\n						});\n					} else {\n						current.showFollowingSites();\n					}\n				}\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		appendFollowingSites: function(response) {\n\n			try {\n				if (typeof response != \"undefined\") {\n					if (typeof response.following_sites != \"undefined\") {\n						$('.following-sites-list').empty();\n						var following_sites = response.following_sites;\n						Object.keys(following_sites).forEach(function(siteName) {\n							var siteDetectedApps = (typeof following_sites[siteName] === \"object\") ? following_sites[siteName] : JSON.parse(following_sites[siteName]);\n							current.appendAppDetails(siteDetectedApps, siteName, response.days);\n						});\n						current.showFollowingSites();\n					}\n				}\n\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		showFollowingSites: function() {\n			setTimeout(function() {\n				current.showBackButton();\n				$('.container').removeClass(\"active\")\n				$('.following').addClass(\"active\");\n				$('.image-loader').hide();\n			}, 500);\n		},\n		showBackButton: function() {\n			$('.header-btn').removeClass(\"active\");\n			$('.back').addClass(\"active\");\n		},\n		appendAppDetails: function(detectedSiteApps, hostname, daysDiff) {\n			try {\n				var list = $('<div class=\"list\"></div>');\n				var headerEl = $('<div class=\"following-heading\"><div class=\"following-hostname inline\">' + hostname + '</div><div class=\"inline unfollow\"></div><input type=\"hidden\" class=\"hide following-sitename\" value=\"' + hostname + '\"></div>');\n				var unfollowEl = $('<button class=\"btn btn-sm btn-gray sm-1 btn-unfollow\">Unfollow</button>');\n				$(list).append($(headerEl));\n				$(list).find('.unfollow').append($(unfollowEl));\n				for (var time in detectedSiteApps) {\n					var apps = detectedSiteApps[time];\n					var totalApps = [];\n					Object.keys(apps).forEach(function(categoryName) {\n						try {\n							var arr = apps[categoryName];\n							for (var i in arr) {\n								var techJson = arr[i];\n								if (totalApps.indexOf(techJson.name) <= -1) {\n									totalApps.push(techJson.name);\n									var date = current.getDateFormat(techJson.latestDetectedTime);\n									var imageUrl = \"http://scriptsused.com/images/icons/\" + techJson.icon;\n									var imgEl = $('<div class=\"app-body inline\"><div class=\"image\"><a href=\"' + techJson.website + '\" target=\"_blank\"  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"' + techJson.name + ' <br/> Last Detected: ' + date + '\"><img src=\"' + imageUrl + '\"></a></div><div class=\"border-bottom-green\" ></div></div>');\n									$(list).append($(imgEl));\n								}\n							}\n						} catch (e) {\n							console.log(e);\n						}\n					});\n				}\n				$('.following-sites-list').append($(list));\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		updateUnFollowSite: function(followingSiteName) {\n			if (current.isValidUser()) {\n				var data = {\n					email: email,\n					api_key: api_key,\n					hostname: followingSiteName\n				}\n				$.ajax({\n					type: \"POST\",\n					data: data,\n					url: DOMAIN_NAME + \"api/unfollow\",\n					success: function(response) {\n						var index = followingSites.indexOf(followingSiteName);\n						if (index > -1) {\n							followingSites.splice(index, 1);\n							var itemData = {\n								following_sites: JSON.stringify(followingSites)\n							}\n							current.setData(itemData);\n							current.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n						}\n					}\n				})\n			}\n		},\n		formSubmit: function() {\n			$('.form').on(\"submit\", function(e) {\n				console.log(e);\n				e.preventDefault();\n				var data = $(this).serialize();\n				var method = $(this).attr(\"method\");\n				var url = DOMAIN_NAME + $(this).attr(\"url\");\n				var formData = {\n					data: data,\n					method: method,\n					url: url\n				};\n				var $this = $(this);\n				BROWSER.runtime.sendMessage({\n					id: \"form\",\n					subject: formData\n				}, function(response) {\n					if (response.status != 200) {\n						$this.find('.result').addClass(\"error\");\n						$this.find('.result').text(response.msg);\n					} else {\n						if (typeof response.api_key != \"undefined\") current.setLoginData(response);\n					}\n				});\n			});\n		},\n		setLoginData: function(res) {\n			try {\n				email = res.email;\n				api_key = res.api_key;\n				var itemData = {\n					email: email,\n					api_key: api_key\n				}\n				var data = {\n					\"login_session\": JSON.stringify(itemData),\n					\"following_sites\": JSON.stringify(followingSites)\n				}\n				this.setData(data);\n				this.appendNewFollowingSite();\n			} catch (e) {\n				console.log(e);\n			}\n		},\n		appendNewFollowingSite: function() {\n			try {\n				this.showBackButton();\n				this.appendAppDetails(detectedApps, currentHostName);\n				if (followingSites.indexOf(currentHostName) <= -1) {\n					followingSites.push(currentHostName);\n					var itemData = {\n						\"following_sites\": JSON.stringify(followingSites)\n					}\n					this.setData(itemData);\n				}\n				this.showFollowingSites();\n				$('.user-follow').removeClass(\"active\");\n				$('.back').addClass(\"active\");\n				this.updateUserFollowingTitleToolTip(\"Following \" + followingSites.length + \" Sites\");\n			} catch (e) {}\n		},\n		sendEmail: function() {\n			$('#email-share-form').on('submit', function(e) {\n				e.preventDefault();\n				var $this = $(this);\n				$(this).find('.result').empty();\n				var btnEl = $(this).find('.share-email-submit');\n				var text = $(btnEl).text();\n				$(btnEl).empty();\n				$(btnEl).append('Sending...');\n				// $(btnEl).append('<i class=\"fa fa-spinner fa-spin fa-fw\" aria-hidden=\"true\"></i>');\n				$.ajax({\n					type: \"POST\",\n					data: $(this).serialize() + \"&domain=\" + currentHostName,\n					url: DOMAIN_NAME + \"share/email\",\n					success: function(res) {\n						$(btnEl).empty();\n						if (res.status == 200) {\n							$(btnEl).append('<img src=\"images/Tick.png\" style=\"max-width:10px;\"><span style=\"margin-left:5px;\">Sent</span>');\n							setTimeout(function() {\n								$(btnEl).empty();\n								$(btnEl).append(text);\n							}, 1000);\n						} else {\n							$(btnEl).append(text);\n							$this.find('.result').text(res.msg);\n						}\n					}\n				})\n			});\n		},\n		getUserCredentials: function() {\n			var userCredentials = \"email=\" + email + \"&api_key=\" + api_key;\n			userCredentials += \"&domains=\" + JSON.stringify(followingSites);\n			return userCredentials;\n		},\n		parseJsonStr: function(str) {\n			try {\n				return JSON.parse(str);\n			} catch (e) {}\n		},\n		getDateFormat: function(timestamp) {\n			try {\n				var date = new Date(parseInt(timestamp));\n				var month = current.getMonthName(date);\n				return month + \" \" + date.getFullYear();\n			} catch (e) {}\n			return \"\";\n		},\n		getMonthName: function(d) {\n			try {\n				var monthNames = [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n					\"July\", \"August\", \"September\", \"October\", \"November\", \"December\"\n				];\n				return monthNames[d.getMonth()];\n			} catch (e) {}\n		},\n		isValidUser: function() {\n			try {\n				return (email && api_key && email.trim().length > 0 && api_key.trim().length > 0);\n			} catch (e) {\n\n			}\n			return false;\n		}\n	}\n	popupExt.init();\n	$('body').tooltip({\n		selector: '[data-toggle=tooltip]',\n		html: true\n	});\n\n});",
+			"settings":
+			{
+				"buffer_size": 14486,
+				"line_ending": "Windows",
+				"name": "var email = null,"
+			}
+		},
+		{
+			"contents": "var Channel;\n(function (Channel) {\n    var Social;\n    (function (Social) {\n        var facebookPermissionCodes = {\n            noEmailProvided: \"no_email_provided\",\n            notAuthorized: \"not_authorized\",\n            email: \"email\",\n            noEmailPermission: \"no_email_permission\"\n        };\n        var facebookStatusCodes = {\n            declined: \"declined\",\n            granted: \"granted\",\n            connected: \"connected\"\n        };\n        var Facebook = /** @class */ (function () {\n            function Facebook() {\n                var _this = this;\n                this.rerequest = function (resolve, reject) {\n                    _this.fbLogin(resolve, reject, \"rerequest\");\n                };\n                this.fbLogin = function (resolve, reject, authType) {\n                    var options = { scope: Facebook.setting.scope };\n                    if (authType) {\n                        options.auth_type = authType;\n                    }\n                    FB.login(function (response) {\n                        if (response.authResponse) {\n                            FB.getLoginStatus(function () {\n                                if (response.authResponse === null) {\n                                    setTimeout(function () {\n                                        reject({ success: false, reason: \"cancel\" });\n                                    }, 1000);\n                                }\n                                else {\n                                    _this.userDetailsFromFb().then(function (fbResponse) {\n                                        if (Facebook.ignoreEmailPermissions) {\n                                            resolve({ success: true, authResponse: response.authResponse, userData: fbResponse });\n                                        }\n                                        for (var i = 0; i < fbResponse.permissions.data.length; i++) {\n                                            var currentPermission = fbResponse.permissions.data[i];\n                                            if (currentPermission.permission === facebookPermissionCodes.email) {\n                                                if (currentPermission.status === facebookStatusCodes.granted) {\n                                                    if (!fbResponse.email || typeof fbResponse.email === \"undefined\") {\n                                                        reject({ success: false, reason: facebookPermissionCodes.noEmailProvided });\n                                                        return;\n                                                    }\n                                                    else {\n                                                        resolve({ success: true, authResponse: response.authResponse, userData: fbResponse });\n                                                        return;\n                                                    }\n                                                }\n                                            }\n                                        }\n                                        reject({ success: false, reason: facebookPermissionCodes.noEmailPermission });\n                                    });\n                                }\n                            });\n                        }\n                        else {\n                            reject({ success: false, reason: \"cancel\" });\n                        }\n                    }, options);\n                };\n                this.isLoggedInAndAuthorized = function () {\n                    return new Promise(function (resolve, reject) {\n                        var result = _this.checkLoginStatus();\n                        if (result.success) {\n                            _this.userDetailsFromFb().then(function (user) {\n                                if (user.permissions) {\n                                    for (var i = 0; i < user.permissions.data.length; i++) {\n                                        var currentPermission = user.permissions.data[i];\n                                        if (!Facebook.ignoreEmailPermissions &&\n                                            currentPermission.permission === facebookPermissionCodes.email) {\n                                            if (currentPermission.status === facebookStatusCodes.declined) {\n                                                if (!user.email || typeof user.email === \"undefined\") {\n                                                    reject({ success: false, reason: facebookPermissionCodes.noEmailProvided });\n                                                    return;\n                                                }\n                                            }\n                                        }\n                                    }\n                                }\n                                resolve({ success: true, authResponse: result.authResponse, userData: user });\n                            });\n                        }\n                        else {\n                            _this.fbLogin(resolve, reject);\n                        }\n                    });\n                };\n                this.login = function () {\n                    return new Promise(function (resolve, reject) {\n                        _this.isLoggedInAndAuthorized().then(function (result) {\n                            if (result.success) {\n                                resolve({\n                                    user: result.userData,\n                                    authResponse: result.authResponse\n                                });\n                            }\n                        }).catch(function (response) {\n                            reject(response);\n                        });\n                    });\n                };\n                this.rerequestPermission = function () {\n                    var rerequestPromise = new Promise(function (resolve, reject) {\n                        _this.rerequest(resolve, reject);\n                    });\n                    return new Promise(function (resolve, reject) {\n                        rerequestPromise\n                            .then(function (result) {\n                            if (result.success) {\n                                resolve({\n                                    user: result.userData,\n                                    authResponse: result.authResponse\n                                });\n                            }\n                            else {\n                                reject(result);\n                            }\n                        }).catch(function (response) {\n                            reject(response);\n                        });\n                    });\n                };\n            }\n            Facebook.init = function (initData) {\n                var _this = this;\n                Facebook.ignoreEmailPermissions = (initData.ignoreEmailPermissions) ? initData.ignoreEmailPermissions : false;\n                return new Promise(function (resolve) {\n                    if (!Facebook.initialized) {\n                        if (!Facebook.alreadyInitializing) {\n                            if (!initData) {\n                                throw new Error(\"You must provide details for connecting to FB app in your Init call.\");\n                            }\n                            var scriptTag = document.createElement(\"script\");\n                            scriptTag.src = _this.facebookSDKsrc;\n                            scriptTag.onload = Facebook.onLoadFinished;\n                            if (!initData.version) {\n                                initData.version = _this.initVersion;\n                            }\n                            if (!initData.scope) {\n                                initData.scope = \"email, public_profile\";\n                            }\n                            Facebook.setting = initData;\n                            var bodyTag = document.getElementsByTagName(\"body\")[0];\n                            bodyTag.appendChild(scriptTag);\n                            Facebook.alreadyInitializing = true;\n                        }\n                        var interval_1 = setInterval(function () {\n                            if (Facebook.initialized) {\n                                clearInterval(interval_1);\n                                resolve();\n                            }\n                        }, 200);\n                    }\n                    else {\n                        resolve();\n                    }\n                });\n            };\n            Facebook.onLoadFinished = function (e) {\n                FB.init({\n                    appId: Facebook.setting.appId.toString(),\n                    xfbml: false,\n                    cookie: true,\n                    status: true,\n                    version: Facebook.setting.version\n                });\n                Facebook.initialized = true;\n                FB.getLoginStatus(function (res) {\n                    Facebook.currentLoginStatus = res;\n                    Facebook.statusChanged();\n                });\n            };\n            Facebook.statusChanged = function () {\n                // ReSharper disable once UnusedLocals\n                var interval = setInterval(function () {\n                    FB.getLoginStatus(function (res) {\n                        Facebook.currentLoginStatus = res;\n                    });\n                }, 1000);\n            };\n            Facebook.prototype.checkLoginStatus = function () {\n                if (Facebook.currentLoginStatus != null) {\n                    var response = Facebook.currentLoginStatus;\n                    if (response.status === facebookStatusCodes.connected) {\n                        return { success: true, authResponse: response.authResponse };\n                    }\n                    else if (response.status === facebookPermissionCodes.notAuthorized) {\n                        return { success: false, reason: facebookPermissionCodes.notAuthorized };\n                    }\n                    else {\n                        return { success: false };\n                    }\n                }\n                else {\n                    return { success: false };\n                }\n            };\n            Facebook.prototype.userDetailsFromFb = function () {\n                return new Promise(function (resolve) {\n                    FB.api(\"/me\", { fields: \"name, email, permissions\" }, function (response) {\n                        resolve(response);\n                    });\n                });\n            };\n            Facebook.initialized = false;\n            Facebook.currentLoginStatus = null;\n            Facebook.alreadyInitializing = false;\n            Facebook.ignoreEmailPermissions = false;\n            Facebook.initVersion = \"v2.10\";\n            Facebook.facebookSDKsrc = \"//connect.facebook.net/en_US/sdk.js\";\n            return Facebook;\n        }());\n        Social.Facebook = Facebook;\n    })(Social = Channel.Social || (Channel.Social = {}));\n})(Channel || (Channel = {}));\n//# sourceMappingURL=facebook.js.map\n\n\n/// <reference path=\"../../../../../../Channel/Channel.Static/Scripts/Channel/classes/fetch.ts\" />\n/// <reference path=\"../classes/translations.ts\" />\nvar Digicel;\n(function (Digicel) {\n    var Social;\n    (function (Social) {\n        var Facebook = /** @class */ (function () {\n            function Facebook() {\n            }\n            Facebook.getAuthForm = function (facebookLoginResult) {\n                var authForm = {\n                    email: facebookLoginResult.user.email,\n                    fullName: facebookLoginResult.user.name,\n                    providerAuthenticationForm: {\n                        accessToken: facebookLoginResult.authResponse.accessToken,\n                        providerUserId: facebookLoginResult.authResponse.userID,\n                        tokenExpiry: facebookLoginResult.authResponse.expiresIn.toString()\n                    }\n                };\n                if (facebookLoginResult.user.iovationId === null || typeof facebookLoginResult.user.iovationId === \"undefined\") {\n                    var element = document.getElementById(\"iovationId\");\n                    if (element) {\n                        authForm.iovationId = element.value;\n                    }\n                }\n                else {\n                    authForm.iovationId = facebookLoginResult.user.iovationId;\n                }\n                return authForm;\n            };\n            Facebook.loginWithFacebook = function (requestPermission) {\n                if (requestPermission === void 0) { requestPermission = false; }\n                var loginPromise;\n                if (requestPermission) {\n                    loginPromise = this.facebook.rerequestPermission();\n                }\n                else {\n                    loginPromise = this.facebook.login();\n                }\n                return new Promise(function (resolve, reject) {\n                    loginPromise\n                        .then(function (result) {\n                        resolve(result);\n                    })\n                        .catch(function (error) {\n                        var response = { code: \"\" };\n                        if (error.reason) {\n                            switch (error.reason) {\n                                case \"no_email_provided\":\n                                case \"no_email_permission\":\n                                    response.code = \"no_email_provided\";\n                                    break;\n                                case \"cancel\":\n                                    response.code = \"cancel\";\n                                    break;\n                                case \"not_authorized\":\n                                    response.code = \"not_authorized\";\n                                    break;\n                            }\n                        }\n                        reject(response);\n                    });\n                });\n            };\n            Facebook.login = function (requestPermission) {\n                var _this = this;\n                if (requestPermission === void 0) { requestPermission = false; }\n                return this.loginWithFacebook(requestPermission)\n                    .then(function (response) {\n                    var authForm = _this.getAuthForm(response);\n                    return Social.Account.login(authForm, _this.socialProvider);\n                });\n            };\n            Facebook.register = function () {\n                var _this = this;\n                return this.loginWithFacebook()\n                    .then(function (response) {\n                    var authForm = _this.getAuthForm(response);\n                    return Social.Account.register(authForm, _this.socialProvider);\n                });\n            };\n            Facebook.link = function (userData) {\n                var _this = this;\n                return this.loginWithFacebook()\n                    .then(function (response) {\n                    var authForm = _this.getAuthForm(response);\n                    authForm.password = userData.password;\n                    return Social.Account.link(authForm, _this.socialProvider);\n                });\n            };\n            Facebook.connect = function (requestPermission) {\n                var _this = this;\n                if (requestPermission === void 0) { requestPermission = false; }\n                return this.loginWithFacebook(requestPermission)\n                    .then(function (response) {\n                    var authForm = _this.getAuthForm(response);\n                    return Social.Account.connect(authForm, _this.socialProvider);\n                });\n            };\n            Facebook.disconnect = function () {\n                return Social.Account.disconnect(this.socialProvider);\n            };\n            Facebook.initFacebookApi = function () {\n                var _this = this;\n                return new Promise(function (resolve, reject) {\n                    Channel.Social.Facebook\n                        .init({\n                        appId: Digicel.Social.facebookAppId,\n                        version: 'v2.7'\n                    })\n                        .then(function (response) {\n                        _this.facebook = new Channel.Social.Facebook();\n                        resolve({ success: true });\n                    })\n                        .catch(function (error) {\n                        reject(error);\n                    });\n                });\n            };\n            Facebook.socialProvider = Social.SocialMediaProviders.Facebook;\n            return Facebook;\n        }());\n        Social.Facebook = Facebook;\n    })(Social = Digicel.Social || (Digicel.Social = {}));\n})(Digicel || (Digicel = {}));\n//# sourceMappingURL=facebook.js.map",
+			"settings":
+			{
+				"buffer_size": 16932,
+				"line_ending": "Windows",
+				"name": "var Channel;"
 			}
 		},
 		{
 			"file": "views/submit.html",
 			"settings":
 			{
-				"buffer_size": 3001,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/stylesheets/stylesheet.css",
-			"settings":
-			{
-				"buffer_size": 42666,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "",
-			"settings":
-			{
-				"buffer_size": 0,
+				"buffer_size": 2942,
 				"line_ending": "Windows"
 			}
 		}
 	],
 	"build_system": "",
-	"build_system_choices":
-	[
-	],
-	"build_varint": "",
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -605,10 +597,7 @@
 	},
 	"console":
 	{
-		"height": 126.0,
-		"history":
-		[
-		]
+		"height": 126.0
 	},
 	"distraction_free":
 	{
@@ -619,84 +608,53 @@
 		"side_bar_visible": true,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah"
-	],
 	"file_history":
 	[
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips.js",
-		"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/lock_folder.bat",
-		"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/private.bat",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/jquery.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/disclaimer.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/connect.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/platform.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/terms.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/.gitignore",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/submit.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/friends.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/flames.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/perfectMatch.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/canvas.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/scripts.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/script.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/unfriended.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/application.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/game3.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/config/keys.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/server/index.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/server/package.json",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/emoji.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/facebook_registration_header.js",
-		"/E/scripts/script.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/home.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/velocity.html",
-		"/C/Users/Wantok/Downloads/Page Not Found.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/run.sh",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/config/passport.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/routes.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/config.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/client/public/javascripts/script.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/client/views/connect.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/client/views/home.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/client/views/velocity.html",
-		"/C/Users/Wantok/AppData/Local/Temp/Temp1_FaceMash-BJFU-master.zip/FaceMash-BJFU-master/data/user.sql",
-		"/C/xampp/htdocs/xampp/biorhythm.php",
-		"/C/Users/Wantok/WebstormProjects/node_modules/testem/assets/ieVersion.bat",
-		"/C/Users/Wantok/WebstormProjects/chatme-mobile/dojox/mobile/themes/utils/cleanup.bat",
-		"/C/Users/Wantok/WebstormProjects/node_modules/socket.io/node_modules/socket.io-parser/node_modules/benchmark/test/run-test.sh",
-		"/C/Users/Wantok/WebstormProjects/node_modules/pubnub/modern/tests/legacy/test.sh",
-		"/C/Users/Wantok/WebstormProjects/chatme-mobile/dojox/mobile/build/build.sh",
-		"/C/Users/Wantok/WebstormProjects/node_modules/node-gyp/gyp/gyp.bat",
-		"/C/Users/Wantok/WebstormProjects/node_modules/node-gyp/gyp/samples/samples.bat",
-		"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/simple_batch.bat",
-		"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/whatsapp_extract_text_message_console.bat",
-		"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/simple_bash.sh",
+		"/C/xampp/htdocs/xampp/.version",
+		"/C/Users/Wantok/WebstormProjects/chat/app/assets/images/loader.svg",
+		"/C/Users/Wantok/Documents/New folder/autorun.inf",
+		"/E/AUTORUN.INF",
+		"/J/Temp/.autorun.inf",
+		"/J/Temp/Computer Science/eBooks/Networking/CCNA_ 3.0/CCNA/CCNA1_v30/en_CCNA1_v30/javascript/buttons.js",
+		"/C/Users/Wantok/Documents/New folder/Brand/techsavvy-oeminfo.reg",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/connect.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/home.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/script.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips-model.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/photos.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/api.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/emoji.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/config/passport-setup.js",
+		"/C/xampp/htdocs/facemash/folder.bat",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/post.yaml",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
+		"/C/Users/Wantok/AppData/Local/Google/Chrome/User Data/Default/Extensions/iffdacemhfpnchinokehhnppllonacfj/6.4_0/js/libs/bootstrap-modal-master/bs3.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/javascript.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/scratchpad.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/disclaimer.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/index.ejs",
 		"/C/Users/Wantok/WebstormProjects/node_modules/node-notifier/vendor/snoreToast/SnoreToast.exe",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app.js",
 		"/C/Users/Wantok/WebstormProjects/chat/app/assets/home.svg",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
 		"/C/Users/Wantok/Documents/workspace/ChatMe/assets/ChatMe Setup.txt",
 		"/C/Users/Wantok/Documents/workspace/ChatMe/MongoDB.txt",
 		"/C/Users/Wantok/Documents/workspace/ChatMe/ChatMe App Structure.txt",
 		"/C/Users/Wantok/Documents/workspace/ChatMe/ChatMe.txt",
 		"/C/Users/Wantok/Documents/workspace/ChatMe/ReadMe.txt",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/post.yaml",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/Disclaimer.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app2.js",
 		"/C/Program Files/MongoDB/Server/3.2/bin/mongodb.config",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX79.536/faceclash-master/assets/js/faceclash.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/script.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/server.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/script.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/StuckWanYah.url",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/models/sweetlips.model.js",
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/models/sweetlips-model.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/config.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/photos.js",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX05.024/faceclash-master/assets/js/faceclash.js",
@@ -752,11 +710,38 @@
 		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/SettingsView.react.js",
 		"/C/Users/Admin/WebstormProjects/chat/app/views/user/profile.ejs",
 		"/C/Users/Admin/WebstormProjects/chat/app/views/settings.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.dom.js"
+		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.dom.js",
+		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/shared.js",
+		"/C/Users/Admin/WebstormProjects/chat/app/settings.html",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/components/pagelet_purplebar.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/server/routes/router.js",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/messages.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/test/src/index.js",
+		"/C/Users/Admin/WebstormProjects/chat/test/learn_react_2.html",
+		"/C/Users/Admin/WebstormProjects/chat/test/ajaxchat.html",
+		"/C/Users/Admin/WebstormProjects/chat/test/src/index.css",
+		"/C/Users/Admin/WebstormProjects/chat/test/learn_vue.js.html",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/index.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/user/profile.html",
+		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/vendor/jquery.form.min.js",
+		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/bd7cecb94f60b40acbdf-vendor.js",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/search.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/discover.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/server/routes/functions.js",
+		"/C/Users/Admin/WebstormProjects/chat/server/package.json",
+		"/C/Users/Admin/WebstormProjects/chat/ChatMe Technologies App stack.yaml",
+		"/C/Users/Admin/WebstormProjects/chat/server/app.js",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_scriptsF.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/components/global_container.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_emojiesH.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/about.ejs",
+		"/C/Users/Admin/WebstormProjects/chat/app/views/application.vash",
+		"/C/Users/Admin/WebstormProjects/chat/test/learn_backbone.js_3.html",
+		"/C/Users/Admin/WebstormProjects/chat/server/controllers/ChatController.js"
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -767,137 +752,68 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
-			"submitForm",
-			"submit",
-			"pagehit",
-			"page",
-			"data: ",
-			".post",
-			"res.",
-			"refers",
-			"checked",
-			"submitForm",
-			"validateForm",
-			"submitForm",
-			"onFo",
-			"submitForm",
-			"before",
-			"onFormSubmit",
+			"top10HottestFriends",
+			"session.gender",
+			"shim",
+			"uri",
+			"findOne",
+			"aggregate",
+			"player",
+			"com.chatme.android.",
+			"},{",
+			"Math.random(), Math.random()",
+			"expectedScore",
+			"!1",
+			" onclick=\"sh('",
+			"}",
+			"length",
+			"ENV_VAR",
+			"ratings",
+			"GLOBAL",
+			"CONFIG",
+			"vote_counts: 0,",
+			"},{",
+			"client",
+			"client_id",
+			"photo",
+			".api",
+			"api",
+			"log",
+			"herokuapp",
+			".",
 			": ",
 			" {",
+			"  ",
+			"config.",
+			"config",
+			"parse",
+			"handle",
+			"stuck",
+			"rank",
+			"populateSubmit",
+			"err{",
+			"id{",
+			"t{",
+			"function",
+			") {",
+			"gender",
+			"page",
+			"handle",
 			": ",
-			"    ",
-			"onFormSubmit",
-			"link",
-			"link:",
-			"image_url",
-			"image_id",
-			"processBlockUnblock",
-			"the StuckWanYah",
-			"Services",
-			"post",
-			"this",
-			"this.registerPageHit",
-			"onSubmitButtonClick",
-			"submitForm",
-			"submit",
-			"isLoggedIn",
-			"this.isLoggedIn",
-			"isLoggedIn",
-			"checkLoginStatus",
-			"user_pro",
-			"submitForm",
-			"getItemFromLocalStorage",
-			"getUserID",
-			"getCurrentUser",
-			"submit",
-			"sendMess",
-			"getUserID",
-			"getCurrentUser",
-			"getUserID",
-			"getItemFromLocalStorage",
-			"AccessToken",
-			"submitForm",
-			"onFor",
-			"send",
-			"submitForm",
-			"onFormSubmit",
-			"submitForm",
-			"onFormSubmit",
-			"submitForm",
-			"onFormSubmit",
-			"submitForm",
-			"validateForm",
-			"onFormSubmit",
-			"submitForm",
-			"validateForm",
-			"/api/v1",
-			"Api.Api",
-			"baseUrl",
-			"Creat",
-			"__",
-			"addtab",
-			"getItemFromLocalStorage",
-			"= FUN",
-			"onSubmitButtonClick",
-			"Api.url",
-			"DB",
-			": function",
-			"setDefaultData",
-			"url",
-			"goto:",
-			"xhr.readyState",
-			"ajaxRequest",
-			"xhr",
-			"step",
-			"functin",
-			"api",
-			"\t",
-			";",
-			"fullName",
-			"logged",
-			"login",
-			"val()",
-			"self.",
-			"self",
-			"help",
-			"confi",
-			"utils",
-			";",
-			"AjaxUI",
-			"base",
-			"baseurl",
-			"m.",
-			"Utils",
-			"jwplayer",
-			"Stuck",
-			"};",
-			"DOMAIN_NAME",
-			"_current",
-			"Beyoncé",
-			"getAuthForm",
-			"Social.Facebook",
-			"setting",
-			"scope",
-			"setting",
-			"facebookStatusCodes",
-			"Helper",
-			"processBlock",
-			"processB",
-			"block",
-			"crossorigin",
-			";",
-			");",
-			"public",
-			"/connect",
-			"client",
-			"appId",
-			"appI",
-			"loginbut",
-			"    "
+			"  ",
+			"counter",
+			"isValidPhoto",
+			", ",
+			": ",
+			"* ",
+			" {",
+			"; ",
+			": ",
+			"	",
+			"sub"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -915,43 +831,41 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
 					"file": "server.js",
-					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 73296,
+						"buffer_size": 73299,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1243,
-								1243
+								5786,
+								5786
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 144.0,
+						"translation.y": 2255.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
 					"file": "app/javascripts/script.js",
-					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 58688,
@@ -961,117 +875,54 @@
 						"selection":
 						[
 							[
-								19924,
-								19924
+								7954,
+								7954
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7965.0,
+						"translation.y": 3360.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
 					"file": "views/disclaimer.html",
-					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8125,
+						"buffer_size": 8127,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1870,
-								1870
+								7986,
+								7986
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 217.0,
+						"translation.y": 1917.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "views/submit.html",
-					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3001,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1692,
-								1692
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 232.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/stylesheets/stylesheet.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 42666,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2764,
-								2764
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 570.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
+						"buffer_size": 14486,
 						"regions":
 						{
 						},
@@ -1079,12 +930,40 @@
 						[
 							[
 								0,
-								0
+								14486
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"auto_name": "var email = null,",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6334.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"settings":
+					{
+						"buffer_size": 16932,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								439,
+								439
+							]
+						],
+						"settings":
+						{
+							"auto_name": "var Channel;",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -1092,7 +971,33 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "views/submit.html",
+					"settings":
+					{
+						"buffer_size": 2942,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1279,
+								1279
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
 					"type": "text"
 				}
 			]
@@ -1141,8 +1046,6 @@
 	{
 		"height": 100.0
 	},
-	"pinned_build_system": "",
-	"project": "StuckWanYahProject.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -1151,7 +1054,6 @@
 	"select_file":
 	{
 		"height": 0.0,
-		"last_filter": "",
 		"selected_items":
 		[
 		],
@@ -1160,36 +1062,19 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
 		"selected_items":
 		[
 			[
 				"",
-				"C:\\Users\\Wantok\\WebstormProjects\\hacking-cracking-tools\\HacknCrack.sublime-project"
+				"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project"
 			]
 		],
 		"width": 380.0
-	},
-	"select_symbol":
-	{
-		"height": 0.0,
-		"last_filter": "",
-		"selected_items":
-		[
-		],
-		"width": 0.0
-	},
-	"selected_group": 0,
-	"settings":
-	{
 	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 221.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-	}
+	"status_bar_visible": true
 }

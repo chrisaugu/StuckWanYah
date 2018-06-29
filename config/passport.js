@@ -16,14 +16,12 @@ module.exports = function(passport) {
 		done(null, user.id);
 	});
 
-
 	// used to deserialize the user
 	passport.deserializeUser(function(id, done) {
 		User.findById(id, function(err, user) {
 			done(err, user);
 		});
 	});
-
 
 	// code for login (use('local-login', new LocalStrategy))
 	// code for signup (use('local-signup', new LocalStrategy))
@@ -38,7 +36,6 @@ module.exports = function(passport) {
 		clientSecret: configAuth.facebook.clientSecret,
 		callbackURL: configAuth.facebook.callbackURL
 	}, 
-
 	// facebook will send back the token and profile
 	function(token, refreshToken, profile, done) {
 

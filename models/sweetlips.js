@@ -21,7 +21,6 @@ var SweetLipsSchema = new Schema({
     imageUrl: String,
     thumbUrl: String,
     profileUrl: String,
-    link: String,
     friends: [{
         type: Schema.ObjectId,
         ref: 'photos'
