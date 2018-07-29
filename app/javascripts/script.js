@@ -242,7 +242,7 @@ var Api = function() {
                     // receive response sent by Facebook 
                     if (fbRes.authResponse) {
                         // pass response to server 
-                        $.post(Api.getApiUrl() + '/auth/facebook/token', {
+                        $.post(Api.getApiUrl() + '/auth/facebook/login', {
                             authResponse: fbRes.authResponse
                         }).toPromise().then(function(response) {
                             // server receive response, query database and reply with response, sets response to localStorage 
@@ -254,8 +254,8 @@ var Api = function() {
                             }
                             resolve(response.json());
                         }).catch (function () {
-                            reject();
-                        })
+                            reject({ success: false, reason: "cancel" });
+                        });
                     } else {
                         reject({ success: false, reason: "cancel" });
                     }

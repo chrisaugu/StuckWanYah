@@ -753,21 +753,24 @@ router.get('/auth/facebook/callback',
  *
  * @method
  */
-router.post('/auth/facebook/token', passport.authenticate('facebook-token', {session: false}), function (req, res, next){
-    var access_token = req.query.access_token;
-    console.log("776: " + access_token);
-
-    if (!req.user) {
-        return res.send(req.session.c_user ? 200 : 401, 'User Not Authenticated');
-    }
-
-    // prepare token for API
-    req.auth = {
-        id: req.user.id
-    };
-    res.session.access_token = access_token;
-
-    next();
+router.post('/auth/facebook/token', 
+    passport.authenticate('facebook-token', {
+        session: false
+    }), function (req, res, next){
+        var access_token = req.query.access_token;
+        console.log("776: " + access_token);
+    
+        if (!req.user) {
+            return res.send(req.session.c_user ? 200 : 401, 'User Not Authenticated');
+        }
+    
+        // prepare token for API
+        req.auth = {
+            id: req.user.id
+        };
+        res.session.access_token = access_token;
+    
+        next();
 }, /*generateToken,*/ sendToken);
 
 /**
@@ -779,7 +782,7 @@ router.post('/auth/facebook/login', notLoggedIn, function (req, res) {
     var userId = req.query.authResponse.userId;
     var expires = req.query.authResponse.expiresIn;
 
-    Photos.findOne({ where: { 'facebookProvider.id': userId } }).then(function (err, user) {
+    Photos.findOne({ 'facebookProvider.id': userId }).then(function (err, user) {
         if (!user) {
             // creates new user from facebook
             getUserDetailsFromFacebook(userId);
