@@ -3,9 +3,9 @@
  * (c) 2018 Christian JF Augustyn
  * version: 1.0.0, updated: 2018-04-08.12:36:49
  */
-var current_page = document.location.pathname,
-    keyStrokeCount = 0,
-    xhr = null;
+var current_page = document.location.pathname;
+var keyStrokeCount = 0;
+var xhr = null;
 var photos = [];
 var friendslist = [];
 var initialized = false;
@@ -17,14 +17,15 @@ var facebookStatusCodes = {
     connected: "connected",
     not_authorized: "not_authorized"
 };
-
+var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
+var fields = 'id, full_name, first_name, last_name, age_range, age, birthday, picture, profile_pic, friendlist, friends';
 //"<img src=\"https://graph.facebook.com/" + user.facebookid + "/picture?type=square&height=200&width=200\" alt=\"userimg\" class=\"fbpic\">"
-  
+
 /**
  * StuckWanYah JavaScript
  */
-var Api = function() {
-    var b = function(b) {
+var Api = function () {
+    var b = function b(b) {
         this.url = b.url;
         this.data = b.data;
         this.type = b.type;
@@ -41,11 +42,11 @@ var Api = function() {
             }
         });
     },
-    d = function(cuid) {
+    d = function d(cuid) {
         var count_url = Api.getApiUrl() + '/photos?user_id=' + cuid;
         var xhr = new XMLHttpRequest();
         //make http request to endpoint
-        xhr.open('GET', count_url, true);
+        xhr.open('GET', cuid, true);
         xhr.onload = function (e) {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
@@ -55,12 +56,12 @@ var Api = function() {
                 }
             }
         };
-        xhr.onerror = function (e) {
+        xhr.onerror = function p(e) {
             console.error(xhr.statusText);
         };
         xhr.send(null);
     },
-    post = function(url, data, options, cb) {
+    post = function p(url, data, options, cb) {
         $.ajax({
             type: "POST",
             url: url,
@@ -87,7 +88,7 @@ var Api = function() {
             "API_URL": "https://stuckwanyah.herokuapp.com/api/v1",
             "FACEBOOK_APP_ID": "1791165357568831",
             "FACEBOOK_APP_URL": "https://apps.facebook.com/stuckwanyah",
-            "FACEBOOK_PAGE_URL": "https://apps.facebook.com/stuckwanyah"
+            "FACEBOOK_PAGE_URL": "https://www.facebook.com/stuckwanyah"
         },
         _hosts: {
             "stuckwanyah.herokuapp.com": "_production",
@@ -96,54 +97,58 @@ var Api = function() {
             "apps.facebook.com": "_production",
             "localhost": "_stage"
         },
-        _isPatched: function (a) {
+        _isPatched: function e(a) {
             return !/^%[^%]+%$/.test();
         },
-        _getProp: function (a) {
+        _getProp: function e(a) {
             return this._stage[a] && this._isPatched(this._stage[a]) ? this._production[a] : this._stage[a];
         },
-        _getHost: function (a) {
+        _getHost: function e(a) {
             return this._hosts[a];
         },
-        getBaseUrl: function () {
-            return this[this._getHost(this.getHostname(document))]["BASE_URL"];
-        },
-        getApiUrl: function () {
-            return this[this._getHost(this.getHostname(document))]["API_URL"];
-        },
-        url: function () {
-            return this.getBaseUrl();
-        },
-        getFacebookAppId: function () {
-            return this._production["FACEBOOK_APP_ID"];
-        },
-        getFacebookAppUrl: function () {
-            return this._production["FACEBOOK_APP_URL"];
-        },
-        getFacebookPageUrl: function () {
-            return this._production["FACEBOOK_PAGE_URL"];
-        },
-        getHostname: function (b) {
-            b = b || a.document;
+        _getHostname: function e(b) {
+            b = b || window.document;
             var c = b.domain;
             return /^www./.test(c) && (c = c.slice(4)), c;
         },
-        getTwoRandomImages: function () {
+        _getBaseUrl: function e() {
+            var i = window.location;
+            return this[this._getHost(this._getHostname(document))]["BASE_URL"], i.protocol + "//" + i.host
+        },
+        getApiUrl: function e() {
+            return this[this._getHost(this._getHostname(document))]["API_URL"];
+        },
+        url: function e() {
+            return this._getBaseUrl();
+        },
+        getFacebookAppId: function e() {
+            return this._production["FACEBOOK_APP_ID"];
+        },
+        getFacebookAppUrl: function e() {
+            return this._production["FACEBOOK_APP_URL"];
+        },
+        getFacebookPageUrl: function e() {
+            return this._production["FACEBOOK_PAGE_URL"];
+        },
+        getCurrentPage: function() {
+            return window.location.href.substring(Api._getBaseUrl().length)
+        },
+        getTwoRandomImages: function e() {
             return b({url: this.getApiUrl() + '/photos', data: {limit:2}, type:'GET'});
         },
-        getPhotoById: function (id) {
+        getPhotoById: function e(id) {
             return b(this.getApiUrl() + '/photos/' + id);
         },
-        displayPhoto: function (src) {
+        displayPhoto: function e(src) {
             return b(this.getApiUrl() + '/photos/' + src);
         },
-        getRankings: function () {
+        getRankings: function e() {
             return d(this.getApiUrl() + '/photos/top');
         },
-        getFriends: function () {
+        getFriends: function e() {
             return b( this.getApiUrl() + '/photos/me/friends' );
         },
-        getFriendsList: function () {
+        getFriendsList: function e() {
             return new Promise(function (resolve, reject) {
                 FB.api('/me/friends').then(function (result) {
                     resolve(result.json());
@@ -153,9 +158,9 @@ var Api = function() {
                 })
             });
         },
-        userFriendslist: function () {
+        userFriendslist: function e() {
             FB.api('/me','GET', {
-                fields: 'id, full_name, first_name, last_name, age_range, age, birthday, picture, profile_pic, friendlist, friends'
+                fields: fields
             }, function (response) {
                 if (response) {
                     for (var i=0; i<response.friends.length; i++) {
@@ -165,123 +170,138 @@ var Api = function() {
                 return response;
             });
         },
-        getAccessToken: function() {
-            return Utils.readItemFromLocalStorage('access_token');
+        getAccessToken: function e() {
+            return Utils.readItemFromLocalStorage('access_token') || 
+            (Utils.writeItemToLocalStorage('access_token', FB.getAccessToken()));
         },
-        checkLoginState: function () {
+        checkLoginState: function e() {
             Utils.log("checking login state...");
             return new Promise(function(resolve, reject){
+                // checking login status
                 FB.getLoginStatus(function (response) {
                     Utils.log("checked: " + response);
                     currentLoginStatus = response;
-                    this.statusChangeCallback(response);
-                    //resolve(response);
+                    Api.statusChangeCallback(response);
+                    resolve(response);
                 });
             });
         },
         statusChangeCallback: function(response) {
             Utils.log('statusChangeCallback');
             console.log(response);
-            var fbAccessToken = response.authResponse.accessToken;//response.getAccessToken();
+            var fbAccessToken = response.authResponse.accessToken;
             Utils.writeItemToLocalStorage("access_token", fbAccessToken);
-            var fbUser = response.authResponse.userID; //response.getUserID;
+            var fbUser = response.authResponse.userID;
             if (response.status) {
                 if (response.status === 'connected') {
                     console.log('Logged in as: ' + fbUser);
                     Utils.writeItemToLocalStorage("c_user_status", response.status);
                     // Logged into your app and Facebook.
-                    this.userDetailsFromFb();
+                    Api.userDetailsFromFb();
+                    var uid = response.authResponse.userID;
+                    var accessToken = response.authResponse.accessToken;
                 } else if (response.status === 'not_authorized' || response.status === 'unknown') {
+                    // alert('You are not authorized');
                     Utils.login();
                 } else {
                     console.log('Please log into this app.');
+                    window.top.location = "https://facebook.com";
                 }
             } else {
+                Utils.log("You're not logged in");
+                this.Api.login();
             }
         },
-        /* {
-            status: 'connected',
-            authResponse: {
-                accessToken: '...',
-                expiresIn:'...',
-                signedRequest:'...',
-                userID:'...'
-            }
-        } */
-        fblogin: function (resolve, reject) {
+        fblogin: function e() {
             var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
-            FB.login(function (response) {
-                // receive response sent by Facebook 
-                if (response.authResponse) {
-                    //FB.getLoginStatus(function() {
-                    this.checkLoginState().then(function(){
-                        if (response.authResponse === null) {
-                            setTimeout(function () {
-                                reject({ success: false, reason: "cancel" });
-                            }, 1000);
-                        }
-                        else {
-                            this.userDetailsFromFb().then(function(fbResponse){
-                                if (fbResponse) {
-                                    resolve({ success: true, authResponse: response.authResponse, userData: fbResponse });
-                                }
-                                reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
-                            })
-                        }
-                    });
-                } else {
-                    reject({ success: false, reason: "cancel" });
-                }
-            }, options );
-        },
-        login: function () {
-            var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
-            new Promise(function (resolve, reject) {
-                // Invoke Facebook login 
-                FB.login(function (fbRes) {
+            return new Promise(function (resolve, reject) {
+                FB.login(function (response) {
                     // receive response sent by Facebook 
-                    if (fbRes.authResponse) {
-                        // pass response to server 
-                        $.post(Api.getApiUrl() + '/auth/facebook/login', {
-                            authResponse: fbRes.authResponse
-                        }).toPromise().then(function(response) {
-                            // server receive response, query database and reply with response, sets response to localStorage 
-                            var token = response.headers.get ('x-auth-token');
-                            if (token) {
-                                Utils.writeItemToLocalStorage('c_user', response.headers.get('userId'));
-                                Utils.writeItemToLocalStorage('display_name', response.headers.get('userName'));
-                                Utils.writeItemToLocalStorage('access_token', token);
-                            }
-                            resolve(response.json());
-                        }).catch (function () {
-                            reject({ success: false, reason: "cancel" });
-                        });
+                    if (response.authResponse) {
+                        resolve(response);
                     } else {
                         reject({ success: false, reason: "cancel" });
                     }
-                }, {
-                    options
+                }, options );
+            });
+        },
+        login: function e() {
+            new Promise(function (resolve, reject) {
+                // Invoke Facebook login
+                Api.fblogin().then(function(fbRes) {
+                    // receive response sent by Facebook server
+                    if (fbRes.authResponse) {
+                        this.Api.checkLoginState().then(function(fbRes){
+                            if (fbRes.authResponse === null) {
+                                setTimeout(function(){
+                                    reject({ success: false, reason: "cancel" });
+                                }, 1000);
+                            }
+                            else {
+                                Api.userDetailsFromFb().then(function(fbResponse){
+                                    if (fbResponse) {
+                                        resolve({ success: true, authResponse: response.authResponse, userData: fbResponse });
+                                        // pass response to my server 
+                                        $.post(Api.getApiUrl() + '/auth/facebook/login', fbRes.authResponse).then(function(response) {
+                                            // server receive response, query database and reply with response, sets response to localStorage 
+                                            var token = response.headers.get ('x-auth-token');
+                                            if (token) {
+                                                Utils.writeItemToLocalStorage('c_user', response.headers.get('userId'));
+                                                Utils.writeItemToLocalStorage('display_name', response.headers.get('userName'));
+                                                Utils.writeItemToLocalStorage('access_token', token);
+                                            }
+                                            resolve(response);
+                                        }).catch (function () {
+                                            reject({ success: false, reason: "cancel" });
+                                        });
+                                    }
+                                    reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
+                                });
+                            }
+                        })
+                    } else {
+                        reject({ success: false, reason: "cancel" });
+                    }
                 });
             });
         },
-        logout: function () {
-            FB.logout(function(response) {
-                localStorage.removeItem('access_token');
-            });
-        },
-        getCurrentUser: function () {
-            return new Promise(function(resolve, reject) {
-                FB.getUserID(function(response){
-                    resolve(response);
+        logout: function e() {
+            try {
+                FB.getLoginStatus(function(response){
+                    if (response.status === facebookStatusCodes.connected) {
+                        FB.logout(function(response) {
+                            localStorage.removeItem('access_token');
+                        });
+                        // $.post(Api.getApiUrl() + '/auth/facebook/logout')
+                    } else {
+                        
+                    }
                 });
-            });
-            /*return new Promise(function (resolve, reject) {
-                $.get(Api.getApiUrl() + '/auth/me').toPromise().then(function (response) {
-                    resolve(response);
-                });
-            });*/
+            } catch (e) {
+                throw new Error("Error occured logging out.");
+            }
         },
-        getCurrentUserFromCookies: function (a) {
+        _setUserData: function e(store, obj) {
+            Utils.log(JSON.stringify(obj));
+            try {
+                return Utils.writeItemToLocalStorage(store, obj)
+            } catch (e) {
+                return new Error(e);
+            }
+        },
+        _getUserData: function e(key) {
+            return Utils.readItemFromLocalStorage(key);
+                // $.get(Api.getApiUrl() + '/auth/me').then(function (response) {
+                //     resolve(response);
+                // });
+        },
+        _getUserID: function e() {
+            return Utils.readItemFromLocalStorage("c_user") || (Api._setUserData("c_user", FB.getUserID()));
+        },
+        getCurrentUser: function e() {
+            return Api._getUserID();
+        },
+        getCurrentUserFromCookies: function e(a) {
             chrome.cookies.get({
                 url: 'https://facebook.com',
                 name: 'c_user'
@@ -291,32 +311,21 @@ var Api = function() {
                 }, 6000))  : a(b.value)
             });
         },
-        storeCurrentUser: function (store, obj) {
-            return new Promise(function (resolve, reject) {
-                Utils.log(JSON.stringify(obj));
-                Utils.store.set(store, JSON.stringify(obj));
-                resolve();
-            });
-        },
-        userDetailsFromFb: function () {
-            console.log('Welcome! Fetching your information.... ');
+        userDetailsFromFb: function e() {
+            Utils.log('Welcome! Fetching your information.... ');
             return new Promise(function (resolve) {
                 FB.api("/me", { fields: "name, email, permissions" }, function (response) {
                     console.log('Successful login for: ' + response.name);
-                    document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+                    // document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';                    
+                    // alert(response.name);
+                    //alert(response.id);
                     resolve(response);
                 });
             });
         },
-        isLoggedInAndisAuthenticated: function () {
+        isLoggedInAndIsAuthenticated: function e() {
             // TODO: Fix synchronous AJAX request, use async method instead
-            return new Promise(function (resolve, reject) {
-                Api.getCurrentUser().then(function (user) {
-                    resolve(true)
-                }).catch (function () {
-                    reject(false);
-                });
-            });
+            return Api.getCurrentUser() != undefined ? !0 : 0;
             /*var loggedIn = false;
             return $.ajax({
                 url: Api.getApiUrl() + '/auth/me',
@@ -326,7 +335,7 @@ var Api = function() {
                 success: function (json_data) {
                     loggedIn = json_data.data.logged_in;
                 },
-                fail: function (data) {
+                fail: function e(data) {
                     loggedIn = false;
                 }
             });
@@ -342,7 +351,7 @@ var Api = function() {
                         })
                     }*/
         },
-        postStoryOnFacebook: function (message, facebookid) {
+        postStoryOnFacebook: function e(message, facebookid) {
             return new Promise(function (resolve, reject) {
                 FB.api('/me/feed', 'post', {
                     message: 'Hello, world!' //message
@@ -365,7 +374,7 @@ var Api = function() {
                 }); 
             });
         },
-        shareOnFacebook: function (e) {
+        shareOnFacebook: function e(e) {
             return new Promise(function (resolve, reject) {
                 FB.ui({
                     method: 'share', 
@@ -382,32 +391,33 @@ var Api = function() {
             });
         },
         showMyName: function() {
-            Api.getCurrentUser();
+            return Utils.readItemFromLocalStorage("display_name");
         },
-        addtab: function () {
+        addtab: function e() {
             FB.ui({
                 method: 'pagetab',
                 redirect_uri: 'https://stuckwanyah.herokuapp.com/'
             }, function (response) {
             });
         },
-        showFbLoginButton: function () {
-            if (!Api.isLoggedIn()) {
-                $('<div id="#loginbutton"></div>')
-            } else if (Api.isLoggedIn()) {
+        showFbLoginButton: function e() {
+            if (Api.isLoggedInAndIsAuthenticated()) {
                 $('<div id="#logoutbutton"></div>');
+            } else {
+                $('<div id="#loginbutton"></div>');
             }
         }
     };
 }()
 , Utils = function () {
+    var _userData = typeof localStorage['userData'] == 'undefined' ? {} : JSON.parse(localStorage['userData']);
     return {
-        readItemFromLocalStorage: function (key) {
+        readItemFromLocalStorage: function e(key) {
             if (localStorage[key] !== undefined) {
                 return localStorage[key];
             }
         },
-        writeItemToLocalStorage: function (key, value) {
+        writeItemToLocalStorage: function e(key, value) {
             var dataKey = key,
             dataValue = JSON.stringify(value);
             try {
@@ -415,7 +425,59 @@ var Api = function() {
             } catch (e) {
             }
         },
-        log: function () {
+        getSetting: function(name, nullValue) {
+            if (typeof _userData[name] == 'undefined') {
+                _userData[name] = nullValue;
+            }
+            return _userData[name];
+        },
+        setSetting: function(name, val) {
+            _userData[name] = val;
+            localStorage['userData'] = JSON.stringify(_userData);
+        },
+        settings: {
+            set email(val) {
+                Utils.setSetting('email', val);
+            },
+            get email() {
+                return Utils.getSetting('email', null);
+            },
+            set userName(val) {
+                return Utils.setSetting('name', val);
+            },
+            get userName() {
+                return Utils.getSetting('name', null);
+            }
+        },
+        cookie: function(cname) {
+            var c, ca, i, name;
+            name = cname + '=';
+            ca = document.cookie.split(';');
+            i = 0;
+            while (i < ca.length) {
+                c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+                i++;
+            }
+            return '';
+        },
+        setCookie: function (e, t, i) { 
+            var o = ""; 
+            if (i) { 
+                var n = new Date; 
+                n.setTime(n.getTime() + 24 * i * 60 * 60 * 1e3), o = "; expires=" + n.toUTCString();
+            } 
+            document.cookie = e + "=" + (t || "") + o + "; path=/";
+        },
+        clearCookie: function (e) { 
+            document.cookie = e + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+        },
+        log: function e() {
             args = [];
             args.push('[StuckWanYah]: ');
             for (var i = 0; i < arguments.length; i++) {
@@ -423,7 +485,7 @@ var Api = function() {
             }
             console.log.apply(console, args);
         },
-        extend: function (a, b) {
+        extend: function e(a, b) {
             for (var c in b) void 0 === a[c] && (a[c] = b[c])
         },
         randomizePhotos: function(array) {
@@ -438,17 +500,17 @@ var Api = function() {
             }
             return rand;
         },
-        random: function (a, b) {
+        random: function e(a, b) {
             return Math.round(Math.random() * (b - a) + a)
         },
-        _random: function (a) {
+        _random: function e(a) {
             return a[Math.floor(Math.random() * a.length + 1)];
             //return Math.floor(Math.random() * a + 1);
         },
-        _slice: function (b) {
+        _slice: function e(b) {
             return b.toString().slice(1, - 5);
         },
-        _trim: function (s) {
+        _trim: function e(s) {
             if (!s || s == '') return '';
             while ((s.charAt(0) == ' ') || (s.charAt(0) == '\n') || (s.charAt(0, 1) == '\r')) s = s.substring(1, s.length);
             while ((s.charAt(s.length - 1) == ' ') || 
@@ -456,26 +518,26 @@ var Api = function() {
                    (s.charAt(s.length - 1) == '\r')) s = s.substring(0, s.length - 1);
             return s;
         },
-        _search: function (string, query) {
+        _search: function e(string, query) {
             return string.search(/.html/gi);
         },
-        _isMatch: function (string, query) {
+        _isMatch: function e(string, query) {
             var regx1 = /str1/gi;
             var regx2 = /str2/gi;
             if (string.match(regx2)) {
                 return !0;
             }
         },
-        _clean: function (string) {
+        _clean: function e(string) {
             return string.trim().replace(/\s+/g, ' '); // Remove leading/trailing whitespaces and multiple whitespaces
         },
-        _fancy: function (string) {
+        _fancy: function e(string) {
             return Utils._clean(string).replace(/\\/g, '');
         },
-        updateKeyStrokeCount: function () {
+        updateKeyStrokeCount: function e() {
             keyStrokeCount = keyStrokeCount + 1
         },
-        isValidPhoto: function (filename) {
+        isValidPhoto: function e(filename) {
             var extension = filename.replace(/^.*\./, ''); // Replace until we're left with the file extension
             if (filename == extension) {
                 extension = ''; // File has no extension, so it's blank
@@ -492,7 +554,7 @@ var Api = function() {
                     return false;
             }
         },
-        validateForm: function () {
+        validateForm: function e() {
             var m = $('textarea').eq(0);
             typeof m.val() ? m.val()  : null;
             if (m.val() == null) {
@@ -502,27 +564,27 @@ var Api = function() {
             }
             return 0;
         },
-        submitForm: function (e) {
-            console.log($(e.target).serialize())
-            var data = $(e.target).serialize();
+        submitForm: function e(e) {
+            console.log($(e.currentTarget).serialize())
+            var data = $(e.currentTarget).serialize();
             new Promise(function (resolve, reject) {
                 $.ajax({
-                    //url: "https://graph.facebook.com/v2.12/" + Api.getCurrentUser() + "/messages", //url: $(e.target).attr("action") + Api.getCurrentUser() + "/messages",
                     async: true,
                     crossDomain: true,
                     url: Api.getApiUrl() + "/dummy",
+                    //url: "https://graph.facebook.com/v2.12/" + Api.getCurrentUser() + "/messages", //url: $(e.target).attr("action") + Api.getCurrentUser() + "/messages",
                     global: false,
                     type: 'POST',
                     data: {
-                        access_token: Api.getAccessToken(),
-                        name: "kitten" 
+                        "access_token": Api.getAccessToken(),
+                        "name": "kitten" 
                     },
                     json: {
                         recipient: {
                             id: Api.getFacebookAppId()
                         },
                         sender: Api.getCurrentUser(),
-                        message: $(e.target).find("[name=message]").val()
+                        message: $(e.currentTarget).find("[name=message]").val()
                     },
                     beforeSend: function () {
                         Utils.validateForm();
@@ -547,34 +609,17 @@ var Api = function() {
             //$('.results').css('background', 'url(data:image/svg+xml;base64,PCEtLSBUaGlzIHZlcnNpb24gb2YgdGhlIHRocm9iYmVyIGlzIGdvb2QgZm9yIHNpemVzIGxlc3MgdGhhbiAyOHgyOGRwLAogICAgIHdoaWNoIGZvbGxvdyB0aGUgc3Ryb2tlIHRoaWNrbmVzcyBjYWxjdWxhdGlvbjogMyAtICgyOCAtIGRpYW1ldGVyKSAvIDE2IC0tPgo8c3ZnIHZlcnNpb249IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgICAgICAgICAgICAgICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgICB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDwhLS0gMTY9IFJBRElVUyoyICsgU1RST0tFV0lEVEggLS0+CgogIDx0aXRsZT5NYXRlcmlhbCBkZXNpZ24gY2lyY3VsYXIgYWN0aXZpdHkgc3Bpbm5lciB3aXRoIENTUzMgYW5pbWF0aW9uPC90aXRsZT4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgICAvKioqKioqKioqKioqKioqKioqKioqKioqKiovCiAgICAgIC8qIFNUWUxFUyBGT1IgVEhFIFNQSU5ORVIgKi8KICAgICAgLyoqKioqKioqKioqKioqKioqKioqKioqKioqLwoKICAgICAgLyoKICAgICAgICogQ29uc3RhbnRzOgogICAgICAgKiAgICAgIFJBRElVUyAgICAgID0gNi44NzUKICAgICAgICogICAgICBTVFJPS0VXSURUSCA9IDIuMjUKICAgICAgICogICAgICBBUkNTSVpFICAgICA9IDI3MCBkZWdyZWVzIChhbW91bnQgb2YgY2lyY2xlIHRoZSBhcmMgdGFrZXMgdXApCiAgICAgICAqICAgICAgQVJDVElNRSAgICAgPSAxMzMzbXMgKHRpbWUgaXQgdGFrZXMgdG8gZXhwYW5kIGFuZCBjb250cmFjdCBhcmMpCiAgICAgICAqICAgICAgQVJDU1RBUlRST1QgPSAyMTYgZGVncmVlcyAoaG93IG11Y2ggdGhlIHN0YXJ0IGxvY2F0aW9uIG9mIHRoZSBhcmMKICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNob3VsZCByb3RhdGUgZWFjaCB0aW1lLCAyMTYgZ2l2ZXMgdXMgYQogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgNSBwb2ludGVkIHN0YXIgc2hhcGUgKGl0J3MgMzYwLzUgKiAyKS4KICAgICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEZvciBhIDcgcG9pbnRlZCBzdGFyLCB3ZSBtaWdodCBkbwogICAgICAgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMzYwLzcgKiAzID0gMTU0LjI4NikKICAgICAgICoKICAgICAgICogICAgICBTSFJJTktfVElNRSA9IDQwMG1zCiAgICAgICAqLwoKICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgd2lkdGg6MTZweDsgIC8qIDIqUkFESVVTICsgU1RST0tFV0lEVEggKi8KICAgICAgICBoZWlnaHQ6MTZweDsgLyogMipSQURJVVMgKyBTVFJPS0VXSURUSCAqLwogICAgICB9CiAgICAgIC5xcC1jaXJjdWxhci1sb2FkZXItcGF0aCB7CiAgICAgICAgc3Ryb2tlLWRhc2hhcnJheTogMzIuNDsgIC8qIDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgKi8KICAgICAgICBzdHJva2UtZGFzaG9mZnNldDogMzIuNDsgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiBoaWRlcyB0aGluZ3MgaW5pdGlhbGx5ICovCiAgICAgIH0KCiAgICAgIC8qIFNWRyBlbGVtZW50cyBzZWVtIHRvIGhhdmUgYSBkaWZmZXJlbnQgZGVmYXVsdCBvcmlnaW4gKi8KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciwgLnFwLWNpcmN1bGFyLWxvYWRlciAqIHsKICAgICAgICB0cmFuc2Zvcm0tb3JpZ2luOiA1MCUgNTAlOwogICAgICB9CgogICAgICAvKiBSb3RhdGluZyB0aGUgd2hvbGUgdGhpbmcgKi8KICAgICAgQGtleWZyYW1lcyByb3RhdGUgewogICAgICAgIGZyb20ge3RyYW5zZm9ybTogcm90YXRlKDBkZWcpO30KICAgICAgICB0byB7dHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTt9CiAgICAgIH0KICAgICAgLnFwLWNpcmN1bGFyLWxvYWRlciB7CiAgICAgICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAxNTY4LjYzbXM7IC8qIDM2MCAqIEFSQ1RJTUUgLyAoQVJDU1RBUlRST1QgKyAoMzYwLUFSQ1NJWkUpKSAqLwogICAgICAgIGFuaW1hdGlvbi1pdGVyYXRpb24tY291bnQ6IGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiByb3RhdGU7CiAgICAgICAgYW5pbWF0aW9uLXRpbWluZy1mdW5jdGlvbjogbGluZWFyOwogICAgICB9CgogICAgICAvKiBGaWxsaW5nIGFuZCB1bmZpbGxpbmcgdGhlIGFyYyAqLwogICAgICBAa2V5ZnJhbWVzIGZpbGx1bmZpbGwgewogICAgICAgIGZyb20gewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDMyLjMgLyogMipSQURJVVMqUEkgKiBBUkNTSVpFLzM2MCAtIDAuMSAqLwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC4xIGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgICA1MCUgewogICAgICAgICAgc3Ryb2tlLWRhc2hvZmZzZXQ6IDA7CiAgICAgICAgfQogICAgICAgIHRvIHsKICAgICAgICAgIHN0cm9rZS1kYXNob2Zmc2V0OiAtMzEuOSAvKiAtKDIqUkFESVVTKlBJICogQVJDU0laRS8zNjAgLSAwLjUpICovCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogMC41IGEgYml0IG9mIGEgbWFnaWMgY29uc3RhbnQgaGVyZSAqLwogICAgICAgIH0KICAgICAgfQogICAgICBAa2V5ZnJhbWVzIHJvdCB7CiAgICAgICAgZnJvbSB7CiAgICAgICAgICB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgdHJhbnNmb3JtOiByb3RhdGUoLTM2MGRlZyk7CiAgICAgICAgfQogICAgICB9CiAgICAgIEBrZXlmcmFtZXMgY29sb3JzIHsKICAgICAgICBmcm9tIHsKICAgICAgICAgIHN0cm9rZTogIzQyODVmNDsKICAgICAgICB9CiAgICAgICAgdG8gewogICAgICAgICAgc3Ryb2tlOiAjNDI4NWY0OwogICAgICAgIH0KICAgICAgfQogICAgICAucXAtY2lyY3VsYXItbG9hZGVyLXBhdGggewogICAgICAgIGFuaW1hdGlvbi1kdXJhdGlvbjogMTMzM21zLCA1MzMybXMsIDUzMzJtczsgLyogQVJDVElNRSwgNCpBUkNUSU1FLCA0KkFSQ1RJTUUgKi8KICAgICAgICBhbmltYXRpb24tZmlsbC1tb2RlOiBmb3J3YXJkczsKICAgICAgICBhbmltYXRpb24taXRlcmF0aW9uLWNvdW50OiBpbmZpbml0ZSwgaW5maW5pdGUsIGluZmluaXRlOwogICAgICAgIGFuaW1hdGlvbi1uYW1lOiBmaWxsdW5maWxsLCByb3QsIGNvbG9yczsKICAgICAgICBhbmltYXRpb24tcGxheS1zdGF0ZTogcnVubmluZywgcnVubmluZywgcnVubmluZzsKICAgICAgICBhbmltYXRpb24tdGltaW5nLWZ1bmN0aW9uOiBjdWJpYy1iZXppZXIoMC40LCAwLjAsIDAuMiwgMSksIHN0ZXBzKDQpLCBsaW5lYXI7CiAgICAgIH0KCiAgPC9zdHlsZT4KCiAgPCEtLSAyLjI1PSBTVFJPS0VXSURUSCAtLT4KICA8IS0tIDggPSBSQURJVVMgKyBTVFJPS0VXSURUSC8yIC0tPgogIDwhLS0gNi44NzU9IFJBRElVUyAtLT4KICA8IS0tIDEuMTI1PSAgU1RST0tFV0lEVEgvMiAtLT4KICA8ZyBjbGFzcz0icXAtY2lyY3VsYXItbG9hZGVyIj4KICAgIDxwYXRoIGNsYXNzPSJxcC1jaXJjdWxhci1sb2FkZXItcGF0aCIgZmlsbD0ibm9uZSIgCiAgICAgICAgICBkPSJNIDgsMS4xMjUgQSA2Ljg3NSw2Ljg3NSAwIDEgMSAxLjEyNSw4IiBzdHJva2Utd2lkdGg9IjIuMjUiCiAgICAgICAgICBzdHJva2UtbGluZWNhcD0icm91bmQiPjwvcGF0aD4KICA8L2c+Cjwvc3ZnPgo=)').css('padding', '1px 8px');
             //return true;
         },
-        dummy: function (text, callback) {
+        dummy: function e(text, callback) {
             callback(text);
             //text.map(callback);
         },
-        cookie: function(cname) {
-            var c, ca, i, name;
-            name = cname + '=';
-            ca = document.cookie.split(';');
-            i = 0;
-            while (i < ca.length) {
-                c = ca[i];
-                while (c.charAt(0) === ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) === 0) {
-                    return c.substring(name.length, c.length);
-                }
-                i++;
-            }
-            return '';
-        },
-        getByID: function (id) {
+        getByID: function e(id) {
             return document.getElementById(id);
         },
-        getByClass: function (className) {
+        getByClass: function e(className) {
             return document.getElementsByClassName(className);
         },
-        hasImageExntesion: function (email) {
+        hasImageExntesion: function e(email) {
             try {
                 return (/\.(gif|jpg|jpeg|tiff|png)$/i).test(email)
             } catch (e) {
@@ -582,7 +627,7 @@ var Api = function() {
             }
             return false;
         },
-        requestPromise: function (type, url, data, callback) {
+        requestPromise: function e(type, url, data, callback) {
             $.ajax({
                 async: true,
                 crossDomain: true,
@@ -592,7 +637,7 @@ var Api = function() {
                 success: callback,
             })
         },
-        makeRequest: function (url, data, callback) {
+        makeRequest: function e(url, data, callback) {
             return new Promise(function (resolve, reject) {
                 $.ajax({
                     async: true,
@@ -608,54 +653,21 @@ var Api = function() {
                 });
             });
         },
-        selectedContent: function () {
-            document.getElementsByClassName('code')[0].addEventListener('click', function (e) {
-                //var range = document.createRange();
-                //range.selectNode(document.getElementsByClassName(e.target.className));
-                //window.getSelection().addRange(range);
-                window.getSelection().addRange(document.createRange().selectNode(document.getElementsByClassName(e.target.className)));
+        sh: function() {
+            var pageName = Api.getCurrentPage().slice(1);
+            $.ajax({
+                async: true,
+                crossDomain: true,
+                url: Api.getApiUrl() + '/hits',
+                type: 'put',
+                data: {page: pageName}
+            }).then(function (error, response, body) {
+                console.log(response);
             });
-        },
-        copy: function (value) {
-            var selElement, selRange, selection;
-            selElement = document.createElement("span");
-            selRange = document.createRange();
-            selElement.innerText = value;
-            document.body.appendChild(selElement);
-            selRange.selectNodeContents(selElement);
-            selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(selRange);
-            document.execCommand("Copy");
-            document.body.removeChild(selElement);
-        },
-        isEmpty: function(data) {
-            return (data == undefined || data == "");
-        },
-        parseJsonStr: function(str) {
-            try {
-                return JSON.parse(str);
-            } catch (e) {}
-        },
-        getDateFormat: function(timestamp) {
-            try {
-                var date = new Date(parseInt(timestamp));
-                var month = current.getMonthName(date);
-                return month + " " + date.getFullYear();
-            } catch (e) {}
-            return "";
-        },
-        getMonthName: function(d) {
-            try {
-                var monthNames = ["January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ];
-                return monthNames[d.getMonth()];
-            } catch (e) {}
         }
     };
 }()
-, App = function() {
+, App = function () {
     var current,name,version = '';
     function a() {
     }
@@ -681,38 +693,36 @@ var Api = function() {
         c.send()
     }
     return {
-        init: function () {
+        init: function e() {
             name = "StuckWanYah";
             version = "v1.0.0";
             current = App;
             this.initFacebookApi();
-            this.setDefaultData();
+            // this.setDefaultData();
             this.initPageEventListener();
             this.initClickEventListener();
         },
-        setDefaultData: function () {
-            $('[name=name]').val(Utils.readItemFromLocalStorage('display_name'));
-            $('[name=sender]').val(Utils.readItemFromLocalStorage('c_user'));
-            /*var stored = Utils.readItemFromLocalStorage(key);
-            if (stored === undefined) {
-                Utils.writeItemToLocalStorage(key, value);
-                return value;
+        setDefaultData: function() {
+            // oh lord, please bless sister nancy with the wisdom of do not get people near heart attacks
+            return Api._setUserData("", "");
+        },
+        initFacebookApi: function e() {
+            if (!initialized) {
+                FB.init({
+                    appId: Api._production["FACEBOOK_APP_ID"].toString(),
+                    cookie: true,
+                    xfbml: true,
+                    status: true,
+                    version: 'v2.10'
+                });
+                initialized = true;
+                Api.checkLoginState();
+                return;
             } else {
-                return stored;
-            }*/
+                Utils.log("FB SDK already initialized");
+            }
         },
-        initFacebookApi: function () {
-            FB.init({
-              appId: Api._production.FACEBOOK_APP_ID.toString(),
-              cookie: true,
-              xfbml: true,
-              status: true,
-              version: 'v2.10'
-            });
-            initialized = true;
-            Api.checkLoginState();
-        },
-        initClickEventListener: function () {
+        initClickEventListener: function e() {
             $('body')
             .on('click', 'a', function (e) {
                 if (Utils._search(e.target.href) === '/.html$/gi') {
@@ -745,19 +755,21 @@ var Api = function() {
                 App.renderRankList(params);
             })
             .on('submit', 'form, [type=submit]', function (e) {
-                e.preventDefault && e.preventDefault(); // No need to do anything else, on click for .button already takes care of things
-                App.onSubmitButtonClick();
-                Utils.submitForm(e);
+                if ($(e.currentTarget).attr("data-action") === "submitForm") {
+                    e.preventDefault && e.preventDefault(); // No need to do anything else, on click for .button already takes care of things
+                    App.onSubmitButtonClick();
+                    Utils.submitForm(e);
+                }
             })
-            .on('click', '#addtabbutton', function() {Api.addtab()})
-            .on('click', '#loginbutton', function() {Api.login()})
-            .on('click', '#logoutbutton', function() {Api.logout()})
-            .on('click', '#showMyName', function () {Api.getMyName()})
-            .on('click', '#postToFacebook', function() {Api.postToFacebook()})
+            .on('click', '#addtabbutton', function c() {Api.addtab()})
+            .on('click', '#loginbutton', function c() {Api.login()})
+            .on('click', '#logoutbutton', function c() {Api.logout()})
+            .on('click', '#showMyName', function c() {Api.getMyName()})
+            .on('click', '#postToFacebook', function c() {Api.postToFacebook()})
 
             $('#loginbutton, #feedbutton').removeAttr('disable');
         },
-        initPageEventListener: function () {
+        initPageEventListener: function e() {
             if (initialized) {
                 FB.AppEvents.logPageView();
             }  
@@ -791,25 +803,23 @@ var Api = function() {
                     break;
             }
         },
-        onSubmitButtonClick: function () {
+        onSubmitButtonClick: function e() {
             $('#kval').val(keyStrokeCount);
             var start = 200;
             var a = new Date() - start;
             $('#loadtime').val(a);
             return;
         },
-        registerPageHit: function (pageName) {
+        registerPageHit: function e(pageName) {
             $.ajax({
                 async: true,
                 crossDomain: true,
                 url: Api.getApiUrl() + '/hits',
                 type: 'PUT',
-                data: {
-                    page: pageName
-                }
+                data: {page: pageName}
             })
         },
-        renderTwoPhotos: function () {
+        renderTwoPhotos: function e() {
             Api.getImages({
                 data: {
                     gender: '',
@@ -818,7 +828,7 @@ var Api = function() {
                 }
             }, function (photos) {
                 $.each(photos, function (i, photo) {
-                    $('#photos [name=contenderId]').eq(i).attr('value', photo.user_id);
+                    $('#photos [name=profileid]').eq(i).attr('value', photo.user_id);
                     $('#photos input:image').eq(i).attr('src', photo.image_url);
                     $('#ratings .ratings').eq(i).html(photo.ratings);
                     $('#wins .winings').eq(i).html(photo.wins);
@@ -828,14 +838,14 @@ var Api = function() {
                 });
             });
         },
-        renderImages: function () {
+        renderImages: function e() {
             try {
                 App.getImages();
             } catch (e) {
                 console.log(e);
             }
         },
-        getImages: function () {
+        getImages: function e() {
             $.ajax({
                 url: Api.getApiUrl() + '/photos',
                 type: 'GET',
@@ -849,7 +859,7 @@ var Api = function() {
                 console.log(err);
             });
         },
-        appendImages: function (photo) {
+        appendImages: function e(photo) {
             if (data.data.length < 2) {
                 $('#main-display').html('<p>There aren\'t enough players of this gender currently. You could help <a href=\'#submit\'>change that</a>.</p>');
                 return;
@@ -864,14 +874,14 @@ var Api = function() {
             $('#player-two').attr('src', Api.getApiUrl() + '/photo.php?id=' + id).attr('data-id', id);
             $display.fadeIn(600);
         },
-        renderFriendsList: function () {
+        renderFriendsList: function e() {
             try {
                 App.getFriendsList();
             } catch (e) {
                 console.log(e);
             }
         },
-        getFriendsList: function () {
+        getFriendsList: function e() {
             try {
                 if ($('#photos').is(':empty')) {
                     $.ajax({
@@ -887,7 +897,7 @@ var Api = function() {
                 console.error(e);
             }
         },
-        appendFriendsList: function (response) {
+        appendFriendsList: function e(response) {
             /*try {
                 if (typeof response != "undefined") {
                     if (typeof response.friendslist != "undefined") {
@@ -919,21 +929,20 @@ var Api = function() {
             output += '<tr>';
             output += '<td class="photos" style="width: 902px;">';
             $.each(response, function (i, item) {
-                output += '<a href="' + item.profileUrl + '" data-fb-id="' + item.imageId + '">';
+                output += '<a href="' + item.profileUrl + '" data-profileid="' + item.facebookHandle.id + '">';
                 output += '<img class="photo" src="/photos/' + item.picture + '" style="width:70px!important">';
-                //output += '<img class=\"photo\" src\"https://graph.facebook.com/\"' + item.imageId + "/picture?type=small\""; //https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32
+                //output += '<img class=\"photo\" src=\"https://graph.facebook.com/' + item.facebookHandle.id + '/picture?type=small\">'; //https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32
                 output += '</a>';
             });
             output += '</td>';
             output += '</tr>';
             $('#photos').html(output);
         },
-        renderRankList: function () {
+        renderRankList: function e() {
             App.getRankList();
         },
-        getRankList: function (rankingField) {
-            console.log(rankingField);
-            //var postVarBuilder = 'function=getPhoneContactPhotos&phone_num_clean=' + phoneNumClean + '&phone_num_full=' + encodeURIComponent(phoneNumFull);
+        getRankList: function e(rankingField) {
+            //encodeURIComponent
             /*try {
                 if ($('#rankings').is(':empty')) {
                     $.ajax({
@@ -956,10 +965,11 @@ var Api = function() {
                     url: Api.getApiUrl() + '/photos/top',
                     global: false,
                     type: 'GET',
-                    //data: rankingField,
+                    data: rankingField,
                     //data: {"gender": },
                     dataType: 'json',
                     success: function (reply_server, textStatus, jqXHR) {
+                        if (textStatus) {}
                         App.appendRankList(reply_server);
                     }
                 });
@@ -967,13 +977,13 @@ var Api = function() {
                 console.log(e);
             }
         },
-        appendRankList: function (response) {
+        appendRankList: function e(response) {
             try {
                 var output = $('');
-                //var imgEl = $('<img class=\'photo\' src=\'/photos/' + item.imageUrl + '\' data-fb-id=\'' + item.imageId + '" width=\'180\'> ');
+                //var imgEl = $('<img class=\'photo\' src=\'/photos/' + item.imageUrl + '\' data-profileid=\'' + item.imageId + '" width=\'180\'> ');
                 $.each(response, function (i, item) {
                     output += '<tr align="center"><td><a href="' + item.profileUrl + '">';
-                    output += '<img class=\'photo\' src=\'/photos/' + item.picture + '\' data-fb-id="' + item.imageId + '" width=\'180\'>';
+                    output += '<img class=\'photo\' src=\'/photos/' + item.picture + '\' data-profileid="' + item.imageId + '" width=\'180\'>';
                     output += '</a></td><td></td><td>';
                     output += item.ratings;
                     output += '</td><td></td></tr>';
@@ -983,7 +993,7 @@ var Api = function() {
                 console.log(e);
             }
         },
-        show_top_ranked_photo: function () {
+        show_top_ranked_photo: function e() {
             var postVarBuilder = `limit=${1}`;
             try {
                 $.ajax({
@@ -1016,7 +1026,7 @@ var Api = function() {
                 throw new Error(e);
             }
         },
-        show_share_post_card: function () {
+        show_share_post_card: function e() {
             try {
                 $.ajax({
                     url: `${ Api.getApiUrl() }/photos/top/share`,
@@ -1053,7 +1063,7 @@ var Api = function() {
             } catch (e) {
             }
         },
-        show_post_card: function () {
+        show_post_card: function e() {
             try {
                 $.ajax({
                     url: `${ Api.getApiUrl() }/photos/top/share`,
@@ -1100,7 +1110,6 @@ var Api = function() {
         }
     }
 }();
-
 function ajaxRequest(data, url, callback) {
     var data = JSON.stringify({
         'setting_type': 'call_to_actions',
@@ -1186,32 +1195,6 @@ function change_myselect1() {
         txt += '</table>';
         document.getElementById('demo').innerHTML = txt;
     });
-};
-
-var _userData = typeof localStorage['userData'] == 'undefined' ? {} : JSON.parse(localStorage['userData']);
-function getSetting(name, nullValue) {
-    if (typeof _userData[name] == 'undefined') {
-        _userData[name] = nullValue;
-    }
-    return _userData[name];
-}
-function setSetting(name, val) {
-    _userData[name] = val;
-    localStorage['userData'] = JSON.stringify(_userData);
-}
-var settings = {
-    set email(val) {
-        setSetting('email', val);
-    },
-    get email() {
-        return getSetting('email', null);
-    },
-    set userName(val) {
-        return setSetting('name', val);
-    },
-    get userName() {
-        return getSetting('name', null);
-    }
 };
 var isBigEnough = function (age) {
     var min = 13,
@@ -1317,7 +1300,7 @@ function sortListDir() {
             // Start by saying there should be no switching:
             shouldSwitch = false;
             /* Check if the next item should switch place with the current item,
-                based on the sorting direction (asc or desc): */
+                based on the sorting direction e(asc or desc): */
             if (dir == 'asc') {
                 if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
                     /* If next item is alphabetically lower than current item,
@@ -1392,17 +1375,6 @@ function getProfileId(a, b, c) {
         (f = b.indexOf(a, e)) > -1;) g.push(f), e = f + d;
     return g;
 };
-function sh(pageName) {
-    $.ajax({
-        async: true,
-        crossDomain: true,
-        url: Api.getApiUrl() + '/hits',
-        type: 'PUT',
-        data: {page: pageName}
-    }, function (error, response, body) {
-        console.log(response);
-    });
-};
 function search_emoji(a) {
     var b = $("body").text().search(a);
     console.log(b);
@@ -1418,3 +1390,79 @@ function unixtime() {
     timeNow = (new Date()).getTime();
     return (timeNow - lastCheck > 60 * 30 * 1000);
 };
+
+function generate_random_wifi_token() {
+    // the wifi token rule is 
+    // 6 codes consist of letters and numbers capitalized
+    // code should atleast have 
+    // 1 number rest is letter
+    // 2 letter rest is number
+    // check the frequency of the numbers and letters
+    var token = [];
+    var ticket = ["5GPGMN","NG1822","HMQ6DN","5D43G8"];
+    var ipaddress = ["192.168.1.237","192.168.2.38"];
+    var url = [];
+
+    var alpha = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+    var num = ["1","2","3","4","5","6","7","8","9","0"];
+    var pool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    for (var i=0; i<6; i++) {
+        var temp, temp1, temp2;
+        token[i] = pool[Math.floor(Math.random() * pool.length)];
+        if (token.contains == "2" && token.indexOf("2").length ) {}
+        if (token.search()) {}
+        token.toString().replace(",","");
+    }
+
+    return token;
+
+    token = "f"+(Math.random()*(1<<81)).toString(24).replace(".","");
+    // for (var i = 0; i < token.length; i++) {
+        //a(token[i])
+    // }
+
+    var data = new FormData();
+    data.append("url", "");
+    data.append("ip", "192.168.2.38");
+    data.append("code", "5GPGMN");
+
+    var settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "https://hotspot.dwu.ac.pg/",
+      "method": "POST",
+      "headers": {},
+      "processData": false,
+      "contentType": false,
+      "mimeType": "multipart/form-data",
+      "data": form
+    }
+    
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+    });
+
+    function a(i) {
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.overrideMimeType = "multipart/form-data";
+        xhr.onreadystatechange = function() {
+            if ((this.readyState == 4 || xhr.readyState === 4) && (this.status == 200 || xhr.status === 200)) {
+                var r = xhr.responseText;
+                var allrh = this.getAllResponseHeaders();
+                var h = this.getResponseHeader("Last-Modified");
+                //document.getElementById("demo").innerHTML = this.responseText;
+                console.log(this.responseText);
+            }
+        };
+        // searches response for "exceeded its data limit"
+        // searches response for "not valid"
+        var reg = new RegExp("not valid");
+        xhr.open("POST", "https://hotspot.dwu.ac.pg/");
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded"); //"Access-Control-Allow-Origin",
+        //xhr.setRequestHeader("token", "ea22b142-f72d-9ea3-95e2-914fcc4c0702");
+        xhr.send("?url=&ip=" + ipaddress[0] + "&code=" + ticket[0]);
+        //xhr.send(data);
+    }
+}

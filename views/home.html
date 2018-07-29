@@ -12,7 +12,7 @@
 	<script src="//connect.facebook.net/en_US/sdk.js"></script>
 
 </head>
-<body>
+<body itemscope itemtype="http://schema.org/WebPage">
 <main id="main">
 
 	<h1>StuckWanYah</h1>
@@ -23,36 +23,36 @@
 			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
 			<h2>Who's hotter? Click to choose</h2>
 
-				<table>
-					<tr id="photos">
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].facebookId %>"><img class="img" src="/photos/<%= images[0].picture %>"></a></td>
+				<table itemprop="mainEntity" itemscope itemtype="http://schema.org/Book">
+					<tr id="photos" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].facebookId %>"><img class="img" itemprop="image" src="/photos/<%= images[0].picture %>"></a></td>
 						<td id="OR" width="55" align="center"><a href="tie?player1=<%= images[0].imageId %>&player2=<%= images[1].imageId %>" style="text-decoration:none;"><b>OR</b></a></td>
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].facebookId %>"><img class="img" src="/photos/<%= images[1].picture %>"></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].facebookId %>"><img class="img" itemprop="image" src="/photos/<%= images[1].picture %>"></a></td>
 					</tr>
-					<tr align="center">
-						<td><%= images[0].name %></td>
+					<tr align="center" itemprop="names" itemscope itemtype="http://schema.org/Person">
+						<td itemprop="name"><%= images[0].name %></td>
 						<td></td>
-						<td><%= images[1].name %></td>
+						<td itemprop="name"><%= images[1].name %></td>
 					</tr>
-					<tr id="ratings" align="left">
-						<td><b>Ratings:</b> <%= images[0].ratings %></td>
+					<tr id="ratings" align="left" itemprop="ratings" itemscope itemtype="http://schema.org/Ratings">
+						<td itemprop="imageRatings"><b>Ratings:</b> <%= images[0].ratings %></td>
 						<td></td>
-						<td><b>Ratings:</b> <%= images[1].ratings %></td>
+						<td itemprop="imageRatings"><b>Ratings:</b> <%= images[1].ratings %></td>
 					</tr>
-					<tr id="wins" align="left">
-						<td><b>Wins:</b> <%= images[0].wins %>, <b>Losses: </b><%= images[0].losses %>, <b>Draws: </b><%= images[0].draws %></td>
+					<tr id="wins" align="left" itemprop="points" itemscope itemtype="http://schema.org/Points">
+						<td itemprop="imagePoints"><b>Wins:</b> <%= images[0].wins %>, <b>Losses: </b><%= images[0].losses %>, <b>Draws: </b><%= images[0].draws %></td>
 						<td></td>
-						<td><b>Wins:</b> <%= images[1].wins %>, <b>Losses: </b><%= images[1].losses %>, <b>Draws: </b><%= images[1].draws %> </td>
+						<td itemprop="imagePoints"><b>Wins:</b> <%= images[1].wins %>, <b>Losses: </b><%= images[1].losses %>, <b>Draws: </b><%= images[1].draws %> </td>
 					</tr>
-					<tr id="scores" align="left">
-						<td><b>Score:</b> <%= images[0].score %> </td>
+					<tr id="scores" align="left" itemprop="scores" itemscope itemtype="http://schema.org/Score">
+						<td itemprop="imageScores"><b>Score:</b> <%= images[0].score %> </td>
 						<td></td>
-						<td><b>Score:</b> <%= images[1].score %> </td>
+						<td itemprop="imageScores"><b>Score:</b> <%= images[1].score %> </td>
 					</tr>
-					<tr id="expectations" align="left">
-						<td><b>Expected:</b> <%= expected(images[1].ratings, images[0].ratings) %> </td>
+					<tr id="expectations" align="left" itemprop="ratings" itemscope itemtype="http://schema.org/Ratings">
+						<td itemprop="imageRatings"><b>Expected:</b> <%= expected(images[1].ratings, images[0].ratings) %> </td>
 						<td></td>
-						<td><b>Expected:</b> <%= expected(images[0].ratings, images[1].ratings) %> </td>
+						<td itemprop="imageRatings"><b>Expected:</b> <%= expected(images[0].ratings, images[1].ratings) %> </td>
 					</tr>
 				</table>
 
@@ -81,7 +81,7 @@
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
 				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
-				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun.</span></p>
+				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
 			</div>
 
 			<%#

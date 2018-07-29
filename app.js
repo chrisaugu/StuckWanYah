@@ -4,9 +4,9 @@ var request = require("request");
 module.exports = function(app) {
 
 	/** Server index page */
-	app.get("/", function (req, res) {
-    	res.send("Deployed!");
-	});
+	//app.get("/", function (req, res) {
+    //	res.send("Deployed!");
+	//});
 
 	/**
 	 * GET /webhook
@@ -89,4 +89,5 @@ module.exports = function(app) {
 			}
 		});
 	}
+	
 }

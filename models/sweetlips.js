@@ -25,14 +25,14 @@ var SweetLipsSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'photos'
     }],
-    facebookProvider: {
+    facebookHandle: {
         instantGameId: String,
         id: String,
         token: String,
         friends: [],
         selected: false
     },
-    instagramProvider: {
+    instagramHandle: {
         type: {
             id: String,
             token: String
@@ -69,7 +69,7 @@ SweetLipsSchema.statics.findOrCreate = function (id, options, callback) {
 
 SweetLipsSchema.statics.upsertFbUser = function (accessToken, refreshToken, profile, callback) {
     const $this = this;
-    return Photos.findOne({'facebookProvider.id': profile.id}).then((player) => {
+    return Photos.findOne({'facebookHandle.id': profile.id}).then((player) => {
         if (player) {
             return callback(null, player);
         } else {
@@ -83,7 +83,7 @@ SweetLipsSchema.statics.upsertFbUser = function (accessToken, refreshToken, prof
                 picture: profile.picture,
                 image_url: profile.picture, // profile.picture.data.url
                 link: profile.profileUrl,
-                facebookProvider: {
+                facebookHandle: {
                     id: profile.id,
                     token: accessToken,
                     friends: [
@@ -132,7 +132,7 @@ SweetLipsSchema.statics.findOneAndUpdate = function (query, update, options, cal
                 picture: update.picture.data.url, // user public profile
                 image_url: update.thumbSrc,
                 link: update.uri,
-                facebookProvider: {
+                facebookHandle: {
                     friends: update.friends
                 },
                 // leave is_blocked false

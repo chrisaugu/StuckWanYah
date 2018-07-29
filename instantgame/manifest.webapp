@@ -1,5 +1,16 @@
 {
+    "version": "1.0.0",
     "name": "StuckWanYah",
     "description": "",
-    "icons": "./img/icon.png"
+    "launch_path": "/client/index.html",
+    "icons": {
+        "16": "/client/img/icon.png",
+        "48": "/client/img/icon.png",
+        "60": "/client/img/icon.png",
+        "128": "/client/img/icon.png"
+    },
+    "developer": {
+        "name": "Christian JF Augustyn",
+        "url": "http://www.christianaugustyn.me"
+    }
 }

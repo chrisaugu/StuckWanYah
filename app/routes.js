@@ -1,4 +1,3 @@
-
 module.exports = function(app, passport) {
 
     // route for home page

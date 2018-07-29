@@ -242,18 +242,6 @@ console.log("Alice's new rating if she won again:", alice); // 2144
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function hypotenuse(a, b) {
     function square(x) {
         return x * x
@@ -500,13 +488,6 @@ function getRandomFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-/**
- * Get a random integer between `min` and `max`.
- *
- * @param {number} min - min number
- * @param {number} max - max number
- * @return {number} a random integer
- */
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -650,27 +631,22 @@ function fb_uid(){
     }
 }
 
-function greetUser() {
-  send("StuckWanYah works with Facebook Messenger.")
-}
 
+//[12, 5, 8, 130, 44].forEach(printBr);
+var passed = [12, 54, 18, 130, 44].every(isBigEnough);
+//printl(passed);
 
-    //[12, 5, 8, 130, 44].forEach(printBr);
-    var passed = [12, 54, 18, 130, 44].every(isBigEnough);
-    //printl(passed);
+var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+//document.write("Filtered Value : " + filtered + '<br>');
 
-    var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
-    //document.write("Filtered Value : " + filtered + '<br>');
+var percentage = Math.floor((1 - 25 / 250) * 100);
 
-    var percentage = Math.floor((1 - 25 / 250) * 100);
+var today = new Date();
+//printl(today);
 
-    var today = new Date();
-    //printl(today);
-
-    var arr = [1, 9, 4, 2, 5];
-    var sorted = arr.sort();
-    //printl(sorted);
-
+var arr = [1, 9, 4, 2, 5];
+var sorted = arr.sort();
+//printl(sorted);
 
 function select(list[1..n], k) {
     for (var i = 0; i < k; i++) {
@@ -728,9 +704,78 @@ function scaleImage(file){
 function factorial(choose, objects) {
     let total = objects.length;
 
-    for (var i=total; i>0; i--) {
+    for (var i = total; i > 0; i--) {
         console.log(i);
     };
 };
 
 //factorial(2, 5);
+
+var arr = [
+    {one: 'w', two: 'b'},
+    {one: 'z', two: 'a'},
+    {one: 'x', two: 'c'},
+    {one: 'y', two: 'd'},
+];
+
+function compare(prop) {
+  return function (a, b) {
+    return a[prop].localeCompare(b[prop]);
+  };
+}
+
+var result = arraySort(arr, function (a, b) {
+  return a.two.localeCompare(b.two);
+});
+
+console.log(result);
+
+
+//Checks for any differences between the lists
+function compareLists(newList, oldList) {
+  //checks which .length is longer
+  var lLength;
+  if (oldList.length >= newList.length) {
+    lLength = oldList.length;
+  } else {
+    lLength = newList.length;
+  }
+  //cyclyes through and compares the two lists
+  for(let i = 0; i < lLength; i++) {
+    //if old list item isn't in the new list they are no longer friends
+    if ( !newList.includes(oldList[i]) ) {
+      console.log("1-1"+oldList[i]);
+      //makes sure item is defined
+      if (typeof oldList[i] !== 'undefined') {
+        console.log("1-2"+oldList[i]);
+        unFriends.push(oldList[i]);
+      }
+      //if new list item isn't in the old list they are a new friend.
+    }
+    if ( !oldList.includes(newList[i]) ) {
+      console.log("2-1");
+      if (typeof newList[i] !== 'undefined') {
+        console.log("2-2");
+        newFriends.push(newList[i]);
+      }
+    } else {
+      console.log("nope");
+    }
+
+  }
+}
+
+try {
+    [break;]
+} catch (e) {
+    [break;]
+} [finally {
+    
+}]
+
+function App() {}
+Object.defineProperty(App.prototype, 'count', {
+  get: function() {
+    return Object.keys(this).length;
+  }
+});

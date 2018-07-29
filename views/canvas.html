@@ -7,22 +7,7 @@
 	<h1>Welcome to StuckWanYah app. The app runs on Facebook app edge "https://apps.facebook.com/stuckwanyah"</h1>
 	<script type="text/javascript">
 		window.onload = function() {
-			// Checking userAgent and redirect user to respective pages
-			var urls = [
-					'https://m.facebook.com/',
-					'https://web.facebook.com/',
-					'https://www.facebook.com/',
-					'https://apps.facebook.com/'
-				],
-				url = window.location.host,
-        		mobile = url.indexOf(urls[0]) > 1,
-        		desktop = url.indexOf(urls[1]) > -1 ||
-        				  url.indexOf(urls[2]) > -1 ||
-        				  url.indexOf(urls[3]) > -1;
-	
-        	if (desktop) {url = "https://stuckwanyah.herokuapp.com";} 
-        	if (mobile) {url = "https://stuckwanyah.herokuapp.com/mobile.html";}
-        	if (url.indexOf('localhost:5000')) {url = "https://stuckwanyah.herokuapp.com";}
+			App.init(!0)
     	};
 	</script>
 </body>

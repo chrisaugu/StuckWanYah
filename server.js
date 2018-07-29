@@ -11,7 +11,7 @@ var express = require("express"),
     _ = require('underscore'),
     moment = require("moment"),
     cookieParser = require('cookie-parser'),
-    cookieSession = require('cookie-session'),
+    //cookieSession = require('cookie-session'),
     bodyParser = require("body-parser"),
     path = require("path"),
     favicon = require('serve-favicon'),
@@ -61,17 +61,20 @@ app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(cookieParser(keys.session.cookieSecret));
+app.use(cookieParser()); //keys.session.cookieSecret));
+//app.use(cookieParser(keys.session.cookieSecret));
 // initialize express-session to allow us track the logged-in user across sessions.
-app.use(cookieSession({ //session({
+/*app.use(cookieSession({
     name: 'session',
-    //key: 'user_sid',
-    //secret: keys.session.cookieSecret,
     keys: [keys.session.cookieKey],
-    //resave: false,
-    //saveUninitialized: false,
-    //cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
     maxAge: 3 * 24 * 60 * 60 * 1000 // 72 hours (3 days)
+}))*/
+app.use(session({
+    key: 'user_sid',
+    secret: keys.session.cookieSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -99,13 +102,13 @@ passport.deserializeUser((id, done) => {
     enableProof: true
 }, function (accessToken, refreshToken, profile, done) {
 
-    let options = {accessToken, refreshToken, profile}
-    Photos.findOrCreate({ "facebookProvider.id": profile.id }, options, function (err, user) {
+    var options = {accessToken, refreshToken, profile}
+    Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function (err, user) {
         return done(err, user);
     });
 
     // check if photo already exists in the db
-    Photos.findOne({"facebookProvider.id": profile.id}).then((currentUser) => {
+    Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
         if (!currentUser) {
             // already have the photo
             console.log("user is:", currentUser);
@@ -114,7 +117,7 @@ passport.deserializeUser((id, done) => {
             // if not, create user in the db
             new Photos({
                 displayName: profile.displayName,
-                facebookProvider: {id: profile.id}
+                facebookHandle: {id: profile.id}
             }).save().then((newPhoto) => {
                 console.log('new photo created:' + newPhoto);
             })
@@ -123,8 +126,8 @@ passport.deserializeUser((id, done) => {
 }));*/
 
 passport.use(new FacebookStrategy({
-    clientID: keys.facebook.appID,
-    clientSecret: keys.facebook.clientSecret,
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     callbackURL: keys.facebook.callbackURL,
     profileFields: ['id','displayName','birthday','age','gender','profileUrl','link','emails','photos'],
     enableProof: true
@@ -164,24 +167,24 @@ passport.use(new FacebookTokenStrategy({
 }));
 */
 
-app.use(function(err, req, res, next){
-    console.error(err.stack);
-    res.status(500);
-    res.render('connect.html');
-});
+//app.use(function(err, req, res, next){
+//    console.error(err.stack);
+//    res.status(500);
+//    res.render('connect.html');
+//});
 
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 // Middleware for some local variables to be used in the template
 app.use((req, res, next) => {
-    let loggedIn = req.session.id ? true : false;
+    var loggedIn = req.session.id ? true : false;
 
     if (req.cookies.user_sid && !req.session.user_id) {
         res.clearCookie('user_sid');
     }
     if (!req.session.views) req.session.views = {}
     // get the url pathname
-    let pathname = parseurl(req).pathname;
+    var pathname = parseurl(req).pathname;
     // count the views
     req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
 
@@ -196,18 +199,32 @@ app.use((req, res, next) => {
     res.locals.session = req.session;
     res.locals.loggedIn = loggedIn;
 
+    req.session.visitors = (req.session.visitors || 0) + 1;
+
     next();
 });
 
+app.use(async (req, res, next) => {
+    try {
+        // if (!req.headers.authorization) throw new Error('Authorization header is required');
+        // const accessToken = req.headers.authorization.trim().split(' ')[1];
+        // await oktaJwtVerifier.verifyAccessToken(accessToken);
+        next();
+    } catch (error) {
+        next(error.message);
+    }
+});
 
 // middleware function to check for logged-in users
 const sessionChecker = (req, res, next) => {
     if (req.session.user_id && req.cookies.user_sid) {
         req.session.authenticated = true;
+        //res.redirect('/dashboard');
         next();
     } else {
         req.session.authenticated = false;
         res.redirect('/foo');
+        //next();
     }
 };
 
@@ -220,6 +237,7 @@ function authenticationMiddleware () {
     }
 }
 
+// API namespace
 app.use('/api/v1', router);
 
 // Invoke instance to listen to port
@@ -234,11 +252,11 @@ var opts = {
         socketOptions: { keepAlive: 1 }
     }
 };
-mongoose.Promise = global.Promise;
+// mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
 switch(app.get('env')) {
     case 'development':
-        mongoose.connect(keys.mongodb.testDbURL, opts);
+        mongoose.connect(process.env.DB_TEST, opts); //keys.mongodb.testDbURL
         break;
     case 'production':
         mongoose.connect(keys.mongodb.mongodbURI, opts);
@@ -246,7 +264,6 @@ switch(app.get('env')) {
     default: 
         throw new error('Unknown execution environment: ', app.get('env'));
 }
-//mongoose.connect(keys.mongodb.testDbURL);
 mongoose.connection.on("connected", function(){
     console.log("-----------------------------------------------".blue);
     console.log("Connected: Successfully connect to mongo server".green);
@@ -300,7 +317,7 @@ app.get("/tie", function(req, res, next){
 
 // connect to facebook page
 app.route('/foo')
-    .get(function (req, res) {
+    .get(isLoggedIn, function (req, res) {
         if (!req.session.user_id) {
             res.render('connect.html');
         } else if (req.session.user_id !== ''){
@@ -308,10 +325,10 @@ app.route('/foo')
         }
     })
     .post(function (req, res) {
-        let session = req.session;
-        let userId = req.body.userid;
+        var session = req.session;
+        var userId = req.body.profileid;
         // Query database with the userid
-        Photos.findOne({"facebookProvider.id": userId}, (err, user) => {
+        Photos.findOne({"facebookHandle.id": userId}, (err, user) => {
             if (!user) {
                 // create new user
                 res.send("user does not exist")
@@ -325,8 +342,8 @@ app.route('/foo')
     });
 
 app.get('/bar', sessionChecker, function (req, res, next) {
-    let session = req.session;
-    let someAttribute = session.someAttribute;
+    var session = req.session;
+    var someAttribute = session.someAttribute;
 
     session.someAttribute = "foo";
     session.seenyou = true;
@@ -348,9 +365,10 @@ app.get('/bar', sessionChecker, function (req, res, next) {
     }
 });
 
-require('./bot')(app);
-require('./app')(app);
-
+require('./app')(router);
+//require('./api')(router);
+require('./bot')(router);
+//require('./routes')(router, passport);
 
 /**
  * REST API Routes Endpoints
@@ -366,7 +384,7 @@ router.get("/photos/twophotos", function(req, res, next){
     var randomGender = _.sample(choices);
 
     Photos
-    .find(/*{random: {$near: [Math.random(), 0]}}*/)
+    .find({"random": {$near: [Math.random(), 0]}})
     .where("voted", false)
     .where("gender", randomGender)
     .limit(2)
@@ -381,9 +399,9 @@ router.get("/photos/twophotos", function(req, res, next){
         var oppositeGender = _.first(_.without(choices, randomGender));
 
         Photos.find({
-            /*random: {
+            "random": {
                 $near: [Math.random(), 0]
-            }*/
+            }
         }).where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos){
             if (err)
                 return next(err);
@@ -574,7 +592,7 @@ router.get('/photos/top/share', function(req, res, next){
     publishTopTenHottestPhotos(content);
 });
 router.get('/photos/hottest', function (req, res, next) {
-    let gender = shimOrhim(req.session.gender);
+    var gender = shimOrhim(req.session.gender);
 
     Photos.find({})
     .sort({'ratings': -1})
@@ -720,6 +738,7 @@ router.get('/auth/facebook',
         authType: 'rerequest',
         scope: ['public_profile', 'id', 'name', 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends'] 
     }));
+
 router.get('/auth/facebook/callback', 
     passport.authenticate('facebook', {
         successRedirect: '/',
@@ -757,7 +776,7 @@ router.post('/auth/facebook/token',
     passport.authenticate('facebook-token', {
         session: false
     }), function (req, res, next){
-        var access_token = req.query.access_token;
+        var access_token = req.body.access_token;
         console.log("776: " + access_token);
     
         if (!req.user) {
@@ -769,7 +788,7 @@ router.post('/auth/facebook/token',
             id: req.user.id
         };
         res.session.access_token = access_token;
-    
+
         next();
 }, /*generateToken,*/ sendToken);
 
@@ -777,12 +796,12 @@ router.post('/auth/facebook/token',
  * POST /api/v1/auth/facebook/login
  * Login with facebook in order to use user's pictures, friends list, etc...
  */
-router.post('/auth/facebook/login', notLoggedIn, function (req, res) {
-    var accessToken = req.query.authResponse.accessToken;
-    var userId = req.query.authResponse.userId;
-    var expires = req.query.authResponse.expiresIn;
+router.post('/auth/facebook/login', isLoggedIn, function(req, res) {
+    var accessToken = req.body.accessToken;
+    var userId = req.body.userID;
+    var expires = req.body.expiresIn;
 
-    Photos.findOne({ 'facebookProvider.id': userId }).then(function (err, user) {
+    Photos.findOne({ 'facebookHandle.id': userId }).then(function (err, user) {
         if (!user) {
             // creates new user from facebook
             getUserDetailsFromFacebook(userId);
@@ -809,8 +828,8 @@ router.post('/auth/facebook/login', notLoggedIn, function (req, res) {
  * POST /api/v1/foo/facebook/logout
  * Logout with facebook
  */
-router.post("/auth/facebook/logout", isLoggedIn, function (req, res, next) {
-    let url = req.session.reset() ? '/login' : '/';
+router.post("/auth/facebook/logout", function (req, res, next) {
+    //var url = req.session.reset() ? '/login' : '/';
     if (req.session.user_id && req.cookies.user_sid) {
         res.clearCookie('user_sid');
         req.logout();
@@ -818,12 +837,9 @@ router.post("/auth/facebook/logout", isLoggedIn, function (req, res, next) {
         req.session.destroy(function (err) {
             if (err) {
                 console.log(err);
-            } else {
-                res.redirect(url);
             }
         });
     }
-    next();
 });
 
 /**
@@ -893,8 +909,8 @@ var getTwoRandomPhotos = function(config){
 
     Photos
         .find({
-            random: {$near: [Math.random(), 0]},
-            "facebookProvider.id": {$ne: userId}
+            "random": {$near: [Math.random(), 0]},
+            "facebookHandle.id": {$ne: userId}
         })
         .where({age: {$gt: 13}})
         .where({gender: gender}) //randomGender)
@@ -913,8 +929,8 @@ var getTwoRandomPhotos = function(config){
 
                 Photos
                     .find({
-                        random: {$near: [Math.random(), 0]},
-                        "facebookId": { $ne: userId }
+                        "random": {$near: [Math.random(), 0]},
+                        "facebookHandle.id": { $ne: userId }
                     })
                     .where("is_blocked", false)
                     .where("gender", gender) //randomGender)
@@ -1228,7 +1244,7 @@ var top10HottestFriends = function(config){
     var query_limit = config.params.query.limit;
 
     Photos
-        .find({"facebookId": { $ne: config.params.session.user_id } })
+        .find({"facebookHandle.id": { $ne: config.params.session.user_id } })
         .sort('-ratings')
         //.where({'gender': query_gender})
         .limit(10)
@@ -1308,7 +1324,6 @@ var processPageHits = function(config){
     });
 };
 
-
 /**
  * User Authentication utils
  * Session, Cookies, Database
@@ -1375,13 +1390,11 @@ function isAuthenticated(req, res, next){
     });
 };
 function isLoggedIn (req, res, next) {
-    //req.loggedIn = !!req.user;
-    //next();
-    //!req.session.user_id ? res.redirect('/auth/facebook/login') : next();
-    return req.session.user_id ? true : false;
-};
-function notLoggedIn(req, res, next) {
-    req.session.id ? res.redirect('/auth/facebook/login') : next();
+    req.loggedIn = !!req.user;
+    next();
+    //!req.session.user_id ? res.redirect('/api/v1/auth/facebook/login') : next();
+    //req.session.id ? res.redirect('/auth/facebook/login') : next();
+    //return req.session.user_id ? true : false;
 };
 function getCurrentUser(req, res, next) {
     var userId = req.session.user_id;
@@ -1396,14 +1409,14 @@ function getCurrentUser(req, res, next) {
     });
 };
 function getUser(userId) {
-    Photos.findOne({"facebookProvider.id": userId}, (err, user) => {
+    Photos.findOne({"facebookHandle.id": userId}, (err, user) => {
         return user
     });
 };
 function getOne(req, res) {
     var user = req.user.toObject();
 
-    delete user['facebookProvider'];
+    delete user['facebookHandle'];
     delete user['__v'];
 
     res.json(user);
@@ -1450,7 +1463,7 @@ function processPostback(event){
                 name = bodyObj.first_name;
                 greeting = "Hi " + name + ". ";
             }
-            var message = greeting + "Welcome to StuckWanYah!, the app that lets you put your taste in your friends' hotness";
+            var message = greeting + "Welcome to StuckWanYah!, the app that vars you put your taste in your friends' hotness";
             sendMessage(senderId, { text: message });
         });
     } else if (payload === "Block Me") {
@@ -1625,7 +1638,7 @@ function blockPhoto(callback){
             throw error;
         else 
             console.log("Your photo has been blocked. You will not be able to be voted nor vote again in the future."); 
-            sendMessage(callback.facebookId, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."});
+            sendMessage(callback.facebookHandle.id, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."});
     });
     new BlockedPhotos({id: callback.imageId,is_blocked: true}).save();
     return callback;
@@ -1636,7 +1649,7 @@ function unblockPhoto(callback){
         if (error) throw error;
         else 
             console.log("Your photo has been unblocked. Your photo can be voted by your friends."); 
-            sendMessage(callback.facebookId, {text: "Your photo has been unblocked. Your photo can be voted by your friends."});
+            sendMessage(callback.facebookHandle.id, {text: "Your photo has been unblocked. Your photo can be voted by your friends."});
     });
     BlockedPhotos.remove({id: callback.imageId}).save();
     return callback;
@@ -1696,7 +1709,7 @@ function randomQuery(config){
         "gender": gender,
         "voted": false, 
         "is_blocked": false, 
-        "facebookProvider.id": {$ne: userId}
+        "facebookHandle.id": {$ne: userId}
     };
     var fields = {};
     var options = {"limit": 2};
@@ -1726,7 +1739,7 @@ function randomQuery(config){
 //checkUserExistance(123456789);
 
 function /* step: 1 */ checkUserExistance(facebookId) {
-    Photos.findOne({"facebookProvider.id": facebookId}).then((user) => {
+    Photos.findOne({"facebookHandle.id": facebookId}).then((user) => {
         if (!user) {
             /* user doesn't exist */
             /* goto: -> step: 2 */ getUserDetailsFromFacebook(facebookId);
@@ -1766,10 +1779,10 @@ function /* step: 3 */ createNewUser(object){
         gender: object.gender,
         picture: object.picture,
         profileUrl: object.link,
-        facebookProvider: {id: object.id}
+        facebookHandle: {id: object.id}
     };
     Photos.create(params).then(newUser => {
-        /* goto: -> step: 5 */ getUserFriends(newUser.facebookId);
+        /* goto: -> step: 5 */ getUserFriends(newUser.facebookHandle.id);
     }).catch(error => {
         throw new Error(error);
     });
@@ -1811,7 +1824,7 @@ function /* step: 6 */ updateUserFriendsList(userId, object) {
     var update = {
         facebookFriends: id
     };
-    Photos.update({ "facebookProvider.id": userId }, { $set: update },{ upsert: true })
+    Photos.update({ "facebookHandle.id": userId }, { $set: update },{ upsert: true })
     .then(updatedProfile => {
         /* goto: -> step: 7 */ checkFriendExistanceAsUser(userId, updatedProfile.facebookFriends);
     }).catch(error => {
@@ -1822,7 +1835,7 @@ function /* step: 6 */ updateUserFriendsList(userId, object) {
 /* check database if particular friend id exists already as user*/
 function /* step: 7 */ checkFriendExistanceAsUser(userId, friendslist) {
     async.each(friendslist, (friend, callback) => {
-        Photos.findOne({"facebookProvider.id": friend.id}).then((friend) => {
+        Photos.findOne({"facebookHandle.id": friend.id}).then((friend) => {
             if (!friend) {
                 /* goto: -> step: 8 */ getFriendDetailsFromFacebook(friend.id);
             }
@@ -1862,7 +1875,7 @@ function /* step: 9 */ createNewUserFromFacebookFriends(object) {
         gender: gender,
         picture: picture,
         profileUrl: link,
-        facebookProvider: {id: id}
+        facebookHandle: {id: id}
     }).save().then(newUser => {
         console.log("new user has been created from facebook friends" + newUser);
     }).catch(error => {
@@ -1872,7 +1885,7 @@ function /* step: 9 */ createNewUserFromFacebookFriends(object) {
 
 // Checks user id exists by querying the database using user id from InstantGame and TabApp 
 function /* step: 10 */ checksInstantGameAndTabApp(userId) {
-    Photos.findOne({where: {"facebookProvider.instantGameId": userId}}, function(error, response, body) {
+    Photos.findOne({where: {"facebookHandle.instantGameId": userId}}, function(error, response, body) {
         if (error) {
             throw new Error(error);
         }
@@ -1928,7 +1941,7 @@ router.get('/photos/me', function (req, res, next) {
 router.get('/photos/me/friends', sessionChecker, function(req, res, next){
     var userId = req.session.user_id;
     Photos
-    .find({imageId: userId})
+    .find({"imageId": userId})
     .lean()
     .populate('friends')
     .select(['displayName', 'imageId', 'age', 'gender', 'picture', 'link'])
@@ -1961,7 +1974,7 @@ router.get('/photos/me/friends/populate', function (req, res, next) {
                         //})
                         user.friends.push({
                             _id: friendslist[i].id,
-                            facebookProvider: {id: friendslist[i].imageId}
+                            facebookHandle: {id: friendslist[i].imageId}
                         });
                     };
                     user.save(function (error, savedProfile) {
@@ -1997,7 +2010,7 @@ router.route("/dummy")
         console.log("Query: " + req.query)
         console.log("Body: " + req.body)
         console.log("Params: " + req.params)
-        res.status(400);
+        //res.status(400);
     });
 
 //createNewPlayer(require('./photos').photos);
@@ -2023,8 +2036,8 @@ function createNewPlayer(data) {
                     picture: profile.displayPicture,
                     imageUrl: profile.thumbSrc,
                     profileUrl: profile.profileUrl,
-                    facebookProvider: {
-                        instantGameId: profile.instant_game.id,
+                    facebookHandle: {
+                        //instantGameId: profile.instant_game.id,
                         id: profile.id,
                         token: Math.random().toString().substr(2, 19),
                         friends: profile.friends,
@@ -2062,9 +2075,6 @@ function createNewPlayer(data) {
 
 app.route("/perfectMatch")
     .get(function(req, res, next){
-        var choices = ["male", "female"];
-        var randomGender = _.sample(choices);
-        var oppositeGender = _.first(_.without(choices, randomGender));
         async.parallel({
             female: function(callback){
                 Photos.findOneRandom({gender: "female", imageId: {$ne: req.session.user_id}}, function(error, female){
@@ -2156,7 +2166,7 @@ function postingImage(){
     const id = 'page or user id goes here';
     const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
 
-    let postImageOptions = {
+    var postImageOptions = {
         method: 'POST',
         uri: `https://graph.facebook.com/v2.8/${id}/photos`,
         qs: {
@@ -2174,7 +2184,7 @@ function getUserProfilePicture(userId) {
 
 // Deployment date 01/04/18
 // Testing date 02/04/18 - 05/04/18
-// Completion date 05/04/18
+// Compvarion date 05/04/18
 // Launching date 06/04/18 after school
 
 // TODO: Fix: Fix Heroku issues

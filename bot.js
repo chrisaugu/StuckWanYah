@@ -1,10 +1,13 @@
+"use strict";
 var request = require('request');
 
 module.exports = function(app) {
 
-    //
-    // GET /bot
-    //
+    /**
+     * GET /bot
+     * Facebook Webhook Endpoints
+     * Used for messenger verification
+     */ 
     app.get('/bot', function(request, response) {
         if (request.query['hub.mode'] === 'subscribe' && 
             request.query['hub.verify_token'] === process.env.BOT_VERIFY_TOKEN) {
@@ -16,9 +19,10 @@ module.exports = function(app) {
         }  
     });
 
-    //
-    // POST /bot
-    //
+    /** 
+     * POST /bot
+     * All callbacks for Messenger will be POST-ed here 
+     */
     app.post('/bot', function(request, response) {
        var data = request.body;
        console.log('received bot webhook');

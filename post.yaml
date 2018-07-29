@@ -21,7 +21,7 @@ check_list:
   : create a sandbox database and input "MONGO_URI mongodb://admin\:1234@ds061757.mongolab.com:61757/sweetlipsdb"
     into Config Vars for ENVIRONMENT
   : setup Facebok login on facebook developers site
-  : 
+  : https://amp-error-reporting.appspot.com
 
 npm install --save request request-promise
 

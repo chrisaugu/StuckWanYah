@@ -1,5 +1,8 @@
 node_modules
 .idea
 .env
+.babelrc
 data
 public/photos
+StuckWanYahProject.sublime-project
+package-lock.json
