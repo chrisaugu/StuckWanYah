@@ -1,103 +1,25 @@
 {
   "name": "stuckwanyah",
   "version": "1.0.0",
-  "homepage": "https://github.com/chrisaugu/stuckwanyah",
-  "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
-  "engines": {
-    "node": "6.10.2"
-  },
-  "private": true,
+  "description": "Let's get down to the history. What is Facemash? Facemash is a website that puts two random pictures of people\r together and lets you vote for who's hotter based on their looks. Initially created by Facebook founder, Mark Zuckerberg \r for rating girls. The whole site was set up in one night and receives huge traffic which led to 22000 hits and eventually \r crash the howard network.",
   "main": "server.js",
   "scripts": {
-    "test": "gulp test",
-    "start": "nodemon server.js",
-    "mock": "gulp mock",
-    "push": "gulp push",
-    "build": "babel src -d lib",
-    "xstart": "npm-run-all --parallel watch:server start:web",
-    "xstart:web": "react-scripts start",
-    "xstart:server": "node src/server",
-    "watch:server": "nodemon --watch src/server src/server",
-    "xbuild": "react-scripts build",
-    "xtest": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chrisaugu/stuckwanyah.git"
   },
-  "bin": {
-    "ginit": "./server.js"
-  },
-  "keywords": [
-    "stuck wan",
-    "stuck wan yah",
-    "rating pictures",
-    "hot boys",
-    "hot girls",
-    "dat wan how",
-    "vote for who's hotter",
-    "facemash",
-    "rating people's pictures"
-  ],
-  "author": "Christian JF Augustyn",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/chrisaugu/stuckwanyah/issues"
   },
+  "homepage": "https://github.com/chrisaugu/stuckwanyah#readme",
   "dependencies": {
-    "array-unique": "latest",
-    "arpad": "^1.0.2",
-    "async": "^1.4.0",
-    "body-parser": "~1.18.2",
-    "colors": "*",
-    "cookie-parser": "~1.3.3",
-    "cookie-session": "^2.0.0-beta.3",
-    "cors": "^2.8.3",
-    "cron": "*",
-    "crypto-js": "^3.1.9-1",
-    "dotenv": "^5.0.1",
-    "ejs": "~> 2.5.5",
-    "express": "4.16.2",
-    "express-jwt": "latest",
-    "express-session": "*",
-    "favicon": "*",
-    "forever": "*",
-    "fs": "*",
-    "gridfs-stream": "*",
-    "gulp": "3.9.1",
-    "gulp-html-replace": "^1.6.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-webserver": "^0.9.1",
-    "gulp-zip": "^4.1.0",
-    "html2canvas": "^1.0.0-alpha.10",
-    "http": "latest",
-    "jwt-simple": "*",
-    "method-override": "~2.2.0",
-    "moment": "*",
-    "mongoose": "~3.8.15",
-    "mongoose-random": "^0.1.1",
-    "mongoose-simple-random": "*",
-    "newrelic": "*",
-    "node-restful": "*",
-    "open": "^0.0.5",
-    "parseurl": "*",
-    "passport": "*",
-    "passport-facebook": "^2.1.1",
-    "passport-facebook-token": "^3.3.0",
-    "passport-oauth2": "^1.4.0",
-    "path": "*",
-    "platform": "^1.3.5",
-    "promise": "*",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "serve-favicon": "latest",
-    "socket.io": "*",
-    "underscore": "latest"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "gulp-cli": "^2.0.1",
-    "xml2js": "*"
+    "express": "latest",
+    "cors": "latest",
+    "request": "leatst"
   }
 }
