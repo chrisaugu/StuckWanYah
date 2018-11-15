@@ -18,7 +18,7 @@ app.use(cors({
 }));
 
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/randomToken.html");
+  res.send("hello");
 });
 
 app.get("/data", function(req, res) {
