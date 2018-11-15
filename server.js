@@ -274,7 +274,7 @@ mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
 switch(app.get('env')) {
 	case 'development':
-		mongoose.connect(process.env.DB_TEST, opts); //keys.mongodb.testDbURL
+		mongoose.connect(keys.mongodb.dbURL, opts);
 		break;
 	case 'production':
 		mongoose.connect(keys.mongodb.mongodbURI, opts);
