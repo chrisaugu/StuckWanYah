@@ -46,6 +46,7 @@
     "url": "https://github.com/chrisaugu/stuckwanyah/issues"
   },
   "dependencies": {
+    "array-unique": "latest",
     "arpad": "^1.0.2",
     "async": "^1.4.0",
     "body-parser": "~1.18.2",
@@ -70,6 +71,7 @@
     "gulp-webserver": "^0.9.1",
     "gulp-zip": "^4.1.0",
     "html2canvas": "^1.0.0-alpha.10",
+    "http": "latest",
     "jwt-simple": "*",
     "method-override": "~2.2.0",
     "moment": "*",
@@ -89,7 +91,9 @@
     "promise": "*",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "socket.io": ""
+    "serve-favicon": "latest",
+    "socket.io": "*",
+    "underscore": "latest"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
