@@ -17,9 +17,8 @@ var facebookStatusCodes = {
     connected: "connected",
     not_authorized: "not_authorized"
 };
-var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
-var fields = 'id, full_name, first_name, last_name, age_range, age, birthday, picture, profile_pic, friendlist, friends';
-//"<img src=\"https://graph.facebook.com/" + user.facebookid + "/picture?type=square&height=200&width=200\" alt=\"userimg\" class=\"fbpic\">"
+var options = { scope: 'public_profile, id, name, age, age_range, gender, link, user_hometown, user_location, picture, user_photos, friends, user_friends, friendlist' };
+var fields = 'id, full_name, first_name, last_name, username, vanity, age_range, age, birthday, picture, profile_pic, friendlist, friends';
 
 /**
  * StuckWanYah JavaScript
@@ -77,7 +76,7 @@ var Api = function () {
                 cb(true, qXHR.responseJSON, errorThrown)
             },
         });
-    }
+    };
     return {
         _stage: {
             "BASE_URL": "http://localhost:5000",
@@ -148,13 +147,11 @@ var Api = function () {
         getFriends: function e() {
             return b( this.getApiUrl() + '/photos/me/friends' );
         },
-        getFriendsList: function e() {
+        getFbFriendsList: function e() {
             return new Promise(function (resolve, reject) {
-                FB.api('/me/friends').then(function (result) {
-                    resolve(result.json());
-                }).catch (function (error) {
-                    console.error(error);
-                    reject(false);
+                FB.api('/me/friends', function(result) {
+                    if (!result){ console.error(result); reject(false); }
+                    resolve(result);
                 })
             });
         },
@@ -205,15 +202,27 @@ var Api = function () {
                     Utils.login();
                 } else {
                     console.log('Please log into this app.');
-                    window.top.location = "https://facebook.com";
+                    Utils.login();
+                    // window.top.location = "https://facebook.com";
                 }
             } else {
                 Utils.log("You're not logged in");
                 this.Api.login();
             }
         },
+        fbevent: function() {
+            FB.Event.subscribe("auth.authResponseChange", function(response) {
+                if (response.status === "connected") {
+                    testApi();
+                } else if (response.status === "not_authorized") {
+                    FB.login();
+                } else {
+                    FB.login();
+                }
+            })
+        },
         fblogin: function e() {
-            var options = { scope: 'public_profile, id, name, age, age_range, gender, link, picture, user_photos, friends, user_friends, friendlist' };
+            var options = { scope: 'public_profile, id, name, age, age_range, gender, link, user_hometown, user_location, picture, user_photos, friends, user_friends, friendlist' };
             return new Promise(function (resolve, reject) {
                 FB.login(function (response) {
                     // receive response sent by Facebook 
@@ -226,7 +235,7 @@ var Api = function () {
             });
         },
         login: function e() {
-            new Promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 // Invoke Facebook login
                 Api.fblogin().then(function(fbRes) {
                     // receive response sent by Facebook server
@@ -292,7 +301,7 @@ var Api = function () {
         _getUserData: function e(key) {
             return Utils.readItemFromLocalStorage(key);
                 // $.get(Api.getApiUrl() + '/auth/me').then(function (response) {
-                //     resolve(response);
+                //   resolve(response);
                 // });
         },
         _getUserID: function e() {
@@ -315,8 +324,8 @@ var Api = function () {
             Utils.log('Welcome! Fetching your information.... ');
             return new Promise(function (resolve) {
                 FB.api("/me", { fields: "name, email, permissions" }, function (response) {
-                    console.log('Successful login for: ' + response.name);
-                    // document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';                    
+                    console.log('Successful login for: ' + response.name + ".");
+                    // document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';               
                     // alert(response.name);
                     //alert(response.id);
                     resolve(response);
@@ -406,6 +415,47 @@ var Api = function () {
             } else {
                 $('<div id="#loginbutton"></div>');
             }
+        },
+        getAppsFromHost: function(serverUrl, hostname, data) {
+            try {
+                var xmlhttp = new XMLHttpRequest();
+
+                xmlhttp.open('POST', serverUrl, true);
+
+                xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                xmlhttp.onreadystatechange = function(e) {
+                    if (xmlhttp.readyState == 4) {
+                        if (xmlhttp.status == 200) {
+                            try {
+                                var res = JSON.parse(xmlhttp.responseText) || {};
+                                console.log(res);
+                                if (typeof res.apps != "undefined") {
+                                    var response = {
+                                        "response": JSON.parse(res.apps) || {},
+                                        hostname: hostname
+                                    }
+                                    var data = {
+                                        tabTechs: response
+                                    }
+                                    self.processResponse(data);
+                                } else {
+                                    self.getSiteData();
+                                }
+                            } catch (e) {
+                                console.log(e);
+                                self.showContent();
+                            }
+                        } else {
+                            // Need to say server issue
+                            self.showServerErrorMessage(hostname);
+                        }
+                    }
+                };
+                xmlhttp.send('data=' + encodeURIComponent(JSON.stringify(data)));
+            } catch (e) {
+                self.showContent();
+            }
         }
     };
 }()
@@ -424,6 +474,81 @@ var Api = function () {
                 localStorage.setItem(dataKey, dataValue);
             } catch (e) {
             }
+        },
+        add: function(t, e) {
+            var i, n = localStorage.setting, o = {};
+            try {
+                n ? (o = JSON.parse(n),
+                "undefined" != typeof o[t] ? "boolean" == typeof o[t] || "string" == typeof o[t] : (o[t] = e,
+                i = JSON.stringify(o),
+                localStorage.setting = i)) : (o = {},
+                o[t] = e,
+                i = JSON.stringify(o),
+                localStorage.setting = i)
+            } catch (a) {
+                console.log(a)
+            }
+        },
+        get: function(t) {
+            var e = localStorage.setting
+              , i = {};
+            try {
+                return i = JSON.parse(e),
+                i[t]
+            } catch (n) {}
+        },
+        set: function(t, e) {
+            var i = localStorage.setting
+              , n = {};
+            try {
+                n = JSON.parse(i),
+                n[t] = e,
+                localStorage.setting = JSON.stringify(n),
+                "mostVisits" != t && "wpTime" != t && "cloudBackup" != t && "wcity" != t && "wcountry" != t && "lastWallpaper" != t && "bgType" != t && "bgname" != t && $setting.sync()
+            } catch (o) {}
+        },
+        onChange: function() {
+            $("input[type=radio]").live("change", function(t) {
+                var e = $(this).attr("name")
+                  , i = $(this).val();
+                $setting.set(e, i),
+                "AutoBgType" === e && setAutoBg(),
+                "displayTopType" === e && HowTpShowTop()
+            }),
+            $("input.checkBoxToggle").live("change", function(t) {
+                var e = $(this).attr("name")
+                  , i = $(this).is(":checked");
+                if ($setting.set(e, i),
+                "blurWallpaper" === e)
+                    try {
+                        wallpaperToblur()
+                    } catch (n) {
+                        console.log(n)
+                    }
+                "autoWallpaper" === e && setAutoBg(),
+                "displayAtTop" === e && HowTpShowTop()
+            })
+        },
+        onRangeChange: function() {
+            $("input[type=range]").live("input", function(t) {
+                t.preventDefault();
+                var e, i = $(this).attr("name"), n = $(this).val();
+                $("#" + i + "Value").text(n),
+                "iconRadius" == $(this)[0].id ? (e = Math.round(n / 2) + "%",
+                $(".iconInIn,.icon,.editico,.webIconImg,#iconPreviewTop,#EditiconPreviewTop").css("border-radius", e)) : "iconOpacity" == $(this)[0].id && $(".icon").css("opacity", n / 100)
+            }),
+            $("input[type=range]").live("change", function(t) {
+                t.preventDefault();
+                var e = $(this).attr("name")
+                  , i = $(this).val();
+                $setting.set(e, i)
+            })
+        },
+        sync: function(t) {
+            Show_Noti_Num && setAllNotiNum();
+            var e = $setting.get("cloudBackup");
+            e && syncToCloud(),
+            console.log("设置数据已同步")
         },
         getSetting: function(name, nullValue) {
             if (typeof _userData[name] == 'undefined') {
@@ -541,8 +666,7 @@ var Api = function () {
             var extension = filename.replace(/^.*\./, ''); // Replace until we're left with the file extension
             if (filename == extension) {
                 extension = ''; // File has no extension, so it's blank
-            } 
-            else {
+            } else {
                 extension = extension.toLowerCase();
             }
             switch (extension) {
@@ -571,13 +695,17 @@ var Api = function () {
                 $.ajax({
                     async: true,
                     crossDomain: true,
-                    url: Api.getApiUrl() + "/dummy",
-                    //url: "https://graph.facebook.com/v2.12/" + Api.getCurrentUser() + "/messages", //url: $(e.target).attr("action") + Api.getCurrentUser() + "/messages",
+                    url: "https://graph.facebook.com/v2.12/" + Api.getFacebookAppId() + "/messages", //url: $(e.target).attr("action") + Api.getCurrentUser() + "/messages",
                     global: false,
                     type: 'POST',
                     data: {
                         "access_token": Api.getAccessToken(),
-                        "name": "kitten" 
+                        "recipient": {
+                            "id": Api.getFacebookAppId()
+                        },
+                        "sender": Api.getCurrentUser(),
+                        "name": $(e.currentTarget).find("[name=name]").val(),
+                        "message": $(e.currentTarget).find("[name=message]").val()
                     },
                     json: {
                         recipient: {
@@ -693,18 +821,19 @@ var Api = function () {
         c.send()
     }
     return {
-        init: function e() {
+        init: async function e() {
             name = "StuckWanYah";
             version = "v1.0.0";
             current = App;
-            this.initFacebookApi();
-            // this.setDefaultData();
+            await this.initFacebookApi();
+            this.setDefaultData();
             this.initPageEventListener();
             this.initClickEventListener();
         },
-        setDefaultData: function() {
+        setDefaultData: function e() {
             // oh lord, please bless sister nancy with the wisdom of do not get people near heart attacks
-            return Api._setUserData("", "");
+            return Api._setUserData("", ""), 
+            $("[name=sender]").val(Utils.readItemFromLocalStorage("c_user"));
         },
         initFacebookApi: function e() {
             if (!initialized) {
@@ -761,11 +890,11 @@ var Api = function () {
                     Utils.submitForm(e);
                 }
             })
-            .on('click', '#addtabbutton', function c() {Api.addtab()})
-            .on('click', '#loginbutton', function c() {Api.login()})
-            .on('click', '#logoutbutton', function c() {Api.logout()})
-            .on('click', '#showMyName', function c() {Api.getMyName()})
-            .on('click', '#postToFacebook', function c() {Api.postToFacebook()})
+            .on('click', '#addtabbutton', Api.addtab.bind(this))
+            .on('click', '#loginbutton', Api.login.bind(this))
+            .on('click', '#logoutbutton', Api.logout.bind(this))
+            .on('click', '#ShowMyName', Api.userDetailsFromFb.bind(this))
+            .on('click', '#postToFacebook', function c(){Api.postToFacebook()})
 
             $('#loginbutton, #feedbutton').removeAttr('disable');
         },
@@ -802,6 +931,12 @@ var Api = function () {
                     App.registerPageHit('perfectMatch');
                     break;
             }
+        },
+        _clickHandler: function(e) {
+            var i = $(e.currentTarget);
+            !e.isDefaultPrevented() && i.attr("data-uid") && this.trigger("click", {
+                item: i
+            });
         },
         onSubmitButtonClick: function e() {
             $('#kval').val(keyStrokeCount);
@@ -1390,18 +1525,16 @@ function unixtime() {
     timeNow = (new Date()).getTime();
     return (timeNow - lastCheck > 60 * 30 * 1000);
 };
+// check the frequency of the numbers and letters
 
+/**
+ * The script randomly generates six alphanumeric characters
+ */
 function generate_random_wifi_token() {
-    // the wifi token rule is 
-    // 6 codes consist of letters and numbers capitalized
-    // code should atleast have 
-    // 1 number rest is letter
-    // 2 letter rest is number
-    // check the frequency of the numbers and letters
     var token = [];
     var ticket = ["5GPGMN","NG1822","HMQ6DN","5D43G8"];
-    var ipaddress = ["192.168.1.237","192.168.2.38"];
-    var url = [];
+    var ipaddress = ["192.168.1.237","192.168.2.38","192.168.1.222"];
+    var url = "";
 
     var alpha = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
     var num = ["1","2","3","4","5","6","7","8","9","0"];
@@ -1422,27 +1555,77 @@ function generate_random_wifi_token() {
         //a(token[i])
     // }
 
+    if (test(token, "Number") && test(token, "Letter")) {
+
+    }
+
+    // the wifi token rule is 
+    // 6 codes consist of letters and numbers capitalized
+    // code should atleast have 
+    // 4 numbers, 2 letters
+    // 3 numbers, 3 letters
+    // 2 numbers, 4 letters
+    // 4 letters, 2 numbers
+    // 3 letters, 3 numbers
+    // 2 letters, 4 numbers
+    function test(token, type) {
+        // .search(/([\d]+)000/);
+        if (type == "Number") { token.includes("number") };
+        if (type == "Letter") { token.includes("letters") };
+        return token;
+    }
+
     var data = new FormData();
     data.append("url", "");
     data.append("ip", "192.168.2.38");
     data.append("code", "5GPGMN");
 
     var settings = {
-      "async": true,
-      "crossDomain": true,
-      "url": "https://hotspot.dwu.ac.pg/",
-      "method": "POST",
-      "headers": {},
-      "processData": false,
-      "contentType": false,
-      "mimeType": "multipart/form-data",
-      "data": form
+      async: true,
+      crossDomain: true,
+      url: "https://hotspot.dwu.ac.pg/",
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "authorization": "Basic ZGNlMzFjMzNkMDJlY2RiZjsdfdsfIxNjc6YzNhYzssdfsdfdfsdfMTU1ZDk4ZGM=",
+      },
+      data: data,
+      dataType: "jsonp",
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data"
     }
-    
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-    });
 
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+    });
+    
+    /*$.ajax({
+      type: 'GET',
+      url: My Url,
+      contentType: 'application/json',
+      dataType:'jsonp',
+      responseType:'application/json',
+      xhrFields: {
+        withCredentials: false
+      },
+      headers: {
+        'Access-Control-Allow-Credentials' : true,
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET',
+        'Access-Control-Allow-Headers':'application/json',
+      },
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(error) {
+        console.log("FAIL....=================");
+      }
+    });*/
+    
     function a(i) {
         var xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
@@ -1464,5 +1647,121 @@ function generate_random_wifi_token() {
         //xhr.setRequestHeader("token", "ea22b142-f72d-9ea3-95e2-914fcc4c0702");
         xhr.send("?url=&ip=" + ipaddress[0] + "&code=" + ticket[0]);
         //xhr.send(data);
+    };
+
+    /**
+     * If you only want to allow specific characters, you could also do it like this:
+     */
+    function randomString1(length, chars) {
+        var result = '';
+        for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
     }
-}
+    var rString = randomString1(32, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+    /**
+     * Another way to do it could be to use a special string that tells the function what types of characters to use. You could do that like this:
+     */
+    function randomString2(length, chars) {
+        var mask = '';
+        if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+        if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (chars.indexOf('#') > -1) mask += '0123456789';
+        if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+        var result = '';
+        for (var i = length; i > 0; --i) result += mask[Math.floor(Math.random() * mask.length)];
+        return result;
+    }
+
+    console.log(randomString2(16, 'aA'));
+    console.log(randomString2(32, '#aA'));
+    console.log(randomString2(64, '#A!'));
+
+    function rStr() {
+        var s = Math.random().toString(36).slice(2);
+        return s.length===16 ? s : rStr(); 
+    }
+
+    function randomString3(length) {
+        return Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
+    }
+
+    var randomString4 = function (len, bits) {
+        bits = bits || 36;
+        var outStr = "", newStr;
+        while (outStr.length < len)
+        {
+            newStr = Math.random().toString(bits).slice(2);
+            outStr += newStr.slice(0, Math.min(newStr.length, (len - outStr.length)));
+        }
+        return outStr.toUpperCase();
+    };
+    
+    randomString4(12, 16); // 12 hexadecimal characters
+    randomString4(200); // 200 alphanumeric characters
+
+
+    function randomNum(hi){
+        return Math.floor(Math.random()*hi);
+    } 
+    function randomChar(){
+        return String.fromCharCode(randomNum(100));
+    }
+    function randomString5(length){
+       var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+       for(var i = 0; i < length; ++i){
+            str += randomChar();
+       }
+       return str;
+    }
+    var RandomString = randomString5(32); //32 length string
+
+    function randomString6(len) {
+        var p = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        return [...Array(len)].reduce(a=>a+p[~~(Math.random()*p.length)],'');
+    }
+
+    var randomString7 = function(length) {
+      var str = '';
+      var chars ='0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split(
+          '');
+      var charsLen = chars.length;
+      if (!length) {
+        length = ~~(Math.random() * charsLen);
+      }
+      for (var i = 0; i < length; i++) {
+        str += chars[~~(Math.random() * charsLen)];
+      }
+      return str;
+    };
+
+    function randString(length) {
+        var l = length > 25 ? 25 : length;
+        var str = Math.random().toString(36).substr(2, l);
+        if(str.length >= length){
+            return str;
+        }
+        return str.concat(this.randString(length - str.length));
+    };
+
+    function test(){
+        for(var x = 0; x < 300000; x++){
+            if(randString(x).length != x){
+                throw new Error('invalid result for len ' + x);
+            }
+        }
+    };
+
+    function keyGen(keyLength) {
+        var i, key = "", characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    
+        var charactersLength = characters.length;
+    
+        for (i = 0; i < keyLength; i++) {
+            key += characters.substr(Math.floor((Math.random() * charactersLength) + 1), 1);
+        }
+    
+        return key;
+    };
+    // keyGen(12);
+};

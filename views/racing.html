@@ -37,10 +37,11 @@
                 window.addEventListener('keydown', function (e) {
                     myGameArea.keys = (myGameArea.keys || [])
                     myGameArea.keys[e.keyCode] = true;
-                })
+                });
                 window.addEventListener('keyup', function (e) {
                     myGameArea.keys[e.keyCode] = false;
-                })
+                    // decreses cars speed
+                });
             },
             clear: function() {
                 this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -124,6 +125,7 @@
                 }
                 return crash;
             }
+            
         }
 
         function updateGameArea() {
@@ -150,10 +152,10 @@
             }
             myGamePiece.speedX = 0;
             myGamePiece.speedY = 0;
-            if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX += -1; }
-            if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX += 1; }
-            if (myGameArea.keys && myGameArea.keys[38]) {myBackground.speedY += 1; }
-            if (myGameArea.keys && myGameArea.keys[40]) {myBackground.speedY += -1; }
+            if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX -= 1; } // left arrow
+            if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX += 1; } // right arrow
+            if (myGameArea.keys && myGameArea.keys[38]) {myBackground.speedY += 1; } // top arrow
+            if (myGameArea.keys && myGameArea.keys[40]) {myBackground.speedY -= 1; } // bottom arrow
             myDistance.text = "DISTANCE: " + myBackground.speedY + " kmph";
             myDistance.update();
             myGamePiece.newPos();

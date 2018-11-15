@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html id="stuckwanyah">
+<head>
+	<meta charset="utf-8">
+	<title>StuckWanYah</title>
+	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" title="StuckWanYah">
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="all">
+    <script language="javascript" src="//connect.facebook.net/en_US/sdk.js" type="text/javascript"></script>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+<main id="main">
+
+	<h1>StuckWanYah</h1>
+
+	<center>
+		<h2>Calculate my grades</h2>
+		<h4></h4>
+
+		
+		<form id="gradesCalculatorForm" action="#" method="post" data-action="gradesCalculatorForm">
+			<table align="center">
+				<tr><td>Grades: <input type="text" name="scores" placeholder="Your grades e.g 93, 95, 88" class="text"></td></tr>
+				<tr><td>
+					<div class="results" style="display:inline;"></div>
+				</td></tr>
+				<tr><td>
+        			<a href="" class="button" id="calBtn">Calculate</a>
+				</td></tr>
+			</table>
+		</form>
+
+
+
+		<br/><br/>
+		
+		<div class="footer">
+			<div class="container">
+				<ul>
+					<li><a href="/" data-action="sh('home')">Home</a></li>
+					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
+			</div>
+		</div>
+	</center>
+</main>
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		App.init(!0);
+	};
+</script>
+<script type="text/javascript">
+(function(){
+	// We keep these variables private inside this closure scope
+
+	var myGrades = [];
+
+	var average = function() {
+		var total = myGrades.reduce(function(accumulator, item) {
+			return accumulator + item}, 0);
+		return 'Your average grade is ' + total / myGrades.length + '.';
+	}
+
+	var failing  = function() {
+		var failingGrades = myGrades.filter(function(item) {
+			return item < 70;
+		});
+
+		return 'You failed ' + failingGrades.length + ' times.';
+	}
+
+	document.getElementById('calBtn').onclick = function(e) {
+		e.preventDefault && e.preventDefault();
+
+		var scores = document.getElementsByName('scores')[0].value;
+		var newScores = scores.split(/\,\s/g);
+		for (var i = 0; i < newScores.length; i++) {
+			var a = parseInt(newScores[i]);
+			myGrades.push(a);
+		}
+
+		document.getElementsByClassName('results')[0].innerHTML = failing();
+	}
+
+	var sum = 0;
+	for (g = 0; g < grades.length; g++) {
+		sum += grades[g];
+	}
+	var gpa;
+	gpa = sum / grades.length;
+
+}());
+</script>
+</body>
+</html>

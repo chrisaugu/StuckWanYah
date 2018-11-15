@@ -3,16 +3,10 @@
 <head>
     <title>Login with Facebook</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="theme-color" content="#ffffff">
-    <script src="/javascripts/sdk.js" xsrc="//connect.facebook.net/en_US/sdk.js"></script>
+    <script src="//connect.facebook.net/en_US/sdk.js"></script>
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -28,7 +22,7 @@
     <!-- End Facebook Pixel Code -->
 </head>
 <body>
-  <script type="text/javascript" src="/javascripts/fb_init.js?fb_app_id=267969823906&amp;fb_fanpage_id=226607102386&amp;v=1532629527"></script>
+  <!-- <script type="text/javascript" src="/javascripts/fb_init.js?fb_app_id=267969823906&amp;fb_fanpage_id=226607102386&amp;v=1532629527"></script> -->
 <main id="main">
     <h1>StuckWanYah</h1>
     <h2></h2>
@@ -38,6 +32,7 @@
 
     <center>
         <table id="connect" align="center" style="padding:0 15px;">
+            <% if (!connected) { %>
             <tr>
                 <td>
                     <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
@@ -50,16 +45,23 @@
 
                     <form name="connect" action="/foo" method="post">
                         <input type="hidden" name="token" value="1234567890">
-                        <input type="text" name="profileid" placeholder="Facebook User ID" class="text"></br>
+                        <input type="text" name="profileid" placeholder="Facebook User ID" class="text" value="100004177278169"></br>
                         <button type="submit" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" class="button">Login</button>
                     </form>
 
                     <div class="about-permissions"><div class="title">About the permissions required</div>
                     <div class="permission"><strong>Facebook profile picture</strong>
-                        <br>StuckWanYah works by taking your Facebook friends current profile picture and lets you compare who is hotter based on the looks by voting the picture.
+                        <br>StuckWanYah works by taking your Facebook friends' profile picture and lets you compare who is hotter based on the looks by voting the picture.
                     </div></div>
                 </td>
             </tr>
+            <% } else { %>
+                <tr>
+                    <td>
+                        <img src=`https://graph.facebook.com/${req.session.user_id}/picture?type=square&height=200&width=200` alt="userimg" class="fbpic">
+                    </td>
+                </tr>
+            <% } %>
         </table>
 
         <br/><br/><br/><br/>

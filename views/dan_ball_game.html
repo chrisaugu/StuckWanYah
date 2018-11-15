@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://dan-ball.jp/javagame/dust/game.php?g=dust&v=9.6 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DAN-BALL Game</title><meta name="robots" content="noindex"><!--<base href="/javagame/dust/">--><base href="."><script>
+function cookie_get(nm){
+	var r='';
+	if(document.cookie){
+		var c=document.cookie.split("; ");
+		for(var i=0; i<c.length; i++){
+			var k=c[i].split("=");
+			if(k[0]==nm && k[1]!=""){
+				r=k[1].split("+");
+				break;
+			}
+		}
+		for(i=0; i<r.length; i++)
+			r[i]=decodeURIComponent(r[i]);
+	}
+	return(r);
+}
+</script>
+<style>
+BODY{MARGIN:0;}
+.nrnb{-MS-INTERPOLATION-MODE:nearest-neighbor;IMAGE-RENDERING:-webkit-crisp-edges;IMAGE-RENDERING:-moz-crisp-edges;IMAGE-RENDERING:pixelated;}
+</style>
+</head><body>
+<canvas id="cv" onmousedown="top.gmi.focus();" width="400" height="456" class="nrnb"></canvas><script src="/javascripts/dust.js"></script><script>
+var src_ck=cookie_get("user");
+Init(src_ck[3],1,"");
+</script>
+
+</body></html>

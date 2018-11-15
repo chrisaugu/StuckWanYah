@@ -20,7 +20,7 @@ module.exports = {
 	},
 	mongodb: {
 	    testDbURL: "mongodb://localhost:27017/sweetlipsdb",
-        dbURL: process.env.DATABASE_URL || "mongodb://chrisaugu:chatm3@ds117719.mlab.com:17719/sweetlipsdb",
+        dbURL: process.env.DATABASE_URL || "mongodb://admin:secr3t@ds117719.mlab.com:17719/sweetlipsdb",
         mongodbURI: process.env.MONGODB_URI || "mongodb://chrisaugu:chatm3@ds117719.mlab.com:17719/sweetlipsdb"
 	},
     session: {

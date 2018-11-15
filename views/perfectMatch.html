@@ -17,14 +17,17 @@
 	<center>
 		<% if (match) { %>
 
-			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
-			<h2>Who's hotter? Click to choose</h2>
+			<h3>Would they make a perfect couple?</h3>
+			<h2>Vote 👇 them</h2>
 
 				<table>
 					<tr id="photos">
-						<td valign="top" align="center" class="photo"><img class="img" src="/photos/<%= match[0].picture %>"></td>
-						<td id="OR" width="55" align="center"><a href="?female=<%= match[0].id %>&male=<%= match[1].id %>" style="text-decoration:none;font-size:40px;"><b>💑</b></a></td>
-						<td valign="top" align="center" class="photo"><img class="img" src="/photos/<%= match[1].picture %>"></td>
+						<td valign="top" align="center" class="photo"><img class="img" src="/photos/<%= match.male.picture %>"></td>
+						<td id="OR" width="55" align="center"><a href="?female=<%= match.male.imageId %>&male=<%= match.female.imageId %>" style="text-decoration:none;font-size:40px;"><b>💑</b></a></td>
+						<td id="OR" width="55" align="center"><b>OR</b></td>
+						<td id="OR" width="55" align="center"><a href="javascript:location.reload()" style="text-decoration:none;font-size:40px;"><b>❌</b></a>
+						</td>
+						<td valign="top" align="center" class="photo"><img class="img" src="/photos/<%= match.female.picture %>"></td>
 					</tr>
 				</table>
 

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <title>StuckWanYah</title>
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
+
+    <meta name="viewport"
+        content = "width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
+
+    <meta name="apple-mobile-web-app-capable" content = "yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content = "black-translucent">
+    <meta name="format-detection" content = "telephone=no">
+
+    <!-- force webkit on 360 -->
+    <meta name="renderer" content = "webkit"/>
+    <meta name="force-rendering" content = "webkit"/>
+    <!-- force edge on IE -->
+    <meta http-equiv="X-UA-Compatible" content = "IE=edge,chrome=1"/>
+    <meta name="msapplication-tap-highlight" content = "no">
+
+    <!-- force full screen on some browser -->
+    <meta name="full-screen" content = "yes"/>
+    <meta name="x5-fullscreen" content = "true"/>
+    <meta name="360-fullscreen" content = "true"/>
+
+    <!-- force screen orientation on some browser -->
+    <meta name="screen-orientation" content = "portrait"/>
+    <meta name="x5-orientation" content = "portrait">
+
+    <meta name="browsermode" content = "application">
+    <meta name="x5-page-mode" content = "app">
+
+<style type="text/css">
+html {
+  -ms-touch-action: none;
+}
+
+body, canvas, div {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+
+  cursor: default;
+  color: #888;
+  background-color: #fff;
+
+  text-align: center;
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-size: 12px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+canvas {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.img {
+  width: 160px;
+}
+
+@media(max-width: 320px){
+    #main table {width: 300px;}
+    #photos img {width: 134px;}
+}
+@media only screen and (min-width: 321px) and (max-width: 375px) {
+    #main table {max-width: 360px;}
+    #photos img {width: 164px;}
+}
+@media only screen and (min-width: 376px) and (max-width:425px){
+    #main table {width: 360px;}
+    #photos img{width: 184px;}
+}
+@media only screen and (min-width: 375px) and (max-width:790px){}
+
+#gameContainer {
+  position: relative;
+  margin: 15px 0 0 0;
+  left: 0px;
+  top: 0px;
+
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+}
+
+/*
+ * TABS
+ */
+#main #gameContainer > input {
+  height: 1.2em;
+  visibility: hidden;
+  display: none;
+}
+
+#main #gameContainer > label {
+  background: #fff;
+  border-color: #c7c5c1;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: .5em .5em 0 0;
+  color: #a09b90;
+  cursor: pointer;
+  font-size: 1em;
+  height: 1.5em;
+  line-height: 1.5em;
+  margin-right: .25em;
+  padding: 5px 0.5em;
+  text-align: center;
+}
+
+#main #gameContainer > input:hover + label {
+  background: #756A56;
+}
+
+#main #gameContainer > input:checked + label {
+  background-color: #eceae6;
+  color: #848688;
+  font-size: 15px;
+  font-family: fantasy;
+  z-index: 6;
+  -webkit-transition: .1s;
+  -moz-transition: .1s;
+  -o-transition: .1s;
+  -ms-transition: .1s;
+}
+
+#main #gameContainer > div.page {
+  opacity: 0;
+  display: none;
+  z-index: 100;
+  transition: all linear 0.1s;
+  /*height: 305px;*/
+  position: relative;
+  width: 100%;
+}
+
+#main #gameContainer > input#game:checked ~ #GameCanvas,
+#main #gameContainer > input#rankings:checked ~ #leaderboard,
+#main #gameContainer > input#friends:checked ~ #friendslist,
+#main #gameContainer > input#about:checked ~ #stuckwanyah {
+  opacity: 1;
+  display: block;
+  z-index: 100;
+}
+input.visible {
+  visibility: visible !important;
+}
+input[type=radio], label {
+  display: none !important;
+}
+#dialog {
+  background: #eee;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  z-index: 99999;
+  display: none;
+  border: 5px solid #d8d8d261;
+  border-radius: 3px;
+}
+.menu {
+    background-color: aquamarine;
+}
+.menu>.item {
+    display: inline-block;
+    padding: 8px 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.menu>.item:hover {
+    background-color: beige;
+}
+.menu>.item.selected {
+    background-color: aliceblue;
+}
+#gameContainer .page.selected {
+  opacity: 1 !important;
+  display: block !important;
+  z-index: 100;
+}
+
+</style>
+</head>
+<body>
+
+<main id="main">
+
+  <h1>StuckWanYah</h1>
+
+  <center>
+    <div id="dialog"></div>
+    <div id="gameContainer">
+      <!--input id="game" type="radio" name="tab_group" checked="checked">
+      <label for="game">Play</label>
+      <input id="about" type="radio" name="tab_group">
+      <label for="about">About</label>
+      <input id="rankings" type="radio" name="tab_group">
+      <label for="rankings">Rankings</label>
+      <input id="friends" type="radio" name="tab_group">
+      <label for="friends">Friends list</label-->
+      <div class="menu">
+        <div id="game" contentId="GameCanvas" class="item selected">Play</div>
+        <div id="about" contentId="stuckwanyah" class="item">About</div>
+        <div id="rankings" contentId="leaderboard" class="item">Rankings</div>
+        <div id="friends" contentId="friendslist" class="item">Friends list</div>
+      </div>
+      <div id="GameCanvas" class="page selected" align="center" width="1080" height = "1920">
+        <h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
+        <h2>Who's hotter? Click to choose</h2>
+      </div>
+      <div id="stuckwanyah" class="page">
+        <h2>StuckWanYah</h2>
+        <p>
+          StuckWanYah is a hotness rating platform embeded onto facebook to let you vote for your friends hotness
+        </p>
+      </div>
+      <div id="leaderboard" class="page"></div>
+      <div id="friendslist" class="page"></div>
+
+    </div>
+  </center>
+</main>
+
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript">
+
+const BACKEND_URL = 'http://localhost:2000';
+var IMAGES;
+
+$.getJSON(BACKEND_URL + "/get/twophotos", function(err, res) {
+  if (err) return err;
+  IMAGES = JSON.parse(res);
+});
+
+window.onload = function() {
+  startGame();
+};
+  
+var startGame = function() {
+  var game = new gameArea(new backendClient(BACKEND_URL));
+  game.start();
+};
+  
+function gameArea(backend_client){
+  this.client = getPhotos();
+  this._cells = [[],[],[]];
+  this.start = function() {
+    var res = this.client//.load();
+    this.makeMatch(IMAGES.responseJSON);
+  };
+
+  /*this.client.load().then(function(server_reply) {
+    IMAGES.push(server_reply);
+  });*/
+
+  this.makeMatch = function(images) {
+    var canvas = document.getElementById('GameCanvas');
+
+    var table = document.createElement('table');
+    table.width = "360px";
+    table.height = "640px";
+    var bgc = 1;
+    var output = "";
+
+    //while (images) {
+      output += "<tr id=\"photos\">";
+      output +=   "<td class=\"photo\" align=\"center\" valign=\"top\">";
+      output +=     "<a href=\"rate?winner="+images[0].imageId+"&amp;loser="+images[1].imageId+"\" data-fb-id="+images[0].imageId+">";
+      output +=       "<img src=\"/photos/"+ images[0].picture +"\" class=\"img\">";
+      output +=     "</a>";
+      output +=   "</td>";
+      output +=   "<td class=\"\" align=\"center\" width=\"55\">";
+      output +=     "<b>OR</b>";
+      output +=   "</td>";
+      output +=   "<td class=\"photo\" align=\"center\" valign=\"top\">";
+      output +=     "<a href=\"rate?winner="+images[1].imageId+"&amp;loser="+images[0].imageId+"\" data-fb-id="+images[1].imageId+">";
+      output +=       "<img src=\"/photos/"+ images[1].picture +"\" class=\"img\">";
+      output +=     "</a>";
+      output +=   "</td>";
+      output += "</tr>";
+      output += "<tr align=\"center\">";
+      output +=   "<td>"+images[0].fullName+"</td>";
+      output +=   "<td></td>";
+      output +=   "<td>"+images[1].fullName+"</td>";
+      output += "</tr>";
+      output += "<tr align=\"left\">";
+      output +=   "<td><b>Ratings:</b> "+images[0].ratings+"</td>";
+      output +=   "<td></td>";
+      output +=   "<td><b>Ratings:</b> "+images[1].ratings+"</td>";
+      output += "</tr>";
+      output += "<tr align=\"left\">";
+      output +=   "<td><b>Wins:</b> "+images[0].wins+", <b>Loses:</b> "+images[0].losses+"</td>";
+      output +=   "<td></td>";
+      output +=   "<td><b>Wins:</b> "+images[1].wins+", <b>Loses:</b> "+images[1].losses+"</td>";
+      output += "<tr align=\"left\">";
+      output +=   "<td><b>Score:</b> "+images[0].score+"</td>";
+      output +=   "<td></td>";
+      output +=   "<td><b>Score:</b> "+images[1].score+"</td>";
+      output += "</tr>";
+      output += "<tr align=\"left\">";
+      output +=   "<td><b>Expected:</b>"+expectedScore(images[0].ratings, images[1].ratings)+"</td>";
+      output +=   "<td></td>";
+      output +=   "<td><b>Expected:</b>"+expectedScore(images[1].ratings, images[0].ratings)+"</td>";
+      output += "</tr>";
+    //}
+
+    for (var j=0; j<6; j++) {
+      var rowEl = document.createElement('tr');
+      
+      if (j == 0) {
+        rowEl.id = 'photos';
+        
+        for (var k=0; k<3; k++) {
+          var cellEl = document.createElement('td');
+          cellEl.className = bgc ? 'photo':'';
+          cellEl.align = 'center';
+          bgc ^= 1;
+          var anchor = document.createElement('a');
+
+          for (let g=0; g<1; g++) {
+          
+            if (k == 1) {
+              cellEl.width = "55";
+              var b = document.createElement('b');
+              b.innerText = 'OR';
+              cellEl.appendChild(b);
+            }
+            
+            if (k == 0 || k == 2) {
+              var img = document.createElement('img');
+              img.src = "/photos/" + images[1].picture;
+              img.className = 'img';
+              anchor.href = `rate?winner=${images[1].imageId}&loser=${images[0].imageId}`;
+              anchor.setAttribute("data-fb-id", images[0].facebookId);
+              anchor.appendChild(img);
+              cellEl.setAttribute("valign", 'top');
+            }
+          }
+
+          cellEl.appendChild(anchor);
+          rowEl.appendChild(cellEl);
+          this._cells[j].push(cellEl);
+        }
+      }
+
+      if (j == 1) {
+        rowEl.align = 'center';
+        for (var i=0; i<3; i++) {
+          var cellEl = document.createElement('td');
+          if (i == 0 || i == 2) {
+            cellEl.innerHTML = `${images[1].fullName}`;
+          }
+          rowEl.appendChild(cellEl);
+        }
+      }
+
+      if (j == 2 || j == 3 || j == 4 || j == 5) {
+        rowEl.align = 'left';
+        
+        for (var i=0; i<3; i++) {
+          var cellEl = document.createElement('td');
+          if (i == 0 || i == 2) {
+            if (j == 2) {cellEl.innerHTML = '<b>Ratings:</b> ${}';}
+            if (j == 3) {cellEl.innerHTML = '<b>Wins:</b> ${}, <b>Loses:</b> ${}, <b>Draws:</b> ${}';}
+            if (j == 4) {cellEl.innerHTML = '<b>Score:</b> ${}';}
+            if (j == 5) {cellEl.innerHTML = '<b>Expected:</b> ${}';}
+          }
+          rowEl.appendChild(cellEl);
+          this._cells[i].push(cellEl);
+        }
+      }
+
+      //table.appendChild(rowEl);
+    }
+    table.innerHTML = output;
+    canvas.appendChild(table);
+  };
+
+  this.populateFromServer = function(matchData) {
+    this._matchData = JSON.parse(matchData);
+    for (var j=0; j<3; j++) {
+      for (var k=0; k<3; k++) {
+        var cell = this._cells[j][k];
+        this.addPhotosToCell(cell, this.SPRITES[this._matchData.cells[j][k]]);
+      }
+    }
+  };
+
+  this.displayError = function(error) {
+    console.log("Error loadinng from backend", error)
+  };
+
+  this.addPhotosToCell = function(cell, spriteName) {
+    cell.removeChild(cell.firstChild);
+    var img = document.createElement('img');
+    img.src = '/photos/' + spriteName + '.png';
+    img.className = 'sprite';
+    cell.appendChild(img);
+  };
+};
+
+var getPhotos = function(){
+  var p = new backendClient(BACKEND_URL);
+  var q = p.load();
+  return q;
+}
+
+function backendClient(backendURL) {
+  this.request = function(url, method, params) {
+    return new Promise(function(resolve, reject) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onrequestchange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+        {
+          var json = JSON.parse(xmlhttp.responseText);
+          if (json.success) {
+            resolve(json);
+          } else {
+            reject(json.error);
+          }
+        }
+      }
+      xmlhttp.onerror = function(err) {
+        reject(err);
+      }
+      xmlhttp.open(method, url, true);
+      xmlhttp.setRequestHeader('Content-Type', 'application/json');
+      xmlhttp.send(JSON.stringify(params));
+    });
+  }
+  
+  this.save = function(players) {
+    var url = backendURL + '/rate';
+    var method = 'POST';
+    var payload = {'player1': players[0], 'player2': players[1]};
+    return this.request(url, method, payload);
+  };
+
+  this.load = function() {
+    var url = backendURL + '/api/v1/photos/twophotos'
+    var method = 'GET'
+    var payload = {'limit': 2};
+    //return this.request(url, method, payload);
+    return $.ajax({
+      url: url,
+      type: method,
+      data: payload,
+      dataType: 'json'
+    });
+  };
+}
+
+function share(event) {
+  var base64Picture = event.picture;
+  FBInstant.shareAsync({
+    intent: 'REQUEST',
+    image: base64Picture,
+    text: 'X is asking for your help!',
+    data: { myReplayData: '...' },
+  }).then(function() {
+    // continue with the game.
+  });
+}
+
+function logger(event) {
+  var logged = FBInstant.logEvent(
+    'my_custom_event', 
+    42,
+    {custom_property: 'custom_value'},
+  );
+}
+
+function leaderboard() {
+  FBInstant.getLeaderboardAsync('my_leaderboard')
+    .then(function(leaderboard) {
+      console.log(leaderboard.getName()); // my_leaderboard
+      return {
+        entryCount: leaderboard.getEntryCountAsync(),
+        score: leaderboard.setScoreAsync(42, '{race: "elf", level: 3}'),
+        entries: leaderboard.getEntriesAsync()
+      }
+    })
+    .then(function(count) { console.log(count); }) // 24
+    .then(function(entry) {
+      console.log(entry.getRank()); // 2
+      console.log(entry.getScore()); // 42
+      console.log(entry.getExtraData()); // '{race: "elf", level: 3}'
+  });
+}
+
+function lobbyScene(FBInstant) {
+  this.start = function() {
+    console.log("Not playing on a context");
+    var sceneRoot = document.getElementById('scene');
+    var message = document.createElement('p');
+    message.appendChild(document.createTextNode('Please choose an opponent.'));
+    
+    var button = document.createElement('input');
+    button.type = 'button';
+    button.className = 'button';
+    button.value = 'Select opponent';
+    button.onclick = function() {
+        FBInstant.context.chooseAsync() 
+    }
+    sceneRoot.insertBefore(message, sceneRoot.firstChild);
+  }
+};
+
+function expectedScore(ratings1, ratings2) {
+  return parseFloat((1 / (1 + Math.pow(10, (ratings1 - ratings2) / 400))).toFixed(2));
+};
+
+function displayFriends(list, parentDiv) {
+  for(let i=0; i<list.length; i++) {
+    var src = "https://graph.facebook.com/" + list[i].facebookId + "/picture?type=small"; // small, square, album, large
+    var $image = $('<img>').attr('src', src).css("width", "57px")
+    var $a = $('<a></a>');
+    $($a).attr('href', 'https://www.facebook.com/profile.php?id=' + list[i].facebookId).attr('title',"Go to this person's page");
+    $a.append($image);
+    $(parentDiv).append($a);
+  }
+};
+
+function displayRankings(list, parentDiv) {
+  for(let i=0; i<list.length; i++) {
+    var src = "https://graph.facebook.com/" + list[i] + "/picture?type=square";
+    var $image = $("<img>").attr('src', src);
+    var $a = $("<a></a>");
+    //create link to pofile and when mouse hovers display name
+    $($a).attr('href', 'https://facebook.com/' + list[i]).attr('title',"Go to this person's page")
+    $a.append($image);
+    $(parentDiv).append($a);
+
+  }
+};
+
+var content = $(".item"); 
+function swapContents(target) {
+  // swap the content
+  var currentSelected = $(target).parent().siblings(".page.selected");
+  currentSelected.removeClass("selected");
+  var pageContent;
+  var pageContent;
+  switch (target.id) {
+    case "game":pageContent = "GameCanvas";break;
+    case "about":pageContent = "stuckwanyah";break;
+    case "rankings":pageContent = "leaderboard";/*displayRankings();*/break;
+    case "friends":pageContent = "friendslist";
+      // Get all my friends playing this game
+      console.log("rendering friends list...");
+      $.getJSON("/api/v1/photos/", function(response) {
+        displayFriends(response, "#friendslist");
+      });
+      break;
+  }
+  var selectedContent = $("#" + pageContent); //$("#" + target.id);
+  selectedContent.addClass("selected");   
+  // swap the menu
+  var currentSelectedMenu = $(target).parent().children(".item.selected");
+  currentSelectedMenu.removeClass("selected");
+  $(target).addClass("selected");
+}
+content.click(function() {
+  swapContents(this);
+});
+
+/*for (var i = 1; i < table.rows.length; i++) {
+  var row = table.rows[i];
+  var data = {};
+  for (var j = 0; i < row.cells.length; i++) {
+    data[top[j]] = row.cells[j].innerHTML;
+  }
+  data.push(data);
+}*/
+
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wild cat chasing Antellop</title>
+</head>
+<body>
+
+<canvas id="canvas" width="900" height="100" style="border: 1px solid;"></canvas>
+
+<script type="text/javascript">
+var WildCat;
+var Antellop;
+var Human;
+var Lion;
+
+window.onload = start;
+
+function start() {
+	// animal = new Creature(speed, distance, color);
+	WildCat = new Creature(10, 0, "red");
+	Antellop = new Creature(5, 200, "blue");
+	Human = new Creature(8, 100, "green");
+	Lion = new Creature(22, 0, "purple")
+	Area.start();
+};
+
+var Area = {
+	canvas: document.getElementById("canvas"),
+	start: function() {
+		this.context = this.canvas.getContext('2d');
+		this.interval = setInterval(moveCreature, 60);
+	},
+	clear: function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+	finish: function() {
+		var startLine = this.x;
+		var finishLine = (this.canvas.width);
+	},
+	stop: function() {
+		clearInterval(this.interval);
+	}
+};
+
+var Creature = function(speed, distance, color) {
+	this.distance = distance;
+	this.speed = speed;
+	this.x = 0;
+	this.y = 78;
+	this.time = 8;
+	this.update = function() {
+		var ctx = Area.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, 30, 20);
+	};
+	this.run = function() {
+		this.x += this.speed;
+		this.time = this.x / this.speed; 
+		this.update();
+	};
+};
+
+var moveCreature = function() {
+	if (WildCat.x >= Area.canvas.width) {
+		Area.stop();
+	}
+	Area.clear();
+	WildCat.run();
+	Antellop.run();
+	// Human.run();
+	// Lion.run();
+};
+</script>
+<!-- <button onclick="Area.start();">Resume</button> -->
+<!-- <button onclick="Area.stop();">Stop</button> -->
+</body>
+</html>

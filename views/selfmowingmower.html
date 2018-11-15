@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-PG">
+<head>
+    <title>Login with Facebook</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
+    <script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript">
+// Component
+function Mower(world) {
+    this.world = world;
+    this.width = 20;
+    this.height = 30;
+    this.x = 20;
+    this.y = 0;
+    this.vx = 0;
+    this.vy = 0;
+    this.angle = 0;
+    this.speed = 0;
+};
+Mower.prototype.update = function() {
+    this.x;
+    this.y += 1;
+    this.ctx = this.world.context;
+};
+Mower.prototype.mow = function() {
+    this.world.drawRectangle('#f00', this.x, this.y, this.width, this.height);
+};
+// Game area
+function World() {
+    this.fps = 60;
+    this.canvas = document.getElementById('world');
+    this.context = this.canvas.getContext('2d');
+    this.context_width = this.canvas.width;
+    this.context_height = this.canvas.height;
+    this.boundx = this.context_width;
+    this.boundy = this.context_height;
+    this.mower = new Mower(this);
+    var world = this;
+    var worldloop = function() {
+        this.interval = setInterval(function() {
+            world.updateAll();
+            world.drawAll();
+        }, 1000 / this.fps);
+    }();
+    this.stop = function() {
+        clearInterval(this.interval);
+    };
+    this.clear = function() {
+        this.context.clearRect(0, 0, this.context_width.width, this.context_height.height);
+    }
+
+};
+World.prototype.updateAll = function () {
+    this.mower.update();
+};
+World.prototype.drawAll = function () {
+    this.drawRectangle('#ffffff', 0, 0, this.context_width, this.context_height);
+    this.mower.mow();
+};
+World.prototype.drawRectangle = function (color, x, y, width, height) {
+    this.context.fillStyle = color;
+    this.context.fillRect(x, y, width, height);
+};
+World.prototype.checkCollision = function() {
+};
+</script>
+</head>
+<body onload="new World()">
+<main id="main">
+    <h1>StuckWanYah</h1>
+    <h2></h2>
+
+    <center>
+
+        <canvas id="world" width="800" height="400"></canvas>
+
+        <br/><br/>
+
+        <div class="footer">
+            <div class="container">
+                <ul>
+                    <li><a href="/" onclick="sh('home')">Home</a></li>
+                    <li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+                    <li><a href="/about.html" onclick="sh('facebookpage')">About</a></li>
+                    <li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+                    <li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+                    <li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+                    <li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+                </ul>
+                <p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+                <p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
+            </div>
+        </div>
+    </center>
+</main>
+</body>
+</html>

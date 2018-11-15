@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+	<link rel="favicon" type="icon" href="/favicon.ico">
+</head>
+<body onload="startGame()">
+<script type="text/javascript">
+var myGamePiece;
+
+function startGame() {
+	myGameArea.start();
+	myGamePiece = new component(30, 30, "red", 10, 120);
+}
+
+var myGameArea = {
+	canvas: document.createElement("canvas"),
+	start: function() {
+		this.canvas.width = 480;
+		this.canvas.height = 270;
+		this.context = this.canvas.getContext("2d");
+		document.getElementById('gameContainer').append(this.canvas);
+		this.interval = setInterval(updateGameArea, 20);
+		window.addEventListener('keydown', function(e) {
+			myGameArea.keys = (myGameArea.keys || []);
+			myGameArea.keys[e.keyCode] = true;
+		});
+		window.addEventListener('keyup', function(e) {
+			myGameArea.keys[e.keyCode] = false;
+		});
+	},
+	clear: function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+}
+
+function component(width, height, color, x, y) {
+	this.width = width;
+	this.height = height;
+	this.speedX = 0;
+	this.speedY = 0;
+	this.x = x;
+	this.y = y;
+	this.update = function() {
+		ctx = myGameArea.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+	};
+	this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;
+	}
+}
+
+function updateGameArea() {
+	myGameArea.clear();
+	myGamePiece.speedX = 0;
+	myGamePiece.speedY = 0;
+	if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1;}
+	if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1;}
+	if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1;}
+	if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1;}
+	myGamePiece.newPos();
+	myGamePiece.update();
+}
+
+</script>
+<main id="main">
+	<h1>StuckWanYah</h1>
+
+	<center>
+		<div id="gameContainer"></div>
+
+		<br/><br/><br/><br/>
+
+		<div class="footer">
+			<div class="container">
+				<ul>
+					<li><a href="/" onclick="sh('home')">Home</a></li>
+					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+					<li><a href="/about.html" onclick="sh('about')">About</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+				</ul>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>	
+				<p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
+			</div>
+		</div>
+	</center>
+</main>
+</body>
+</html>

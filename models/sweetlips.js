@@ -10,7 +10,6 @@ var ObjectId = mongoose.Types.ObjectId;
 
 // Schema
 var SweetLipsSchema = new Schema({
-    //_id: [new ObjectId],
     id: String,
     imageId: {type: String, unique: true, index: true},
     playerId: {type: String, unique: true, index: true},
@@ -23,11 +22,13 @@ var SweetLipsSchema = new Schema({
     profileUrl: String,
     friends: [{
         type: Schema.ObjectId,
-        ref: 'photos'
+        ref: 'photos',
+        unique: true
     }],
     facebookHandle: {
-        instantGameId: String,
         id: String,
+        instantGameId: String,
+        pageId: String,
         token: String,
         friends: [],
         selected: false
@@ -48,7 +49,7 @@ var SweetLipsSchema = new Schema({
     ratings: {type: Number, default: 1400},
     // define the hgeospatial field
     random: {type: [Number], index: '2d'},
-    voted: {type: Boolean, default:false},
+    voted: {type: Boolean, default: false},
     voted_by: [],
     challengers: [],
     joinedAt: {type: Date, default: Date.now()},
@@ -103,14 +104,6 @@ SweetLipsSchema.statics.upsertFbUser = function (accessToken, refreshToken, prof
             });
         }
     });
-};
-
-// define a method to find the closest person
-SweetLipsSchema.methods.findClosest = function (callback) {
-    return this.model('photos').find({
-        loc: {$nearSphere: this.loc},
-        name: {$ne: this.name}
-    }).limit(1).exec(callback);
 };
 
 SweetLipsSchema.statics.findImageById = function (id, callback) {

@@ -2,10 +2,14 @@
 <html>
 <head>
 	<title>Flames</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+  	<meta charset="utf-8">
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="favicon" type="icon" href="/favicon.ico">
-  	<script src="//connect.facebook.net/en_US/sdk.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="all">
+	<script src="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
 <main id="main">
@@ -31,7 +35,7 @@
 			</tr>
 			<tr align="center">
 				<td colspan="3">
-					<button id="main_button" class="button" onclick="sh('flames')">Get Flamed</button>
+					<button id="main_button" class="button">Get Flamed</button>
 				</td>
 			</tr>
 			</tbody>
@@ -67,137 +71,135 @@
 	};
 </script>
 <script type="text/javascript">
-    (function(){
-        "use strict";
+(function(){
+	"use strict";
 
-        var $resultEl, $results, $boyName, $girlName, $boyNameVal, $girlNameVal, $boyNameField, $girlNameField;
-        var $FLAMES = ["FRIENDS", "LOVERS", "ADMIRE", "MARRIAGE", "ENEMIES"];
+	var $resultEl, $results, $boyName, $girlName, $boyNameVal, $girlNameVal, $boyNameField, $girlNameField;
+	var $FLAMES = ["FRIENDS", "LOVERS", "ADMIRE", "MARRIAGE", "ENEMIES"];
 
-        $resultEl = document.querySelector("#results td");
-        $boyNameField = document.getElementsByName("boy")[0];
-        $girlNameField = document.getElementsByName("girl")[0];
+	$resultEl = document.querySelector("#results td");
+	$boyNameField = document.getElementsByName("boy")[0];
+	$girlNameField = document.getElementsByName("girl")[0];
 
-        // get fields value
-        $boyNameVal = $boyNameField.value;
-        $girlNameVal = $girlNameField.value;
+	// get fields value
+	$boyNameVal = $boyNameField.value;
+	$girlNameVal = $girlNameField.value;
 
-        console
+	console
 
 
-        function checkingAvailability(){
-            // checking conditions
-            if ($boyNameVal !== "" && $girlNameVal !== "") {
-                $results = Hot("<3");
-                $resultEl.innerHTML = $results;
-            } else {
-                $results = Err("One or two fields are empty");
-                $resultEl.innerHTML = $results;
-            }
-        }
+	function checkingAvailability(){
+	    // checking conditions
+	    if ($boyNameVal !== "" && $girlNameVal !== "") {
+	        $results = Hot("<3");
+	        $resultEl.innerHTML = $results;
+	    } else {
+	        $results = Err("One or two fields are empty");
+	        $resultEl.innerHTML = $results;
+	    }
+	}
 
-        //Checks for any differences between the lists
-		function compareLists(newList, oldList) {
-		  //checks which .length is longer
-		  var lLength;
-		  if (oldList.length >= newList.length) {
-		    lLength = oldList.length;
-		  } else {
-		    lLength = newList.length;
-		  }
-		  //cyclyes through and compares the two lists
-		  for(let i = 0; i < lLength; i++) {
-		    //if old list item isn't in the new list they are no longer friends
-		    if ( !newList.includes(oldList[i]) ) {
-		      console.log("1-1 "+oldList[i]);
-		      //makes sure item is defined
-		      if (typeof oldList[i] !== 'undefined') {
-		        console.log("1-2 "+oldList[i]);
-		        unFriends.push(oldList[i]);
-		      }
-		      //if new list item isn't in the old list they are a new friend.
-		    }
-		    if ( !oldList.includes(newList[i]) ) {
-		      console.log("2-1");
-		      if (typeof newList[i] !== 'undefined') {
-		        console.log("2-2");
-		        newFriends.push(newList[i]);
-		      }
-		    } else {
-		      console.log("nope");
-		    }
-		
-		  }
+	//Checks for any differences between the lists
+	function compareLists(newList, oldList) {
+	  //checks which .length is longer
+	  var lLength;
+	  if (oldList.length >= newList.length) {
+	    lLength = oldList.length;
+	  } else {
+	    lLength = newList.length;
+	  }
+	  //cyclyes through and compares the two lists
+	  for(let i = 0; i < lLength; i++) {
+	    //if old list item isn't in the new list they are no longer friends
+	    if ( !newList.includes(oldList[i]) ) {
+	      console.log("1-1 "+oldList[i]);
+	      //makes sure item is defined
+	      if (typeof oldList[i] !== 'undefined') {
+	        console.log("1-2 "+oldList[i]);
+	        unFriends.push(oldList[i]);
+	      }
+	      //if new list item isn't in the old list they are a new friend.
+	    }
+	    if ( !oldList.includes(newList[i]) ) {
+	      console.log("2-1");
+	      if (typeof newList[i] !== 'undefined') {
+	        console.log("2-2");
+	        newFriends.push(newList[i]);
+	      }
+	    } else {
+	      console.log("nope");
+	    }
+	
+	  }
+	}
+
+	function Err(e) {
+	    return ("<h2 class='error'>"+e+"</h2>");
+	}
+	function Hot(m) {
+	    return ("<h1 class='hot'>"+$boyNameVal+" "+m+" "+$girlNameVal+"</h1>");
+	}
+	function Cold(c) {
+	    return ("<h1 class='hot'>"+c+"</h1>");
+	}
+
+	var caps = function (str) {
+	    return [str.charAt(0).toUpperCase(), str.substring(1)].join(" ");
+	};
+	var processNames = function(fn, str) {
+	    return str.split(" ").map(fn).join(" ");
+	};
+
+	document.getElementById("main_button").addEventListener("click", function(e) {
+	    console.log(processNames(caps, $boyNameVal));
+	});
+
+	var A = 10;
+	var B = 11;
+
+	console.log("(A & B) => " + (A & B)); // 
+	console.log("(A | B) => " + (A | B)); // 
+	console.log("(A ^ B) => " + (A ^ B)); // either A or B is true, not both
+	console.log("(~B) => " + (~ B)); // reverses bits in the operand
+	console.log("(A << 1) => " + (A << 1));
+	console.log("(A >> 1) => " + (A >> 1));
+	console.log("(A >>> 1) => " + (A >>> 1));
+
+
+	// run throught the two names letters by letters and check if any two letters are exist in both name
+	// if then cancel both letters out
+	// check again
+	var str1, str2, temp1, temp2, temp3, temp4;
+	str1 = "jena";
+	str2 = "james";
+	temp3 = [];
+	temp4 = [];
+	for (var i = 0; i < str1.length; i++) {
+		temp1 = str1.charAt(i);
+		for (var j = 0; j < str2.length; j++) {
+			temp2 = str2[j].charAt(j);
+			if (temp1 == temp2) {
+				temp1;
+				temp2;
+			} else {
+				temp3.push(temp1);
+				temp4.push(temp2);
+			}
 		}
+	}
 
-        function Err(e) {
-            return ("<h2 class='error'>"+e+"</h2>");
-        }
-        function Hot(m) {
-            return ("<h1 class='hot'>"+$boyNameVal+" "+m+" "+$girlNameVal+"</h1>");
-        }
-        function Cold(c) {
-            return ("<h1 class='hot'>"+c+"</h1>");
-        }
+	var temp1 = [], str = "jena";
+	for (var i = 0; i < str.length; i++) {
+		temp1.push(str.charAt([i]));
+		//console.log(str.charAt([i]));
+	}
 
-        var caps = function (str) {
-            return [str.charAt(0).toUpperCase(), str.substring(1)].join(" ");
-        };
-        var processNames = function(fn, str) {
-            return str.split(" ").map(fn).join(" ");
-        };
+	for (var i = 0; i < str.length; i++) {
+		if (str2.includes(str[i]))
+			console.log(str[i]);
+	}
 
-        document.getElementById("main_button").addEventListener("click", function(e) {
-            console.log(processNames(caps, $boyNameVal));
-        });
-
-        var A = 10;
-        var B = 11;
-
-        console.log("(A & B) => " + (A & B)); // 
-        console.log("(A | B) => " + (A | B)); // 
-        console.log("(A ^ B) => " + (A ^ B)); // either A or B is true, not both
-        console.log("(~B) => " + (~ B)); // reverses bits in the operand
-        console.log("(A << 1) => " + (A << 1));
-        console.log("(A >> 1) => " + (A >> 1));
-        console.log("(A >>> 1) => " + (A >>> 1));
-
-
-
-        // run throught the two names letters by letters and check if any two letters are exist in both name
-        // if then cancel both letters out
-        // check again
-        var str1, str2, temp1, temp2, temp3, temp4;
-        str1 = "jena";
-        str2 = "james";
-        temp3 = [];
-        temp4 = [];
-        for (var i = 0; i < str1.length; i++) {
-        	temp1 = str1.charAt([i]);
-        	for (var j = 0; j < str2.length; j++) {
-        		temp2 = str2[j].charAt([j]);
-        		if (temp1 == temp2) {
-        			temp1;
-        			temp2;
-        		} else {
-        			temp3.push(temp1);
-        			temp4.push(temp2);
-        		}
-        	}
-        }
-
-        var temp1 = [], str = "jena";
-        for (var i = 0; i < str.length; i++) {
-        	temp1.push(str.charAt([i]));
-        	//console.log(str.charAt([i]));
-        }
-
-        for (var i = 0; i < str.length; i++) {
-        	if (str2.includes(str[i]))
-        		console.log(str[i]);
-        }
-
-    }());
-
+}());
 </script>
 </body>
 </html>

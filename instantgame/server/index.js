@@ -5,7 +5,7 @@ var cors = require('cors');
 require('dotenv').config();
 
 var app = express();
-app.set('port', (process.env.PORT || 2000));
+app.set('port', (process.env.PORT || 7000));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -54,5 +54,3 @@ app.post("/vote", function(req, res) {
         }
     });
 });
-
-require('./bot')(app);

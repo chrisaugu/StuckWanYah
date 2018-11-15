@@ -163,7 +163,6 @@ function compareLists(newList, oldList) {
     } else {
       console.log("nope");
     }
-
   }
 }
 //#insidefrfr_ff
@@ -230,7 +229,6 @@ function checkBackLater(list) {
   $("#plswait").text("This may differ from Facebook's number since Facebook includes old friends who have deactivated their accounts, but we don't.");
   //Explain why it may be different from fb friends list
   $("<p id='whydiff'></p>").text("Check Back Later to See If Anyone From This List Has Unfriended You.").insertAfter("#plswait");
-
 }
 
 //if it isn't the first time with unfriended

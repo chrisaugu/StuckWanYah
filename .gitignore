@@ -1,8 +1,13 @@
 node_modules
+stuckwanyahgame
+data
+public/photos
+mean
+tic-tac-toe
+newfolder
+instantgame
 .idea
 .env
 .babelrc
-data
-public/photos
 StuckWanYahProject.sublime-project
 package-lock.json
