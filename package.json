@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/chrisaugu/stuckwanyah#readme",
   "dependencies": {
-    "express": "latest",
-    "cors": "latest",
-    "request": "leatst"
+    "express": "*",
+    "cors": "*",
+    "request": "*"
   }
 }
