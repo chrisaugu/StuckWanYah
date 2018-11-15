@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "homepage": "https://github.com/chrisaugu/stuckwanyah",
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
-  "engines": {
-    "node": "6.10.2"
-  },
   "main": "server.js",
   "scripts": {
     "test": "Test not specified",
-    "start": "nodemon server.js",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -65,6 +62,7 @@
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
     "newrelic": "*",
+    "nodemon": "*",
     "node-restful": "*",
     "open": "^0.0.5",
     "parseurl": "*",
