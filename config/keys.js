@@ -19,8 +19,8 @@ module.exports = {
 		profileFields: ['id', 'email', 'name'],
 		
 		// Memorable word to verify webhooks with Messenger platform
-		verifyToken: process.env.VERIFICATION_TOKEN || 'this_is_my_token',
-		botVerifyToken: process.env.BOT_VERIFY_TOKEN || "this_is_my_token"
+		verifyToken: process.env.VERIFICATION_TOKEN,
+		botVerifyToken: process.env.BOT_VERIFY_TOKEN
 	},
 	mongodb: {
 		testDbURL: "mongodb://localhost:27017/sweetlipsdb",
