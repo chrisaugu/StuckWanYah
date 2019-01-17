@@ -4,156 +4,192 @@
 		"selected_items":
 		[
 			[
-				"req",
-				"require"
+				"faceboo",
+				"facebookId"
 			],
 			[
-				"cons",
-				"const"
+				"wi",
+				"width"
 			],
 			[
-				"new",
-				"new_message"
+				"pre",
+				"prepareUserData"
 			],
 			[
-				"send",
-				"send_message"
+				"para",
+				"params"
 			],
 			[
-				"_get",
-				"_getBaseUrl"
+				"par",
+				"params"
 			],
 			[
-				"app",
-				"append"
+				"ob",
+				"object"
 			],
 			[
-				"in",
-				"includes"
+				"profil",
+				"profile"
 			],
 			[
-				"los",
-				"loser"
+				"vo",
+				"voted_by"
 			],
 			[
-				"lo",
-				"loser"
+				"pho",
+				"photos"
 			],
 			[
-				"find",
-				"find"
+				"log",
+				"log"
 			],
 			[
-				"lose",
-				"loser"
+				"make",
+				"makeGrid"
 			],
 			[
-				"vot",
-				"voter"
+				"sc",
+				"sceneRoot"
 			],
 			[
-				"fin",
-				"findOne"
+				"cel",
+				"cellIndex"
 			],
 			[
-				"get",
-				"getIdFromImageId"
+				"ro",
+				"rowEl"
 			],
 			[
-				"getUser",
-				"getUserId"
+				"profile",
+				"profileUrl"
 			],
 			[
-				"user",
-				"fb_userid"
+				"dis",
+				"displayError"
 			],
 			[
-				"frie",
-				"friends"
+				"re",
+				"response"
 			],
 			[
-				"cont",
-				"context_height"
-			],
-			[
-				"con",
-				"context_width"
-			],
-			[
-				"fc",
-				"function"
-			],
-			[
-				"mow",
-				"mower"
-			],
-			[
-				"fu",
-				"fun\tFunction"
+				"ui",
+				"userId"
 			],
 			[
 				"image",
 				"imageId"
 			],
 			[
-				"chec",
-				"checkUserExistance"
+				"pro",
+				"profile"
 			],
 			[
-				"rand",
-				"random"
+				"photo",
+				"photo"
 			],
 			[
-				"coo",
-				"coords"
+				"frien",
+				"friendslist"
 			],
 			[
-				"vote",
-				"voted_by"
+				"obj",
+				"obj"
 			],
 			[
-				"imag",
-				"imageId"
+				"cons",
+				"console"
 			],
 			[
-				"err",
-				"err"
-			],
-			[
-				"agr",
-				"aggregate"
-			],
-			[
-				"bo",
-				"body"
-			],
-			[
-				"font-s",
-				"font-style"
-			],
-			[
-				"fig",
-				"figcaption\tTag"
+				"ph",
+				"physics"
 			],
 			[
 				"cal",
 				"call"
 			],
 			[
-				"ran",
-				"randomQuerry"
+				"hide",
+				"hideDialog"
 			],
 			[
-				"mongo",
-				"mongoose"
+				"loa",
+				"loading"
+			],
+			[
+				"sho",
+				"showDialog"
+			],
+			[
+				"erro",
+				"error_theme"
+			],
+			[
+				"load",
+				"loading_theme"
+			],
+			[
+				"has",
+				"hash"
+			],
+			[
+				"ha",
+				"has"
+			],
+			[
+				"op",
+				"option\tTag"
+			],
+			[
+				"sty",
+				"style"
+			],
+			[
+				"st",
+				"story"
+			],
+			[
+				"pl",
+				"play"
+			],
+			[
+				"text-o",
+				"text-overflow\tproperty"
+			],
+			[
+				"ran",
+				"ranks"
+			],
+			[
+				"que",
+				"query_gender"
+			],
+			[
+				"qu",
+				"query_gender"
+			],
+			[
+				"noe",
+				"newPhoto"
+			],
+			[
+				"ima",
+				"imageId"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"get",
+				"getBaseUrl"
+			],
+			[
+				"local",
+				"locals"
 			],
 			[
 				"data",
 				"data"
-			],
-			[
-				"profile",
-				"profile"
 			],
 			[
 				"ex",
@@ -170,10 +206,6 @@
 			[
 				"auth",
 				"authResponse"
-			],
-			[
-				"log",
-				"login"
 			],
 			[
 				"conn",
@@ -196,10 +228,6 @@
 				"facebook_friends"
 			],
 			[
-				"frien",
-				"facebook_friends"
-			],
-			[
 				"Form",
 				"submitForm"
 			],
@@ -214,6 +242,10 @@
 			[
 				"dat",
 				"data"
+			],
+			[
+				"con",
+				"console"
 			],
 			[
 				"res",
@@ -236,8 +268,8 @@
 				"MongoClient"
 			],
 			[
-				"re",
-				"require"
+				"mongo",
+				"mongodb"
 			],
 			[
 				"json",
@@ -280,8 +312,8 @@
 				"length"
 			],
 			[
-				"obj",
-				"object"
+				"req",
+				"req"
 			],
 			[
 				"gener",
@@ -308,16 +340,16 @@
 				"player1"
 			],
 			[
-				"photo",
-				"photos"
-			],
-			[
 				"next",
 				"nextElementSibling"
 			],
 			[
 				"inn",
 				"innerText"
+			],
+			[
+				"app",
+				"appendChild"
 			],
 			[
 				"count",
@@ -340,16 +372,20 @@
 				"challengers"
 			],
 			[
+				"in",
+				"input\tTag"
+			],
+			[
 				"d",
 				"delete"
 			],
 			[
-				"vo",
-				"voter"
-			],
-			[
 				"publ",
 				"publish_actions"
+			],
+			[
+				"user",
+				"user_id"
 			],
 			[
 				"hr",
@@ -408,10 +444,6 @@
 				"field"
 			],
 			[
-				"pro",
-				"process"
-			],
-			[
 				"me",
 				"method"
 			],
@@ -432,12 +464,12 @@
 				"player_1"
 			],
 			[
-				"call",
-				"callback"
+				"find",
+				"findOne"
 			],
 			[
-				"para",
-				"parallel"
+				"call",
+				"callback"
 			],
 			[
 				"player_1",
@@ -464,8 +496,16 @@
 				"winner"
 			],
 			[
+				"lose",
+				"losses"
+			],
+			[
 				"wii",
 				"winning"
+			],
+			[
+				"new",
+				"new_winner_rating"
 			],
 			[
 				"rat",
@@ -474,46 +514,6 @@
 			[
 				"strin",
 				"stringify"
-			],
-			[
-				"local",
-				"localhost"
-			],
-			[
-				"conne",
-				"connect_facebook"
-			],
-			[
-				"dataf",
-				"data-fb-id"
-			],
-			[
-				"su",
-				"submit_photo"
-			],
-			[
-				"set",
-				"setData"
-			],
-			[
-				"ini",
-				"initSubmitEvents"
-			],
-			[
-				"Stu",
-				"StuckWanYah"
-			],
-			[
-				"te",
-				"templateSettings"
-			],
-			[
-				"no",
-				"notificationName"
-			],
-			[
-				"p",
-				"proto\tPrototype"
 			]
 		]
 	},
@@ -523,43 +523,36 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 70600,
+				"buffer_size": 68782,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "newfolder/post.yaml",
+			"contents": "Searching 42491 files for \"Express middleware\" (regex)\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\@feathersjs\\express\\CHANGELOG.md:\n   38  \n   39  - Question: How to handle JSON:API [\\#26](https://github.com/feathersjs/express/issues/26)\n   40: - \\[Proposal\\] Allow multiple express middleware functions to be passed into `app.use` [\\#24](https://github.com/feathersjs/express/issues/24)\n   41  \n   42  **Merged pull requests:**\n   ..\n   49  **Merged pull requests:**\n   50  \n   51: - Allow multiple express middleware functions to be passed into `app.use` [\\#25](https://github.com/feathersjs/express/pull/25) ([eXigentCoder](https://github.com/eXigentCoder))\n   52  \n   53  ## [v1.2.1](https://github.com/feathersjs/express/tree/v1.2.1) (2018-03-29)\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\ajv\\README.md:\n 1238  - [webpack](https://github.com/webpack/webpack) - a module bundler. Its main purpose is to bundle JavaScript files for usage in a browser\n 1239  - [jsonscript-js](https://github.com/JSONScript/jsonscript-js) - the interpreter for [JSONScript](http://www.jsonscript.org) - scripted processing of existing endpoints and services\n 1240: - [osprey-method-handler](https://github.com/mulesoft-labs/osprey-method-handler) - Express middleware for validating requests and responses based on a RAML method object, used in [osprey](https://github.com/mulesoft/osprey) - validating API proxy generated from a RAML definition\n 1241  - [har-validator](https://github.com/ahmadnassri/har-validator) - HTTP Archive (HAR) validator\n 1242  - [jsoneditor](https://github.com/josdejong/jsoneditor) - a web-based tool to view, edit, format, and validate JSON http://jsoneditoronline.org\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\cookies\\README.md:\n    8  [![Test Coverage][coveralls-image]][coveralls-url]\n    9  \n   10: Cookies is a [node.js](http://nodejs.org/) module for getting and setting HTTP(S) cookies. Cookies can be signed to prevent tampering, using [Keygrip](https://www.npmjs.com/package/keygrip). It can be used with the built-in node.js HTTP library, or as Connect/Express middleware.\n   11  \n   12  ## Install\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\express-stormpath\\coverage\\express-stormpath\\lib\\middleware\\groups-required.js.html:\n  255   * @param {Boolean} [all=true] - Whether membership is required in one group or all.\n  256   *\n  257:  * @returns {Function} Returns an express middleware which asserts a user's\n  258   *   group membership, and only allows the user to continue if the assertions\n  259   *   are true.\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\express-stormpath\\coverage\\express-stormpath\\lib\\stormpath.js.html:\n  704   * @param {object} opts - A JSON hash of user supplied options.\n  705   *\n  706:  * @return {Function} An express middleware.\n  707   */\n  708  module.exports.init = function (app, opts) {\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\express-stormpath\\lib\\middleware\\groups-required.js:\n   14   * @param {Boolean} [all=true] - Whether membership is required in one group or all.\n   15   *\n   16:  * @returns {Function} Returns an express middleware which asserts a user's\n   17   *   group membership, and only allows the user to continue if the assertions\n   18   *   are true.\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\express-stormpath\\lib\\stormpath.js:\n   67   * @param {object} opts - A JSON hash of user supplied options.\n   68   *\n   69:  * @return {Function} An express middleware.\n   70   */\n   71  module.exports.init = function (app, opts) {\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\express-validator\\lib\\express_validator.js:\n   15  \n   16  /**\n   17:  * Adds validation methods to request object via express middleware\n   18   *\n   19   * @method expressValidator\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\express-validator\\package.json:\n   66    },\n   67    \"deprecated\": false,\n   68:   \"description\": \"Express middleware for the validator module.\",\n   69    \"devDependencies\": {\n   70      \"chai\": \"2.3.0\",\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\feature-policy\\README.md:\n    5  [_Looking for a changelog?_](https://github.com/helmetjs/helmet/blob/master/HISTORY.md)\n    6  \n    7: This is Express middleware to set the `Feature-Policy` header. You can read more about it [here](https://scotthelme.co.uk/a-new-security-header-feature-policy/) and [here](https://developers.google.com/web/updates/2018/06/feature-policy).\n    8  \n    9  To use:\n\nC:\\Users\\Wantok\\WebstormProjects\\node_modules\\html-minifier\\README.md:\n   11  [Test suite is available online](https://kangax.github.io/html-minifier/tests/).\n   12  \n   13: Also see corresponding [Ruby wrapper](https://github.com/stereobooster/html_minifier), and for Node.js, [Grunt plugin](https://github.com/gruntjs/grunt-contrib-htmlmin), [Gulp module](https://github.com/jonschlinkert/gulp-htmlmin), [Koa middleware wrapper](https://github.com/koajs/html-minifier) and [Express middleware wrapper](https://github.com/melonmanchan/express-minify-html).\n   14  \n   15  For lint-like capabilities take a look at [HTMLLint](https://github.com/kangax/html-lint).\n\n",
 			"settings":
 			{
-				"buffer_size": 18637,
-				"line_ending": "Windows"
+				"buffer_size": 5136,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
 			}
 		},
 		{
-			"file": "app/javascripts/script.js",
+			"file": "models/sweetlips.js",
 			"settings":
 			{
-				"buffer_size": 73216,
+				"buffer_size": 5177,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "views/home.html",
+			"file": "instantgame/client/index.html",
 			"settings":
 			{
-				"buffer_size": 5468,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/connect.html",
-			"settings":
-			{
-				"buffer_size": 5286,
-				"encoding": "UTF-8",
+				"buffer_size": 9821,
+				"encoding": "UTF-8 with BOM",
 				"line_ending": "Windows"
 			}
 		},
@@ -567,9 +560,54 @@
 			"file": "instantgame/client/js/game.bundle.js",
 			"settings":
 			{
-				"buffer_size": 20459,
+				"buffer_size": 28953,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/javascripts/script.js",
+			"settings":
+			{
+				"buffer_size": 51502,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "friendslist.json",
+			"settings":
+			{
+				"buffer_size": 258044,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "photos.js",
+			"settings":
+			{
+				"buffer_size": 8854,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "(function () {\n    window.horem = window.horem|| false;\n    if (window.horem) return;\n    window.horem = true;\n\n    $.fn.disableSelection = function () {\n        return this.each(function () {\n            $(this).attr(\"unselectable\", \"on\").css({\n                \"-moz-user-select\": \"none\",\n                \"-webkit-user-select\": \"none\",\n                \"user-select\": \"none\",\n                \"-ms-user-select\": \"none\"\n            }).each(function () {\n                this.onselectstart = function () {\n                    return false;\n                };\n            });\n        });\n    };\n    var r = 100;\n    var f = function (e, t, n) {\n        var i = new XMLHttpRequest();\n        i.open(\"GET\", e);\n        i.onreadystatechange = function () {\n            if (i.readyState == 4) {\n                if (i.status == 200 && t) {\n                    t(i.responseText);\n                }\n                if (n) {\n                    n();\n                }\n            }\n        };\n        i.send();\n    };\n\n\n    function u() {\n        chrome.extension.sendMessage({storage: \"back-url\"}, function (e) {window.location.href = e.storage;});\n    }\n\n    function calcCount() {\n        var e = $(\" .friend:visible\").size();\n        $(\" span.friend-count\").text(e);\n        e = $(\".ka-main .friends .friend.inactive:visible\").size();\n        $(\" span.inactive-count\").text(e);\n    }\n\n    var x = [], w = [], M = false, C = [],  E = 0;\n\n    function fetchFriendList(callback) {\n        var t = document.cookie.match(/c_user=(\\d+)/)[1];\n        f(\"https://www.facebook.com/ajax/typeahead/first_degree.php?__a=1&filter[0]=user&pretty=0&lazy=0&viewer=\" + t + \"&token=v7&stale_ok=0&options[0]=friends_only&options[1]=nm\", function (t) {\n            var n = JSON.parse(t.substring(t.indexOf(\"{\")));\n            friendList = n.payload.entries;\n            for (var i = 0; i < friendList.length; i++) {\n                var a = friendList[i];\n                if (C.indexOf(a.uid + \"\") == -1) {\n                    var s = {id: a.uid, name: a.text, lowername: a.text.toLowerCase(), avatar: a.photo, text: a.text};\n                    x.push(s);\n                    w[s.id] = s;\n                }\n            }\n            callback();\n        });\n    }\n\n\n    function renderAll(e, t) {\n        if (M) {\n            M = false;\n            t(w);\n            return;\n        }\n        M = false;\n        var n = $(\"#friends_center_main .centeredIndicator\"),\n            i = false;\n        if (n.size() < 1)\n            i = true;\n\n        var a = x.slice(e, e + r),\n            friendlist = getTemplateRemoveList(a),\n            o = $(\".filter input\").val().toLowerCase();\n\n        if (o) {\n            var l = $(\"<div>\").append($(friendlist));\n            findFriends(l, o);\n            friendlist = l.html();\n        }\n\n        $(\".ka-main .friends .widget-users\").append(friendlist);\n        calcCount();\n        $(\".ka-main .friends .friend\").disableSelection();\n\n        if (i) {\n            $(\".ka-main .container\").addClass(\"loaded\");\n            t(w);\n            return;\n        }\n        setTimeout(function () {\n            renderAll(e + r, t);\n        }, 500);\n    }\n\n    function findFriends(e, t) {\n        if (t === \"\") {\n            e.find(\".friend\").show();\n            return;\n        }\n        var n = '[data-lowername*=\"' + t + '\"]';\n        e.find(\".friend\" + n).show();\n        e.find(\".friend:not(\" + n + \")\").hide();\n    }\n\n    function getTemplateRemoveList(users) {\n        var removelist = [];\n        for (let index in users) {\n            var list = ` \n                 <li class=\"col-md-4 friend\" data-id=\"${users[index].id}\" data-name=\"${users[index].name}\" >\n                        <div class=\"img\">\n                            <img src=\"${users[index].avatar}\" class=\"lazy\" data-original=\"http://b.static.ak.fbcdn.net/rsrc.php/v1/yo/r/UlIqmHJn-SK.gif\" alt=\"\"/>\n                        </div>\n                        <div class=\"details\">\n                            <div class=\"name\">\n                                <a href=\"#\">${users[index].lowername}</a>\n                            </div>\n                            <div class=\"time\">\n                                <i class=\"fa fa-clock-o\"></i>  \n                            </div>\n                            <div class=\"type\">\n                             </div>\n                        </div>\n                    </li>\t\t             \n                `;\n            removelist.push(list)\n        }\n        return removelist.join(\"\");\n    }\n\n    function T() {\n        var e = this;\n        $(\"#rightCol\").remove();\n        this.off(\"click\", \"a.selectall\");\n        this.on(\"click\", \"a.selectall\", function () {\n            e.find(\".friends .friend:visible\").addClass(\"selected\");\n\n            var t = [];\n            $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function () {\n                t.push(w[$(this).attr(\"data-id\")]);\n            });\n\n            var removelist = getTemplateRemoveList(t);\n\n            $(\".remove-list\").html(removelist);\n            $(\".removal\").toggleClass(\"populated\", t.length > 0);\n            return false;\n        });\n        this.off(\"click\", \"a.select-inactive\");\n        this.on(\"click\", \"a.select-inactive\", function () {\n            e.find(\".friends .friend.inactive:visible\").addClass(\"selected\");\n            var users = [];\n            $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function () {\n                users.push(w[$(this).attr(\"data-id\")]);\n            });\n            $(\".remove-list\").html(getTemplateRemoveList(users));\n            $(\".removal\").toggleClass(\"populated\", t.length > 0);\n            return false;\n        });\n        this.find(\"a.unselect\").off(\"click\");\n        this.find(\"a.unselect\").on(\"click\", function () {\n            e.find(\".friends .friend\").removeClass(\"selected\");\n            $(\"#removeFriends .remove-list\").html(\"\");\n            $(\"#removeFriends .removal\").removeClass(\"populated\");\n            return false;\n        });\n        this.off(\"click\", \".remove-list .friend \");\n        this.on(\"click\", \".remove-list .friend \", function () {\n            var e = $(this).attr(\"data-id\");\n            $(\".friends .friend[data-id='\" + e + \"']\").click();\n        });\n        this.off(\"click\", \".friends .friend\");\n        this.on(\"click\", \".friends .friend\", function () {\n            if ($(this).is(\".selected\")) $(this).removeClass(\"selected\"); else $(this).addClass(\"selected\");\n\n            var e = [];\n            $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function () {\n                e.push(w[$(this).attr(\"data-id\")]);\n            });\n            $(\"#removeFriends .remove-list\").html(getTemplateRemoveList(e));\n            $(\"#removeFriends .removal\").toggleClass(\"populated\", e.length > 0);\n        });\n        var t = e.find(\".friends\");\n        this.find(\".filter input\").off(\"keyup\");\n        this.find(\".filter input\").on(\"keyup\", _.debounce(function () {\n            var e = $(this).val().toLowerCase();\n            _.defer(function () {\n                findFriends(t, e);\n                calcCount();\n            });\n        }, 250));\n\n        this.off(\"click\", \".removal button.cancel, .close\");\n        this.on(\"click\", \".removal button.cancel, .close\", function () {\n            M = true;\n            e.fadeOut(500, function () {\n                $(document, \"body\").unbind(\"scroll\");\n                window.scrollTo(0, 0);\n                e.remove();\n            });\n            u();\n        });\n        function n(t) {\n            var friendsListToRemove = t;\n            removeFriendsFacabook(friendsListToRemove, function () {C = [];  $(\".selected\").remove(); }, function () {\n                C = [];\n                $(\".selected\").remove();\n            });\n        }\n\n        this.off(\"click\", \".removal button.remove\");\n        this.on(\"click\", \".removal button.remove\", function () {\n            M = true;\n            var t = $(\".friends .friend.selected\").size();\n            if (t < 1) {\n                $(\".friends\").effect(\"pulsate\", {\n                    times: 1\n                }, 800);\n                return;\n            }\n\n\n            var i = $(\".removal\").clone();\n            i.find('#removeAction').remove();\n            var html = `<div>${i.html()}</div>`;\n\n            swal({ title: chrome.i18n.getMessage(\"are_you_sure\"), text: chrome.i18n.getMessage(\"remove_friends_swal\"), imageWidth: 80, imageHeight: 80, showCancelButton: true, showConfirmButton: true, html: html })\n                .then(\n                    function (result) {\n                        if (result.value) {\n                            $(\".remove-list\").html(\"\");\n                            var i = [], s = [];\n                            $(\".friends\").find(\".friend.selected\").size()\n                            && $(\".friends\").find(\".friend.selected\").each(function () {\n                                s.push($(this).attr(\"data-id\"));\n                                i.push(w[$(this).attr(\"data-id\")]);\n                            });\n                            n(i);\n                        }\n                    })\n\n\n        });\n\n\n        window.scrollTo(0, 0);\n        fetchFriendList(function () {\n            e.fadeIn(1000, function () {\n                renderAll(0, function (e) {\n                });\n            });\n        });\n    }\n\n    function removeFriendsFacabook(friends, callback, callback2) {\n        var f = 5, u, p,\n            tokens = $(\"html\").text().match(/\\{\"dtsg\":\\{\"token\":\"[^\"]+/g);\n\n        if (tokens.length < 1) {\n            return false;\n        }\n        var token = tokens[0].replace('{\"dtsg\":{\"token\":\"', \"\");\n        C = [];\n        function initializeRemove(a) {\n            if (a === 0) {\n                p = false;\n                u = 0;\n            }\n            if (p === false) {\n                if (u < f) {\n                    if (a >= friends.length) {\n                        for (var c = 0; c < friends.length; c++)\n                            C.push(friends[c].id);\n                        chrome.extension.sendMessage({ setRemoved: C.join(\"|\"),  newRemoved: friends.length }, function (e) { E = e;P(); });\n                        p = true;\n                        callback2(null);\n                    } else {\n                        var d = new XMLHttpRequest();\n                        d.open(\"POST\", \"https://m.facebook.com/a/\" + \"removefriend\" + \".php?unref=bd_profile_button&fb_dtsg=\" + token + \"&friend_id=\" + friends[a].id, true);\n                        d.send();\n                        callback(null, a);\n                        setTimeout(function () {\n                            initializeRemove(a + 1);\n                        }, 100);\n                    }\n                } else {\n                    setTimeout(function () { initializeRemove(a)}, 100);\n                }\n            }\n        }\n\n        initializeRemove(0);\n    }\n\n    function renderBlockGlobal() {\n        if ($(\"#removeFriends\").size()) {\n            $(\"#removeFriends\").remove();\n        }\n        $(\"#viewport\").hide();\n        var html = ` \n            <div id=\"removeFriends\" class=\"ka ka-main row\" style=\" background: white; margin: 0px; margin-top: 25px; padding:0px \">\n            <div class=\"container-fluid\">\n            \n                <div class=\"row\">\n                    <div class=\"modal dialog\"></div>\n                    <div class=\"blocker row\"></div>\n                </div>\n                \n                <div class=\"row\" style=\"display: none \">\n                    <div class=\"status\">\n                        <div class=\"indicator\">\n                            <div class=\"padded\">\n                                <div class=\"progress\">\n                                    <div class=\"overlay\"></div>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"label\">Removing friends&hellip;\n                            <span class=\"count\">0</span> of <span class=\"total\">0</span>\n                        </div>\n                    </div>\n                </div>\n                \n                <div class=\"row\">\n                    <form class=\"form filter col-md-4\" >\n                            <div class=\"form-group  \">\n                              <label for=\"filter1\" class=\"sr-only\">${chrome.i18n.getMessage(\" filter_friends\")}</label>\n                                <input name=\"filter\" id=\"filter1\" class=\"form-control\" placeholder=\"${chrome.i18n.getMessage(\" filter_friends\")}\" />                       \n                            </div>\n                        </form>\n                </div>\n                \n                <div class=\"row\">\n                     ${chrome.i18n.getMessage(\"friends_count\")} (<span class=\"friend-count badge-success\">0</span>)\n                    Inactive (<span class=\"inactive-count badge-success\">0</span>)\n                </div> \n                <div class=\"row\">\n                    <div class=\" col-md-6\">\n                        <div class=\" alert alert-info tally\">\n                            <a class=\"selectall\" href=\"#\">${chrome.i18n.getMessage(\"select_all\")}</a>                           \n                            <a class=\"select-inactive\" href=\"#\">${chrome.i18n.getMessage(\"select_inactive\")}</a>\n                        </div>                    \n                     </div> \n                    <div class=\"col-md-6 \">\n                        <div class=\"alert alert-info\">\n                        ${chrome.i18n.getMessage(\"friends_selected_for_removal\")}\n                             <a class=\"unselect\" href=\"#unselect\">${chrome.i18n.getMessage(\"unselect\")}</a>\n                        </div>                                                                                    \n                     </div> \n                </div> \n                <div class=\"row\">\n                    <div class=\"friends col-md-6 \" >\n                        <ul class=\"widget-users\"></ul>                \n                    </div>                                             \n                    <div class=\"removal dialog col-md-6  \">\n                     \n                           <div class=\"actions alert alert-warning \" id=\"removeAction\" >\n                                  <button type=\"button\" id=\"cancel\" class=\"cancel btn btn-primary\">${chrome.i18n.getMessage(\"cancel\")}</button>\n                                  <button  class=\"remove btn btn-danger\">${chrome.i18n.getMessage(\"remove_friends\")}</button>\n                            </div> \n                          <ul class=\"remove-list widget-users\"></ul>        \n                                                                                                                                                                                                                                                                                                     \n                    </div>                                   \n                </div> \n                <div class=\"guide\">\n                    <p>${chrome.i18n.getMessage(\"select_the_friends_you_would_like_to_remove\")}</p>\n                </div>\n        \n            </div>\n        </div>\n                    \n                    `;\n\n        var t = $(html);\n        $(\"body\").append(t);\n        t.find(\"*:not(:input):not(a)\").disableSelection();\n        T.call(t);\n    }\n\n    function start() {\n        chrome.extension.sendMessage({ getRemoved: true }, function (e) {\n            C = e.split(\"|\");\n            renderBlockGlobal();\n        });\n    }\n\n    $(document).ready(function () {\n        if (location.href.includes(\"https://m.facebook.com/friends/center/friends\") == false) {\n            alert(\"You must login your facebook account and reload this extension\");\n            return;\n        }\n        start();\n    });\n\n    var P = function () {\n        swal(\n            'Deleted!',\n            chrome.i18n.getMessage(\"you_remove_count_user\")+E,\n            'success'\n        )\n    };\n})();",
+			"settings":
+			{
+				"buffer_size": 16128,
+				"line_ending": "Windows",
+				"name": "(function () {"
+			}
+		},
+		{
+			"contents": "(function() {\n  window._ffr_appload = window._ffr_appload || false;\n  if (window._ffr_appload) return;\n  window._ffr_appload = true;\n  var e = {};\n  e.VERSION = \"1.0.beta.6\";\n  e.helpers = {};\n  e.partials = {};\n  e.registerHelper = function(e, t, n) {\n    if (n) {\n      t.not = n;\n    }\n    this.helpers[e] = t;\n  };\n  e.registerPartial = function(e, t) {\n    this.partials[e] = t;\n  };\n  e.registerHelper(\"helperMissing\", function(e) {\n    if (arguments.length === 2) {\n      return undefined;\n    } else {\n      throw new Error(\"Could not find property '\" + e + \"'\");\n    }\n  });\n  var t = Object.prototype.toString, n = \"[object Function]\";\n  e.registerHelper(\"blockHelperMissing\", function(e, i) {\n    var a = i.inverse || function() {}, s = i.fn;\n    var r = \"\";\n    var o = t.call(e);\n    if (o === n) {\n      e = e.call(this);\n    }\n    if (e === true) {\n      return s(this);\n    } else if (e === false || e == null) {\n      return a(this);\n    } else if (o === \"[object Array]\") {\n      if (e.length > 0) {\n        for (var l = 0, c = e.length; l < c; l++) {\n          r = r + s(e[l]);\n        }\n      } else {\n        r = a(this);\n      }\n      return r;\n    } else {\n      return s(e);\n    }\n  });\n  e.registerHelper(\"each\", function(e, t) {\n    var n = t.fn, i = t.inverse;\n    var a = \"\";\n    if (e && e.length > 0) {\n      for (var s = 0, r = e.length; s < r; s++) {\n        a = a + n(e[s]);\n      }\n    } else {\n      a = i(this);\n    }\n    return a;\n  });\n  e.registerHelper(\"if\", function(i, a) {\n    var s = t.call(i);\n    if (s === n) {\n      i = i.call(this);\n    }\n    if (!i || e.Utils.isEmpty(i)) {\n      return a.inverse(this);\n    } else {\n      return a.fn(this);\n    }\n  });\n  e.registerHelper(\"unless\", function(t, n) {\n    var i = n.fn, a = n.inverse;\n    n.fn = a;\n    n.inverse = i;\n    return e.helpers[\"if\"].call(this, t, n);\n  });\n  e.registerHelper(\"with\", function(e, t) {\n    return t.fn(e);\n  });\n  e.registerHelper(\"log\", function(t) {\n    e.log(t);\n  });\n  e.Exception = function(e) {\n    var t = Error.prototype.constructor.apply(this, arguments);\n    for (var n in t) {\n      if (t.hasOwnProperty(n)) {\n        this[n] = t[n];\n      }\n    }\n    this.message = t.message;\n  };\n  e.Exception.prototype = new Error();\n  e.SafeString = function(e) {\n    this.string = e;\n  };\n  e.SafeString.prototype.toString = function() {\n    return this.string.toString();\n  };\n  (function() {\n    var t = {\n      \"<\": \"&lt;\",\n      \">\": \"&gt;\",\n      '\"': \"&quot;\",\n      \"'\": \"&#x27;\",\n      \"`\": \"&#x60;\"\n    };\n    var n = /&(?!\\w+;)|[<>\"'`]/g;\n    var i = /[&<>\"'`]/;\n    var a = function(e) {\n      return t[e] || \"&amp;\";\n    };\n    e.Utils = {\n      escapeExpression: function(t) {\n        if (t instanceof e.SafeString) {\n          return t.toString();\n        } else if (t == null || t === false) {\n          return \"\";\n        }\n        if (!i.test(t)) {\n          return t;\n        }\n        return t.replace(n, a);\n      },\n      isEmpty: function(e) {\n        if (typeof e === \"undefined\") {\n          return true;\n        } else if (e === null) {\n          return true;\n        } else if (e === false) {\n          return true;\n        } else if (Object.prototype.toString.call(e) === \"[object Array]\" && e.length === 0) {\n          return true;\n        } else {\n          return false;\n        }\n      }\n    };\n  })();\n  e.VM = {\n    template: function(t) {\n      var n = {\n        escapeExpression: e.Utils.escapeExpression,\n        invokePartial: e.VM.invokePartial,\n        programs: [],\n        program: function(t, n, i) {\n          var a = this.programs[t];\n          if (i) {\n            return e.VM.program(n, i);\n          } else if (a) {\n            return a;\n          } else {\n            a = this.programs[t] = e.VM.program(n);\n            return a;\n          }\n        },\n        programWithDepth: e.VM.programWithDepth,\n        noop: e.VM.noop\n      };\n      return function(i, a) {\n        a = a || {};\n        return t.call(n, e, i, a.helpers, a.partials, a.data);\n      };\n    },\n    programWithDepth: function(e, t, n) {\n      var i = Array.prototype.slice.call(arguments, 2);\n      return function(n, a) {\n        a = a || {};\n        return e.apply(this, [ n, a.data || t ].concat(i));\n      };\n    },\n    program: function(e, t) {\n      return function(n, i) {\n        i = i || {};\n        return e(n, i.data || t);\n      };\n    },\n    noop: function() {\n      return \"\";\n    },\n    invokePartial: function(t, n, i, a, s, r) {\n      options = {\n        helpers: a,\n        partials: s,\n        data: r\n      };\n      if (t === undefined) {\n        throw new e.Exception(\"The partial \" + n + \" could not be found\");\n      } else if (t instanceof Function) {\n        return t(i, options);\n      } else if (!e.compile) {\n        throw new e.Exception(\"The partial \" + n + \" could not be compiled when running in runtime-only mode\");\n      } else {\n        s[n] = e.compile(t);\n        return s[n](i, options);\n      }\n    }\n  };\n  e.template = e.VM.template;\n  (function(t, n) {\n    function i() {}\n    i.prototype.namespace = function(e) {\n      var t = e.split(\".\");\n      if (t[0] === \"$tarot\") {\n        t.shift();\n      }\n      var n = this;\n      for (var i = 0; i < t.length; i++) {\n        var a = t[i];\n        if (typeof n[a] === \"undefined\") {\n          n[a] = {};\n        }\n        n = n[a];\n      }\n      return n;\n    };\n    if (typeof t.$ka === \"undefined\") {\n      t.$ka = new i();\n    }\n    var a = $ka.namespace(\"templates\");\n    a.main = e.template(function(e, t, n, i, a) {\n      return n = n || e.helpers, '<div id=\"kickass\" class=\"ka ka-main\" style=\"position: fixed; left: 0px; top: 0px; right: 0px; bottom: 0px; background: #3b5998; display:none; color: white;\">\\n\\n  <div class=\"modal dialog\"></div>\\n\\n  <div class=\"blocker\"></div>\\n\\n  <div class=\"header\">\\n    <h1></h1>\\n\\n    <h2>' + chrome.i18n.getMessage(\"extName\") + '</h2>\\n\\n    <div class=\"close\">&times;</div>\\n  </div>\\n\\n  <div class=\"container\">\\n\\n    <div class=\"status\">\\n      <div class=\"indicator\">\\n        <div class=\"padded\">\\n          <div class=\"progress\">\\n            <div class=\"overlay\">\\n            </div>\\n          </div>\\n        </div>\\n      </div>\\n      <div class=\"label\">\\n        Removing friends&hellip; <span class=\"count\">0</span> of <span class=\"total\">0</span>\\n      </div>\\n    </div>\\n\\n    <div class=\"filter\">\\n\\n      <input name=\"filter\" placeholder=\"' + chrome.i18n.getMessage(\"filter_friends\") + '\" />\\n\\n      <div class=\"tally\">\\n        <p>Friends (<span class=\"friend-count\">0</span>) <a class=\"selectall\" href=\"#\">' + chrome.i18n.getMessage(\"select_all\") + '</a></p>\\n        <p class=\"inactive\">Inactive (<span class=\"inactive-count\">0</span>) <a class=\"select-inactive\" href=\"#\">' + chrome.i18n.getMessage(\"select_inactive\") + '</a></p>\\n      </div>\\n\\n    </div>\\n\\n    <div class=\"friends\">\\n      <div class=\"pane\">\\n\\n      </div>\\n    </div>\\n\\n    <div class=\"guide\">\\n      <p>\\n        ' + chrome.i18n.getMessage(\"select_the_friends_you_would_like_to_remove\") + '\\n      </p>\\n    </div>\\n\\n    <div class=\"removal dialog\">\\n      <div class=\"pane\">\\n        <h2>' + chrome.i18n.getMessage(\"friends_selected_for_removal\") + ' <a class=\"unselect\" href=\"#unselect\">' + chrome.i18n.getMessage(\"unselect\") + '</a></h2>\\n\\n        <ul class=\"remove-list\">\\n\\n        </ul>\\n\\n        <div class=\"actions\">\\n          <button class=\"cancel\">\\n            ' + chrome.i18n.getMessage(\"cancel\") + '\\n          </button>\\n          <button class=\"remove\">\\n            ' + chrome.i18n.getMessage(\"remove_friends\") + \"\\n          </button>\\n        </div>\\n      </div>\\n    </div>\\n  </div>\\n</div>\";\n    });\n    a.success = e.template(function(e, t, n, i, a) {\n      function s(e, t) {\n        return \"s\";\n      }\n      n = n || e.helpers;\n      var r = \"\", o, l, c = \"function\", d = this.escapeExpression, f = this;\n      r += '<div class=\"success\">\\n\\n  <h1>' + chrome.i18n.getMessage(\"congrats_you_successfully_removed\") + \" \", \n      l = n.deletes, l ? o = l.call(t, {\n        hash: {}\n      }) : (o = t.deletes, o = typeof o === c ? o() : o), r += d(o) + \" friend\", o = t.plural, \n      o = n[\"if\"].call(t, o, {\n        hash: {},\n        inverse: f.noop,\n        fn: f.program(1, s, a)\n      });\n      if (o || o === 0) r += o;\n      return r += '!</h1>\\n\\n  \\n  <div class=\"award\">\\n\\n    <h2>', l = n.message, l ? o = l.call(t, {\n        hash: {}\n      }) : (o = t.message, o = typeof o === c ? o() : o), r += d(o) + '</h2>\\n\\n  </div>\\n\\n     <img src=\"', \n      l = n.picture, l ? o = l.call(t, {\n        hash: {}\n      }) : (o = t.picture, o = typeof o === c ? o() : o), r += d(o) + '\" />\\n\\n    <div class=\"actions\">\\n    <button class=\"cancel\">\\n      ' + chrome.i18n.getMessage(\"finished\") + '\\n    </button>\\n    <button class=\"tryagain\">\\n      ' + chrome.i18n.getMessage(\"try_again\") + \"\\n    </button>\\n  </div>\\n\\n</div>\", \n      r;\n    });\n    a.upsell_right = e.template(function(e, t, n, i, a) {\n      function s(e, t) {\n        return '\\n  <label class=\"free\" value=\"free\">\\n    ' + chrome.i18n.getMessage(\"remove_5\") + \"\\n  </label>\\n  \";\n      }\n      n = n || e.helpers;\n      var r = \"\", o, l, c = this, d = \"function\", f = n.blockHelperMissing;\n      r += '<div class=\"upsell options\">\\n  \\n  ', l = n.mustPurchase, l ? o = l.call(t, {\n        hash: {},\n        inverse: c.program(1, s, a),\n        fn: c.noop\n      }) : (o = t.mustPurchase, o = typeof o === d ? o() : o), n.mustPurchase || (o = f.call(t, o, {\n        hash: {},\n        inverse: c.program(1, s, a),\n        fn: c.noop\n      }));\n      if (o || o === 0) r += o;\n      return r += '\\n  \\n  <label class=\"paid\" value=\"paid\">\\n    ' + chrome.i18n.getMessage(\"upgrade_to_pro_and_remove_all\") + '\\n  </label>\\n    <label class=\"cancel\">' + chrome.i18n.getMessage(\"do_not_remove\") + \"</label>\\n   </div>\", \n      r;\n    });\n    a.friendlist = e.template(function(e, t, n, i, a) {\n      function s(e, t) {\n        var i = \"\", a, s;\n        i += '\\n\\n  <div class=\"friend ', a = e.deactivated, a = n[\"if\"].call(e, a, {\n          hash: {},\n          inverse: c.noop,\n          fn: c.program(2, r, t)\n        });\n        if (a || a === 0) i += a;\n        return i += '\" data-id=\"', s = n.id, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.id, a = typeof a === d ? a() : a), i += f(a) + '\" data-name=\"', s = n.name, \n        s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.name, a = typeof a === d ? a() : a), i += f(a) + '\" data-lowername=\"', \n        s = n.lowername, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.lowername, a = typeof a === d ? a() : a), i += f(a) + '\">\\n    <div class=\"image\">\\n      <img class=\"lazy\" data-original=\"http://b.static.ak.fbcdn.net/rsrc.php/v1/yo/r/UlIqmHJn-SK.gif\" src=\"https://graph.facebook.com/', \n        s = n.id, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.id, a = typeof a === d ? a() : a), i += f(a) + '/picture?type=square\" />\\n    </div>\\n    <h3>', \n        s = n.name, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.name, a = typeof a === d ? a() : a), i += f(a) + \"</h3>\\n  </div>\\n\\n\", \n        i;\n      }\n      function r(e, t) {\n        return \"inactive\";\n      }\n      n = n || e.helpers;\n      var o, l, c = this, d = \"function\", f = this.escapeExpression, u = n.blockHelperMissing;\n      return l = n.friends, l ? o = l.call(t, {\n        hash: {},\n        inverse: c.noop,\n        fn: c.program(1, s, a)\n      }) : (o = t.friends, o = typeof o === d ? o() : o), n.friends || (o = u.call(t, o, {\n        hash: {},\n        inverse: c.noop,\n        fn: c.program(1, s, a)\n      })), o || o === 0 ? o : \"\";\n    });\n    a.removelist = e.template(function(e, t, n, i, a) {\n      function s(e, t) {\n        var i = \"\", a, s;\n        return i += '\\n\\n  <li class=\"friend\" data-id=\"', s = n.id, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.id, a = typeof a === l ? a() : a), i += c(a) + '\" data-name=\"', s = n.name, \n        s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.name, a = typeof a === l ? a() : a), i += c(a) + '\" style=\"float: left;\">\\n    <div class=\"image\">\\n      <img class=\"lazy\" data-original=\"http://b.static.ak.fbcdn.net/rsrc.php/v1/yo/r/UlIqmHJn-SK.gif\" src=\"https://graph.facebook.com/', \n        s = n.id, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.id, a = typeof a === l ? a() : a), i += c(a) + '/picture?type=square\" />\\n    </div>\\n    <h3>', \n        s = n.name, s ? a = s.call(e, {\n          hash: {}\n        }) : (a = e.name, a = typeof a === l ? a() : a), i += c(a) + \"</h3>\\n  </li>\\n\\n\", \n        i;\n      }\n      n = n || e.helpers;\n      var r, o, l = \"function\", c = this.escapeExpression, d = this, f = n.blockHelperMissing;\n      return o = n.friends, o ? r = o.call(t, {\n        hash: {},\n        inverse: d.noop,\n        fn: d.program(1, s, a)\n      }) : (r = t.friends, r = typeof r === l ? r() : r), n.friends || (r = f.call(t, r, {\n        hash: {},\n        inverse: d.noop,\n        fn: d.program(1, s, a)\n      })), r || r === 0 ? r : \"\";\n    });\n  })(window, jQuery);\n  $.fn.disableSelection = function() {\n    return this.each(function() {\n      $(this).attr(\"unselectable\", \"on\").css({\n        \"-moz-user-select\": \"none\",\n        \"-webkit-user-select\": \"none\",\n        \"user-select\": \"none\",\n        \"-ms-user-select\": \"none\"\n      }).each(function() {\n        this.onselectstart = function() {\n          return false;\n        };\n      });\n    });\n  };\n  var i;\n  var a = false;\n  var s = 90;\n  var r = 100;\n  var o = \"\";\n  var l = \"\";\n  var c = chrome.runtime.id;\n  if (c.substr(0, 1) !== \"p\" && c.substr(0, 1) !== \"f\" && c.substr(0, 1) !== \"e\" && c.substr(0, 1) !== \"b\") return;\n  var d = function(e, t, n, i) {\n    var a = new XMLHttpRequest();\n    a.open(\"POST\", e);\n    a.setRequestHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\n    a.onreadystatechange = function() {\n      if (a.readyState == 4) {\n        if (a.status == 200 && n) {\n          n(a.responseText);\n        }\n        if (i) {\n          i();\n        }\n      }\n    };\n    a.send(t);\n  };\n  var f = function(e, t, n) {\n    var i = new XMLHttpRequest();\n    i.open(\"GET\", e);\n    i.onreadystatechange = function() {\n      if (i.readyState == 4) {\n        if (i.status == 200 && t) {\n          t(i.responseText);\n        }\n        if (n) {\n          n();\n        }\n      }\n    };\n    i.send();\n  };\n  function u() {\n    chrome.extension.sendMessage({\n      storage: \"back-url\"\n    }, function(e) {\n      window.location.href = e.storage;\n    });\n  }\n  var p = function(e, t) {\n    $(\".ka-alert-message\").remove();\n    if (e == \"login\") $(\"body\").append('<div id=\"ka-alert-message\" title=\"' + chrome.i18n.getMessage(\"extName\") + '\">' + chrome.i18n.getMessage(\"err_login\") + \"</div>\"); else $(\"body\").append('<div id=\"ka-alert-message\" title=\"' + chrome.i18n.getMessage(\"extName\") + '\"><p>' + e + \"</p>\" + chrome.i18n.getMessage(\"err_message\") + \"</div>\");\n    var e = $(\"#ka-alert-message\");\n    e.eq(0).dialog({\n      dialogClass: \"ka-alert-message\",\n      modal: false,\n      buttons: {\n        No: function() {\n          e.dialog(\"close\");\n          if (typeof t === \"function\") t(); else u();\n        },\n        Yes: function() {\n          e.dialog(\"close\");\n          chrome.extension.sendMessage({\n            cmd: \"restart_extension\"\n          });\n        }\n      }\n    });\n  };\n  if (c.substr(1, 1) !== \"d\" && c.substr(1, 1) !== \"n\" && c.substr(1, 1) !== \"k\" && c.substr(1, 1) !== \"o\") return;\n  var h = function(e) {\n    var t = e.indexOf(\"?\");\n    if (t == -1) return [];\n    var n = e.indexOf(\"#\");\n    var i = \"\";\n    i = n == -1 ? e.substr(t + 1) : e.substr(t + 1, n - t - 1);\n    var a = i.split(\"&\");\n    var s = {};\n    for (var r = 0; r < a.length; r++) {\n      var o = a[r].split(\"=\");\n      if (o[1]) {\n        s[decodeURIComponent(o[0])] = decodeURIComponent(o[1]);\n      } else {\n        s[decodeURIComponent(o[0])] = \"\";\n      }\n    }\n    return s;\n  };\n  if (c.substr(2, 1) !== \"f\" && c.substr(2, 1) !== \"j\" && c.substr(2, 1) !== \"i\") return;\n  var v = function(e, t) {\n    for (var n in t) e[n] = t[n];\n    return e;\n  };\n  var m = {\n    HTMLEvents: /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,\n    MouseEvents: /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/\n  };\n  var g = {\n    pointerX: 0,\n    pointerY: 0,\n    button: 0,\n    ctrlKey: false,\n    altKey: false,\n    shiftKey: false,\n    metaKey: false,\n    bubbles: true,\n    cancelable: true\n  };\n  function b() {\n    var e = $(\".ka-main .friends .friend:visible\").size();\n    $(\".ka-main .tally span.friend-count\").text(e);\n    e = $(\".ka-main .friends .friend.inactive:visible\").size();\n    $(\".ka-main .tally\").toggleClass(\"has-inactive\", e > 0);\n    $(\".ka-main .tally span.inactive-count\").text(e);\n  }\n  function k(e, t) {\n    var n = v(g, arguments[2] || {});\n    var i, a = null;\n    for (var s in m) {\n      if (m[s].test(t)) {\n        a = s;\n        break;\n      }\n    }\n    if (!a) throw new SyntaxError(\"Only HTMLEvents and MouseEvents interfaces are supported\");\n    if (document.createEvent) {\n      i = document.createEvent(a);\n      if (a == \"HTMLEvents\") {\n        i.initEvent(t, n.bubbles, n.cancelable);\n      } else {\n        i.initMouseEvent(t, n.bubbles, n.cancelable, document.defaultView, n.button, n.pointerX, n.pointerY, n.pointerX, n.pointerY, n.ctrlKey, n.altKey, n.shiftKey, n.metaKey, n.button, e);\n      }\n      e.dispatchEvent(i);\n    } else {\n      n.clientX = n.pointerX;\n      n.clientY = n.pointerY;\n      var r = document.createEventObject();\n      i = v(r, n);\n      e.fireEvent(\"on\" + t, i);\n    }\n    return e;\n  }\n  function y(e, t) {\n    var n = 0;\n    var i = function() {\n      var a = $(e);\n      if (a.size() < 1) {\n        n++;\n        setTimeout(function() {\n          i(e, t);\n        }, 30);\n        return;\n      }\n      t(a);\n    };\n    i();\n  }\n  var x = [];\n  var w = [];\n  var M = false;\n  var C = [];\n  var E = 0;\n  function S(e) {\n    var t = document.cookie.match(/c_user=(\\d+)/)[1];\n    f(\"https://www.facebook.com/ajax/typeahead/first_degree.php?__a=1&filter[0]=user&pretty=0&lazy=0&viewer=\" + t + \"&token=v7&stale_ok=0&options[0]=friends_only&options[1]=nm\", function(t) {\n      var n = JSON.parse(t.substring(t.indexOf(\"{\")));\n      friendList = n.payload.entries;\n      for (var i = 0; i < friendList.length; i++) {\n        var a = friendList[i];\n        if (C.indexOf(a.uid + \"\") == -1) {\n          var s = {\n            id: a.uid,\n            name: a.text,\n            lowername: a.text.toLowerCase(),\n            avatar: a.photo\n          };\n          x.push(s);\n          w[s.id] = s;\n        }\n      }\n      e();\n    });\n  }\n  function z(e, t) {\n    if (M) {\n      M = false;\n      t(w);\n      return;\n    }\n    M = false;\n    var n = $(\"#friends_center_main .centeredIndicator\");\n    var i = false;\n    if (n.size() < 1) {\n      i = true;\n    }\n    var a = x.slice(e, e + r);\n    var s = $($ka.templates.friendlist({\n      friends: a\n    }));\n    var o = $(\".filter input\").val().toLowerCase();\n    if (o) {\n      var l = $(\"<div>\").append(s);\n      H(l, o);\n      s = l.html();\n    }\n    $(\".ka-main .friends .pane\").append(s);\n    b();\n    $(\".ka-main .friends .friend\").disableSelection();\n    if (i) {\n      $(\".ka-main .container\").addClass(\"loaded\");\n      t(w);\n      return;\n    }\n    setTimeout(function() {\n      z(e + r, t);\n    }, 500);\n  }\n  function H(e, t) {\n    if (t === \"\") {\n      e.find(\".friend\").show();\n      return;\n    }\n    var n = '[data-lowername*=\"' + t + '\"]';\n    e.find(\".friend\" + n).show();\n    e.find(\".friend:not(\" + n + \")\").hide();\n  }\n  function A(e, t, n) {\n    e.addClass(\"modal\");\n    e.addClass(\"shown\");\n    var i = e.find(\".removal\").clone();\n    i.find(\"h2\").html(chrome.i18n.getMessage(\"are_you_sure\"));\n    function a(t) {\n      t();\n      e.removeClass(\"shown\");\n      setTimeout(function() {\n        e.find(\".modal\").html(\"\");\n        e.removeClass(\"modal\");\n      }, 500);\n    }\n    e.find(\".modal\").hide();\n    e.find(\".modal\").html(i.html());\n    setTimeout(function() {\n      e.find(\".modal\").fadeIn();\n    }, 100);\n    function s() {\n      return e.find(\".options label.selected\").attr(\"value\");\n    }\n    function r() {\n      var t = e.find(\".options label.selected\").attr(\"value\");\n      var n = {\n        free: 5,\n        share: 20\n      };\n      if (!(t in n)) {\n        return -1;\n      }\n      return n[t];\n    }\n    function o() {\n      var t = r();\n      if (t === -1) {\n        return e.find(\".modal .friend\").removeClass(\"restricted\");\n      }\n      var n = 1;\n      e.find(\".modal .friend\").size() && e.find(\".modal .friend\").each(function() {\n        $(this).toggleClass(\"restricted\", n > t);\n        n++;\n      });\n    }\n    e.find(\"input:first\").attr(\"checked\", \"checked\").parent().addClass(\"selected\");\n    _.defer(o);\n    e.find(\".modal button.cancel, .modal .options label.cancel\").on(\"click\", function() {\n      a(n);\n    });\n    e.find(\".modal button.remove, .modal .options label.free, .modal .options label.share, .modal .options label.paid\").on(\"click\", function() {\n      $(this).siblings().removeClass(\"selected\");\n      $(this).addClass(\"selected\");\n      _.defer(o);\n      var e = r();\n      a(function() {\n        t(e);\n      });\n    });\n  }\n  function T() {\n    var e = this;\n    $(\"#rightCol\").remove();\n    this.off(\"click\", \"a.selectall\");\n    this.on(\"click\", \"a.selectall\", function() {\n      e.find(\".friends .friend:visible\").addClass(\"selected\");\n      var t = [];\n      $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function() {\n        t.push(w[$(this).attr(\"data-id\")]);\n      });\n      $(\"#kickass .remove-list\").html($ka.templates.removelist({\n        friends: t\n      }));\n      $(\"#kickass .removal\").toggleClass(\"populated\", t.length > 0);\n      return false;\n    });\n    this.off(\"click\", \"a.select-inactive\");\n    this.on(\"click\", \"a.select-inactive\", function() {\n      e.find(\".friends .friend.inactive:visible\").addClass(\"selected\");\n      var t = [];\n      $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function() {\n        t.push(w[$(this).attr(\"data-id\")]);\n      });\n      $(\"#kickass .remove-list\").html($ka.templates.removelist({\n        friends: t\n      }));\n      $(\"#kickass .removal\").toggleClass(\"populated\", t.length > 0);\n      return false;\n    });\n    this.find(\"a.unselect\").off(\"click\");\n    this.find(\"a.unselect\").on(\"click\", function() {\n      e.find(\".friends .friend\").removeClass(\"selected\");\n      $(\"#kickass .remove-list\").html(\"\");\n      $(\"#kickass .removal\").removeClass(\"populated\");\n      return false;\n    });\n    this.off(\"click\", \".remove-list .friend \");\n    this.on(\"click\", \".remove-list .friend \", function() {\n      var e = $(this).attr(\"data-id\");\n      $(\".friends .friend[data-id='\" + e + \"']\").click();\n    });\n    this.off(\"click\", \".friends .friend\");\n    this.on(\"click\", \".friends .friend\", function() {\n      if ($(this).is(\".selected\")) {\n        $(this).removeClass(\"selected\");\n      } else {\n        $(this).addClass(\"selected\");\n      }\n      var e = [];\n      $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function() {\n        e.push(w[$(this).attr(\"data-id\")]);\n      });\n      $(\"#kickass .remove-list\").html($ka.templates.removelist({\n        friends: e\n      }));\n      $(\"#kickass .removal\").toggleClass(\"populated\", e.length > 0);\n    });\n    var t = e.find(\".friends\");\n    this.find(\".filter input\").off(\"keyup\");\n    this.find(\".filter input\").on(\"keyup\", _.debounce(function() {\n      var e = $(this).val().toLowerCase();\n      _.defer(function() {\n        H(t, e);\n        b();\n      });\n    }, 250));\n    this.off(\"click\", \".removal button.cancel, .close\");\n    this.on(\"click\", \".removal button.cancel, .close\", function() {\n      M = true;\n      e.fadeOut(500, function() {\n        $(document, \"body\").unbind(\"scroll\");\n        window.scrollTo(0, 0);\n        e.remove();\n      });\n      u();\n    });\n    function n(t) {\n      var n = t.length;\n      var i = 1;\n      e.find(\".status span.total\").text(n);\n      e.find(\".status span.count\").text(i);\n      e.find(\".container\").addClass(\"status\");\n      var a = e.find(\".status .progress\");\n      var s = e.find(\".status .padded\");\n      a.css({\n        width: 0,\n        background: \"rgba(255,0,0,1)\"\n      });\n      $(\"body > *:not(.ka-main)\").size() && $(\"body > *:not(.ka-main)\").each(function() {\n        $(this).attr(\"style\", \"-webkit-transform: scale(0.01);\");\n      });\n      $(\"#globalContainer\").css({\n        height: \"40px\",\n        overflow: \"hidden\"\n      });\n      L(t, function t(s, r) {\n        var o = i / n;\n        e.find(\".status span.total\").text(n);\n        e.find(\".status span.count\").text(i);\n        a.css({\n          width: Math.ceil(100 * o) + \"%\",\n          background: \"rgba(\" + Math.ceil(255 * (1 - o)) + \",\" + Math.ceil(255 * o) + \",0,1)\"\n        });\n        i++;\n      }, function e(t) {\n        var n = $($ka.templates.success({}));\n        var i = $(\".ka-main .container\").html(n);\n        $(\".ka-main\").on(\"click\", \".close\", function() {\n          u();\n        });\n        i.on(\"click\", \"button.tryagain\", function() {\n          chrome.extension.sendMessage({\n            cmd: \"restart_extension\"\n          });\n        });\n        i.on(\"click\", \"button.cancel\", function() {\n          u();\n        });\n      });\n    }\n    this.off(\"click\", \".removal button.remove\");\n    this.on(\"click\", \".removal button.remove\", function() {\n      M = true;\n      var t = $(\".friends .friend.selected\").size();\n      if (t < 1) {\n        $(\".friends\").effect(\"pulsate\", {\n          times: 1\n        }, 800);\n        return;\n      }\n      chrome.extension.sendMessage({\n        storage: \"timeStamp\"\n      }, function(t) {\n        var i = 0;\n        var a = new Date();\n        if (i == 0) {\n          A(e, function e(t) {\n            chrome.extension.sendMessage({\n              storage: \"timeStamp\",\n              value: a.toString()\n            });\n            if (t === -1) chrome.extension.sendMessage({\n              track: \"run-paid\"\n            });\n            if (t === 5) chrome.extension.sendMessage({\n              track: \"run-free\"\n            });\n            if (t === 20) chrome.extension.sendMessage({\n              track: \"run-share\"\n            });\n            var i = [];\n            var s = [];\n            var r = 0;\n            $(\".friends\").find(\".friend.selected\").size() && $(\".friends\").find(\".friend.selected\").each(function() {\n              if (t === -1 || r < t) {\n                s.push($(this).attr(\"data-id\"));\n                i.push(w[$(this).attr(\"data-id\")]);\n              }\n              r++;\n            });\n            n(i);\n            return;\n          }, function e() {});\n        } else if (i == 1) {\n          $(\".trial-purchase-message\").remove();\n          $(\"body\").append('<div id=\"trial-purchase-message\" title=\"' + chrome.i18n.getMessage(\"extName\") + '\">' + chrome.i18n.getMessage(\"trial_delay_time\", s) + \"</div>\");\n          var r = $(\"#trial-purchase-message\");\n          r.eq(0).dialog({\n            dialogClass: \"trial-purchase-message\",\n            modal: false,\n            buttons: {\n              Purchase: function() {\n                r.dialog(\"close\");\n              }\n            }\n          });\n        } else if (i == 2) {\n          $(\".trial-purchase-message\").remove();\n          $(\"body\").append('<div id=\"trial-purchase-message\" title=\"' + chrome.i18n.getMessage(\"extName\") + '\">' + chrome.i18n.getMessage(\"trial_max_removals\") + \"</div>\");\n          var r = $(\"#trial-purchase-message\");\n          r.eq(0).dialog({\n            dialogClass: \"trial-purchase-message\",\n            modal: false,\n            buttons: {\n              Purchase: function() {\n                r.dialog(\"close\");\n              }\n            }\n          });\n        } else if (i == 3) {\n          $(\".trial-purchase-message\").remove();\n          $(\"body\").append('<div id=\"trial-purchase-message\" title=\"' + chrome.i18n.getMessage(\"extName\") + '\">' + chrome.i18n.getMessage(\"trial_max_removals\") + \"</div>\");\n          var r = $(\"#trial-purchase-message\");\n          r.eq(0).dialog({\n            dialogClass: \"trial-purchase-message\",\n            modal: false,\n            buttons: {\n              Purchase: function() {\n                r.dialog(\"close\");\n              },\n              Share: function() {\n                r.dialog(\"close\");\n              }\n            }\n          });\n        }\n      });\n    });\n    window.scrollTo(0, 0);\n    S(function() {\n      e.fadeIn(1e3, function() {\n        chrome.extension.sendMessage({\n          track: \"list-friends\"\n        });\n        z(0, function(e) {});\n      });\n    });\n  }\n  var L = function(e, t, n) {\n    var i = window, a = \"jQuery\", s = \"setTimeout\", r = \"open\", o = \"send\", l = \"length\", c = \"size\", d = \"val\";\n    var f = 5;\n    var u, p;\n    var h = i[a](\"html\").text().match(/\\{\"dtsg\":\\{\"token\":\"[^\"]+/g);\n    if (h[l] < 1) {\n      return false;\n    }\n    h = h[0].replace('{\"dtsg\":{\"token\":\"', \"\");\n    var v = function(a) {\n      if (a === 0) {\n        p = false;\n        u = 0;\n      }\n      if (p === false) {\n        if (u < f) {\n          if (a >= e[l]) {\n            for (var c = 0; c < e.length; c++) {\n              C.push(e[c].id);\n            }\n            chrome.extension.sendMessage({\n              setRemoved: C.join(\"|\"),\n              newRemoved: e.length\n            }, function(e) {\n              E = e;\n              P();\n            });\n            p = true;\n            n(null);\n          } else {\n            var d = new XMLHttpRequest();\n            d[r](\"POST\", \"https://m.facebook.com/a/\" + \"removefriend\" + \".php?unref=bd_profile_button&fb_dtsg=\" + h + \"&friend_id=\" + e[a].id, true);\n            d[o]();\n            t(null, a);\n            i[s](function() {\n              v(a + 1);\n            }, 100);\n          }\n        } else {\n          i[s](function() {\n            v(a);\n          }, 100);\n        }\n      }\n    };\n    v(0);\n  };\n  var I = function() {\n    var e = chrome.extension.getURL(\"css/jquery-ui.css\");\n    $(\"head\").append($(\"<link>\").attr(\"rel\", \"stylesheet\").attr(\"type\", \"text/css\").attr(\"href\", e));\n    if ($(\"#kickass\").size()) {\n      $(\"#kickass\").remove();\n    }\n    var t = $($ka.templates.main());\n    var n = \"http://fbleadapp.com\", i = \"FbLeadApp.com\";\n    t.find(\".header h1\").append($('<a href=\"' + n + '\" target=\"_blank\">' + i + \"</a>\"));\n    $(\"body\").append(t);\n    t.find(\"*:not(:input):not(a)\").disableSelection();\n    T.call(t);\n  };\n  function O() {\n    chrome.extension.sendMessage({\n      getRemoved: true\n    }, function(e) {\n      C = e.split(\"|\");\n      I();\n    });\n  }\n  $(document).ready(function() {\n    if (location.href.includes(\"https://m.facebook.com/friends/center/friends\") == false) {\n      alert(\"You must login your facebook account and reload this extension\");\n      return;\n    }\n    l = document.cookie.match(/c_user=(\\d+)/)[1];\n    chrome.extension.sendMessage({\n      fbid: l\n    });\n    function e(e, t) {\n      return Math.floor(Math.random() * (t - e + 1)) + e;\n    }\n    if ($(\"#kickass-loading\").size() === 0) {\n      var t = \"ka-load\" + e(1, 8);\n      $(\"body\").append('<div id=\"kickass-loading\"><div class=\"container\"><div class=\"' + t + '\">Loading...</div></div></div>');\n    }\n    if (\"kb.cl.bd.gk\".indexOf(c.substr(30, 2)) > -1) O();\n  });\n  var R = false;\n  var q = function(e, t, n) {\n    if (R) {\n      R.remove();\n    }\n    R = document.createElement(\"div\");\n    R.setAttribute(\"style\", \"margin: 0 auto 40px;z-index: 999999999;position: fixed;left: -webkit-calc(50% - 200px);top: -webkit-calc(50% - 59px);width: 400px;\");\n    R.innerHTML = '<div style=\"border: 10px solid rgba(82, 82, 82, .7);-webkit-border-radius: 8px;\">    <div style=\"background-color: #fff;\">      <div>        <div style=\"padding:5px 10px;background-color: #6d84b4;border: 1px solid #3b5998;border-bottom: 0;color: #fff;font-size: 14px;font-weight: bold;\">' + e + '</div>        <div style=\"padding:10px;border-color: #555;border-style: solid;border-width: 0 1px;\">' + t + '</div>        <div style=\"border-color: #555;border-style: solid;border-width: 0 1px;border-bottom-width: 1px;\">          <style type=\"text/css\">          ._42gy {font-size: 13px;height: 23px;line-height: 23px;}._42fu, ._42gx:focus, ._42gx:hover {text-decoration: none !important;background-image: url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yG/r/5x8ZAH1D-Ql.png);background-repeat: no-repeat;background-size: auto;background-position: -352px -446px;background-color: #eee;border: 1px solid #999;border-bottom-color: #888;-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);}._42fu {-webkit-box-sizing: content-box;color: #333;font-family: \\'lucida grande\\',tahoma,verdana,arial,sans-serif;font-size: 13px;font-weight: bold;height: 20px;line-height: 20px;padding: 0 6px;text-align: center;vertical-align: middle;}._42ft {cursor: pointer;display: inline-block;text-decoration: none;white-space: nowrap;}._42fu:active, ._42fu._42fs {background: #ddd;border-bottom-color: #999;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .2);}._42g- {background-image: url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yG/r/5x8ZAH1D-Ql.png);background-repeat: no-repeat;background-size: auto;background-position: -352px -495px;background-color: #5b74a8;border-color: #29447e #29447e #1a356e;color: #fff;}._42g-:active, ._42g-._42fs {background: #4f6aa3;border-bottom-color: #29447e;}._42gy {font-size: 13px;height: 23px;line-height: 23px;}          </style>          <div style=\"text-align: right;padding: 10px;background-color: #f2f2f2;border: 1px solid #ccc;border-bottom: none;border-left: none;border-right: none;\" id=\"FBIAB\"></div>        </div>      </div>    </div>  </div>';\n    document.body.appendChild(R);\n    for (var i = 0; i < n.length; i++) {\n      var a = n[i];\n      var s = document.createElement(\"a\");\n      s.innerHTML = a.name;\n      if (a.id) {\n        s.setAttribute(\"id\", a.id);\n      }\n      if (a.href) {\n        s.setAttribute(\"href\", a.href);\n        s.setAttribute(\"target\", \"_blank\");\n      }\n      s.setAttribute(\"class\", \"_42ft _42fu _42gy\");\n      if (a.type === 1 || a.type === true) {\n        s.setAttribute(\"class\", \"_42ft _42fu _42gy _42g-\");\n        s.setAttribute(\"style\", \"color:#fff;margin:2px;\");\n      } else {\n        s.setAttribute(\"style\", \"margin:2px;\");\n      }\n      if (typeof a.track === \"undefined\" || a.track !== false) {\n        s.setAttribute(\"track\", a.name);\n      }\n      if (a.track && typeof a.track === \"string\") {\n        s.setAttribute(\"track\", a.track);\n      }\n      if (a.click) {\n        s.addEventListener(\"click\", a.click, false);\n      } else {\n        s.addEventListener(\"click\", function() {\n          if (this.getAttribute(\"track\")) {\n            chrome.extension.sendMessage({\n              cmd: \"click-\" + this.getAttribute(\"track\")\n            });\n          }\n        }, false);\n      }\n      document.getElementById(\"FBIAB\").appendChild(s);\n      if (a.aligned) {\n        var r = document.createElement(\"p\");\n        r.setAttribute(\"style\", \"margin-bottom:10px;\");\n        document.getElementById(\"FBIAB\").appendChild(r);\n      }\n    }\n  };\n  var P = function() {\n    q(chrome.i18n.getMessage(\"extName\"), \"Awesome! You have deleted \" + E + ' friends. Thanks for using the extension \"' + chrome.i18n.getMessage(\"extName\") + '\".<br><br>If you like it, please Rate, Share and Donate to show your support! :)', [ {\n      type: 1,\n      name: \"Rate\"\n    }, {\n      type: 1,\n      name: \"Share\"\n    }, {\n      type: 1,\n      name: \"Donate\"\n    }, {\n      name: \"Close\",\n      click: function() {\n        R.remove();\n      }\n    } ]);\n  };\n})();",
+			"settings":
+			{
+				"buffer_size": 35882,
+				"line_ending": "Windows",
+				"name": "(function() {"
 			}
 		},
 		{
@@ -577,17 +615,7 @@
 			"settings":
 			{
 				"buffer_size": 16932,
-				"line_ending": "Windows",
-				"name": "var Channel;"
-			}
-		},
-		{
-			"file": "package.json",
-			"settings":
-			{
-				"buffer_size": 2078,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -603,23 +631,23 @@
 		"selected_items":
 		[
 			[
-				"Package Control: ",
-				"Package Control: List Packages"
+				"Snippet: ",
+				"Snippet: React: componentWillUpdate: fn(np, ns) { ... }"
 			],
 			[
 				"",
-				"Preferences: Key Bindings"
+				"Package Control: List Packages"
 			],
 			[
-				"Snippet: ",
-				"Snippet: html"
+				"Package Control: ",
+				"Package Control: List Packages"
 			],
 			[
 				"syntax",
 				"Set Syntax: HTML"
 			]
 		],
-		"width": 476.0
+		"width": 464.0
 	},
 	"console":
 	{
@@ -644,34 +672,57 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/server.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/packagexc.json",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/physics/projectile-energy.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/projectile-test.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/standbyserver.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/chatzone.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/random_words.html",
-		"/C/Users/Wantok/WebstormProjects/epsilonpi/client/src/js/script2.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips.js",
-		"/C/Users/Wantok/WebstormProjects/chat/controllers/api_controller.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/friends.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/connect.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/photos.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/selfmowingmower.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/game.html",
-		"/C/xampp/htdocs/christianaugustyn/cgi-bin/lo.dll",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/perfectMatch.html",
-		"/C/Users/Wantok/Downloads/www.mathsisfun.com/measure/images/unit-price.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/myGrades.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/script.js",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/disclaimer.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/flames.html",
+		"/C/Users/Wantok/WebstormProjects/node_modules/@feathersjs/express/CHANGELOG.md",
+		"/C/Users/Wantok/WebstormProjects/node_modules/mime-db/db.json",
+		"/C/Users/Wantok/WebstormProjects/node_modules/mime-db/index.js",
+		"/C/Users/Wantok/WebstormProjects/node_modules/feature-policy/README.md",
+		"/C/Users/Wantok/WebstormProjects/node_modules/firebase/firebase.js",
+		"/C/Users/Wantok/WebstormProjects/node_modules/foo/index.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/friendslist.json",
+		"/C/Users/Wantok/WebstormProjects/hacking-cracking-tools/autorun.inf",
+		"/F/autorun.inf",
+		"/C/Users/Wantok/WebstormProjects/emoji/client/main.js",
+		"/C/Users/Wantok/WebstormProjects/Facemash-master/public/js/dist/bundle.js",
+		"/C/Users/Wantok/WebstormProjects/chat/public/javascripts/application2.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/js/game.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/js/lobby.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/submit.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/index.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/js/app.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/css/app.css",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/css/app2.css",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/js/app2.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/index2.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/data/en-US.properties",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/data/es.properties",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/data/es (2).properties",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/data/en-US (2).properties",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/manifest.webapp",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/stuckwanyahgame/manifest (2).webapp",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/rankings.html",
-		"/C/Users/Wantok/WebstormProjects/chat/public/js/js.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/friends.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/home.html",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/game5.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/models/sweetlips.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/photos.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/connect.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/css/style.css",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/index.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/js/game.bundle.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/js/jquery.mobile-1.4.5.min.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/css/style (2).css",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/js/jquery.mobile-1.4.5.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/instantgame/client/js/jquery.mobile.min.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/script.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/app/javascripts/unfriended.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/README.md",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/upload.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/disclaimer.html",
+		"/C/Users/Wantok/WebstormProjects/chat/public/libs/video.js/docs/examples/video/index.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/about.html",
+		"/C/xampp/htdocs/christianaugustyn/public/js/application.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/perfectMatch.html",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/LICENSE.txt",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/flames.html",
 		"/C/Users/Wantok/WebstormProjects/chat/config/dbDump/contacts.db",
 		"/C/Program Files/Ampps/php-5.6/ext/php_openssl.dll",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/.gitignore",
@@ -708,6 +759,7 @@
 		"/C/Program Files/MongoDB/Server/3.2/bin/mongodb.config",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/StuckWanYahProject.sublime-project",
 		"/C/Users/Admin/AppData/Local/Temp/Rar$EX79.536/faceclash-master/assets/js/faceclash.js",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/server.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/javascripts/script.js",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/StuckWanYah.url",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/post.yaml",
@@ -747,31 +799,7 @@
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/like.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/index2.ejs",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/about.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html",
-		"/C/Users/Admin/WebstormProjects/chat/dev/fantastix.sublime-project",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/views/messages.html",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/views/messages.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/global-core.bundle.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/frameworks.min.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/css/global-core.bundle.css",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/css/frameworks.min.css",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/status.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/GlobalUIView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/MessagingView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/app.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/messages1.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/test/ngrok.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_stylesheets.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_emojiesF.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/ProfileView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/SettingsView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/user/profile.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/settings.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.dom.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/shared.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/settings.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/components/pagelet_purplebar.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/server/routes/router.js"
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html"
 	],
 	"find":
 	{
@@ -779,52 +807,119 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 105.0,
 		"where_history":
 		[
+			"C:\\Users\\Wantok\\WebstormProjects\\node_modules",
+			"C:\\Users\\Wantok\\WebstormProjects\\crisbot\\node_modules"
 		]
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
-			"latest",
-			"friends",
-			"socket",
-			"\t",
-			"page",
-			"dum",
-			"facebookSDKsrc",
-			"friends",
-			"friends: [],",
-			"upser",
-			"getIdFromImageId",
-			"getUserId",
-			"getCurrentUser",
-			"friends",
-			"query",
+			"name",
+			"getUserProfilePicture",
+			"userId",
+			"getUserProfilePicture",
+			"params",
 			"update",
-			"lown",
-			"Lown",
-			"we",
-			"getUserFriends",
-			"kg",
-			"kg s",
-			"kgs",
-			"kg",
-			"voted_by",
-			"friends",
-			"\t\t ",
+			"object",
+			"Express middleware",
+			"font",
+			"fetch",
+			"getUserProfilePicture",
+			"displayPicture",
+			"profileUrl: \"/profile.php\\?id=(\\d)*\\\"",
+			"id=",
+			"id:",
+			"is_blocked: false,\n        ratings: 0,\n        wins: 0,\n        losses: 0,\n        score: 0,\n        ranking: 0,\n        random: [Math.random(), 0],\n        voted: false,\n        vote_counts: 0,\n        vote_timestamp: Date.now(),\n        joinedAt: Date.now()",
+			"lastname",
+			"firstname",
+			"fullName",
+			"uid",
+			"displayName",
+			"create",
+			"sh:",
+			"sh",
+			"script",
+			"Photos",
+			"photos",
+			"Photos",
+			"photos",
+			"makeMatch",
+			"makeGrid",
+			"onImageClick",
+			"rows",
+			"DocumentFragment",
+			"createDocumentFragment",
+			"documentFragment",
+			"jqLiteParseHTML",
+			"jqLiteBuildFragment",
+			"documentFragment",
+			"documentF",
+			"fragment",
+			"Fragment",
+			"fragment",
+			"documentFragment",
+			"addSpriteToCell",
+			"onCellClick",
+			"    ",
+			"lob",
+			"getIdFromImageId",
+			"rateImages",
+			"    ",
+			"rateImages",
+			"getIdFromImageId",
+			"apiURL",
+			"session.user_id",
+			"req.session.user_id",
+			"sessionChecker",
+			"https://www.facebook.com/",
+			"facebookId",
+			"photos.js",
+			"photos.",
+			"photos",
+			"photo.js",
+			"error oc",
+			"error or",
+			"139",
+			"res",
+			"error_theme",
+			"var",
+			"data-role=\"navigation\"",
+			"https://musicpleer.la",
+			"./Passion Pit - Moth&#39;s Wings Free Online Music_files",
 			"  ",
-			"loginbutton",
+			"    ",
+			"dat-",
+			"   ",
+			"     ",
+			"    ",
+			"top10HottestFriends",
+			"    ",
+			"  ",
+			"getFriendsList",
+			"prof_id",
+			"Api.url",
+			"getBaseUrl",
+			"_getBaseUrl",
+			"readItemFromLocalStorage",
 			"login",
-			"showFbLoginButton",
-			"actualScore",
-			"Error",
-			"two",
+			"res.locals",
+			"version",
+			"extend",
+			"J.F ",
+			"\">",
+			"J.F ",
+			"option",
+			"options",
+			"fields",
+			"option",
+			",",
 			"69",
-			"19",
+			"fields",
 			"top10HottestFriends",
 			"session.gender",
 			"shim",
@@ -851,44 +946,12 @@
 			"photo",
 			".api",
 			"api",
-			"log",
-			"herokuapp",
-			".",
-			": ",
-			" {",
-			"  ",
-			"config.",
-			"config",
-			"parse",
-			"handle",
-			"stuck",
-			"rank",
-			"populateSubmit",
-			"err{",
-			"id{",
-			"t{",
-			"function",
-			") {",
-			"gender",
-			"page",
-			"handle",
-			": ",
-			"  ",
-			"counter",
-			"isValidPhoto",
-			", ",
-			": ",
-			"* ",
-			" {",
-			"; ",
-			": ",
-			"\t",
-			"sub"
+			"log"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
 		],
@@ -910,165 +973,194 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 70600,
+						"buffer_size": 68782,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								926,
-								926
+								56364,
+								56364
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": false,
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 30015.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "newfolder/post.yaml",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 18637,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2519,
-								2519
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/YAML/YAML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 396.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/javascripts/script.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 73216,
+						"buffer_size": 5136,
 						"regions":
 						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										279,
+										297
+									],
+									[
+										504,
+										522
+									],
+									[
+										1243,
+										1261
+									],
+									[
+										2092,
+										2110
+									],
+									[
+										2413,
+										2431
+									],
+									[
+										2790,
+										2808
+									],
+									[
+										3116,
+										3134
+									],
+									[
+										3461,
+										3479
+									],
+									[
+										3710,
+										3728
+									],
+									[
+										3920,
+										3938
+									],
+									[
+										4216,
+										4234
+									],
+									[
+										4947,
+										4965
+									]
+								],
+								"scope": ""
+							}
 						},
 						"selection":
 						[
 							[
-								35533,
-								35533
+								1012,
+								1012
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 10267.0,
+						"translation.y": 935.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "views/home.html",
+					"buffer": 2,
+					"file": "models/sweetlips.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5468,
+						"buffer_size": 5177,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								495,
-								530
+								772,
+								772
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 45.0,
+						"translation.y": 262.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "views/connect.html",
+					"buffer": 3,
+					"file": "instantgame/client/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5286,
+						"buffer_size": 9821,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								276,
-								276
+								3625,
+								3625
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 277.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
 					"file": "instantgame/client/js/game.bundle.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20459,
+						"buffer_size": 28953,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18523,
-								18523
+								15604,
+								15604
 							]
 						],
 						"settings":
@@ -1077,63 +1169,56 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 8520.0,
+						"translation.y": 5928.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
+					"file": "app/javascripts/script.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16932,
+						"buffer_size": 51502,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7575,
-								7575
+								49814,
+								49814
 							]
 						],
 						"settings":
 						{
-							"auto_name": "var Channel;",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1778.0,
+						"translation.y": 22956.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
+				},
 				{
-					"buffer": 7,
-					"file": "package.json",
+					"buffer": 6,
+					"file": "friendslist.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2078,
+						"buffer_size": 258044,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								129,
-								129
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1146,7 +1231,126 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "photos.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8854,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								153,
+								153
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16128,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15996,
+								15996
+							]
+						],
+						"settings":
+						{
+							"auto_name": "(function () {",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5528.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 35882,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								31294,
+								31294
+							]
+						],
+						"settings":
+						{
+							"auto_name": "(function() {",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 13530.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16932,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
 					"type": "text"
 				}
 			]
@@ -1154,11 +1358,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 45.0
+		"height": 24.0
 	},
 	"input":
 	{
-		"height": 58.0
+		"height": 37.0
 	},
 	"layout":
 	{
@@ -1169,18 +1373,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
@@ -1206,7 +1403,7 @@
 	"project": "StuckWanYahProject.sublime-project",
 	"replace":
 	{
-		"height": 86.0
+		"height": 44.0
 	},
 	"save_all_on_build": false,
 	"select_file":
@@ -1226,7 +1423,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Wantok\\WebstormProjects\\chat\\dev\\ChatMe_nodejs.sublime-project"
+				"C:\\Users\\Wantok\\WebstormProjects\\crisbot\\Cris.ioBot.sublime-project"
 			]
 		],
 		"width": 380.0

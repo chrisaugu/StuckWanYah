@@ -5,13 +5,10 @@
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
   "main": "server.js",
   "scripts": {
-    "test": "Test not specified",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chrisaugu/stuckwanyah.git"
-  },
+  "repository": "git+https://github.com/chrisaugu/stuckwanyah.git",
   "keywords": [
     "stuck wan",
     "stuck wan yah",
@@ -23,7 +20,7 @@
     "facemash",
     "rating people's pictures"
   ],
-  "author": "Christian JF Augustyn",
+  "author": "Christian Augustyn <chrisaugu61@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chrisaugu/stuckwanyah/issues"
@@ -37,8 +34,6 @@
     "cookie-parser": "~1.3.3",
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.3",
-    "cron": "*",
-    "crypto-js": "^3.1.9-1",
     "dotenv": "^5.0.1",
     "ejs": "~> 2.5.5",
     "express": "4.16.2",
@@ -47,13 +42,6 @@
     "favicon": "*",
     "forever": "*",
     "fs": "*",
-    "gridfs-stream": "*",
-    "gulp": "3.9.1",
-    "gulp-html-replace": "^1.6.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-webserver": "^0.9.1",
-    "gulp-zip": "^4.1.0",
-    "html2canvas": "^1.0.0-alpha.10",
     "http": "*",
     "jwt-simple": "*",
     "method-override": "~2.2.0",
@@ -61,17 +49,13 @@
     "mongoose": "~3.8.15",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
-    "newrelic": "*",
     "nodemon": "*",
     "node-restful": "*",
-    "open": "^0.0.5",
     "parseurl": "*",
     "passport": "*",
     "passport-facebook": "^2.1.1",
     "passport-facebook-token": "^3.3.0",
-    "passport-oauth2": "^1.4.0",
     "path": "*",
-    "platform": "^1.3.5",
     "promise": "*",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",

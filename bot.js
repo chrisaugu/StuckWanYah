@@ -19,13 +19,13 @@ module.exports = function(app) {
         }  
     });
 
-    /** 
+    /**
      * POST /bot
      * All callbacks for Messenger will be POST-ed here 
      */
     app.post('/bot', function(request, response) {
-       var data = request.body;
-       console.log('received bot webhook');
+        var data = request.body;
+        console.log('received bot webhook');
         // Make sure this is a page subscription
         if (data.object === 'page') {
             // Iterate over each entry - there may be multiple if batched

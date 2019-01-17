@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
     <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <script src="//connect.facebook.net/en_US/sdk.js"></script>
+    <script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script>
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -39,18 +39,18 @@
                         <img alt="" src="/images/TSXtq24.png" style="position:absolute;left:0px;top:0px;width:245px;height:47px;user-select:none;border:0px;padding:0px;margin:0px;">
                     </button>
 
-                    <a href="/api/v1/auth/facebook" type="button" aria-label="Connect to Facebook" >
+                    <a href="/api/v1/auth/facebook" type="button" aria-label="Connect to Facebook" style="margin:10px 14px">
                         <img alt="" src="/images/TSXtq24.png" style="background:none;border:0px;margin:0;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;left:0px;">
                     </a>
 
                     <form name="connect" action="/foo" method="post">
                         <input type="hidden" name="token" value="1234567890">
-                        <input type="text" name="profileid" placeholder="Facebook User ID" class="text" value="100004177278169"></br>
+                        <input type="text" name="profileid" placeholder="Facebook User ID" class="text" value="100004177278169" style="width: fit-content;"></br>
                         <button type="submit" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" class="button">Login</button>
                     </form>
 
                     <div class="about-permissions"><div class="title">About the permissions required</div>
-                    <div class="permission"><strong>Facebook profile picture</strong>
+                    <div class="permission"><strong>Facebook profile picture, age, gender, friends</strong>
                         <br>StuckWanYah works by taking your Facebook friends' profile picture and lets you compare who is hotter based on the looks by voting the picture.
                     </div></div>
                 </td>
@@ -58,7 +58,7 @@
             <% } else { %>
                 <tr>
                     <td>
-                        <img src=`https://graph.facebook.com/${req.session.user_id}/picture?type=square&height=200&width=200` alt="userimg" class="fbpic">
+                        <img src="<%= `https://graph.facebook.com/${session.user_id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic">
                     </td>
                 </tr>
             <% } %>
@@ -66,6 +66,7 @@
 
         <br/><br/><br/><br/>
 
+        <% if (connected) { %>
         <div class="footer">
             <div class="container">
                 <ul>
@@ -78,10 +79,11 @@
                     <li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
                     <li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
                 </ul>
-                <p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+                <p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian Augustyn production</a></p>
                 <p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
             </div>
         </div>
+        <% } %>
     </center>
 </main>
 

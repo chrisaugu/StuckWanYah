@@ -12,13 +12,12 @@ var ObjectId = mongoose.Types.ObjectId;
 var SweetLipsSchema = new Schema({
     id: String,
     imageId: {type: String, unique: true, index: true},
-    playerId: {type: String, unique: true, index: true},
-    displayName: String,
+    fullName: String,
+    firstname: String,
+    lastname: String,
     age: Number,
     gender: String,
     picture: String,
-    imageUrl: String,
-    thumbUrl: String,
     profileUrl: String,
     friends: [{
         type: Schema.ObjectId,
@@ -29,14 +28,12 @@ var SweetLipsSchema = new Schema({
         id: String,
         instantGameId: String,
         pageId: String,
-        token: String,
         friends: [],
         selected: false
     },
     instagramHandle: {
         type: {
-            id: String,
-            token: String
+            id: String
         },
         followers: [{type: 'ObjectId', ref: 'photos'}],
         selected: false

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-PG">
+<head>
+    <title>Upload</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script>
+</head>
+<body>
+<main id="main">
+    <h1>StuckWanYah</h1>
+    <h3>StuckWanYah uses your Facebook pictures</h3>
+
+    <span>By uploading your photo, you have read and agreed to the site's <a href="/disclaimer.html">terms of use</a>.</span>
+
+    <center>
+        <table id="connect" align="center" style="padding:0 15px;">
+            <tr>
+                <td>
+                    <form name="connect" action="/upload" method="post">
+                        <input type="hidden" name="token" value="1234567890">
+                        <input type="text" name="age" placeholder="Age" class="text" style="width: fit-content;"></br>
+                        <input type="text" name="gender" placeholder="Gender (i.e male, female)" class="text" style="width: fit-content;"></br>
+                        <input type="file" name="photo"></br>
+                        <button type="submit" type="button" class="button">Upload</button>
+                    </form>
+
+                    <div class="about-permissions"><div class="title">About the permissions required</div>
+                    <div class="permission"><strong>Facebook profile picture, age, gender, friends</strong>
+                        <br>StuckWanYah works by taking your Facebook friends' profile picture and lets you compare who is hotter based on the looks by voting the picture.
+                    </div></div>
+                </td>
+            </tr>
+        </table>
+
+        <br/><br/><br/><br/>
+
+        <div class="footer">
+            <div class="container">
+                <ul>
+                    <li><a href="/" onclick="sh('home')">Home</a></li>
+                    <!-- <li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li> -->
+                    <li><a target="_blank" href="https://www.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+                    <li><a href="/about.html" onclick="sh('facebookpage')">About</a></li>
+                    <li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+                    <li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+                    <li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+                    <li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+                    <li><a href="/upload.html" onclick="sh('upload')">Upload</a></li>
+                </ul>
+                <p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian Augustyn production</a></p>
+                <p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
+            </div>
+        </div>
+    </center>
+</main>
+
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        App.init(!0);
+    };
+</script>
+</body>
+</html>

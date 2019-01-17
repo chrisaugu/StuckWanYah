@@ -20,14 +20,15 @@
 	<center>
 		<% if (images) { %>
 
-			<h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3>
+			<%# <h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3> %>
+			<h3>My friends are stuck wans.</h3>
 			<h2>Who's hotter? Click to choose.</h2>
 
 				<table itemprop="mainEntity" itemscope itemtype="http://schema.org/Book">
 					<tr id="photos" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].facebookId %>"><img class="img" itemprop="image" src="/photos/<%= images[0].picture %>"></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].facebookHandle.id %>"><img class="img" itemprop="image" src="<%= images[0].picture %>"></a></td>
 						<td id="OR" width="55" align="center"><a href="tie?player1=<%= images[0].imageId %>&player2=<%= images[1].imageId %>" style="text-decoration:none;"><b>OR</b></a></td>
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].facebookId %>"><img class="img" itemprop="image" src="/photos/<%= images[1].picture %>"></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].facebookHandle.id %>"><img class="img" itemprop="image" src="<%= images[1].picture %>"></a></td>
 					</tr>
 					<tr align="center" itemprop="names" itemscope itemtype="http://schema.org/Person">
 						<td itemprop="name"><%= images[0].name %></td>
@@ -72,15 +73,15 @@
 			<div class="container">
 				<ul>
 					<li><a href="/" data-action="sh('home')">Home</a></li>
-					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+					<!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li>
 					<li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
 					<li><a href="/about.html" onclick="sh('about')">About</a></li>
-					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+					<li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li-->
 					<li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
-				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian Augustyn production</a></p>
 				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
 			</div>
 

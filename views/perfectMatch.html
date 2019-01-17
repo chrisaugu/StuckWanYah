@@ -17,17 +17,19 @@
 	<center>
 		<% if (match) { %>
 
-			<h3>Would they make a perfect couple?</h3>
-			<h2>Vote 👇 them</h2>
+			<h3>What do you think of the two?</h3>
+			<h2>Pick your 👇 pick</h2>
 
 				<table>
 					<tr id="photos">
-						<td valign="top" align="center" class="photo"><img class="img" src="/photos/<%= match.male.picture %>"></td>
+						<td valign="top" align="center" class="photo"><img class="img" src="<%= match.male.picture %>"></td>
+						<td id="OR" width="55" align="center"><b>AND</b></td>
+						<td valign="top" align="center" class="photo"><img class="img" src="<%= match.female.picture %>"></td>
+					</tr>
+					<tr>
+						<td id="OR" width="55" align="center"><a href="?female=<%= match.male.imageId %>&male=<%= match.female.imageId %>" style="text-decoration:none;font-size:40px;"><b>👅</b></a></td>
+						<td id="OR" width="55" align="center"><a href="javascript:location.reload()" style="text-decoration:none;font-size:40px;"><b>🔫</b></a></td>
 						<td id="OR" width="55" align="center"><a href="?female=<%= match.male.imageId %>&male=<%= match.female.imageId %>" style="text-decoration:none;font-size:40px;"><b>💑</b></a></td>
-						<td id="OR" width="55" align="center"><b>OR</b></td>
-						<td id="OR" width="55" align="center"><a href="javascript:location.reload()" style="text-decoration:none;font-size:40px;"><b>❌</b></a>
-						</td>
-						<td valign="top" align="center" class="photo"><img class="img" src="/photos/<%= match.female.picture %>"></td>
 					</tr>
 				</table>
 
@@ -55,7 +57,7 @@
 					<li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
 					<li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
 				</ul>
-				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+				<p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian Augustyn production</a></p>
 				<p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
 			</div>
 		</div>
