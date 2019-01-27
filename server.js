@@ -181,7 +181,6 @@ app.use((req, res, next) => {
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 // Middleware for some local variables to be used in the template
 app.use(async (req, res, next) => {
-	console.log("checking session");
 	var loggedIn = req.session.id ? true : false;
 
 	if (req.cookies.user_sid && !req.session.user_id) {
@@ -253,12 +252,10 @@ switch(app.get('env')) {
 		throw new error('Unknown execution environment: ', app.get('env'));
 }
 mongoose.connection.on("connected", function(){
-	console.log("-----------------------------------------------".blue);
 	console.log("Connected: Successfully connect to mongo server".green);
 	console.log("-----------------------------------------------".blue);
 });
 mongoose.connection.on('error', function(){
-	console.log("--------------------------------------------------------------------".blue);
 	console.log("Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
 	console.log("--------------------------------------------------------------------".blue);
 });
@@ -985,7 +982,8 @@ var renderIndexPage = function(config){
 var getTwoRandomPhotos = function(config){
 	var randomImages;
 	var choices = ['female', 'male'];
-	var randomGender = _.sample(choices);
+	// var randomGender = _.sample(choices);
+	var randomGender = _.random(choices);
 	var gender = shimOrhim(config.params.session.gender);
 	var userId = config.params.session.user_id;
 
@@ -1848,7 +1846,8 @@ function randomQuery(config){
 
 /**
  * Algorithm for StuckWanYah
- * After user has logged in with facebook, these actions are invoked
+ * After user logged in with facebook using whatever technology, 
+ * these actions are invoked to gather more info about the user.
  *
  * Checks if user logging in is an existing user then @goto getUserFriends()
  * but if not then creates a new user by @goto getUserDetailsFromFacebook()
@@ -1857,6 +1856,7 @@ function randomQuery(config){
 
 // checkUserExistance(100004177278169);
 
+/* check database if particular userid exists already as user*/
 function /* step: 1 */ checkUserExistance(facebookId) {
 	Photos.findOne({"facebookHandle.id": facebookId}).then((user) => {
 		if (!user) {
@@ -1901,7 +1901,7 @@ function /* step: 2 */ getUserDetailsFromFacebook(facebookId){
  */
  /** creates new user 'cause the id does not exist in the database */
 function /* step: 3 */ createNewUser(data){
-	var params = Object.create({});
+	var params = {};
 
 	if (data instanceof Array) {
 		// create all of the dummy people
@@ -1928,7 +1928,7 @@ function /* step: 3 */ createNewUser(data){
 		console.log("Creating new single user...");
 
 		Photos.update({ imageId: data.id }, { $set: params },{ upsert: true }).then(newUser => {
-			// /* goto: -> step: 5 */ getUserFriends(newUser.facebookHandle.id);
+			/* goto: -> step: 4 */ getUserFriends(newUser.facebookHandle.id);
 		}).catch(error => {
 			console.log(err.message);
 			// checkUserExistance(data.id);
@@ -1952,22 +1952,35 @@ function /* step: 3 */ createNewUser(data){
 		object['lastname'] = profile.last_name;
 		object['age'] = profile.age_range 
 			? profile.age_range.min + (profile.age_range.max - profile.age_range.min)
-			: 18,
+			: 18;
 		object['gender'] = profile.gender ? profile.gender : '';
-		object['picture'] = profile.photo ? profile.photo : getUserProfilePicture(profile.id);
+		
+		if (profile.photo && profile.photo) {
+			object['picture'] = profile.photo;
+		} 
+		else if (profile.picture && profile.picture.data && profile.picture.data.url) {
+			object['picture'] = profile.picture.data.url;
+		}
+		else {
+			var pic = getUserProfilePicture(profile.id);
+			object['picture'] = pic;
+		}
+		
 		object['profileUrl'] = `/profile.php?id=${profile.id}`;
 		object['facebookHandle'] = {
 			// instantGameId: profile.instant_game.id,
 			id: profile.id
 		};
 
-		if (profile && profile.friends) {
-			if (profile.friends.data) {
-				object['facebookHandle']['friends'] = profile.friends.data;
-			} else {
-				console.log(profile.friends == undefined ? [] : 'profile.friends.data')
+		if (profile.friends) {
+			console.log(profile.friends == undefined ? [] : 'profile.friends.data')
+		}
+		else if (profile.friends && profile.friends.data) {
+			object['facebookHandle'] = {
+				'friends': profile.friends.data
 			}
 		}
+
 		// leave the rest to default
 		object['is_blocked'] = false;
 		// wins: 0,
@@ -1985,20 +1998,44 @@ function /* step: 3 */ createNewUser(data){
 	};
 };
 
+// function /* step: 8 */ createNewUserFromFacebookFriends(object) {
+// 	var id = object.id;
+// 	var name = object.name;
+// 	var age = object.age;
+// 	var gender = object.gender;
+// 	var picture = object.picture;
+// 	var link = object.link;
+
+// 	new Photos({
+// 		imageId: id,
+// 		displayName: name,
+// 		age: age,
+// 		gender: gender,
+// 		picture: picture,
+// 		profileUrl: link,
+// 		facebookHandle: {id: id}
+// 	}).save().then(newUser => {
+// 		console.log("new user has been created from facebook friends" + newUser);
+// 	}).catch(error => {
+// 		throw new Error(error);
+// 	});
+// };
+
+
 function /* step: 4 */ getUserFriends(userId){
 	return request({
 		url: `https://graph.facebook.com/v2.12/${userId}/friendslist`,
 		qs: {
 			access_token: keys.facebook.userAccessToken,
-			fields:"id,user_friends,gender,age"
+			fields:"id,gender,age"
 		},
 		method: "GET",
 		json: true
 	}, (error, response, body) => {
 		if (error) throw new Error(error);
 		if (response) {
-			var bodyObj = JSON.parse(body);		
-			/* goto: -> step: 6 */ updateUserFriendsList(userId, bodyObj);
+			var bodyObj = JSON.parse(body);
+			/* goto: -> step: 5 */ updateUserFriendsList(userId, bodyObj);
 		}
 	});
 };
@@ -2010,60 +2047,9 @@ function /* step: 5 */ updateUserFriendsList(userId, object) {
 	var update = {
 		facebookFriends: id
 	};
-	Photos.update({ "facebookHandle.id": userId }, { $set: update },{ upsert: true })
+	Photos.update({ "facebookHandle.id": userId },{ $set: update },{ upsert: true })
 	.then(updatedProfile => {
-		/* goto: -> step: 7 */ checkFriendExistanceAsUser(userId, updatedProfile.facebookFriends);
-	}).catch(error => {
-		throw new Error(error);
-	});
-};
-
-/* check database if particular friend id exists already as user*/
-function /* step: 6 */ checkFriendExistanceAsUser(userId, friendslist) {
-	async.each(friendslist, (friend, callback) => {
-		Photos.findOne({"facebookHandle.id": friend.id}).then((friend) => {
-			if (!friend) {
-				/* goto: -> step: 8 */ getFriendDetailsFromFacebook(friend.id);
-			}
-		});
-	});
-};
-
-function /* step: 7 */ getFriendDetailsFromFacebook(friendId){
-	return request({
-		url:`https://graph.facebook.com/v2.6/${friendId}/`,
-		qs: {
-			access_token: keys.facebook.userAccessToken,
-			fields:"id,name,gender,age,picture.type(square).width(960).height(960),link"
-		},
-		method: "GET"
-	}, (error, response, body) => {
-		if (error) friendId.error.call(this, error);
-		if (response) {
-			var bodyObj = JSON.parse(body);		
-			/* goto: -> step: 9 */ createNewUserFromFacebookFriends(userId, bodyObj);
-		}
-	});
-};
-
-function /* step: 8 */ createNewUserFromFacebookFriends(object) {
-	var id = object.id;
-	var name = object.name;
-	var age = object.age;
-	var gender = object.gender;
-	var picture = object.picture;
-	var link = object.link;
-
-	new Photos({
-		imageId: id,
-		displayName: name,
-		age: age,
-		gender: gender,
-		picture: picture,
-		profileUrl: link,
-		facebookHandle: {id: id}
-	}).save().then(newUser => {
-		console.log("new user has been created from facebook friends" + newUser);
+		/* done!! */
 	}).catch(error => {
 		throw new Error(error);
 	});
