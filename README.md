@@ -3,7 +3,7 @@
 
 Let's get down to the history. What is Facemash? Facemash is a website that puts two random pictures of people
 together and lets you vote for who's hotter based on their looks. Initially created by Facebook founder, Mark Zuckerberg 
-for rating girls. The whole site was set up in one night and receives huge traffic which led to 22000 hits and eventually 
+for rating girls. The whole site was set up in one night and received huge traffic which led to 22000 hits and eventually 
 crash the howard network.
 
 This is my hands-on project to get started in modern web technologies.
