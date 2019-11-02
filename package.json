@@ -58,7 +58,7 @@
     "jwt-simple": "*",
     "method-override": "~2.2.0",
     "moment": "*",
-    "mongoose": "~3.8.15",
+    "mongoose": "~5.7.7",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
     "newrelic": "*",
