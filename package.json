@@ -6,7 +6,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "start1": "http-server --ssl -c-1 -p 5000 -a 127.0.0.1"
+  },
+  "engines": {
+    "node": "6.10.2"
   },
   "repository": "git+https://github.com/chrisaugu/stuckwanyah.git",
   "keywords": [
@@ -18,7 +22,9 @@
     "dat wan how",
     "vote for who's hotter",
     "facemash",
-    "rating people's pictures"
+    "rating people's pictures",
+    "node",
+    "express"
   ],
   "author": "Christian Augustyn <chrisaugu61@gmail.com>",
   "license": "MIT",
@@ -44,13 +50,14 @@
     "fs": "*",
     "http": "*",
     "jwt-simple": "*",
-    "method-override": "~2.2.0",
+    "method-override": ">=2.3.10",
     "moment": "*",
-    "mongoose": "~3.8.15",
+    "mongoose": ">=5.7.5",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
     "nodemon": "*",
     "node-restful": "*",
+    "open": ">=6.0.0",
     "parseurl": "*",
     "passport": "*",
     "passport-facebook": "^2.1.1",
@@ -62,6 +69,7 @@
     "serve-favicon": "*",
     "socket.io": "*",
     "underscore": "*",
-    "xml2js": "*"
+    "xml2js": "*",
+    "crypto-js": "^3.1.9-1"
   }
 }

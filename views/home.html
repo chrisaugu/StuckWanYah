@@ -5,11 +5,13 @@
 	<title>StuckWanYah</title>
 	<meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
 
+    <link rel="preload" href="//connect.facebook.net/en_US/sdk.js" as="script"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="icon" type="image/x-icon" href="/favicon.ico" title="StuckWanYah">
 
 	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="all">
-    <script language="javascript" src="//connect.facebook.net/en_US/sdk.js" type="text/javascript"></script>
+    <!-- <script src="//connect.facebook.net/en_US/sdk.js" type="text/javascript"></script> -->
 
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -21,8 +23,8 @@
 		<% if (images) { %>
 
 			<%# <h3>Were we let in for our looks? Nope. Will we be judge on them? Yes.</h3> %>
-			<h3>My friends are something else 😍</h3>
-			<h2>Who's stuck wan? Click to choose.</h2>
+			<h3>My friends are stuck wans 😍</h3>
+			<h2>Dat wan how? Click to choose.</h2>
 
 				<table itemprop="mainEntity" itemscope itemtype="http://schema.org/Book">
 					<tr id="photos" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -46,14 +48,20 @@
 						<td itemprop="imagePoints"><b>Wins:</b> <%= images[1].wins %>, <b>Losses: </b><%= images[1].losses %>, <b>Draws: </b><%= images[1].draws %> </td>
 					</tr>
 					<tr id="scores" align="left" itemprop="scores" itemscope itemtype="http://schema.org/Score">
-						<td itemprop="imageScores"><b>Score:</b> <%= images[0].score %> </td>
+						<td itemprop="imageScores"><b>Score: </b>
+							<% var score = Math.round(images[0].ratings / (images[0].wins + images[0].losses + images[0].draws));
+							if (score !== Infinity) { %><%= score %><% } else { %><%= 0 %><% } %>
+						</td>
 						<td></td>
-						<td itemprop="imageScores"><b>Score:</b> <%= images[1].score %> </td>
+						<td itemprop="imageScores"><b>Score: </b>
+							<% var score = Math.round(images[1].ratings / (images[1].wins + images[1].losses + images[1].draws));
+							if (score !== Infinity) { %><%= score %><% } else { %><%= 0 %><% } %>
+						</td>
 					</tr>
 					<tr id="expectations" align="left" itemprop="ratings" itemscope itemtype="http://schema.org/Ratings">
-						<td itemprop="imageRatings"><b>Expected:</b> <%= expected(images[1].ratings, images[0].ratings).toFixed(4) %> </td>
+						<td itemprop="imageRatings"><b>Expectations:</b> <%= Math.round(expected(images[0].ratings, images[1].ratings) * 100) %>%</td>
 						<td></td>
-						<td itemprop="imageRatings"><b>Expected:</b> <%= expected(images[0].ratings, images[1].ratings).toFixed(4) %> </td>
+						<td itemprop="imageRatings"><b>Expectations:</b> <%= Math.round(expected(images[1].ratings, images[0].ratings) * 100) %>%</td>
 					</tr>
 				</table>
 

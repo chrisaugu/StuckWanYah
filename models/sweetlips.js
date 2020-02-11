@@ -1,33 +1,30 @@
-// Invoke JavaScript Strict mode
 'use strict';
 // Initializing dependencies
 var restful = require('node-restful');
 var mongoose = require('mongoose');
 var random = require('mongoose-simple-random');
 var Schema = mongoose.Schema;
-//var ObjectId = Schema.Types.ObjectId; 
-var ObjectId = mongoose.Types.ObjectId;
+var ObjectId = Schema.Types.ObjectId; 
+// var ObjectId = mongoose.Types.ObjectId;
 
 // Schema
 var SweetLipsSchema = new Schema({
-    id: String,
+    // id: String,
     imageId: {type: String, unique: true, index: true},
     fullName: String,
-    firstname: String,
-    lastname: String,
+    firstName: String,
+    lastName: String,
     age: Number,
     gender: String,
     picture: String,
     profileUrl: String,
     friends: [{
-        type: Schema.ObjectId,
+        type: ObjectId,
         ref: 'photos',
         unique: true
     }],
     facebookHandle: {
-        id: String,
-        instantGameId: String,
-        pageId: String,
+        ids: [],
         friends: [],
         selected: false
     },
@@ -44,7 +41,7 @@ var SweetLipsSchema = new Schema({
     draws: {type: Number, default: 0},
     score: {type: Number, default: 0},
     ratings: {type: Number, default: 1400},
-    // define the hgeospatial field
+    // define the geospatial field
     random: {type: [Number], index: '2d'},
     voted: {type: Boolean, default: false},
     voted_by: [],
@@ -167,4 +164,4 @@ module.exports = {
     battle: battle,
     hits: hits,
     blockedPhotos: blockedPhotos
-}
+};

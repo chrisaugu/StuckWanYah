@@ -59,7 +59,7 @@ blockquote,.quote{font-family:serif;font-style:italic;font-size:18px;border-left
 @media(min-width:450px){#photos img{width:156px;}ul{display:inline-grid;}#main table{/* width:417px; */}h4{}}
 @media(min-width:580px){tbody#flames input[type="text"]{font-size:12px;}ul{display:block}#main table{width: 501px;}#photos img{width:156px;}#main table{/* width:417px; */}h4{margin: 1.33em 0;}}
 @media(min-width:660px){#photos img{width:204px;}}
-@media only screen and (min-width:780px){tbody#flames input[type="text"]{font-size:1.6em;}#photos img{width:222px;}#photos a img{width:245px;}h4{margin: 1.33em 0;}}
+@media only screen and (min-width:780px){tbody#flames input[type="text"]{font-size:1.6em;}#photos img{width:222px;}#photos a img{width: 229px;}h4{margin: 1.33em 0;}}
 @media only screen and (min-width:235px) and (max-width:426px){.footer li:not(:last-child):after{content: none!important;cursor:default;margin:0 7px 0 10px;}}
 
 .custom-fb-share:hover{background-color:#365899;}

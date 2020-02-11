@@ -1,7 +1,6 @@
 node_modules
 stuckwanyahgame
 data
-public/photos
 mean
 tic-tac-toe
 newfolder
@@ -12,3 +11,15 @@ instantgame
 StuckWanYahProject.sublime-project
 StuckWanYahProject.sublime-workspace
 package-lock.json
+*.pem
+*/.DS_Store
+*.DS_Store
+node_modules/
+build/
+config.json
+app/images/cards
+app/images/photos
+app/javascripts/physics
+app/javascripts/lib
+app/sounds
+views/physics

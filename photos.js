@@ -5,7 +5,10 @@ module.exports.photos = [
         name: "Christian Augustyn",
         first_name: 'Christian',
         last_name: 'Augustyn',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "male",
         photo: "/photos/15697830_736864956462740_2529340439797482201_n.jpg"
     }, {
@@ -13,7 +16,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 13,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "female",
         photo: "/photos/13173939_123485518060780_4194206923963567327_n.jpg"
     }, {
@@ -21,7 +27,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 13,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "female",
         photo: "/photos/13335552_107002823055821_2099648036441521132_n.jpg"
     }, {
@@ -29,7 +38,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "male",
         photo: "/photos/14681606_177517646032302_624032032135450137_n.jpg"
     }, {
@@ -37,7 +49,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 15,
+        age_range: {
+            min: 15,
+            max: 17
+        },
         gender: "female",
         photo: "/photos/15107194_339862656374634_8224432459071081076_n.jpg"
     }, {
@@ -45,7 +60,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "female",
         photo: "/photos/17952626_116014578954311_185756687594650512_n.jpg"
     }, {
@@ -53,7 +71,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 15,
+        age_range: {
+            min: 15,
+            max: 17
+        },
         gender: "female",
         photo: "/photos/18300922_134455393764459_5180115441292437749_n.jpg"
     }, {
@@ -61,7 +82,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 16,
+        age_range: {
+            min: 16,
+            max: 18
+        },
         gender: "male",
         photo: "/photos/21559025_341751456284451_4784206509448124249_n.jpg"
     }, {
@@ -69,7 +93,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 17,
+        age_range: {
+            min: 17,
+            max: 19
+        },
         gender: "female",
         photo: "/photos/21616405_276194742885495_7269444345293685898_n.jpg"
     }, {
@@ -77,7 +104,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "female",
         photo: "/photos/22007697_534132350270134_3454712886890506345_n.jpg"
     }, {
@@ -85,7 +115,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 15,
+        age_range: {
+            min: 15,
+            max: 17
+        },
         gender: "female",
         photo: "/photos/22195701_286327161867700_6021210311312590329_n.jpg"
     }, {
@@ -93,7 +126,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "female",
         photo: "/photos/22228170_1965831803674156_32762613793692416_n.jpg"
     }, {
@@ -101,7 +137,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 16,
+        age_range: {
+            min: 16,
+            max: 18
+        },
         gender: "female",
         photo: "/photos/22228273_535238276816710_2049018447480810573_n.jpg"
     }, {
@@ -109,7 +148,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 21,
+        age_range: {
+            min: 21,
+            max: 23
+        },
         gender: "female",
         photo: "/photos/22228308_266809920506961_3937700605185072296_n.jpg"
     }, {
@@ -117,7 +159,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 31,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "female",
         photo: "/photos/22448663_2012361988997913_5487445385886709153_n.jpg"
     }, {
@@ -125,7 +170,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 13,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "female",
         photo: "/photos/22449677_1869638299942327_9089013222443652571_n.jpg"
     }, {
@@ -133,7 +181,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "male",
         photo: "/photos/22490007_772168716300719_8411585367084383230_n.jpg"
     }, {
@@ -141,7 +192,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 16,
+        age_range: {
+            min: 16,
+            max: 18
+        },
         gender: "female",
         photo: "/photos/22491748_383880038718508_8239439686572623717_n.jpg"
     }, {
@@ -149,7 +203,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 15,
+        age_range: {
+            min: 15,
+            max: 17
+        },
         gender: "male",
         photo: "/photos/22527996_487774551590477_5263276565262404218_n.jpg"
     }, {
@@ -157,7 +214,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 19,
+        age_range: {
+            min: 19,
+            max: 21
+        },
         gender: "male",
         photo: "/photos/22528371_1121337268006214_5802752197279776697_n.jpg"
     }, {
@@ -165,7 +225,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 19,
+        age_range: {
+            min: 19,
+            max: 21
+        },
         gender: "female",
         photo: "/photos/22539685_505455106475210_961923654732031583_n.jpg"
     }, {
@@ -173,7 +236,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 19,
+        age_range: {
+            min: 19,
+            max: 21
+        },
         gender: "female",
         photo: "/photos/22539896_336604550145206_8136289351028280272_n.jpg"
     }, {
@@ -181,7 +247,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 19,
+        age_range: {
+            min: 19,
+            max: 21
+        },
         gender: "female",
         photo: "/photos/22549695_1230151777130321_9168960304844384980_n.jpg"
     }, {
@@ -189,7 +258,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "female",
         photo: "/photos/22549964_701125690095241_1222786728699406188_n.jpg"
     }, {
@@ -197,7 +269,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "male",
         photo: "/photos/22552696_1126841654116067_6895478098604726619_n.jpg"
     }, {
@@ -205,7 +280,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "male",
         photo: "/photos/22552780_252786061912191_5358989623247008035_n.jpg"
     }, {
@@ -213,7 +291,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 16,
+        age_range: {
+            min: 16,
+            max: 18
+        },
         gender: "female",
         photo: "/photos/22552811_1896827080644999_6172684468219958188_n.jpg"
     }, {
@@ -221,7 +302,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 16,
+        age_range: {
+            min: 16,
+            max: 18
+        },
         gender: "female",
         photo: "/photos/22554831_725551040988762_2745079434894064516_n.jpg"
     }, {
@@ -229,7 +313,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 13,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "female",
         photo: "/photos/22555194_786284898219595_2421649676541423225_n.jpg"
     }, {
@@ -237,7 +324,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 16,
+        age_range: {
+            min: 16,
+            max: 18
+        },
         gender: "female",
         photo: "/photos/22555243_324284041314631_2682874877591079545_n.jpg"
     }, {
@@ -245,7 +335,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 17,
+        age_range: {
+            min: 17,
+            max: 19
+        },
         gender: "female",
         photo: "/photos/22687810_502429156802754_8287962131704477409_n.jpg"
     }, {
@@ -253,7 +346,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 19,
+        age_range: {
+            min: 19,
+            max: 21
+        },
         gender: "male",
         photo: "/photos/22729091_2380036155555592_8782618421176277703_n.jpg"
     }, {
@@ -261,7 +357,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 17,
+        age_range: {
+            min: 17,
+            max: 19
+        },
         gender: "female",
         photo: "/photos/22780383_1319226184873392_8109283516790865485_n.jpg"
     }, {
@@ -269,7 +368,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 15,
+        age_range: {
+            min: 15,
+            max: 17
+        },
         gender: "male",
         photo: "/photos/22788804_495226267525633_7859460528845639878_n.jpg"
     }, {
@@ -277,7 +379,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "male",
         photo: "/photos/22814096_1473731962742556_7253283415688667708_n.jpg"
     }, {
@@ -285,7 +390,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 15,
+        age_range: {
+            min: 15,
+            max: 17
+        },
         gender: "female",
         photo: "/photos/22814133_801316723389150_6675799987336641849_n.jpg"
     }, {
@@ -293,7 +401,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "male",
         photo: "/photos/23755125_1752625408380629_8716128352251709514_n.jpg"
     }, {
@@ -301,7 +412,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "female",
         photo: "/photos/23795684_1341677052628174_2780464941112581107_n.jpg"
     }, {
@@ -309,7 +423,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 13,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "female",
         photo: "/photos/23843283_299468033873782_2928395153419791336_n.jpg"
     }, {
@@ -317,7 +434,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 14,
+        age_range: {
+            min: 14,
+            max: 16
+        },
         gender: "female",
         photo: "/photos/23915570_141523579950603_3566883689364824421_n.jpg"
     }, {
@@ -325,7 +445,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 13,
+        age_range: {
+            min: 13,
+            max: 15
+        },
         gender: "male",
         photo: "/photos/24909547_370592206720983_6608855228505742643_n.jpg"
     }, {
@@ -333,7 +456,10 @@ module.exports.photos = [
         name: "",
         first_name: '',
         last_name: '',
-        age: 18,
+        age_range: {
+            min: 18,
+            max: 20
+        },
         gender: "female",
         photo: "/photos/25299331_570846993259841_735144351331369815_n.jpg"
     }

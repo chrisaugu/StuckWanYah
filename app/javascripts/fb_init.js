@@ -27,10 +27,10 @@ window.fbAsyncInit = function() {
     });
     var connected = false;
     var user,
-    	access_token,
-    	offline,
-    	pubStream,
-    	permsNeeded;
+        access_token,
+        offline,
+        pubStream,
+        permsNeeded;
 
     function checkAuthToken(user_id) {
         var returnVal = null;
@@ -51,17 +51,17 @@ window.fbAsyncInit = function() {
 
     function save_access_token_callback2(token,fbid) {
         $.ajax({
-            url: '/facebook_connect/save_token/'+token+'/'+fbid,
-            async:false,
-            success:function(response) {
-                var obj = JSON.parse(response);
-                if(obj.success == true) {
-                    return;
-                } else {
-                    return;
+                url: '/facebook_connect/save_token/'+token+'/'+fbid,
+                async:false,
+                success:function(response) {
+                    var obj = JSON.parse(response);
+                    if(obj.success == true) {
+                        return;
+                    } else {
+                        return;
+                    }
                 }
             }
-        }
 
         );}
 
@@ -85,7 +85,7 @@ window.fbAsyncInit = function() {
             $('#full_perms_button').hide();
             FB.api({
                 method: 'fql.query',
-                query:'select  publish_stream from permissions where uid = '+user
+                query:'select publish_stream from permissions where uid = '+user
             }, function(data) {
                 console.log(data);
                 pubStream = data[0].publish_stream;

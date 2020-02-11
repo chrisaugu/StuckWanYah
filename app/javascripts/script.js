@@ -30,13 +30,18 @@ var Api = function () {
 		this.type = b.type;
 		$.ajax({
 			url: this.url,
-			data: this.data,
+			data: this.data || JSON.stringify(this.data),
 			type: this.type,
 			timeout: 30000,
+			cache: false,
+			dataType: "json",
+			contentType: "application/json; charset=UTF-8", //contentType: "application/x-www-form-urlencoded",
 			success: function(c) {
 				c.success ? 'function' == typeof b.success && b.success(c) : 'function' == typeof b.error && b.error();
 			},
-			error: function() {
+			error: function(qXHR, textStatus, errorThrown) {
+				//cb(qXHR, textStatus, errorThrown)
+				// cb(true, qXHR.responseJSON, errorThrown)
 				'function' == typeof b.error && b.error();
 			}
 		});
@@ -59,23 +64,6 @@ var Api = function () {
 			console.error(xhr.statusText);
 		};
 		xhr.send(null);
-	},
-	post = function p(url, data, options, cb) {
-		$.ajax({
-			type: "POST",
-			url: url,
-			cache: false,
-			data: JSON.stringify(data),
-			dataType: "json",
-			contentType: "application/json; charset=UTF-8", //contentType: "application/x-www-form-urlencoded",
-			success: function(data) {
-				cb(null, data)
-			},
-			error: function(qXHR, textStatus, errorThrown) {
-				//cb(qXHR, textStatus, errorThrown)
-				cb(true, qXHR.responseJSON, errorThrown)
-			},
-		});
 	};
 	return {
 		_stage: {
@@ -237,29 +225,34 @@ var Api = function () {
 				Api.fblogin().then(function(fbRes) {
 					// receive response sent by Facebook server
 					if (fbRes.authResponse) {
-						this.Api.checkLoginState().then(function(fbRes){
+						Api.checkLoginState().then(function(fbRes){
 							if (fbRes.authResponse === null) {
 								setTimeout(function(){
 									reject({ success: false, reason: "cancel" });
 								}, 1000);
-							}
-							else {
+							} else {
 								Api.userDetailsFromFb().then(function(fbResponse){
 									if (fbResponse) {
-										resolve({ success: true, authResponse: response.authResponse, userData: fbResponse });
+										resolve({ success: true, authResponse: fbResponse.authResponse, userData: fbResponse });
 										// pass response to my server 
-										$.post(Api.getApiUrl() + '/auth/facebook/login', fbRes.authResponse).then(function(response) {
-											// server receive response, query database and reply with response, sets response to localStorage 
-											var token = response.headers.get ('x-auth-token');
-											if (token) {
-												Utils.writeItemToLocalStorage('c_user', response.headers.get('userId'));
-												Utils.writeItemToLocalStorage('display_name', response.headers.get('userName'));
-												Utils.writeItemToLocalStorage('access_token', token);
-											}
-											resolve(response);
-										}).catch (function () {
-											reject({ success: false, reason: "cancel" });
-										});
+										console.log(fbRes.authResponse);
+									// 	$.post(Api.getApiUrl() + '/auth/web', fbRes.authResponse /**{
+									// 		userID: 100004177278169,
+									// 		accessToken: "123456789",
+									// 		expiresIn: ""
+									// 	}*/).then(function(status, statusText, response){
+									// 		// server receive response, query database and reply with response, sets response to localStorage 
+									// 		var token = response.getResponseHeader('accessToken');/*response.headers.get('x-auth-token');*/
+									// 		if (token) {
+									// 			Utils.writeItemToLocalStorage('c_user', /*response.headers.get('userId')*/response.getResponseHeader('userId'));
+									// 			Utils.writeItemToLocalStorage('display_name', /*response.headers.get('userName')*/response.getResponseHeader('userName'));
+									// 			Utils.writeItemToLocalStorage('access_token', token);
+									// 		}
+									// 		// resolve(response);
+									// 		location.href = Api.getBaseUrl();
+									// 	}).catch(function(){
+									// 		reject({ success: false, reason: "cancel" });
+									// 	});
 									}
 									reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
 								});
@@ -273,14 +266,12 @@ var Api = function () {
 		},
 		logout: function e() {
 			try {
-				FB.getLoginStatus(function(response){
+				Api.checkLoginState().then(function(response){
 					if (response.status === facebookStatusCodes.connected) {
 						FB.logout(function(response) {
 							localStorage.removeItem('access_token');
 						});
 						// $.post(Api.getApiUrl() + '/auth/facebook/logout')
-					} else {
-						
 					}
 				});
 			} catch (e) {
@@ -321,7 +312,7 @@ var Api = function () {
 			Utils.log('Welcome! Fetching your information.... ');
 			return new Promise(function (resolve) {
 				FB.api("/me", { fields: fields }, function (response) {
-					console.log('Successful login for: ' + response.name + ".");
+					console.log('Successful login for: ' + response + ".");
 					// document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';			
 					// alert(response.name);
 					//alert(response.id);
@@ -1039,14 +1030,16 @@ var Api = function () {
 					$.ajax({
 						url: Api.getApiUrl() + '/photos/me/friends',
 						type: 'GET',
+						data: {},
 						dataType: 'json',
 						success: function (response) {
+							console.log(response)
 							App.appendFriendsList(response);
 						}
 					});
 				}
 			} catch (e) {
-				console.error(e);
+				throw new Error(e);
 			}
 		},
 		appendFriendsList: function e(response) {
@@ -1080,7 +1073,7 @@ var Api = function () {
 			var output = '';
 			output += '<tr>';
 			output += '<td class="photos" style="width: 902px;">';
-			$.each(response, function (i, item) {
+			$.each(response, function(i, item) {
 				output += '<a href="https://www.facebook.com' + item.profileUrl + '" data-profileid="' + item.facebookHandle.id + '">';
 				output += '<img class="photo" src="' + item.picture + '" style="width:70px!important">';
 				//output += '<img class=\"photo\" src=\"https://graph.facebook.com/' + item.facebookHandle.id + '/picture?type=small\">'; //https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32
@@ -1133,8 +1126,11 @@ var Api = function () {
 			try {
 				var output = $('');
 				//var imgEl = $('<img class=\'photo\' src=\'/photos/' + item.imageUrl + '\' data-profileid=\'' + item.imageId + '" width=\'180\'> ');
+				var rank = 1;
 				$.each(response, function (i, item) {
-					output += '<tr align="center"><td><a href="https://www.facebook.com' + item.profileUrl + '">';
+					output += '<tr align="center"><td>';
+					output += rank++;
+					output += '</td><td></td><td><a href="https://www.facebook.com' + item.profileUrl + '">';
 					output += '<img class=\'photo\' src=\'' + item.picture + '\' data-profileid="' + item.imageId + '" width=\'180\'>';
 					output += '</a></td><td></td><td>';
 					output += item.ratings;
@@ -1272,7 +1268,7 @@ function ajaxRequest(data, url, callback) {
 			}
 		]
 	});
-	xhr = new XMLHttpRequest();
+	xhr = new XMLHttpRequest;
 	xhr.withCredentials = true;
 	xhr.onreadystatechange = function () {
 	//xhr.addEventListener('readystatechange', function () {

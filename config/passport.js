@@ -1,4 +1,3 @@
-
 // load all the things we need
 //var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -10,7 +9,7 @@ var User = require('../app/models/user');
 var configAuth = require('../config');
 
 module.exports = function(passport) {
-	
+
 	// used to serialize the user for ther session
 	passport.serializeUser(function(user, done) {
 		done(null, user.id);
@@ -29,53 +28,52 @@ module.exports = function(passport) {
 	// ==================== //
 	// ===== FACEBOOK ===== //
 	// ==================== //
-
 	passport.use(new FacebookStrategy({
-		// pull in my app id and secret from config file
-		clientID: configAuth.facebook.clientID,
-		clientSecret: configAuth.facebook.clientSecret,
-		callbackURL: configAuth.facebook.callbackURL
-	}, 
-	// facebook will send back the token and profile
-	function(token, refreshToken, profile, done) {
+			// pull in my app id and secret from config file
+			clientID: configAuth.facebook.clientID,
+			clientSecret: configAuth.facebook.clientSecret,
+			callbackURL: configAuth.facebook.callbackURL
+		},
+		// facebook will send back the token and profile
+		function(token, refreshToken, profile, done) {
 
-		// asynchronouse
-		process.nextTick(function() {
+			// asynchronouse
+			process.nextTick(function() {
 
-			//find the user in the database on their facebook id
-			User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+				//find the user in the database on their facebook id
+				User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
 
-				// if there is an error, stop everything and return that
-				// ie an error connecting to the database
-				if (err) {
-					return done(err);
-				}
+					// if there is an error, stop everything and return that
+					// ie an error connecting to the database
+					if (err) {
+						return done(err);
+					}
 
-				// if the user is found, then log them in
-				if (user) {
-					return done(null, user);
-				} else {
-					// if there is no user found with that facebook id, create them
-					var newUser = new User();
+					// if the user is found, then log them in
+					if (user) {
+						return done(null, user);
+					} else {
+						// if there is no user found with that facebook id, create them
+						var newUser = new User();
 
-					// set all the facebook information in our user model
-					newUser.facebook.id = profile.id;
-					newUser.facebook.token = token;
-					newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
-					newUser.facebook.email = profile.emails[0].value;
+						// set all the facebook information in our user model
+						newUser.facebook.id = profile.id;
+						newUser.facebook.token = token;
+						newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
+						newUser.facebook.email = profile.emails[0].value;
 
-					// save our user to the database
-					newUser.save(function(err) {
-						if (err) {
-							throw err;
-						}
+						// save our user to the database
+						newUser.save(function(err) {
+							if (err) {
+								throw err;
+							}
 
-						// if successful, return the new user
-						return done(null, newUser);
-					});
-				}
+							// if successful, return the new user
+							return done(null, newUser);
+						});
+					}
+				});
 			});
-		});
-	}));
+		}));
 
 };
