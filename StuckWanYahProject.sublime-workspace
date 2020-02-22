@@ -4,6 +4,30 @@
 		"selected_items":
 		[
 			[
+				"find",
+				"find"
+			],
+			[
+				"photo",
+				"photo"
+			],
+			[
+				"age",
+				"age_range"
+			],
+			[
+				"las",
+				"last_name"
+			],
+			[
+				"first",
+				"first_name"
+			],
+			[
+				"pro",
+				"profile"
+			],
+			[
 				"data",
 				"data"
 			],
@@ -188,10 +212,6 @@
 				"player1"
 			],
 			[
-				"photo",
-				"photos"
-			],
-			[
 				"next",
 				"nextElementSibling"
 			],
@@ -300,10 +320,6 @@
 				"field"
 			],
 			[
-				"pro",
-				"process"
-			],
-			[
 				"me",
 				"method"
 			],
@@ -322,10 +338,6 @@
 			[
 				"player_",
 				"player_1"
-			],
-			[
-				"find",
-				"findOne"
 			],
 			[
 				"call",
@@ -502,18 +514,6 @@
 			[
 				"mess",
 				"message"
-			],
-			[
-				"cure",
-				"current_page"
-			],
-			[
-				"add",
-				"addEmail"
-			],
-			[
-				"Fa",
-				"facebook"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 73893,
+				"buffer_size": 74409,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -538,10 +538,28 @@
 			}
 		},
 		{
+			"file": "views/connect.html",
+			"settings":
+			{
+				"buffer_size": 6146,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "app/javascripts/script.js",
 			"settings":
 			{
-				"buffer_size": 51397,
+				"buffer_size": 51692,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test.bat",
+			"settings":
+			{
+				"buffer_size": 608,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -620,11 +638,14 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views"
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/models"
 	],
 	"file_history":
 	[
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/README.md",
+		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/upload.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/submit.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/rankings.html",
@@ -660,7 +681,6 @@
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/config/passport-setup.js",
 		"/C/xampp/htdocs/facemash/folder.bat",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/post.yaml",
-		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
 		"/C/Users/Wantok/AppData/Local/Google/Chrome/User Data/Default/Extensions/iffdacemhfpnchinokehhnppllonacfj/6.4_0/js/libs/bootstrap-modal-master/bs3.html",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/javascript.js",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/public/javascripts/scratchpad.js",
@@ -750,9 +770,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/test/ajaxchat.html",
 		"/C/Users/Admin/WebstormProjects/chat/test/src/index.css",
 		"/C/Users/Admin/WebstormProjects/chat/test/learn_vue.js.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/index.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/user/profile.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/vendor/jquery.form.min.js"
+		"/C/Users/Admin/WebstormProjects/chat/app/views/index.ejs"
 	],
 	"find":
 	{
@@ -770,6 +788,26 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"\t\t",
+			"\n\t",
+			"\n    ",
+			"age_ran",
+			"photos/",
+			"photos",
+			"router",
+			"photos'",
+			"photos.js",
+			"photos",
+			"Pop",
+			"fields",
+			"login",
+			"statusChangeCallback",
+			"getLogin",
+			".login",
+			"displayPhoto",
+			"getPhotoById",
+			"getfrien",
+			"open",
 			"theme",
 			"top10HottestFriends",
 			"session.gender",
@@ -856,15 +894,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 73893,
+						"buffer_size": 74409,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								55691,
+								55691
 							]
 						],
 						"settings":
@@ -875,7 +913,7 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2255.0,
+						"translation.y": 26964.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
@@ -894,8 +932,8 @@
 						"selection":
 						[
 							[
-								561,
-								561
+								5939,
+								5939
 							]
 						],
 						"settings":
@@ -907,24 +945,54 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/javascripts/script.js",
+					"file": "views/connect.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 51397,
+						"buffer_size": 6146,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								582,
+								582
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/javascripts/script.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 51692,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								965,
+								965
 							]
 						],
 						"settings":
@@ -934,14 +1002,42 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 337.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
+					"file": "test.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 608,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								540,
+								540
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "views/disclaimer.html",
 					"semi_transient": false,
 					"settings":
@@ -966,11 +1062,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 6,
 					"semi_transient": false,
 					"settings":
 					{
@@ -981,8 +1077,8 @@
 						"selection":
 						[
 							[
-								14486,
-								14486
+								1933,
+								1933
 							]
 						],
 						"settings":
@@ -991,14 +1087,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 480.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 7,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1023,7 +1119,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1031,11 +1127,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 24.0
 	},
 	"input":
 	{
-		"height": 36.0
+		"height": 37.0
 	},
 	"layout":
 	{
@@ -1076,7 +1172,7 @@
 	"project": "StuckWanYahProject.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 44.0
 	},
 	"save_all_on_build": false,
 	"select_file":
@@ -1096,7 +1192,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Wantok\\WebstormProjects\\chat\\chatme-mobile\\ChatMe-Mobile.sublime-project"
+				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\hacking-cracking-tools\\HacknCrack.sublime-project"
 			]
 		],
 		"width": 380.0
@@ -1115,10 +1211,10 @@
 	{
 	},
 	"show_minimap": true,
-	"show_open_files": true,
+	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 221.0,
+	"side_bar_width": 298.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

@@ -3,6 +3,7 @@
 // Initializing dependencies
 var express = require("express")
 	, http = require("http")
+	, https = require("https")
 	, ejs = require('ejs')
 	, session = require("express-session")
 	, restful = require('node-restful')
@@ -36,7 +37,12 @@ var express = require("express")
 
 // Creating Global instance for express
 const app = express();
-const server = http.createServer(app);
+let server;
+// server = http.createServer(app);
+server = https.createServer({
+	key: fs.readFileSync('./key.pem'),
+	cert: fs.readFileSync('./cert.pem')
+}, app);
 const router = express.Router();
 
 // var io = new Socket(server);
@@ -197,13 +203,13 @@ app.use(async (req, res, next) => {
 		req.session.authenticated = false;
 		res.locals.connected = req.session.authenticated;
 
-		/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
+		/* temp! remove this line and uncomment line below for production */ //req.session.user_id = 100004177278169; next();
 
-		// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
-		// 	return next();
-		// } else {
-		// 	res.redirect('/foo');
-		// }
+		if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
+			return next();
+		} else {
+			res.redirect('/foo');
+		}
 	}
 });
 
@@ -231,7 +237,8 @@ server.listen(app.get('port'), function(){
 });
 
 var opts = {
-	useMongoClient: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
 	auto_reconnect: true,
 	poolSize: 10,
 	server: {
@@ -1926,18 +1933,37 @@ function randomQuery(config){
  * @params facebookId User's Facebook ID from Facebook
  */
 
-// usersFromList(require('./photos').photos);
+usersFromList(require('./photos').photos);
 // usersFromList(require('./friendslist'));
 
 function usersFromList(data) {
 	// create all of the dummy people
 	async.each(data, function(profile){
 		console.log("Checking user id "+ profile.id + " on the database")
-		// find each user by profile
+		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
-		checkUserExistance(profile.id);
+		// checkUserExistance(profile.id);
 	});
 };
+
+function populatePhotos(profile) {
+	Photos.find({imageId: profile.id}).then(function(res){
+		var p = new Photos({
+			imageId: profile.id,
+			fullName: profile.name,
+			firstName: profile.first_name,
+			lastName: profile.last_name,
+			age: (profile.age_range.min + profile.age_range.max)/2,
+			gender: profile.gender,
+			picture: profile.photo,
+			profileUrl: profile.photo
+		});
+		p.save(function(err, res){
+			if (err) {throw new Error(err);}
+			console.log(res);
+		});
+	});
+}
 
 // checkUserExistance(954279251387975/*100004177278169*/);
 

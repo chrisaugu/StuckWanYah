@@ -18,7 +18,8 @@ var facebookStatusCodes = {
 	not_authorized: "not_authorized"
 };
 
-var fields = 'public_profile, permissions, id, email, name, first_name, last_name, age_range, birthday, gender, picture{url}, friends{age_range, birthday, name, picture{url}, first_name, last_name}, link, user_photos';
+var _fields = 'public_profile, permissions, id, email, name, first_name, last_name, age_range, birthday, gender, picture{url, first_name, last_name}, friends{age_range, birthday, link, user_photos}';
+// 'id,name,first_name,last_name,age_range,birthday,gender,picture{url},friends{age_range,profile_pic,photos{link},gender,first_name,last_name},photos{link},profile_pic'
 
 /**
  * StuckWanYah JavaScript
@@ -142,7 +143,7 @@ var Api = function () {
 					resolve(result);
 				})
 				// FB.api('/me','GET', {
-				// 	fields: fields
+				// 	fields: _fields
 				// }, function (response) {
 				// 	if (response) {
 				// 		for (var i=0; i<response.friends.length; i++) {
@@ -151,6 +152,18 @@ var Api = function () {
 				// 	}
 				// 	return response;
 				// });
+			});
+			FB.api("/{friend-list-id}", function (response) {
+				if (response && !response.error) {
+					/* handle the result */
+				}
+			});
+		},
+		getFbUserPhoto: function e(e) {
+			FB.api("/{photo-id}", function (response) {
+				if (response && !response.error) {
+					/* handle the result */
+				}
 			});
 		},
 		getAccessToken: function e() {
@@ -163,7 +176,7 @@ var Api = function () {
 				// checking login status
 				FB.getLoginStatus(function (response) {
 					Utils.log("checked: " + response);
-					currentLoginStatus = response;
+					currentLoginStatus = response.status;
 					Api.statusChangeCallback(response);
 					resolve(response);
 				});
@@ -211,12 +224,12 @@ var Api = function () {
 			return new Promise(function (resolve, reject) {
 				FB.login(function (response) {
 					// receive response sent by Facebook 
-					if (response.authResponse) {
+					if (response.status == "connected" && response.authResponse) {
 						resolve(response);
 					} else {
 						reject({ success: false, reason: "cancel" });
 					}
-				}, { scope: fields });
+				}, { scope: _fields });
 			});
 		},
 		login: function e() {
@@ -265,18 +278,14 @@ var Api = function () {
 			});
 		},
 		logout: function e() {
-			try {
-				Api.checkLoginState().then(function(response){
-					if (response.status === facebookStatusCodes.connected) {
-						FB.logout(function(response) {
-							localStorage.removeItem('access_token');
-						});
-						// $.post(Api.getApiUrl() + '/auth/facebook/logout')
-					}
-				});
-			} catch (e) {
-				throw new Error("Error occured logging out.");
-			}
+			Api.checkLoginState().then(function(response){
+				if (response.status === facebookStatusCodes.connected) {
+					FB.logout(function(response) {
+						localStorage.removeItem('access_token');
+					});
+					// $.post(Api.getApiUrl() + '/auth/facebook/logout')
+				}
+			});
 		},
 		_setUserData: function e(store, obj) {
 			Utils.log(JSON.stringify(obj));
@@ -311,7 +320,7 @@ var Api = function () {
 		userDetailsFromFb: function e() {
 			Utils.log('Welcome! Fetching your information.... ');
 			return new Promise(function (resolve) {
-				FB.api("/me", { fields: fields }, function (response) {
+				FB.api("/me", { locale: 'en_US', fields: _fields }, function (response) {
 					console.log('Successful login for: ' + response + ".");
 					// document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';			
 					// alert(response.name);
@@ -850,9 +859,10 @@ var Api = function () {
 					cookie: true,
 					xfbml: true,
 					status: true,
-					version: 'v3.0'
+					version: 'v6.0'
 				});
-				initialized = true;
+				FB.AppEvents.logPageView();   
+          		initialized = true;
 				Api.checkLoginState();
 				return;
 			} else {
