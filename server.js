@@ -38,11 +38,14 @@ var express = require("express")
 // Creating Global instance for express
 const app = express();
 let server;
-// server = http.createServer(app);
-server = https.createServer({
-	key: fs.readFileSync('./key.pem'),
-	cert: fs.readFileSync('./cert.pem')
-}, app);
+
+server = http.createServer(app);
+
+// server = https.createServer({
+// 	key: fs.readFileSync('./key.pem'),
+// 	cert: fs.readFileSync('./cert.pem')
+// }, app);
+
 const router = express.Router();
 
 // var io = new Socket(server);
@@ -53,7 +56,7 @@ var Sweetlips = require("./models/sweetlips");
 // Register photos model
 var Photos = Sweetlips.photos;
 var Hits = Sweetlips.hits;
-var BlockedPhotos = Sweetlips.blockedPhotos;
+// var BlockedPhotos = Sweetlips.blockedPhotos;
 Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
 Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
@@ -93,74 +96,74 @@ app.use(session({
 	saveUninitialized: true,
 	cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 /** Registers a function used to serialize user objects into the session. */
-passport.serializeUser((user, done) => {
-	console.log(user);
-	//done(null, user._id);
-	done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+// 	console.log(user);
+// 	//done(null, user._id);
+// 	done(null, user.id);
+// });
 /** Registers a function used to deserialize user objects out of the session. */
-passport.deserializeUser((id, done) => {
-	Photos.findById(id).then((user) => {
-		done(null, user);
-	});
-});
+// passport.deserializeUser((id, done) => {
+// 	Photos.findById(id).then((user) => {
+// 		done(null, user);
+// 	});
+// });
 
-passport.use(new FacebookStrategy({
-	// options for the facebook strat
-	clientID: keys.facebook.appID,
-	clientSecret: keys.facebook.clientSecret,
-	callbackURL: keys.facebook.callbackURL,
-	profileFields: ['id','displayName','photos','birthday','gender','profileUrl','link','age','emails'],
-	enableProof: true
-}, function(accessToken, refreshToken, profile, done) {
+// passport.use(new FacebookStrategy({
+// 	// options for the facebook strat
+// 	clientID: keys.facebook.appID,
+// 	clientSecret: keys.facebook.clientSecret,
+// 	callbackURL: keys.facebook.callbackURL,
+// 	profileFields: ['id','displayName','photos','birthday','gender','profileUrl','link','age','emails'],
+// 	enableProof: true
+// }, function(accessToken, refreshToken, profile, done) {
 
-	console.log(profile);
-	var me = new Photos({
-		email: profile.emails[0].value,
-		name: profile.displayName
-	});
+// 	console.log(profile);
+// 	var me = new Photos({
+// 		email: profile.emails[0].value,
+// 		name: profile.displayName
+// 	});
 
-	/* save if new */
-	Photos.findOne({ email: me.email }, function(err, u) {
-		if(!u) {
-			me.save().then(function(newUser) {
-				console.log("new user created: " + newUser);
-				done(null, newUser);
-			}).catch(function(err){
-				return done(err);
-			});
-		} else {
-			console.log("user is: " + u);
-			done(null, u);
-		}
-	});
+// 	/* save if new */
+// 	Photos.findOne({ email: me.email }, function(err, u) {
+// 		if(!u) {
+// 			me.save().then(function(newUser) {
+// 				console.log("new user created: " + newUser);
+// 				done(null, newUser);
+// 			}).catch(function(err){
+// 				return done(err);
+// 			});
+// 		} else {
+// 			console.log("user is: " + u);
+// 			done(null, u);
+// 		}
+// 	});
 
-	var options = {accessToken, refreshToken, profile};
-	Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
-		return done(err, user);
-	});
+// 	var options = {accessToken, refreshToken, profile};
+// 	Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
+// 		return done(err, user);
+// 	});
 
-	// check if photo already exists in the db
-	Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
-		if (!currentUser) {
-			// already have the photo
-			console.log("user is:", currentUser);
-			done(null, currentUser);
-		} else {
-			// if not, create user in the db
-			new Photos({
-				displayName: profile.displayName,
-				facebookHandle: {id: profile.id}
-			}).save().then((newPhoto) => {
-				console.log('new photo created:' + newPhoto);
-			})
-		}
-	});
-}));
+// 	// check if photo already exists in the db
+// 	Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
+// 		if (!currentUser) {
+// 			// already have the photo
+// 			console.log("user is:", currentUser);
+// 			done(null, currentUser);
+// 		} else {
+// 			// if not, create user in the db
+// 			new Photos({
+// 				displayName: profile.displayName,
+// 				facebookHandle: {id: profile.id}
+// 			}).save().then((newPhoto) => {
+// 				console.log('new photo created:' + newPhoto);
+// 			})
+// 		}
+// 	});
+// }));
 
 app.use((req, res, next) => {
 	if (!req.session.views) req.session.views = {}
@@ -219,7 +222,7 @@ app.use(async (req, res, next) => {
 		// const accessToken = req.headers.authorization.trim().split(' ')[1];
 		// await oktaJwtVerifier.verifyAccessToken(accessToken);
 		if (req.isAuthenticated()) {
-			return next()
+			next()
 		}
 		// res.redirect('/');
 		next();
@@ -231,23 +234,23 @@ app.use(async (req, res, next) => {
 // Invoke instance to listen to port
 // Create new server
 server.listen(app.get('port'), function(){
-	console.log("-----------------------------------".blue);
+	console.log("---------------------------------------".blue);
 	console.log("StuckWanYah server running on port %d".magenta, app.get('port'));
-	console.log("-----------------------------------".blue);
+	console.log("---------------------------------------".blue);
 });
 
 var opts = {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
-	auto_reconnect: true,
-	poolSize: 10,
-	server: {
-		socketOptions: { keepAlive: 1 }
-	},
-	db: {
-		numberOfRetries: 1000,
-		retryMiliSeconds: 1000
-	}
+	// auto_reconnect: true,
+	// poolSize: 10,
+	// server: {
+	// 	socketOptions: { keepAlive: 1 }
+	// },
+	// db: {
+	// 	numberOfRetries: 1000,
+	// 	retryMiliSeconds: 1000
+	// }
 };
 mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
@@ -363,14 +366,15 @@ app.post('/upload', function(req, res, next) {
 	let age = req.body.age;
 	let photo = req.body.photo;
 	let gender = req.body.gender;
+	let blob = req.body.blob;
 
 	if (!(age <= 13) && (age > 13)) {
 		var newPhoto = {
 			imageId: Number((Math.random()).toString().slice(2)),
 			age: age,
 			gender: gender,
-			picture: photo,
-			imageUrl: photo
+			picture: blob,
+			profileUrl: photo
 		};
 		Photos.create(newPhoto, function(error, success){
 			if (error) console.error(error);
@@ -538,7 +542,7 @@ router.put('/photos', function(req, res, next){
  * Return 10 highest ranked photos. Filter by gender
  */
 router.get('/photos/top', /*sessionChecker,*/ function(req, res, next){
-	console.log('602: ' + req.query);
+	console.log('545: ' + req.query);
 
 	topTenRatings({
 		params: req,
@@ -1065,6 +1069,7 @@ var getTwoRandomPhotos = function(config){
 
 	var fields = {};
 	var options = { limit: 2 };
+
 	Photos.findRandom(filter, fields, options, function(err, photos) {
 		if (err) config.error.call(this, err);
 
@@ -1081,7 +1086,7 @@ var getTwoRandomPhotos = function(config){
 		// 	.exec()
 		// 	.then(function(error, photos){
 		// Assign all 2 random pictures to randomPictures
-		if (photos.length === 2 && photos[0].imageId !== photos[1].imageId) {
+		if (photos[0].imageId !== photos[1].imageId) {
 			randomImages = photos;
 		} else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
 
@@ -1391,7 +1396,7 @@ function findAndUpdateDB(id1, id2, R1, R2){
  * Returns the top 10 highest ratings
  */
 var topTenRatings = function(config){
-	console.log("1386: " + config.params.query.field);
+	console.log("1399: " + config.params.query.field);
 	var query_field = config.params.query.field;
 	var query_gender;
 	if (config.params.query.gender) {
@@ -1415,11 +1420,11 @@ var topTenRatings = function(config){
 			var topRank = inverted[max];
 			var topCount = rankCount[topRank];
 
-			console.log(`1411:  ${ { rank: topRank, count: topCount } }`);
+			console.log(`1423:  ${ { rank: topRank, count: topCount } }`);
 
 			config.success.call(this, ranks);
 		}).catch(function(err){
-		console.log("1389: " + err);
+		console.log("1426: " + err);
 		config.error.call(this, err);
 	});
 };
@@ -1833,7 +1838,7 @@ function blockPhoto(callback){
 			console.log("Your photo has been blocked. You will not be able to be voted nor vote again in the future.");
 		sendMessage(callback.facebookHandle.id, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."});
 	});
-	new BlockedPhotos({id: callback.imageId,is_blocked: true}).save();
+	// new BlockedPhotos({id: callback.imageId,is_blocked: true}).save();
 	return callback;
 };
 function unblockPhoto(callback){
@@ -1844,7 +1849,7 @@ function unblockPhoto(callback){
 			console.log("Your photo has been unblocked. Your photo can be voted by your friends.");
 		sendMessage(callback.facebookHandle.id, {text: "Your photo has been unblocked. Your photo can be voted by your friends."});
 	});
-	BlockedPhotos.remove({id: callback.imageId}).save();
+	// BlockedPhotos.remove({id: callback.imageId}).save();
 	return callback;
 };
 
@@ -1933,7 +1938,7 @@ function randomQuery(config){
  * @params facebookId User's Facebook ID from Facebook
  */
 
-usersFromList(require('./photos').photos);
+// usersFromList(require('./photos').photos);
 // usersFromList(require('./friendslist'));
 
 function usersFromList(data) {
@@ -1943,6 +1948,7 @@ function usersFromList(data) {
 		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
 		// checkUserExistance(profile.id);
+		populatePhotos(profile);
 	});
 };
 
@@ -2015,7 +2021,7 @@ function /* step: 2 */ getUserDetailsFromFacebook(userId){
  * Prepares all the user's basic details
  * @param profile
  */
- async function /* step: 3 */ prepareUserData(fbProfile) {
+async function /* step: 3 */ prepareUserData(fbProfile) {
 	var object = {};
 	// imageId is the facebook id
 	object['imageId'] = fbProfile.id;

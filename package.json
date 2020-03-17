@@ -5,9 +5,8 @@
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "pretest": "http-server --ssl -c-1 -p 5000 -a 127.0.0.1"
+    "test": "http-server --ssl -c-1 -p 5000 -a 127.0.0.1"
   },
   "repository": "git+https://github.com/chrisaugu/stuckwanyah.git",
   "keywords": [

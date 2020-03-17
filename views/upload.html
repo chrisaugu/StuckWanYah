@@ -26,7 +26,8 @@
                         <input type="hidden" name="token" value="1234567890">
                         <input type="text" name="age" placeholder="Age" class="text" style="width: fit-content;"></br>
                         <input type="text" name="gender" placeholder="Gender (i.e male, female)" class="text" style="width: fit-content;"></br>
-                        <input type="file" name="photo"></br>
+                        <input type="hidden" name="blob" id="blob">
+                        <input type="file" name="photo" onchange="onFileChange(this);"></br>
                         <button type="submit" type="button" class="button">Upload</button>
                     </form>
 

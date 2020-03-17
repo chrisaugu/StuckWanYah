@@ -1544,6 +1544,20 @@ function sh(name) {
 	});
 }
 
+function onFileChange(e) {
+	var self = e;
+	if ($(self).val()) {
+		if (self.files && self.files[0]) {
+			var m = new FileReader;
+			m.addEventListener("load", function(l) {
+				var N = l.target.result;
+				$("#blob").attr("value", N);
+			});
+			m.readAsDataURL(self.files[0]);
+		}
+	};
+}
+
 // document.getElementById("profile_pic_header_100004177278169")
 
 // if (document.getElementsByClassName("_2dpe")[0]) {

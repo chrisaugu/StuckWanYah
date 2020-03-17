@@ -21,19 +21,15 @@ var SweetLipsSchema = new Schema({
     friends: [{
         type: ObjectId,
         ref: 'photos',
-        unique: true
+        // unique: true
     }],
     facebookHandle: {
         ids: [],
-        friends: [],
-        selected: false
+        friends: []
     },
     instagramHandle: {
-        type: {
-            id: String
-        },
-        followers: [{type: 'ObjectId', ref: 'photos'}],
-        selected: false
+        id: {type: String},
+        followers: [{type: 'ObjectId', ref: 'photos'}]
     },
     is_blocked: {type: Boolean, default: false},
     wins: {type: Number, default: 0},
@@ -44,8 +40,8 @@ var SweetLipsSchema = new Schema({
     // define the geospatial field
     random: {type: [Number], index: '2d'},
     voted: {type: Boolean, default: false},
-    voted_by: [],
-    challengers: [],
+    voted_by: [{type: ObjectId, ref: 'photos'}],
+    challengers: [{type: ObjectId, ref: 'photos'}],
     joinedAt: {type: Date, default: Date.now()},
 }, {strict: false});
 
@@ -54,15 +50,15 @@ SweetLipsSchema.plugin(random);
 
 var Photos = restful.model('photos', SweetLipsSchema);
 
-SweetLipsSchema.statics.findOrCreate = function (id, options, callback) {
+SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
     Photos.find({
         gender: 'female',
         $or: [{loves: 'apple'}, {weight: {$lt: 500}}]
-    }, function (err, user) {
+    }, function(err, user) {
     });
 };
 
-SweetLipsSchema.statics.upsertFbUser = function (accessToken, refreshToken, profile, callback) {
+SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profile, callback) {
     const $this = this;
     return Photos.findOne({'facebookHandle.id': profile.id}).then((player) => {
         if (player) {
@@ -100,15 +96,15 @@ SweetLipsSchema.statics.upsertFbUser = function (accessToken, refreshToken, prof
     });
 };
 
-SweetLipsSchema.statics.findImageById = function (id, callback) {
+SweetLipsSchema.statics.findImageById = function(id, callback) {
     return Photos.findOne({
         'imageId': id
     }).exec(callback);
 };
 
-SweetLipsSchema.statics.findOneAndUpdate = function (query, update, options, callback) {
+SweetLipsSchema.statics.findOneAndUpdate = function(query, update, options, callback) {
     var $this = this;
-    return this.model('photos').findOne(query).exec(function (error, photo) {
+    return this.model('photos').findOne(query).exec(function(error, photo) {
         if (!photo) {
             var newPhoto = new $this({
                 // imageId is the facebook id
@@ -126,7 +122,7 @@ SweetLipsSchema.statics.findOneAndUpdate = function (query, update, options, cal
                 ratings: 1400
                 // leave the rest to default
             });
-            newPhoto.save(function (error, savedPhoto) {
+            newPhoto.save(function(error, savedPhoto) {
                 if (error) console.log(error);
                 return callback(error, savedPhoto);
             })

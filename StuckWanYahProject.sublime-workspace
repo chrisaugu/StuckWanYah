@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"new",
+				"newPhoto"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"pho",
+				"photos"
+			],
+			[
 				"find",
 				"find"
 			],
@@ -380,10 +392,6 @@
 				"winning"
 			],
 			[
-				"new",
-				"new_winner_rating"
-			],
-			[
 				"rat",
 				"ratings"
 			],
@@ -506,14 +514,6 @@
 			[
 				"er",
 				"Error"
-			],
-			[
-				"ACCE",
-				"PAGE_ACCESS_TOKEN"
-			],
-			[
-				"mess",
-				"message"
 			]
 		]
 	},
@@ -523,7 +523,16 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 74409,
+				"buffer_size": 74801,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/xampp/htdocs/christianaugustyn/public/js/application.js",
+			"settings":
+			{
+				"buffer_size": 161327,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -541,7 +550,7 @@
 			"file": "views/connect.html",
 			"settings":
 			{
-				"buffer_size": 6146,
+				"buffer_size": 6079,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -550,7 +559,7 @@
 			"file": "app/javascripts/script.js",
 			"settings":
 			{
-				"buffer_size": 51692,
+				"buffer_size": 52150,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -638,12 +647,20 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/models"
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah"
 	],
 	"file_history":
 	[
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/models/sweetlips.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/upload.html",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/perfectMatch.html",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/epsilonpi/.env",
+		"/C/Users/Christian AUGUSTYN/Desktop/Tor Browser/Browser/tbb_version.json",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
+		"/C/Program Files (x86)/MongoDB/Server/3.2/bin/mongodb.config",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/StuckWanYahProject.sublime-project",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/hacking-cracking-tools/.vs/slnx.sqlite",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/.gitignore",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/README.md",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/package.json",
 		"/C/Users/Wantok/WebstormProjects/StuckWanYah/views/upload.html",
@@ -761,16 +778,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/app/views/settings.ejs",
 		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.dom.js",
 		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/shared.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/settings.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/components/pagelet_purplebar.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/server/routes/router.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/messages.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/test/src/index.js",
-		"/C/Users/Admin/WebstormProjects/chat/test/learn_react_2.html",
-		"/C/Users/Admin/WebstormProjects/chat/test/ajaxchat.html",
-		"/C/Users/Admin/WebstormProjects/chat/test/src/index.css",
-		"/C/Users/Admin/WebstormProjects/chat/test/learn_vue.js.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/index.ejs"
+		"/C/Users/Admin/WebstormProjects/chat/app/settings.html"
 	],
 	"find":
 	{
@@ -788,6 +796,22 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"gender",
+			"this",
+			"File",
+			"upload",
+			"BlockedPhotos",
+			"Block",
+			"n (",
+			"voted_by",
+			"1398",
+			"545",
+			"FACEBOOK_APP_ID",
+			"init",
+			"_fields",
+			": fields",
+			"fields",
+			"createServer",
 			"\t\t",
 			"\n\t",
 			"\n    ",
@@ -885,7 +909,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -894,15 +918,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 74409,
+						"buffer_size": 74801,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								55691,
-								55691
+								447,
+								447
 							]
 						],
 						"settings":
@@ -913,14 +937,43 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 26964.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/xampp/htdocs/christianaugustyn/public/js/application.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 161327,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								105536,
+								105987
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 47287.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "views/home.html",
 					"semi_transient": false,
 					"settings":
@@ -932,8 +985,8 @@
 						"selection":
 						[
 							[
-								5939,
-								5939
+								883,
+								883
 							]
 						],
 						"settings":
@@ -949,60 +1002,31 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "views/connect.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6146,
+						"buffer_size": 6079,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								582,
-								582
+								6079,
+								6079
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/HTML/HTML.sublime-syntax",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/javascripts/script.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 51692,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								965,
-								965
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 337.0,
+						"translation.y": 467.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1010,6 +1034,37 @@
 				},
 				{
 					"buffer": 4,
+					"file": "app/javascripts/script.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 52150,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								50530,
+								50530
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 21504.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "test.bat",
 					"semi_transient": false,
 					"settings":
@@ -1021,8 +1076,8 @@
 						"selection":
 						[
 							[
-								540,
-								540
+								608,
+								608
 							]
 						],
 						"settings":
@@ -1033,11 +1088,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "views/disclaimer.html",
 					"semi_transient": false,
 					"settings":
@@ -1062,11 +1117,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1090,11 +1145,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1119,7 +1174,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1192,7 +1247,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\hacking-cracking-tools\\HacknCrack.sublime-project"
+				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\crisbot\\Cris.ioBot.sublime-project"
 			]
 		],
 		"width": 380.0
