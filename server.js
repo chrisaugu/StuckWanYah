@@ -32,8 +32,8 @@ var express = require("express")
 	, keys = require("./config/keys")
 	// , Socket = require('socket.io')
 	, logSymbols = require('log-symbols')
-	, merge = require('lodash.merge')
-	, merge_it = require('merge');
+	// , merge = require('lodash.merge')
+	// , merge_it = require('merge');
 
 // Creating Global instance for express
 const app = express();
@@ -96,74 +96,74 @@ app.use(session({
 	saveUninitialized: true,
 	cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
 }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+
+passport.use(new FacebookStrategy({
+	// options for the facebook strat
+	clientID: keys.facebook.appID,
+	clientSecret: keys.facebook.clientSecret,
+	callbackURL: keys.facebook.callbackURL,
+	profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/'email'],
+	enableProof: true
+}, function(accessToken, refreshToken, profile, done) {
+
+	console.log(profile);
+	// var me = new Photos({
+	// 	email: profile.emails[0].value,
+	// 	name: profile.displayName
+	// });
+
+	/* save if new */
+	// Photos.findOne({ email: me.email }, function(err, u) {
+	// 	if(!u) {
+	// 		me.save().then(function(newUser) {
+	// 			console.log("new user created: " + newUser);
+	// 			done(null, newUser);
+	// 		}).catch(function(err){
+	// 			return done(err);
+	// 		});
+	// 	} else {
+	// 		console.log("user is: " + u);
+	// 		done(null, u);
+	// 	}
+	// });
+
+	// var options = {accessToken, refreshToken, profile};
+	// Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
+	// 	return done(err, user);
+	// });
+
+	// // check if photo already exists in the db
+	// Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
+	// 	if (!currentUser) {
+	// 		// already have the photo
+	// 		console.log("user is:", currentUser);
+	// 		done(null, currentUser);
+	// 	} else {
+	// 		// if not, create user in the db
+	// 		new Photos({
+	// 			displayName: profile.displayName,
+	// 			facebookHandle: {id: profile.id}
+	// 		}).save().then((newPhoto) => {
+	// 			console.log('new photo created:' + newPhoto);
+	// 		})
+	// 	}
+	// });
+}));
 
 /** Registers a function used to serialize user objects into the session. */
-// passport.serializeUser((user, done) => {
-// 	console.log(user);
-// 	//done(null, user._id);
-// 	done(null, user.id);
-// });
+passport.serializeUser((user, done) => {
+	console.log(user);
+	//done(null, user._id);
+	done(null, user.id);
+});
 /** Registers a function used to deserialize user objects out of the session. */
-// passport.deserializeUser((id, done) => {
-// 	Photos.findById(id).then((user) => {
-// 		done(null, user);
-// 	});
-// });
-
-// passport.use(new FacebookStrategy({
-// 	// options for the facebook strat
-// 	clientID: keys.facebook.appID,
-// 	clientSecret: keys.facebook.clientSecret,
-// 	callbackURL: keys.facebook.callbackURL,
-// 	profileFields: ['id','displayName','photos','birthday','gender','profileUrl','link','age','emails'],
-// 	enableProof: true
-// }, function(accessToken, refreshToken, profile, done) {
-
-// 	console.log(profile);
-// 	var me = new Photos({
-// 		email: profile.emails[0].value,
-// 		name: profile.displayName
-// 	});
-
-// 	/* save if new */
-// 	Photos.findOne({ email: me.email }, function(err, u) {
-// 		if(!u) {
-// 			me.save().then(function(newUser) {
-// 				console.log("new user created: " + newUser);
-// 				done(null, newUser);
-// 			}).catch(function(err){
-// 				return done(err);
-// 			});
-// 		} else {
-// 			console.log("user is: " + u);
-// 			done(null, u);
-// 		}
-// 	});
-
-// 	var options = {accessToken, refreshToken, profile};
-// 	Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
-// 		return done(err, user);
-// 	});
-
-// 	// check if photo already exists in the db
-// 	Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
-// 		if (!currentUser) {
-// 			// already have the photo
-// 			console.log("user is:", currentUser);
-// 			done(null, currentUser);
-// 		} else {
-// 			// if not, create user in the db
-// 			new Photos({
-// 				displayName: profile.displayName,
-// 				facebookHandle: {id: profile.id}
-// 			}).save().then((newPhoto) => {
-// 				console.log('new photo created:' + newPhoto);
-// 			})
-// 		}
-// 	});
-// }));
+passport.deserializeUser((id, done) => {
+	console.log(id)
+	done(null, id)
+	// Photos.findById(id).then((user) => {
+	// 	done(null, user);
+	// });
+});
 
 app.use((req, res, next) => {
 	if (!req.session.views) req.session.views = {}
@@ -230,6 +230,9 @@ app.use(async (req, res, next) => {
 		next(error.message);
 	}
 });
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Invoke instance to listen to port
 // Create new server
@@ -325,6 +328,7 @@ app.route('/foo')
 		var session = req.session;
 		var userId = req.body.profileid;
 		// Query database with the userid
+		// console.log(req.body)
 		Photos.findOne({$or: [{"imageId": userId},{"facebookHandle.ids": userId}]}, (err, user) => {
 			if (!user) {
 				// create new user
@@ -333,7 +337,7 @@ app.route('/foo')
 				// Assign userid to session.user_id variables
 				session.user_id = userId;
 				res.setHeader('userId', session.user_id);
-				res.redirect('/'); // redirect to homepage /
+				res.redirect('/bar'); // redirect to homepage /
 			}
 		});
 	});
@@ -921,16 +925,19 @@ router.get('/auth/me', authenticate, getCurrentUser, getOne);
  * @Router /api/v1/auth/facebook
  * Request will be redirected to Facebook
  */
-router.get('/auth/facebook', passport.authenticate('facebook', {
-	authType: 'rerequest',
-	scope: ['public_profile', /*'first_name', 'last_name',*/ 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
-}));
+//router.get('/auth/facebook', passport.authenticate('facebook', {
+//	authType: 'rerequest',
+//	scope: ['public_profile', /*'first_name', 'last_name',*/ 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
+//}));
+
+router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	successRedirect: '/',
 	failureRedirect: '/foo'
 }), function(req, res) {
 	// Successful authentication, redirect home
+	console.log("success")
 	res.json(req.user).redirect('/');
 });
 

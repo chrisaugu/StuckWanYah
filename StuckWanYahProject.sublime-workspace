@@ -4,6 +4,62 @@
 		"selected_items":
 		[
 			[
+				"pro",
+				"profileid"
+			],
+			[
+				"Face",
+				"facebookStatusCodes"
+			],
+			[
+				"conne",
+				"connected"
+			],
+			[
+				"res",
+				"responseText"
+			],
+			[
+				"use",
+				"userId"
+			],
+			[
+				"faceboo",
+				"facebookHandle"
+			],
+			[
+				"statu",
+				"statusText"
+			],
+			[
+				"au",
+				"authResponse"
+			],
+			[
+				"clie",
+				"clientSecret"
+			],
+			[
+				"clien",
+				"clientID"
+			],
+			[
+				"cal",
+				"callbackURL"
+			],
+			[
+				"tes",
+				"testDbURL"
+			],
+			[
+				"mog",
+				"mongodb"
+			],
+			[
+				"sta",
+				"statusChangeCallback"
+			],
+			[
 				"new",
 				"newPhoto"
 			],
@@ -36,10 +92,6 @@
 				"first_name"
 			],
 			[
-				"pro",
-				"profile"
-			],
-			[
 				"data",
 				"data"
 			],
@@ -54,10 +106,6 @@
 			[
 				"ex",
 				"expires"
-			],
-			[
-				"au",
-				"authResponse"
 			],
 			[
 				"acc",
@@ -118,10 +166,6 @@
 			[
 				"con",
 				"console"
-			],
-			[
-				"res",
-				"restful"
 			],
 			[
 				"getC",
@@ -404,10 +448,6 @@
 				"localhost"
 			],
 			[
-				"conne",
-				"connect_facebook"
-			],
-			[
 				"dataf",
 				"data-fb-id"
 			],
@@ -474,46 +514,6 @@
 			[
 				"tr",
 				"true"
-			],
-			[
-				"sho",
-				"shouldSwitch"
-			],
-			[
-				"onc",
-				"onclick\tAttr"
-			],
-			[
-				"ara",
-				"array"
-			],
-			[
-				"lo",
-				"log"
-			],
-			[
-				"for",
-				"for\tfor (…) {…}"
-			],
-			[
-				"th",
-				"th\tTag"
-			],
-			[
-				"e",
-				"embed\tTag"
-			],
-			[
-				"fb",
-				"fb_id"
-			],
-			[
-				"err",
-				"error"
-			],
-			[
-				"er",
-				"Error"
 			]
 		]
 	},
@@ -523,16 +523,33 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 74801,
+				"buffer_size": 74925,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/xampp/htdocs/christianaugustyn/public/js/application.js",
+			"file": "config/keys.js",
 			"settings":
 			{
-				"buffer_size": 161327,
+				"buffer_size": 1035,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "var liveReqTimeInJS = 180;\nvar redirectDelayInSec = 0.25;\nvar LOGGED_IN = \"LIVE\";\nvar LOGGED_OUT = \"LOGIN\";\nvar CHALLENGE = \"CHALLENGE\";\nvar States = {\n    SIGNED_IN: \"signed_in\",\n    SIGNED_OUT: \"signed_out\",\n    WAITING: \"waiting\",\n    REJECTED: \"rejected\"\n};\nvar Live = {\n    ACK: \"ack\",\n    NACK: \"nack\",\n    OFF: \"live_off\",\n    AGAIN: \"login_again\"\n};\nvar Client = {\n    WEB: \"0\",\n    IOS: \"1\",\n    ANDROID: \"2\"\n};\nvar RedirectURL = {\n    IOS: \"http://ios.cyberoam.com/app/s.html\"\n};\nObject.freeze(States);\nObject.freeze(Live);\nObject.freeze(Client);\nObject.freeze(RedirectURL);\nvar loginstate = null;\nvar producttype = Client.WEB;\nvar timer = \"\";\nvar finalRedirectUrl = \"\";\nvar userAgent = navigator.customUserAgent || navigator.userAgent;\nwindow.onbeforeunload = function() {\n    if (preserveCaptivePortal != \"N\" && keepaliverequest === \"Y\" && getState() === States.SIGNED_IN && !isClientHandheld()) {\n        var a = \"mode=193&username=\" + encodeURIComponent(document.getElementById(\"username\").value) + \"&a=\" + (new Date()).getTime();\n        makeAjaxRequest(\"POST\", a, \"logout.xml\", null, false)\n    }\n}\n;\nvar ViewRender = (function() {\n    function a() {\n        var c = document.getElementById(\"msgDiv\");\n        var e = document.getElementById(\"username\").value;\n        var d = document.getElementById(\"loginbtn\");\n        switch (this.state) {\n        case States.SIGNED_IN:\n            c.style.color = \"green\";\n            c.innerHTML = this.message.replace(/{username}/g, e);\n            d.value = logoutBtnCaption;\n            break;\n        case States.REJECTED:\n            renderMessage(this.message, \"red\");\n            d.value = loginBtnCaption;\n            break;\n        case States.SIGNED_OUT:\n            c.innerHTML = \"\";\n            renderMessage(this.message, \"green\");\n            d.value = loginBtnCaption;\n            break;\n        default:\n            break\n        }\n    }\n    function b() {\n        var d = document.getElementById(\"signin-caption\");\n        var h = document.getElementById(\"credentials\");\n        var c = document.getElementById(\"loggedin-message\");\n        var g = document.getElementById(\"statusmessage\");\n        var e = document.getElementById(\"loginbutton\");\n        var f = document.getElementById(\"registerlink\").children[0];\n        removeSpinner();\n        switch (this.state) {\n        case States.SIGNED_IN:\n            g.className = \"unshown\";\n            h.className = \"loggedin\";\n            c.className = \"loggedin\";\n            e.innerText = logoutBtnCaption;\n            f.style.display = \"none\";\n            var i = document.getElementById(\"username\").value;\n            renderLoginMessage(this.message, i);\n            break;\n        case States.REJECTED:\n            d.innerText = title;\n            renderMessage(this.message, \"red\");\n            h.className = \"loggedout shake\";\n            e.innerText = loginBtnCaption;\n            setTimeout(function() {\n                if (h.className === \"loggedout shake\") {\n                    h.className = \"loggedout\"\n                }\n            }, 500);\n            break;\n        case States.SIGNED_OUT:\n            h.className = \"loggedout\";\n            c.className = \"loggedout\";\n            d.innerText = title;\n            e.innerText = loginBtnCaption;\n            f.style.display = (guestUserRes === 1) ? \"block\" : \"none\";\n            renderMessage(this.message, \"green\");\n            document.title = title;\n            document.getElementById(\"password\").value = \"\";\n            break;\n        case States.WAITING:\n            g.className = \"unshown\";\n            h.className = \"loggedin\";\n            c.className = \"loggedin\";\n            d.innerText = signingIn;\n            e.innerText = loginBtnCaption;\n            renderSpinner();\n            break;\n        default:\n            break\n        }\n    }\n    return {\n        init: function(d, c) {\n            this.state = d;\n            this.message = typeof c == \"undefined\" ? \"\" : c;\n            this.render = enablefullcustomization === \"1\" ? a : b;\n            return this\n        }\n    }\n}\n)();\nfunction submitRequest() {\n    var c;\n    var a = getState();\n    if (a != States.SIGNED_IN && validateLogin()) {\n        var b = replaceAll(document.getElementById(\"username\").value, \"'\", \"''\");\n        c = \"mode=191&username=\" + encodeURIComponent(b) + \"&password=\" + encodeURIComponent(document.getElementById(\"password\").value) + \"&a=\" + (new Date()).getTime() + \"&producttype=\" + producttype;\n        if (loginstate) {\n            c += \"&state=\" + loginstate\n        }\n        ViewRender.init(States.WAITING).render();\n        makeAjaxRequest(\"POST\", c, \"login.xml\", loginResponseHandler)\n    } else {\n        if (a === States.SIGNED_IN) {\n            c = \"mode=193&username=\" + encodeURIComponent(document.getElementById(\"username\").value) + \"&a=\" + (new Date()).getTime() + \"&producttype=\" + producttype;\n            makeAjaxRequest(\"POST\", c, \"logout.xml\", logoutResponseHandler)\n        }\n    }\n}\nfunction validateLogin() {\n    var b = false;\n    var a = \"\";\n    if (document.getElementById(\"username\").value.replace(/ /g, \"\").length === 0) {\n        a = enterUsername;\n        document.getElementById(\"username\").focus()\n    } else {\n        if (document.getElementById(\"password\").value.length === 0) {\n            a = enterPassword;\n            document.getElementById(\"password\").focus()\n        } else {\n            b = true\n        }\n    }\n    renderMessage(a, \"red\");\n    return b\n}\nfunction initializeField(d, b, a) {\n    var c = document.getElementById(d);\n    if (c && b && typeof a === \"string\") {\n        c.setAttribute(b, a);\n        c[b] = a\n    }\n}\nfunction setup() {\n    document.title = title;\n    if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPad/i))) {\n        producttype = Client.IOS\n    } else {\n        if (navigator.userAgent.match(/android/i)) {\n            producttype = Client.ANDROID\n        }\n    }\n    if (enablefullcustomization === \"1\") {\n        renderLoginBox()\n    }\n    var d = document.getElementById(\"logo\");\n    if (d) {\n        var f = d.children[0];\n        if (f) {\n            var c = f.getAttribute(\"href\");\n            if (c.indexOf(\"http\") === -1) {\n                f.setAttribute(\"href\", \"http://\" + c)\n            }\n        }\n    }\n    var b = location.host.substring(0, location.host.lastIndexOf(\":\"));\n    var e = \"https://\" + b + \":\" + userportalport + \"/userportal/webpages/myaccount/login.jsp\";\n    var a = document.getElementById(\"myaccountcaption\");\n    a.setAttribute(\"href\", e);\n    a.setAttribute(\"target\", \"_blank\");\n    initializeField(\"username\", \"placeholder\", usernameCaption);\n    initializeField(\"password\", \"placeholder\", passwordCaption);\n    initializeField(\"registercaption\", \"text\", registerCaption);\n    initializeField(\"myaccountcaption\", \"text\", myaccountCaption);\n    initializeField(\"loginbutton\", \"innerText\", loginBtnCaption);\n    initializeField(\"signin-caption\", \"innerText\", title);\n    initializeField(\"donotclosepage\", \"innerText\", doNotClosePage);\n    initializeField(\"willbesignedout\", \"innerText\", willBeSignedOut);\n    setListeners()\n}\nfunction setListeners() {\n    addOnclick(document.getElementById(\"registerlink\"), function() {\n        var a = document.URL.split(\"8090\")[0] + \"8090/webconsole/webpages/guestportal/GuestUserEdit.jsp\";\n        a = a.replace(/^http:\\/\\//i, \"https://\");\n        openRegisterWindow(a)\n    });\n    addOnclick(document.getElementById(\"logo\"), function() {\n        var a = document.getElementById(\"logo\").children[0];\n        if (a) {\n            window.open(a.getAttribute(\"href\"))\n        }\n    });\n    document.addEventListener(\"keydown\", function(a) {\n        switch (a.keyCode) {\n        case 13:\n            if (enablefullcustomization === \"0\") {\n                document.getElementById(\"loginbutton\").parentNode.click();\n                a.preventDefault()\n            }\n            break;\n        case 116:\n            a.preventDefault();\n            break\n        }\n    })\n}\nfunction openRegisterWindow(d) {\n    var a = (window.screen.width - 750) / 2;\n    var e = (window.screen.height - 500) / 2;\n    var b = \"status=yes, height=450,width=650,resizable=no,left=\" + a + \",top=\" + e + \",screenX=\" + a + \",screenY=\" + e + \",scrollbars=no\";\n    var c = (typeof window.opener != \"undefined\" && navigator.userAgent.indexOf(\"MSIE\") != -1) ? window.opener.open(d, \"registerLink\", b) : window.open(d, \"registerLink\", b);\n    c.focus()\n}\nfunction getState() {\n    return enablefullcustomization === \"1\" ? getStateCustom() : getStateDefault()\n}\nfunction getStateCustom() {\n    var b = \"\";\n    var a = document.getElementById(\"msgDiv\");\n    if (a.innerHTML.length === 0) {\n        b = States.SIGNED_OUT\n    } else {\n        if (a.style.color === \"red\") {\n            b = States.REJECTED\n        } else {\n            b = States.SIGNED_IN\n        }\n    }\n    return b\n}\nfunction getStateDefault() {\n    var a = \"\";\n    if (document.getElementById(\"statusmessage\").className.indexOf(\"red\") != -1) {\n        a = States.REJECTED\n    } else {\n        if (document.getElementById(\"credentials\").className.indexOf(\"loggedout\") != -1) {\n            a = States.SIGNED_OUT\n        } else {\n            if (document.getElementById(\"spinner-view\").style.display === \"block\") {\n                a = States.WAITING\n            } else {\n                a = States.SIGNED_IN\n            }\n        }\n    }\n    return a\n}\nfunction getTagValue(c, a) {\n    var b = c.getElementsByTagName(a);\n    return b && b.length > 0 ? b[0].firstChild.nodeValue : undefined\n}\nfunction isClientAndroid() {\n    return (producttype === Client.ANDROID)\n}\nfunction isClientIOS() {\n    return (producttype === Client.IOS && userAgent.match(/mozilla/i) && userAgent.match(/applewebkit/i) && userAgent.match(/mobile/i) && !userAgent.match(/safari/i))\n}\nfunction isClientHandheld() {\n    return (isClientAndroid() || isClientIOS())\n}\nfunction loginResponseHandler(d) {\n    var c = \"\";\n    var b = d.documentElement;\n    var a = getTagValue(b, \"status\");\n    loginstate = a == CHALLENGE ? getTagValue(b, \"state\") : null;\n    if (a === LOGGED_IN) {\n        if (isClientIOS()) {\n            handleIOSRedirect()\n        } else {\n            if (displayWebpage === \"1\") {\n                if (isClientAndroid()) {\n                    handleAndroidRedirect()\n                } else {\n                    handleBrowserRedirect()\n                }\n            }\n        }\n        c = States.SIGNED_IN\n    } else {\n        if (a === LOGGED_OUT) {\n            c = States.REJECTED\n        }\n    }\n    ViewRender.init(c, getTagValue(b, \"message\")).render();\n    setTimeForLiveRequest(liveReqTimeInJS)\n}\nfunction logoutResponseHandler(c) {\n    var b = c.documentElement;\n    var a = getTagValue(b, \"status\");\n    if (a === LOGGED_OUT) {\n        clearTimeout(timer);\n        ViewRender.init(States.SIGNED_OUT, getTagValue(b, \"message\")).render()\n    }\n}\nfunction getRedirectUrl() {\n    if (location.href.indexOf(\"u=\") != -1) {\n        return location.href.substring(location.href.indexOf(\"u=\") + 2)\n    }\n    if (redirectTo) {\n        if (redirectTo.indexOf(\"http\") === -1) {\n            redirectTo = \"http://\" + redirectTo\n        }\n        return redirectTo\n    }\n    return \"\"\n}\nfunction redirectToFinalUrl() {\n    location.href = finalRedirectUrl\n}\nfunction handleIOSRedirect() {\n    finalRedirectUrl = RedirectURL.IOS;\n    redirectToFinalUrl()\n}\nfunction handleAndroidRedirect() {\n    finalRedirectUrl = getRedirectUrl();\n    redirectToFinalUrl()\n}\nfunction handleBrowserRedirect() {\n    finalRedirectUrl = getRedirectUrl();\n    setTimeout(function() {\n        if (preserveCaptivePortal === \"Y\") {\n            window.open(finalRedirectUrl)\n        } else {\n            redirectToFinalUrl()\n        }\n    }, redirectDelayInSec * 1000)\n}\nfunction renderLoginMessage(c, d) {\n    var a = document.getElementById(\"signin-caption\");\n    var b = c.replace(/{username}/g, d);\n    a.innerText = b;\n    document.title = b\n}\nfunction renderMessage(c, a) {\n    var b = document.getElementById(\"statusmessage\");\n    if (enablefullcustomization === \"1\") {\n        b.style.color = a;\n        b.style.marginTop = \"10px\"\n    } else {\n        b.className = a\n    }\n    b.innerHTML = c\n}\nfunction renderSpinner() {\n    document.getElementById(\"loggedin-view\").style.display = \"none\";\n    document.getElementById(\"spinner-view\").style.display = \"block\"\n}\nfunction removeSpinner() {\n    document.getElementById(\"loggedin-view\").style.display = \"block\";\n    document.getElementById(\"spinner-view\").style.display = \"none\"\n}\nfunction getQueryString(a) {\n    return Object.keys(a).map(function(b) {\n        return b + \"=\" + a[b]\n    }).join(\"&\")\n}\nfunction sendLiveRequest() {\n    var a = {\n        mode: \"192\",\n        username: encodeURIComponent(document.getElementById(\"username\").value),\n        a: (new Date()).getTime(),\n        producttype: producttype\n    };\n    invokeAjaxURL(\"live?\" + getQueryString(a), \"get\")\n}\nfunction setTimeForLiveRequest(a) {\n    clearTimeout(timer);\n    if (a != -1) {\n        timer = setTimeout(sendLiveRequest, a * 1000)\n    }\n}\nfunction parseXML(c) {\n    if (!c) {\n        setTimeForLiveRequest(liveReqTimeInJS);\n        return\n    }\n    var a = c.documentElement;\n    var d = \"\";\n    try {\n        d = getTagValue(a, \"ack\");\n        if (d == Live.ACK) {\n            setTimeForLiveRequest(liveReqTimeInJS)\n        } else {\n            if (d == Live.NACK || d == Live.AGAIN) {\n                clearTimeout(timer);\n                ViewRender.init(States.SIGNED_OUT).render()\n            } else {\n                if (d == Live.OFF) {}\n            }\n        }\n    } catch (b) {}\n}\nfunction renderLoginBox() {\n    var d = createElement(\"div\", {\n        id: \"msgDiv\"\n    }, []);\n    var c = createElement(\"div\", {\n        id: \"credentials\",\n        style: \"margin:15px;\"\n    }, [createElement(\"input\", {\n        id: \"username\",\n        placeholder: usernameCaption,\n        type: \"text\"\n    }), createElement(\"input\", {\n        id: \"password\",\n        placeholder: passwordCaption,\n        type: \"password\"\n    }), createElement(\"input\", {\n        id: \"loginbtn\",\n        type: \"button\",\n        value: loginBtnCaption,\n        onclick: \"submitRequest()\"\n    }), createElement(\"div\", {\n        \"class\": \"statusmessagerow\"\n    }, [createElement(\"div\", {\n        id: \"statusmessage\",\n        \"class\": \"unshown\"\n    })])]);\n    var b = createElement(\"ul\", {\n        id: \"links\"\n    }, [createElement(\"li\", {\n        id: \"userportallink\"\n    }, [createElement(\"a\", {\n        id: \"myaccountcaption\",\n        style: \"display:\" + (myAccountLink === \"1\" ? \"block;\" : \"none;\"),\n        href: \"#\"\n    }, myaccountCaption)]), createElement(\"li\", {\n        id: \"registerlink\"\n    }, [createElement(\"a\", {\n        id: \"registercaption\",\n        style: \"display:\" + (guestUserRes === \"1\" ? \"block;\" : \"none;\"),\n        href: \"#\"\n    }, registerCaption)])]);\n    var a = document.getElementById(\"__loginbox\");\n    a.appendChild(d);\n    a.appendChild(c);\n    a.appendChild(b)\n}\nfunction createElement(a, b, d) {\n    var c = document.createElement(a);\n    Object.keys(b).forEach(function(e) {\n        c.setAttribute(e, b[e])\n    });\n    if (typeof d === \"string\") {\n        c.appendChild(document.createTextNode(d))\n    } else {\n        if (Array.isArray(d)) {\n            d.forEach(function(e) {\n                c.appendChild(e)\n            })\n        }\n    }\n    return c\n}\nfunction addOnclick(a, b) {\n    if (a) {\n        a.onclick = b\n    }\n}\nfunction replaceAll(c, d, b) {\n    var a = 0;\n    while ((a = c.indexOf(d, a)) > -1) {\n        c = c.substring(0, a) + b + c.substring(a + 1);\n        a = a + b.length\n    }\n    return c\n}\nfunction makeAjaxRequest(i, h, a, g, b) {\n    function f() {\n        ViewRender.init(a === \"logout.xml\" ? States.SIGNED_IN : States.SIGNED_OUT).render()\n    }\n    var c = getAjaxObject();\n    c.addEventListener(\"error\", f);\n    if (g) {\n        c.onreadystatechange = getReadyStateHandler(c, g)\n    }\n    try {\n        c.open(i, a, (typeof b === \"undefined\") ? true : b);\n        c.setRequestHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\n        c.send(h)\n    } catch (d) {\n        f()\n    }\n}\nfunction removeOverlay() {}\n;",
+			"settings":
+			{
+				"buffer_size": 16247,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/connect.html",
+			"settings":
+			{
+				"buffer_size": 6606,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -541,16 +558,7 @@
 			"file": "views/home.html",
 			"settings":
 			{
-				"buffer_size": 5947,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/connect.html",
-			"settings":
-			{
-				"buffer_size": 6079,
+				"buffer_size": 5942,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -559,25 +567,7 @@
 			"file": "app/javascripts/script.js",
 			"settings":
 			{
-				"buffer_size": 52150,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "test.bat",
-			"settings":
-			{
-				"buffer_size": 608,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "views/disclaimer.html",
-			"settings":
-			{
-				"buffer_size": 8464,
+				"buffer_size": 53822,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -595,6 +585,14 @@
 			"settings":
 			{
 				"buffer_size": 16932,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "var arr = [11, 23, 8, 14, 30, 9, 6, 17, 22, 28, 25, 15, 7, 10, 19];\nvar a = 0;\nvar b = 0;\n\nfor(var i = 0; i < arr.length; i++) {\n\tif (arr[i] < arr[i+1]) {\n\t\tswap(arr[i], arr[i+1]);\n\t}\n\tif (arr[i] < arr[i+2]) {\n\t\tswap(arr[i], arr[i+2]);\n\t}\n\tif (arr[i+2] < arr[i+1]) {\n\t\tswap(arr[i+2], arr[i+1]);\n\t}\n\tif (arr[i+2] < arr[i]) {\n\t\tswap(arr[i+2], arr[i]);\n\t}\n}\n\nfunction swap(a, b) {\n\tvar temp = a;\n\ta = b;\n\tb = temp;\n\treturn [a, b];\n}",
+			"settings":
+			{
+				"buffer_size": 429,
 				"line_ending": "Windows"
 			}
 		}
@@ -652,11 +650,20 @@
 	"file_history":
 	[
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/models/sweetlips.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/.env",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/home.html",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
+		"/C/xampp/htdocs/christianaugustyn/public/js/application.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/disclaimer.html",
+		"/C/Program Files (x86)/nginx/conf/nginx.conf",
+		"/C/Users/Christian AUGUSTYN/Documents/Fiddler2/Scripts/BrowserPAC.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/hacking-cracking-tools/ZykNet/LearnC/main.c",
+		"/C/Program Files/Git/usr/share/vim/vim82/compiler/cucumber.vim",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/test.bat",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/upload.html",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/perfectMatch.html",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/epsilonpi/.env",
 		"/C/Users/Christian AUGUSTYN/Desktop/Tor Browser/Browser/tbb_version.json",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
 		"/C/Program Files (x86)/MongoDB/Server/3.2/bin/mongodb.config",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/StuckWanYahProject.sublime-project",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/hacking-cracking-tools/.vs/slnx.sqlite",
@@ -769,16 +776,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/MessagingView.react.js",
 		"/C/Users/Admin/WebstormProjects/chat/dev/app/app.html",
 		"/C/Users/Admin/WebstormProjects/chat/app/views/messages1.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/test/ngrok.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_stylesheets.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/metatags/_emojiesF.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/ProfileView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/SettingsView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/user/profile.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/settings.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/UIView.dom.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/assets/js/compiled/shared.js",
-		"/C/Users/Admin/WebstormProjects/chat/app/settings.html"
+		"/C/Users/Admin/WebstormProjects/chat/test/ngrok.html"
 	],
 	"find":
 	{
@@ -793,9 +791,48 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"userDetailsFromFb",
+			"FB.api(",
+			"checkLoginState",
+			"statusChangeCallback",
+			"login()",
+			"login",
+			"statusChangeCallback",
+			"initFacebookApi",
+			"facebookStatusCodes",
+			"\t\t\t\t\t \t",
+			"checkLoginState",
+			"initClickEventListener",
+			"100012306993722",
+			"Publish",
+			"Photos.create",
+			"connect",
+			"connected",
+			"checkLoginState",
+			"facebookStatusCodes",
+			"_fields",
+			"checkLoginState",
+			"initFacebookApi",
+			"onstatu",
+			",",
+			":",
+			"_blank",
+			"submitRequest",
+			"loginBtnCaption",
+			"loginbutton",
+			"FB.Event.subscribe",
+			"getLoginStatus",
+			"_fields",
+			"this.",
+			"Utils.",
+			"login",
+			"_fields",
+			"fb-login-button",
+			"_fields",
+			"FB.login",
 			"gender",
 			"this",
 			"File",
@@ -884,14 +921,7 @@
 			"  ",
 			"counter",
 			"isValidPhoto",
-			", ",
-			": ",
-			"* ",
-			" {",
-			"; ",
-			": ",
-			"\t",
-			"sub"
+			", "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -909,7 +939,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -918,15 +948,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 74801,
+						"buffer_size": 74925,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								447,
-								447
+								0,
+								0
 							]
 						],
 						"settings":
@@ -937,27 +967,27 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 287.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/C/xampp/htdocs/christianaugustyn/public/js/application.js",
+					"file": "config/keys.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 161327,
+						"buffer_size": 1035,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								105536,
-								105987
+								514,
+								569
 							]
 						],
 						"settings":
@@ -966,33 +996,33 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 47287.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "views/home.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5947,
+						"buffer_size": 16247,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								883,
-								883
+								556,
+								556
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1007,15 +1037,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6079,
+						"buffer_size": 6606,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6079,
-								6079
+								618,
+								618
 							]
 						],
 						"settings":
@@ -1026,27 +1056,56 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 467.0,
+						"translation.y": 28.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "app/javascripts/script.js",
+					"file": "views/home.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 52150,
+						"buffer_size": 5942,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								50530,
-								50530
+								645,
+								645
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/javascripts/script.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 53822,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1057,71 +1116,14 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 21504.0,
+						"translation.y": 5156.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "test.bat",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 608,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								608,
-								608
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "views/disclaimer.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8464,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								267,
-								267
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1145,11 +1147,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 7,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1174,7 +1176,35 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								354,
+								354
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
@@ -1182,7 +1212,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 24.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1227,7 +1257,7 @@
 	"project": "StuckWanYahProject.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 42.0
 	},
 	"save_all_on_build": false,
 	"select_file":
@@ -1247,7 +1277,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\crisbot\\Cris.ioBot.sublime-project"
+				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\chat\\chatme-mobile\\ChatMe-Mobile.sublime-project"
 			]
 		],
 		"width": 380.0

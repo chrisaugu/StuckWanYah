@@ -12,7 +12,8 @@ module.exports = {
 		// access token for posting to user's feed
 		userAccessToken: process.env.USER_ACCESS_TOKEN,
 		
-		callbackURL: 'https://stuckwanyah.herokuapp.com/api/v1/auth/facebook/callback',
+		// callbackURL: 'https://stuckwanyah.herokuapp.com/api/v1/auth/facebook/callback',
+		callbackURL: "https://5c86ab10.ngrok.io/api/v1/auth/facebook/callback",
 		profileURL: 'https://graph.facebook.com/v2.5/me?fields=id,name,first_name,last_name,age_range,birthday,gender,picture{url},friends{id}',
 		profileFields: ['id', 'email', 'name'],
 		

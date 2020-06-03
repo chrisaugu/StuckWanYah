@@ -3,6 +3,15 @@
  * (c) 2018 Christian JF Augustyn
  * version: 1.0.0, updated: 2018-04-08.12:36:49
  */
+/**
+
+1. check user status
+2. if user logged in goto 4.
+3. prompt user to log in
+4. sends user info to server
+5. updates current user session
+
+*/
 var current_page = document.location.pathname;
 var keyStrokeCount = 0;
 var xhr = null;
@@ -17,9 +26,18 @@ var facebookStatusCodes = {
 	connected: "connected",
 	not_authorized: "not_authorized"
 };
+window.StuckWanYah = {
+	"appID": "1791165357568831",
+	"frictionlessRequests": true,
+	"init": true,
+	"level": "debug",
+	"signedRequest": null,
+	"status": true,
+	"version": "v3.2",
+	"viewMode": "website"
+};
 
-var _fields = 'public_profile, permissions, id, email, name, first_name, last_name, age_range, birthday, gender, picture{url, first_name, last_name}, friends{age_range, birthday, link, user_photos}';
-// 'id,name,first_name,last_name,age_range,birthday,gender,picture{url},friends{age_range,profile_pic,photos{link},gender,first_name,last_name},photos{link},profile_pic'
+var _fields = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends';
 
 /**
  * StuckWanYah JavaScript
@@ -153,11 +171,11 @@ var Api = function () {
 				// 	return response;
 				// });
 			});
-			FB.api("/{friend-list-id}", function (response) {
-				if (response && !response.error) {
-					/* handle the result */
-				}
-			});
+			// FB.api("/{friend-list-id}", function (response) {
+			// 	if (response && !response.error) {
+			// 		/* handle the result */
+			// 	}
+			// });
 		},
 		getFbUserPhoto: function e(e) {
 			FB.api("/{photo-id}", function (response) {
@@ -175,21 +193,41 @@ var Api = function () {
 			return new Promise(function(resolve, reject){
 				// checking login status
 				FB.getLoginStatus(function (response) {
+					FB.Event.subscribe('auth.statusChange', Api.statusChangeCallback); 
 					Utils.log("checked: " + response);
 					currentLoginStatus = response.status;
+					if (response.status) {
+						// 
+					}
+				
+				FB.api("/me?fields=id,first_name,picture{url},email,birthday,gender,age_range,friends{id,first_name,birthday,age_range,gender}", function (response) {
+					console.log(response)
+					console.log('Successful login for: ' + response.first_name + " = " + response.id + ".");
+				});
+
 					Api.statusChangeCallback(response);
 					resolve(response);
 				});
 			});
 		},
+		onStatusChange: function(response) {
+			var status = response.status;
+			console.log(status);
+		},
 		statusChangeCallback: function(response) {
 			Utils.log('statusChangeCallback');
 			console.log(response);
-			var fbAccessToken = response.authResponse.accessToken;
-			Utils.writeItemToLocalStorage("access_token", fbAccessToken);
-			var fbUser = response.authResponse.userID;
+			// Log.info('onStatus', response);
+			
 			if (response.status) {
 				if (response.status === 'connected') {
+					// showAccountInfo();
+					var fbAccessToken = response.authResponse.accessToken;
+					Utils.writeItemToLocalStorage("access_token", fbAccessToken);
+					var fbUser = response.authResponse.userID;
+
+					Utils.writeItemToLocalStorage("_user", fbUser);
+				
 					console.log('Logged in as: ' + fbUser);
 					Utils.writeItemToLocalStorage("c_user_status", response.status);
 					// Logged into your app and Facebook.
@@ -198,16 +236,30 @@ var Api = function () {
 					var accessToken = response.authResponse.accessToken;
 				} else if (response.status === 'not_authorized' || response.status === 'unknown') {
 					// alert('You are not authorized');
-					Utils.login();
+					Api.login();
 				} else {
+					// showLoginButton();
 					console.log('Please log into this app.');
-					Utils.login();
+					Api.login();
 					// window.top.location = "https://facebook.com";
 				}
 			} else {
 				Utils.log("You're not logged in");
 				this.Api.login();
 			}
+		},
+		showAccountInfo: function() {
+			FB.api(FB.getUserID(), {
+				fields: 'name'
+			}, function(response) {
+				// Log.info('API Callback', response);
+				console.log(response)
+				// document.getElementById('account-info').innerHTML = (
+				// 	'<img src="' + response[0].pic_square + '"> ' +
+				// 	response[0].name +
+				// 	' <button class="btn" onclick="FB.logout()">Logout</button>'
+				// );
+			});
 		},
 		fbevent: function() {
 			FB.Event.subscribe("auth.authResponseChange", function(response) {
@@ -218,7 +270,7 @@ var Api = function () {
 				} else {
 					FB.login();
 				}
-			})
+			});
 		},
 		fblogin: function e() {
 			return new Promise(function (resolve, reject) {
@@ -249,6 +301,13 @@ var Api = function () {
 										resolve({ success: true, authResponse: fbResponse.authResponse, userData: fbResponse });
 										// pass response to my server 
 										console.log(fbRes.authResponse);
+										$.post("/foo", {
+											profileid: fbRes.authResponse.userID,
+											accessToken: fbRes.authResponse.accessToken,
+											// name: 
+										}).then(function(status, statusText, response) {
+											console.log(statusText);
+										})
 									// 	$.post(Api.getApiUrl() + '/auth/web', fbRes.authResponse /**{
 									// 		userID: 100004177278169,
 									// 		accessToken: "123456789",
@@ -282,8 +341,8 @@ var Api = function () {
 				if (response.status === facebookStatusCodes.connected) {
 					FB.logout(function(response) {
 						localStorage.removeItem('access_token');
+						$.post(Api.getApiUrl() + '/auth/facebook/logout')
 					});
-					// $.post(Api.getApiUrl() + '/auth/facebook/logout')
 				}
 			});
 		},
@@ -314,18 +373,25 @@ var Api = function () {
 			}, function (b) {
 				null == b ? (App.userId = 0, clearInterval(), setTimeout(function () {
 					this.Api.getCurrentUser(a)
-				}, 6000))  : a(b.value)
+				}, 6000)) : a(b.value)
 			});
 		},
 		userDetailsFromFb: function e() {
 			Utils.log('Welcome! Fetching your information.... ');
 			return new Promise(function (resolve) {
-				FB.api("/me", { locale: 'en_US', fields: _fields }, function (response) {
-					console.log('Successful login for: ' + response + ".");
+				FB.api("/me?fields=id,first_name,picture{url},email,birthday,gender,age_range,friends{id,first_name,birthday,age_range,gender}", 
+				function (response) {
+					console.log(response)
+					console.log('Successful login for: ' + response.first_name + " = " + response.id + ".");
 					// document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';			
 					// alert(response.name);
 					//alert(response.id);
 					resolve(response);
+					// "blackhole-100004177278169-1460472517@devnull.facebook.com".split('-')[1]
+					// "blackhole-100004177278169-1460472517@devnull.facebook.com".slice(10, 25)
+					// Log.info('API response', response);
+					// Log.info('FB.login response', response);
+					// document.getElementById('accountInfo').innerHTML = ('<img src="' + response.picture.data.url + '"> ' + response.name);
 				});
 			});
 		},
@@ -392,8 +458,8 @@ var Api = function () {
 					console.log(response); 
 				}).catch (function (err) {
 					console.error(err);
-					reject(true); }
-				); 
+					reject(true);
+				});
 			});
 		},
 		showMyName: function() {
@@ -789,8 +855,11 @@ var Api = function () {
 			});
 		}
 	};
-}()
-, App = function () {
+}(),
+
+/**
+ */
+App = function () {
 	var current,name,version = '';
 	function a() {
 	}
@@ -821,7 +890,8 @@ var Api = function () {
 			version = "v1.0.0";
 			current = App;
 			// this.getSession();
-			await this.initFacebookApi();
+			this.initFacebookApi();
+			this.Api.checkLoginState();
 			this.setDefaultData();
 			this.initPageEventListener();
 			this.initClickEventListener();
@@ -852,18 +922,18 @@ var Api = function () {
 			return Api._setUserData("", ""), 
 				$("[name=sender]").val(Utils.readItemFromLocalStorage("c_user"));
 		},
-		initFacebookApi: async function e() {
+		initFacebookApi: function e() {
 			if (!initialized) {
-				FB.init({
+				var options = {
 					appId: Api._production["FACEBOOK_APP_ID"].toString(),
 					cookie: true,
 					xfbml: true,
 					status: true,
 					version: 'v6.0'
-				});
+				};
+				FB.init(options);
 				FB.AppEvents.logPageView();   
-          		initialized = true;
-				Api.checkLoginState();
+				initialized = true;
 				return;
 			} else {
 				Utils.log("FB SDK already initialized");

@@ -29,7 +29,18 @@
 <!-- <script type="text/javascript" src="/javascripts/fb_init.js?fb_app_id=267969823906&amp;fb_fanpage_id=226607102386&amp;v=1532629527"></script> -->
 <!-- <div id="fb-root"></div> -->
 <!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=1791165357568831&autoLogAppEvents=1"></script> -->
-<main id="main">
+<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=1791165357568831&autoLogAppEvents=1"></script> -->
+    <main id="main">
+<!-- <script>
+var finished_rendering = function() {
+  console.log("finished rendering plugins");
+  var spinner = document.getElementById("spinner");
+  spinner.removeAttribute("style");
+  spinner.removeChild(spinner.childNodes[0]);
+}
+FB.Event.subscribe('xfbml.render', finished_rendering);
+</script> -->
+</div>
     <h1>StuckWanYah</h1>
     <h2></h2>
     <h3>StuckWanYah uses your Facebook pictures</h3>
@@ -41,21 +52,21 @@
             <tr>
                 <td>
                     <% if (!connected) { %>
-                    <!-- <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
+                    <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
                         <img alt="" src="/images/TSXtq24.png" style="position:absolute;left:0px;top:0px;width:245px;height:47px;user-select:none;border:0px;padding:0px;margin:0px;">
-                    </button> -->
+                    </button>
 
-                    <!-- <div class="fb-login-button" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
+                    <!-- <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div> -->
 
                     <!-- <a href="/api/v1/auth/facebook" type="button" aria-label="Connect to Facebook" style="margin:10px 14px">
                         <img alt="" src="/images/TSXtq24.png" style="background:none;border:0px;margin:0;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;left:0px;">
                     </a> -->
 
-                    <form name="connect" action="/foo" method="post">
+                    <!-- <form name="connect" action="/foo" method="post">
                         <input type="hidden" name="token" value="1234567890">
                         <input type="hidden" name="profileid" placeholder="Facebook User ID" class="text" value="100004177278169" style="width: fit-content;"></br>
                         <button type="submit" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" class="button">Login</button>
-                    </form>
+                    </form> -->
 
                     <% } else { %>
                         <img src="<%= `https://graph.facebook.com/${session.user_id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic">
