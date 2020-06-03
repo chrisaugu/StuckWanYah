@@ -62,7 +62,7 @@ Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
 // configure the instance
 // Express configuration
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT));
 // app.set('env', 'production');
 // Tell express where it can find the templates
 app.set('views', path.join(__dirname + '/views'));
