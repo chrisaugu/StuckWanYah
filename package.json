@@ -4,6 +4,9 @@
   "homepage": "https://github.com/chrisaugu/stuckwanyah",
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
   "main": "server.js",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "start": "node server.js",
     "test": "http-server --ssl -c-1 -p 5000 -a 127.0.0.1"
