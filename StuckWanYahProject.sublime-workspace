@@ -523,7 +523,7 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 74925,
+				"buffer_size": 75559,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -567,7 +567,7 @@
 			"file": "app/javascripts/script.js",
 			"settings":
 			{
-				"buffer_size": 53822,
+				"buffer_size": 54139,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -649,10 +649,13 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/models/sweetlips.js",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/.env",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/home.html",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/StuckWanYah/package.json",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/.env",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/server.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/xpackage.json",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/models/sweetlips.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/home.html",
 		"/C/xampp/htdocs/christianaugustyn/public/js/application.js",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/views/disclaimer.html",
 		"/C/Program Files (x86)/nginx/conf/nginx.conf",
@@ -773,10 +776,7 @@
 		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/css/frameworks.min.css",
 		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/status.js",
 		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/GlobalUIView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/MessagingView.react.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/app.html",
-		"/C/Users/Admin/WebstormProjects/chat/app/views/messages1.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/test/ngrok.html"
+		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/compiled/MessagingView.react.js"
 	],
 	"find":
 	{
@@ -794,6 +794,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"port",
+			"initFacebookApi",
+			"FB.init",
+			"$.ajax",
+			"blackhole",
+			"FB.api",
+			"userDetailsFromFb",
+			"FB.api(",
+			"FB.api",
+			"FB.",
+			"\t\t\t\t\t",
+			"\t\t\t\t\t \t",
+			"FB.api",
 			"userDetailsFromFb",
 			"FB.api(",
 			"checkLoginState",
@@ -908,20 +921,7 @@
 			"handle",
 			"stuck",
 			"rank",
-			"populateSubmit",
-			"err{",
-			"id{",
-			"t{",
-			"function",
-			") {",
-			"gender",
-			"page",
-			"handle",
-			": ",
-			"  ",
-			"counter",
-			"isValidPhoto",
-			", "
+			"populateSubmit"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -939,7 +939,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -948,15 +948,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 74925,
+						"buffer_size": 75559,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3533,
+								3533
 							]
 						],
 						"settings":
@@ -967,10 +967,10 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 287.0,
+						"translation.y": 1020.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -999,7 +999,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1014,8 +1014,8 @@
 						"selection":
 						[
 							[
-								556,
-								556
+								1475,
+								1487
 							]
 						],
 						"settings":
@@ -1025,7 +1025,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 442.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -1059,7 +1059,7 @@
 						"translation.y": 28.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1088,7 +1088,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1097,15 +1097,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 53822,
+						"buffer_size": 54139,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								30623,
+								30623
 							]
 						],
 						"settings":
@@ -1116,10 +1116,10 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 5156.0,
+						"translation.y": 11889.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1277,7 +1277,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\chat\\chatme-mobile\\ChatMe-Mobile.sublime-project"
+				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\crisbot\\Cris.ioBot.sublime-project"
 			]
 		],
 		"width": 380.0

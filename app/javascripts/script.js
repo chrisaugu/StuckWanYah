@@ -37,7 +37,7 @@ window.StuckWanYah = {
 	"viewMode": "website"
 };
 
-var _fields = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends';
+var _fields = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender,pages_messaging,pages_manage_posts';
 
 /**
  * StuckWanYah JavaScript
@@ -891,7 +891,7 @@ App = function () {
 			current = App;
 			// this.getSession();
 			this.initFacebookApi();
-			this.Api.checkLoginState();
+			Api.checkLoginState();
 			this.setDefaultData();
 			this.initPageEventListener();
 			this.initClickEventListener();

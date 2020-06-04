@@ -5,7 +5,8 @@
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
   "main": "server.js",
   "engines": {
-    "node": "12.x"
+    "node": "12.x",
+    "npm": "6.x"
   },
   "scripts": {
     "start": "nodemon server.js",
