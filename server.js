@@ -1,6 +1,6 @@
 var http = require('http');
 
 http.createServer(function(req, res){
-	res.writeHeader("Content-Type": "");
+	res.writeHead(200, {"Content-Type": "text/html"});
 	res.end("Hello WOrld");
 }).listen(process.env.PORT);
