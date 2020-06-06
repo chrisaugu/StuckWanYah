@@ -54,6 +54,7 @@
     "http-server": "^0.12.1",
     "jwt-simple": "*",
     "lodash.merge": "^4.6.2",
+    "log-symbols": "*",
     "merge": "^1.2.1",
     "method-override": ">=2.3.10",
     "moment": "*",

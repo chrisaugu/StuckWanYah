@@ -8,13 +8,14 @@ instantgame
 .idea
 .env
 .babelrc
-StuckWanYahProject.sublime-project
-StuckWanYahProject.sublime-workspace
+*.sublime-project
+*.sublime-workspace
 package-lock.json
 *.pem
 */.DS_Store
 *.DS_Store
 node_modules/
+xnode_modules/
 build/
 config.json
 app/images/cards
@@ -23,3 +24,4 @@ app/javascripts/physics
 app/javascripts/lib
 app/sounds
 views/physics
+*.zip
