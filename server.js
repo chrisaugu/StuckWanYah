@@ -86,7 +86,7 @@ app.use(bodyParser.json({
 }));
 
 function check_fb_signature(req, res, buf) {
-    console.log('Check facebook signature step.')
+    console.log('Check facebook signature step.');
     var fb_signature = req.headers["x-hub-signature"];
     if (!fb_signature) {
         throw new Error('Signature ver failed.');
@@ -95,7 +95,7 @@ function check_fb_signature(req, res, buf) {
         var method = sign_splits[0];
         var sign_hash = sign_splits[1];
 
-        var real_hash = crypto.createHmac('sha1', FB_APP_SECRET)
+        var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
             .update(buf)
             .digest('hex');
 
@@ -230,13 +230,13 @@ app.use(async (req, res, next) => {
 		req.session.authenticated = false;
 		res.locals.connected = req.session.authenticated;
 
-		/* temp! remove this line and uncomment line below for production */ //req.session.user_id = 100004177278169; next();
+		/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
 
-		if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
-			return next();
-		} else {
-			res.redirect('/foo');
-		}
+		// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
+		// 	return next();
+		// } else {
+		// 	res.redirect('/foo');
+		// }
 	}
 });
 
@@ -279,26 +279,26 @@ var opts = {
 	// 	retryMiliSeconds: 1000
 	// }
 };
-// mongoose.Promise = global.Promise;
-// // Creating an instance for MongoDB
-// switch(app.get('env')) {
-// 	case 'development':
-// 		mongoose.connect(/*keys.mongodb.testDbURL*/"mongodb://chrisaugu:chatm3@ds117719.mlab.com:17719/sweetlipsdb", opts);
-// 		break;
-// 	case 'production':
-// 		mongoose.connect(keys.mongodb.mongodbURI, opts);
-// 		break;
-// 	default:
-// 		throw new Error('Unknown execution environment: ', app.get('env'));
-// }
-// mongoose.connection.on("connected", function(){
-// 	console.log(logSymbols.success, "Connected: Successfully connect to mongo server".green);
-// 	console.log("-----------------------------------------------".blue);
-// });
-// mongoose.connection.on('error', function(){
-// 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-// 	console.log("--------------------------------------------------------------------".blue);
-// });
+mongoose.Promise = global.Promise;
+// Creating an instance for MongoDB
+switch(app.get('env')) {
+	case 'development':
+		mongoose.connect(keys.mongodb.testDbURL, opts);
+		break;
+	case 'production':
+		mongoose.connect(keys.mongodb.mongodbURI, opts);
+		break;
+	default:
+		throw new Error('Unknown execution environment: ', app.get('env'));
+}
+mongoose.connection.on("connected", function(){
+	console.log(logSymbols.success, "Connected: Successfully connect to mongo server".green);
+	console.log("-----------------------------------------------".blue);
+});
+mongoose.connection.on('error', function(){
+	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+	console.log("--------------------------------------------------------------------".blue);
+});
 
 // API namespace
 app.use('/api/v1', router);
