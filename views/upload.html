@@ -16,25 +16,21 @@
     <h1>StuckWanYah</h1>
     <h3>StuckWanYah uses your Facebook pictures</h3>
 
-    <span>By uploading your photo, you have read and agreed to the site's <a href="/disclaimer.html">terms of use</a>.</span>
-
     <center>
-        <table id="connect" align="center" style="padding:0 15px;">
+        <table id="upload" align="center" style="padding:0 15px;">
             <tr>
                 <td>
-                    <form name="connect" action="/upload" method="post">
+                    <form name="form" action="/upload" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="token" value="1234567890">
                         <input type="text" name="age" placeholder="Age" class="text" style="width: fit-content;"></br>
                         <input type="text" name="gender" placeholder="Gender (i.e male, female)" class="text" style="width: fit-content;"></br>
                         <input type="hidden" name="blob" id="blob">
-                        <input type="file" name="photo" onchange="onFileChange(this);"></br>
+                        <input type="file" name="photo" xonchange="onFileChange(this);"></br><br>
+                        <span>By uploading your photo, you have read and agreed to the site's <a href="/disclaimer.html">terms of use</a>.</span>
+                        <br>
+                        <br>
                         <button type="submit" type="button" class="button">Upload</button>
                     </form>
-
-                    <div class="about-permissions"><div class="title">About the permissions required</div>
-                    <div class="permission"><strong>Facebook profile picture, age, gender, friends</strong>
-                        <br>StuckWanYah works by taking your Facebook friends' profile picture and lets you compare who is hotter based on the looks by voting the picture.
-                    </div></div>
                 </td>
             </tr>
         </table>

@@ -48,7 +48,6 @@
     "express-jwt": "*",
     "express-session": "*",
     "favicon": "*",
-    "forever": "*",
     "fs": "*",
     "http": "*",
     "http-server": "^0.12.1",
@@ -57,7 +56,6 @@
     "log-symbols": "*",
     "merge": "^1.2.1",
     "method-override": ">=2.3.10",
-    "moment": "*",
     "mongoose": "^5.9.14",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
@@ -74,8 +72,6 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "serve-favicon": "*",
-    "socket.io": "*",
-    "underscore": "*",
-    "xml2js": "*"
+    "underscore": "*"
   }
 }

@@ -82,28 +82,28 @@ app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: true }));
 // Check Facebook Signature
 app.use(bodyParser.json({
-    verify: check_fb_signature
+    // verify: check_fb_signature
 }));
 
-function check_fb_signature(req, res, buf) {
-    console.log('Check facebook signature step.');
-    var fb_signature = req.headers["x-hub-signature"];
-    if (!fb_signature) {
-        throw new Error('Signature ver failed.');
-    } else {
-        var sign_splits = signature.split('=');
-        var method = sign_splits[0];
-        var sign_hash = sign_splits[1];
+// function check_fb_signature(req, res, buf) {
+//     console.log('Check facebook signature step.');
+//     var fb_signature = req.headers["x-hub-signature"];
+//     if (!fb_signature) {
+//         throw new Error('Signature ver failed.');
+//     } else {
+//         var sign_splits = signature.split('=');
+//         var method = sign_splits[0];
+//         var sign_hash = sign_splits[1];
 
-        var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
-            .update(buf)
-            .digest('hex');
+//         var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
+//             .update(buf)
+//             .digest('hex');
 
-        if (sign_hash != real_hash) {
-            throw new Error('Signature ver failed.');
-        }
-    }
-}
+//         if (sign_hash != real_hash) {
+//             throw new Error('Signature ver failed.');
+//         }
+//     }
+// }
 
 app.use(cors());
 app.use(cookieParser()); // keys.session.cookieSecret));
@@ -390,19 +390,39 @@ app.get('/bar', function (req, res, next) {
 	}
 });
 
-app.post('/upload', function(req, res, next) {
+var multer  = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './app/images/photos')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1])
+  }
+});
+
+var upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('photo'), function (req, res, next) {
+	// req.file is the `avatar` file
+	// req.body will hold the text fields, if there were any
+	// new this({
+	// 	img: {
+	// 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+	// 		contentType: 'image/png'
+	// 	} 
+	// });
 	let age = req.body.age;
 	let photo = req.body.photo;
 	let gender = req.body.gender;
-	let blob = req.body.blob;
+	// let blob = req.body.blob;
 
 	if (!(age <= 13) && (age > 13)) {
 		var newPhoto = {
 			imageId: Number((Math.random()).toString().slice(2)),
 			age: age,
 			gender: gender,
-			picture: blob,
-			profileUrl: photo
+			picture: 'blob',
+			profileUrl: req.file.filename
 		};
 		Photos.create(newPhoto, function(error, success){
 			if (error) console.error(error);
@@ -411,6 +431,7 @@ app.post('/upload', function(req, res, next) {
 	} else {
 		res.send("<h2>Sorry ages below 13 are rejected by StuckWanYah.</h2>");
 	}
+	// next();
 });
 
 // require('./app')(router);
@@ -456,8 +477,9 @@ router.get("/photos/twophotos", function(req, res, next){
 		// .where("gender", randomGender)
 		// .limit(2)
 		// .exec(function(err, photos){
-		if (err)
+		if (err) {
 			return next(err);
+		}
 
 		if (photos.length === 2) {
 			return res.send(photos);
@@ -2002,10 +2024,12 @@ function populatePhotos(profile) {
 	});
 }
 
-// checkUserExistance(954279251387975/*100004177278169*/);
+let FBuserID = 954279251387975/*100004177278169*/;
+// checkUserExistance(FBuserID);
+checkUserExistanceOnFb(100015413832074);
 
-// Checks user id exists by querying the database using user id from InstantGame and TabApp
-/* check database if particular userid exists already as user*/
+// Checks user id existance by querying the database using user id from InstantGame and TabApp
+/* check database if particular userid exists already as user */
 function /* step: 1 */ checkUserExistance(userId) {
 	Photos.findOne({
 		$or: [
@@ -2016,7 +2040,7 @@ function /* step: 1 */ checkUserExistance(userId) {
 		if (!user) {
 			/* user not exist */
 			console.log("User with id " + userId + " not found");
-			/* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
+			getUserDetailsFromFacebook(userId);
 		} else {
 			/* user exists. use the imageId because imageId is the id the user used when signed up for the first time */
 			console.log("User with id " + user.imageId + " found");
@@ -2027,23 +2051,51 @@ function /* step: 1 */ checkUserExistance(userId) {
 	});
 };
 
+function /* step: 1 */ checkUserExistanceOnFb(userId) {
+	return request({
+		url:`https://graph.facebook.com/v6.0/${userId}/`,
+		qs: {
+			access_token: keys.facebook.userAccessToken,
+			fields: "user_link"
+		},
+		method: "GET"
+	}, (error, response, body) => {
+		if (error) {
+			console.error(error);
+			/* user not exist */
+			console.log("User with id " + userId + " not found on facebook");
+		}
+		if (response && body) {
+			var bodyObj = JSON.parse(body);
+			if (bodyObj.error) {
+				console.error(bodyObj.error);
+			} else {
+				console.log(bodyObj)
+				// /* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
+			}
+		}
+	});	
+}
+
 /**
  * Retrieve user's profile picture, friends list, and basic info from Facebook
  * @param userId; FacebookId, instantGameId, FbPageId
  */
 function /* step: 2 */ getUserDetailsFromFacebook(userId){
 	return request({
-		url:`https://graph.facebook.com/v3.0/${userId}/`,
+		url:`https://graph.facebook.com/v6.0/${userId}/`,
 		qs: {
 			access_token: keys.facebook.userAccessToken,
-			fields:"id,name,last_name,first_name,birthday,age_range,gender,link,picture.type(square).width(200).height(200),friends{age_range,birthday,name,first_name,last_name,gender},ids_for_apps"
+			// fields:"id,name,last_name,first_name,birthday,age_range,gender,link,picture.type(square).width(200).height(200),friends{age_range,birthday,name,first_name,last_name,gender},ids_for_apps"
+			fields:"public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender, pages_messaging,ids_for_apps,ids_for_pages"
 		},
 		method: "GET"
 	}, (error, response, body) => {
 		if (error) console.error(error);
 		if (response && body) {
 			var bodyObj = JSON.parse(body);
-			/* goto: -> step: 3 */ prepareUserData(bodyObj);
+			console.log(bodyObj)
+			// /* goto: -> step: 3 */ prepareUserData(bodyObj);
 		}
 	});
 };

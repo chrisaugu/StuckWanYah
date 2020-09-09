@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"publ",
+				"public_profile"
+			],
+			[
+				"ceck",
+				"checkUserExistance"
+			],
+			[
+				"file",
+				"filename"
+			],
+			[
 				"pro",
 				"profileid"
 			],
@@ -312,10 +324,6 @@
 				"voter"
 			],
 			[
-				"publ",
-				"publish_actions"
-			],
-			[
 				"user",
 				"user_id"
 			],
@@ -506,14 +514,6 @@
 			[
 				"ch",
 				"childNodes"
-			],
-			[
-				"shou",
-				"shouldSwitch"
-			],
-			[
-				"tr",
-				"true"
 			]
 		]
 	},
@@ -523,9 +523,36 @@
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 75559,
+				"buffer_size": 77001,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/disclaimer.html",
+			"settings":
+			{
+				"buffer_size": 8531,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/upload.html",
+			"settings":
+			{
+				"buffer_size": 3422,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/stylesheets/stylesheet.css",
+			"settings":
+			{
+				"buffer_size": 44935,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -558,7 +585,7 @@
 			"file": "views/home.html",
 			"settings":
 			{
-				"buffer_size": 5942,
+				"buffer_size": 5930,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -645,16 +672,21 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/config"
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah"
 	],
 	"file_history":
 	[
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/server/routes/api.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/server/routes/auth.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/server/routes/index.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/server/routes/products.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/server/routes/shippingDetails.js",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/server/routes/users.js",
 		"/C/Program Files/nodejs/node_modules/npm/lib/npm.js",
 		"/C/Program Files/nodejs/node_modules/npm/lib/utils/error-handler.js",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/.gitignore",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/.env",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/package.json",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/StuckWanYah/server.js",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/stuckwanyah/README.md",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/StuckWanYah/package.json",
@@ -771,13 +803,7 @@
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/public/like.html",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/views/index2.ejs",
 		"/C/Users/Admin/WebstormProjects/StuckWanYah/about.html",
-		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html",
-		"/C/Users/Admin/WebstormProjects/chat/dev/fantastix.sublime-project",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/views/messages.html",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/views/messages.ejs",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/global-core.bundle.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/js/frameworks.min.js",
-		"/C/Users/Admin/WebstormProjects/chat/dev/app/assets/css/global-core.bundle.css"
+		"/C/Users/Admin/WebstormProjects/StuckWanYah/rankings.html"
 	],
 	"find":
 	{
@@ -795,6 +821,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"getUserDetailsFromFacebook",
+			"friend",
+			"\t\t  ",
+			"\t  ",
+			"\n\t  ",
+			"multer",
+			".count",
 			"export",
 			"logSymbols",
 			"StuckWanYahProject",
@@ -915,14 +948,7 @@
 			"api",
 			"log",
 			"herokuapp",
-			".",
-			": ",
-			" {",
-			"  ",
-			"config.",
-			"config",
-			"parse",
-			"handle"
+			"."
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -940,7 +966,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -949,15 +975,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 75559,
+						"buffer_size": 77001,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7552,
-								7629
+								58175,
+								58175
 							]
 						],
 						"settings":
@@ -968,14 +994,101 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2947.0,
+						"translation.y": 26459.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "views/disclaimer.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8531,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6580,
+								6580
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1222.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "views/upload.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3422,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								803,
+								803
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 129.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 3,
+					"file": "app/stylesheets/stylesheet.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 44935,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1237,
+								1237
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "config/keys.js",
 					"semi_transient": false,
 					"settings":
@@ -987,8 +1100,8 @@
 						"selection":
 						[
 							[
-								391,
-								408
+								314,
+								314
 							]
 						],
 						"settings":
@@ -1000,11 +1113,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 5,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1029,11 +1142,11 @@
 						"translation.y": 442.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
 					"file": "views/connect.html",
 					"semi_transient": false,
 					"settings":
@@ -1060,24 +1173,24 @@
 						"translation.y": 28.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 7,
 					"file": "views/home.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5942,
+						"buffer_size": 5930,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								645,
-								645
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1089,11 +1202,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 8,
 					"file": "app/javascripts/script.js",
 					"semi_transient": false,
 					"settings":
@@ -1105,8 +1218,8 @@
 						"selection":
 						[
 							[
-								699,
-								683
+								52355,
+								52355
 							]
 						],
 						"settings":
@@ -1117,14 +1230,14 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1000.0,
+						"translation.y": 20722.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 9,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1148,11 +1261,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 10,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1177,11 +1290,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 11,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1205,7 +1318,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -1278,7 +1391,7 @@
 		[
 			[
 				"",
-				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\crisbot\\Cris.ioBot.sublime-project"
+				"C:\\Users\\Christian AUGUSTYN\\WebstormProjects\\epsilonpi\\epsilonpi.sublime-project"
 			]
 		],
 		"width": 380.0

@@ -37,6 +37,7 @@ window.StuckWanYah = {
 	"viewMode": "website"
 };
 
+var _permissions = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender,pages_messaging,pages_manage_posts';
 var _fields = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender,pages_messaging,pages_manage_posts';
 
 /**
