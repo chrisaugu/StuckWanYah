@@ -5,12 +5,12 @@
     "first_name": "Christian",
     "last_name": "Augustyn",
     "age_range": {
-      "min": 18,
-      "max": 20
+      "min": 21
     },
     "gender": "male",
-    "photo": "/photos/15697830_736864956462740_2529340439797482201_n.jpg"
-  }, {
+    "photo": "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/31886521_997680883714478_7430056043532517376_n.jpg?_nc_cat=108&ccb=2&_nc_sid=dbb9e7&_nc_ohc=_bop2COlZSYAX8D_BgN&_nc_ht=scontent-syd2-1.xx&tp=27&oh=e70377d571ee3b428fbacb286a3b678e&oe=5FDEED37"
+  },
+  {
     "id": "13173939",
     "name": "",
     "first_name": "",

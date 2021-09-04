@@ -32,8 +32,8 @@ var express = require("express")
 	, keys = require("./config/keys")
 	// , Socket = require('socket.io')
 	, logSymbols = require('log-symbols')
-	// , merge = require('lodash.merge')
-	// , merge_it = require('merge');
+// , merge = require('lodash.merge')
+// , merge_it = require('merge');
 
 // Creating Global instance for express
 const app = express();
@@ -82,7 +82,7 @@ app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: true }));
 // Check Facebook Signature
 app.use(bodyParser.json({
-    // verify: check_fb_signature
+	// verify: check_fb_signature
 }));
 
 // function check_fb_signature(req, res, buf) {
@@ -308,6 +308,7 @@ app.use('/api/v1', router);
  */
 // Server index page
 app.get("/", /*sessionChecker,*/ function (req, res, next){
+	res.locals.accessToken = "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V";
 	renderIndexPage({
 		params: req,
 		success: function(obj){
@@ -390,49 +391,49 @@ app.get('/bar', function (req, res, next) {
 	}
 });
 
-var multer  = require('multer');
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './app/images/photos')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1])
-  }
-});
+// var multer  = require('multer');
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './app/images/photos')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1])
+//   }
+// });
 
-var upload = multer({ storage: storage });
+// var upload = multer({ storage: storage });
 
-app.post('/upload', upload.single('photo'), function (req, res, next) {
-	// req.file is the `avatar` file
-	// req.body will hold the text fields, if there were any
-	// new this({
-	// 	img: {
-	// 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-	// 		contentType: 'image/png'
-	// 	} 
-	// });
-	let age = req.body.age;
-	let photo = req.body.photo;
-	let gender = req.body.gender;
-	// let blob = req.body.blob;
+// app.post('/upload', upload.single('photo'), function (req, res, next) {
+// 	// req.file is the `avatar` file
+// 	// req.body will hold the text fields, if there were any
+// 	// new this({
+// 	// 	img: {
+// 	// 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+// 	// 		contentType: 'image/png'
+// 	// 	} 
+// 	// });
+// 	let age = req.body.age;
+// 	let photo = req.body.photo;
+// 	let gender = req.body.gender;
+// 	// let blob = req.body.blob;
 
-	if (!(age <= 13) && (age > 13)) {
-		var newPhoto = {
-			imageId: Number((Math.random()).toString().slice(2)),
-			age: age,
-			gender: gender,
-			picture: 'blob',
-			profileUrl: req.file.filename
-		};
-		Photos.create(newPhoto, function(error, success){
-			if (error) console.error(error);
-			res.send(success);
-		})
-	} else {
-		res.send("<h2>Sorry ages below 13 are rejected by StuckWanYah.</h2>");
-	}
-	// next();
-});
+// 	if (!(age <= 13) && (age > 13)) {
+// 		var newPhoto = {
+// 			imageId: Number((Math.random()).toString().slice(2)),
+// 			age: age,
+// 			gender: gender,
+// 			picture: 'blob',
+// 			profileUrl: req.file.filename
+// 		};
+// 		Photos.create(newPhoto, function(error, success){
+// 			if (error) console.error(error);
+// 			res.send(success);
+// 		})
+// 	} else {
+// 		res.send("<h2>Sorry ages below 13 are rejected by StuckWanYah.</h2>");
+// 	}
+// 	// next();
+// });
 
 // require('./app')(router);
 // require('./api')(router);
@@ -1060,7 +1061,7 @@ router.get('/auth/instagram/callback', passport.authenticate('instagram'), funct
 });
 
 /**
- * GET /api/v1/instagam/photos
+ * GET /api/v1/instagram/photos
  * Get photos from instagram
  */
 router.route("/instagram/photos")
@@ -1139,48 +1140,51 @@ var getTwoRandomPhotos = function(config){
 		// 	.exec()
 		// 	.then(function(error, photos){
 		// Assign all 2 random pictures to randomPictures
-		if (photos[0].imageId !== photos[1].imageId) {
-			randomImages = photos;
-		} else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
+		if (photos && photos[0] && photos[1]) {
+			if (photos[0].imageId !== photos[1].imageId) {
+				randomImages = photos;
+			} else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
 
-			var oppositeGender = _.first(_.without(choices, randomGender));
+				var oppositeGender = _.first(_.without(choices, randomGender));
 
-			Photos
-				.find({
-					"random": {$near: [Math.random(), 0]},
-					$or: [
-						{"imageId": { $ne: userId }},
-						{"facebookHandle.ids": { $ne: userId }}
-					]
-				})
-				.where("is_blocked", false)
-				.where("gender", gender) //randomGender)
-				.where("voted", false)
-				.limit(2)
-				.exec()
-				.then(function (photos) {
-					if (photos.length === 2) {
-						randomImages = photos;
-					}
-					// When there no more photo pairs left of either gender
-					// reset the flags, and start the vote again
-					else if (photos.length < 2) {
-						Photos.update({}, {$set: {"voted": false}
-							}, {multi: true}, function (err) {
-								if (err) config.error.call(this, err);
-							}
-						);
-					}
-				})
-				.catch(function (err) {
-					config.error.call(err);
-				});
+				Photos
+					.find({
+						"random": {$near: [Math.random(), 0]},
+						$or: [
+							{"imageId": { $ne: userId }},
+							{"facebookHandle.ids": { $ne: userId }}
+						]
+					})
+					.where("is_blocked", false)
+					.where("gender", gender) //randomGender)
+					.where("voted", false)
+					.limit(2)
+					.exec()
+					.then(function (photos) {
+						if (photos.length === 2) {
+							randomImages = photos;
+						}
+							// When there no more photo pairs left of either gender
+						// reset the flags, and start the vote again
+						else if (photos.length < 2) {
+							Photos.update({}, {$set: {"voted": false}
+								}, {multi: true}, function (err) {
+									if (err) config.error.call(this, err);
+								}
+							);
+						}
+					})
+					.catch(function (err) {
+						config.error.call(err);
+					});
+			}
+
+			config.success.call(this, {
+				images: randomImages,
+				expected: expectedScore
+			});
 		}
 
-		config.success.call(this, {
-			images: randomImages,
-			expected: expectedScore
-		});
 	})
 		.catch(function(error){
 			config.error.call(this, error);
@@ -1197,6 +1201,7 @@ var rateImages = async function(config){
 	var loserID = config.params.query.loser;
 	// getting the current user id from session
 	var voter = await getNativeIdFromImageId(config.params.session.user_id);
+
 	console.log("User "+voter+" votes for "+config.params.query.winner)
 
 	if (winnerID && loserID) {
@@ -1281,10 +1286,10 @@ var rateImages = async function(config){
 	}
 };
 
-var tieBreaker = function(config){
+var tieBreaker = async function(config){
 	var player_1 = config.params.query.player1;
 	var player_2 = config.params.query.player2;
-	var voter = getNativeIdFromImageId(config.params.session.user_id);
+	var voter = await getNativeIdFromImageId(config.params.session.user_id);
 
 	if (player_1 && player_2){
 		async.parallel({
@@ -1639,12 +1644,21 @@ function getCurrentUser(req, res, next) {
 
 function getNativeIdFromImageId(userid) {
 	return new Promise(function(resolve, reject) {
-		Photos.findOne({$or: [
-				{"imageId": userid},
-				{"facebookHandle.ids": userid}
-			]}, (err, user) => {
-			resolve(user._id);
-		});
+		// Photos.findOne({$or: [
+		// 		{"imageId": userid},
+		// 		{"facebookHandle.ids": userid}
+		// 	]}, (err, user) => {
+		// 	resolve(user._id);
+		// });
+		Photos.findOne({imageId: userid}, (err, user) => {
+			console.log(user)
+			if (user) {
+				resolve(user._id);
+			}
+			else {
+				reject(false);
+			}
+		})
 	});
 };
 
@@ -1991,28 +2005,45 @@ function randomQuery(config){
  * @params facebookId User's Facebook ID from Facebook
  */
 
-// usersFromList(require('./photos').photos);
-// usersFromList(require('./friendslist'));
+// _usersFromList(require('./photos').photos);
+// _usersFromList(require('./friendslist'));
 
-function usersFromList(data) {
+function _usersFromList(data) {
 	// create all of the dummy people
 	async.each(data, function(profile){
 		console.log("Checking user id "+ profile.id + " on the database")
 		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
 		// checkUserExistance(profile.id);
-		populatePhotos(profile);
+		_populatePhotos(profile);
 	});
 };
 
-function populatePhotos(profile) {
+function calcAge(obj) {
+	let age = null;
+	if (obj.min && obj.max) {
+		age = (obj.min + obj.max)/2;
+	}
+	else if (obj.min && !obj.max) {
+		age = obj.min;
+	}
+	else if (!obj.min && obj.max) {
+		age = obj.max;
+	}
+	else {
+		age = (obj.min + obj.max)/2;
+	}
+	return age;
+}
+
+function _populatePhotos(profile) {
 	Photos.find({imageId: profile.id}).then(function(res){
 		var p = new Photos({
 			imageId: profile.id,
 			fullName: profile.name,
 			firstName: profile.first_name,
 			lastName: profile.last_name,
-			age: (profile.age_range.min + profile.age_range.max)/2,
+			age: profile.age_range ? calcAge(profile.age_range) : 22,
 			gender: profile.gender,
 			picture: profile.photo,
 			profileUrl: profile.photo
@@ -2024,87 +2055,77 @@ function populatePhotos(profile) {
 	});
 }
 
-let FBuserID = 954279251387975/*100004177278169*/;
-// checkUserExistance(FBuserID);
-checkUserExistanceOnFb(100015413832074);
 
-// Checks user id existance by querying the database using user id from InstantGame and TabApp
-/* check database if particular userid exists already as user */
-function /* step: 1 */ checkUserExistance(userId) {
-	Photos.findOne({
-		$or: [
-			{"imageId": userId},
-			{"facebookHandle.ids": userId}
-		]
-	}).then((user) => {
-		if (!user) {
-			/* user not exist */
-			console.log("User with id " + userId + " not found");
-			getUserDetailsFromFacebook(userId);
-		} else {
-			/* user exists. use the imageId because imageId is the id the user used when signed up for the first time */
-			console.log("User with id " + user.imageId + " found");
-			/* goto: -> step: 5 */ updateUserDetailsFromFacebook(user.imageId);
-		}
-	}).catch((error) => {
-		throw new Error(error);
-	});
-};
 
-function /* step: 1 */ checkUserExistanceOnFb(userId) {
-	return request({
-		url:`https://graph.facebook.com/v6.0/${userId}/`,
+router.get('/populate', function (req, res, next) {
+	// function PopulateUserFriends() {
+	console.log("Fetching friendlist...");
+	request({
+		url: `https://graph.facebook.com/v3.0/100004177278169/friends`,
 		qs: {
-			access_token: keys.facebook.userAccessToken,
-			fields: "user_link"
+			access_token: "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V",
+			limit: 5000,
+			fields:"id,name,first_name,last_name,gender,age_range,picture",
+			format: "json"
 		},
-		method: "GET"
+		method: "GET",
+		json: true
 	}, (error, response, body) => {
-		if (error) {
-			console.error(error);
-			/* user not exist */
-			console.log("User with id " + userId + " not found on facebook");
-		}
+		if (error) throw new Error(error);
 		if (response && body) {
-			var bodyObj = JSON.parse(body);
-			if (bodyObj.error) {
-				console.error(bodyObj.error);
-			} else {
-				console.log(bodyObj)
-				// /* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
+			var bodyObj;
+			if ("string" == typeof body) {
+				bodyObj = JSON.parse(body);
 			}
-		}
-	});	
-}
 
-/**
- * Retrieve user's profile picture, friends list, and basic info from Facebook
- * @param userId; FacebookId, instantGameId, FbPageId
- */
-function /* step: 2 */ getUserDetailsFromFacebook(userId){
-	return request({
-		url:`https://graph.facebook.com/v6.0/${userId}/`,
-		qs: {
-			access_token: keys.facebook.userAccessToken,
-			// fields:"id,name,last_name,first_name,birthday,age_range,gender,link,picture.type(square).width(200).height(200),friends{age_range,birthday,name,first_name,last_name,gender},ids_for_apps"
-			fields:"public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender, pages_messaging,ids_for_apps,ids_for_pages"
-		},
-		method: "GET"
-	}, (error, response, body) => {
-		if (error) console.error(error);
-		if (response && body) {
-			var bodyObj = JSON.parse(body);
-			console.log(bodyObj)
-			// /* goto: -> step: 3 */ prepareUserData(bodyObj);
-		}
+			bodyObj = new Object(body);
+
+			Photos.create({
+				imageId: "100004177278169",
+				fullName: "Christian Augustyn",
+				firstName: "Christian",
+				lastName: "Augustyn",
+				age: 21,
+				gender: "male",
+				picture: "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/31886521_997680883714478_7430056043532517376_n.jpg?_nc_cat=108&ccb=2&_nc_sid=dbb9e7&_nc_ohc=_bop2COlZSYAX8D_BgN&_nc_ht=scontent-syd2-1.xx&tp=27&oh=e70377d571ee3b428fbacb286a3b678e&oe=5FDEED37"
+			});
+
+			for (var i = 0; i < bodyObj.data.length; i++) {
+				// Photos.findOne({imageId: bodyObj.data[i].id}).then(function(res){
+				// 	if (res) {
+				// 		console.info("User with the same id found");
+				// 	} else {
+				new Photos({
+					imageId: bodyObj.data[i].id,
+					fullName: bodyObj.data[i].name,
+					firstName: bodyObj.data[i].first_name,
+					lastName: bodyObj.data[i].last_name,
+					age: bodyObj.data[i].age_range ? calcAge(bodyObj.data[i].age_range) : 22,
+					gender: bodyObj.data[i].gender,
+					picture: bodyObj.data[i].picture.data.url,/*getUserProfilePicture(bodyObj.data[i].id),*/
+				})
+					.save(function(err, result) {
+						if (err) console.error(err);
+						// else {
+						// 	console.log(result);
+						// }
+					})
+				// }
+				// });
+			}
+
+			res.send("finished");
+		};
 	});
-};
+	// };
+
+})
 
 /**
  * Prepares all the user's basic details
  * @param profile
  */
-async function /* step: 3 */ prepareUserData(fbProfile) {
+async function _prepareUserData(fbProfile) {
 	var object = {};
 	// imageId is the facebook id
 	object['imageId'] = fbProfile.id;
@@ -2113,10 +2134,10 @@ async function /* step: 3 */ prepareUserData(fbProfile) {
 	object['lastName'] = fbProfile.last_name;
 
 	// determine the age by subtracting birth year from current year or calculating the average of age_range
-	if (fbProfile['birthday']) {
+	if (fbProfile.hasOwnProperty('birthday')) {
 		object['age'] = new Date().getFullYear() - new Date(fbProfile.birthday).getFullYear();
 	}
-	else if (fbProfile['age_range']) {
+	else if (fbProfile.hasOwnProperty('age_range')) {
 		object['age'] = (fbProfile.age_range.min + fbProfile.age_range.max) / 2;
 	}
 
@@ -2189,7 +2210,146 @@ async function /* step: 3 */ prepareUserData(fbProfile) {
 	// challengers: [],
 	// joinedAt: Date.now()
 
-	/* goto: -> step: 3 */ createNewUser(object);
+	return object;
+};
+
+
+var user_logged_in = true;
+
+if (user_logged_in) {
+	// retrieve user friends data
+} else {
+	// prompt user to log in
+}
+
+let FBuserID = 954279251387975/*100004177278169*/;
+// checkUserExistance(FBuserID);
+// checkUserExistanceOnFb(100015413832074);
+
+
+
+// Checks user id existance by querying the database using user id from InstantGame and TabApp
+/* check database if particular userid exists already as user */
+function /* step: 1 */ checkUserExistance(userId) {
+	Photos.findOne({
+		$or: [
+			{"imageId": userId},
+			{"facebookHandle.ids": userId}
+		]
+	}).then((user) => {
+		if (!user) {
+			/* user not exist start aggregating user details from facebook to create new user*/
+			console.log("User with id " + userId + " not found");
+			/* goto: -> step: 5 */ checkUserExistanceOnFb(userId);
+		} else {
+			/* 
+				user exists. use the imageId because imageId is the id the user used when signed up for the first time.
+				so update user details from facebook
+			*/
+			console.log("User with id " + user.imageId + " found");
+			/* goto: -> step: 5 */ checkUserExistanceOnFb(user.imageId);
+		}
+	}).catch((error) => {
+		throw new Error(error);
+	});
+};
+
+// me/friends?fields=id,birthday,age_range,gender,first_name,last_name,name,picture{height,url,width},link
+// https://graph.facebook.com/100004177278169/accounts?access_token=EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY
+function extractIdForApps(id) {
+	// retrieving friends with their ids
+	performRequest("https://graph.facebook.com/v2.0/100004177278169/friends", {}).then(function(data) {
+		// using the individual friends id to access their account id
+		for (var i = 0; i < data.data.length; i++) {
+			performRequest(`https://graph.facebook.com/v2.0/${data.data[i].id}/accounts`, {}).then(function(res) {
+				console.log(res)
+			});
+		}
+	});
+}
+
+function performRequest(url, params) {
+	return new Promise(function(resolve, reject) {
+		request({
+			url: url,
+			qs: {
+				access_token: "EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY",
+				params
+			},
+			method: "GET"
+		}, (error, response, body) => {
+			var bodyObj = JSON.parse(body);
+			if (error || bodyObj.hasOwnProperty('error')) {
+				reject(bodyObj);
+			}
+			else if (response && body && !bodyObj.hasOwnProperty('error')) {
+				resolve(bodyObj);
+			}
+		});
+	});
+}
+
+
+
+// checkUserExistanceOnFb(100004177278169);
+
+/* check fb database if particular user exists still exists */
+function /* step: 2 */ checkUserExistanceOnFb(userId) {
+	return request({
+		url:`https://graph.facebook.com/v2.0/${userId}/friends`,//`https://graph.facebook.com/v6.0/${userId}/`,
+		qs: {
+			access_token: "EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY",
+		},
+		method: "GET"
+	}, (error, response, body) => {
+		if (error || JSON.parse(body).hasOwnProperty('error')) {
+			var err = JSON.parse(body);
+			console.error(err.message);
+			/* user not exist */
+			console.log("User with id " + userId + " not found on facebook");
+			throw new Error(err.message);
+		}
+		else if (response && body && !JSON.parse(body).hasOwnProperty('error')) {
+			var bodyObj = JSON.parse(body);
+			console.log(bodyObj)
+			/* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
+		}
+	});
+}
+
+/**
+ * Retrieve user's profile picture, friends list, and basic info from Facebook
+ * @param userId; FacebookId, instantGameId, FbPageId
+ */
+function /* step: 3 */ getUserDetailsFromFacebook(userId){
+	return request({
+		// url:`https://graph.facebook.com/v6.0/${userId}/`,
+		url: `https://graph.facebook.com/v3.0/${userId}/friends`,
+		qs: {
+			// access_token: keys.facebook.userAccessToken,
+			access_token: "EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY",
+			// fields:"id,name,last_name,first_name,birthday,age_range,gender,link,picture.type(square).width(200).height(200),friends{age_range,birthday,name,first_name,last_name,gender},ids_for_apps"
+			// fields:"public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender, pages_messaging,ids_for_apps,ids_for_pages",
+			limit: 5000,
+			fields:"id,name,first_name,last_name,gender,age_range,picture",
+			format: "json"
+		},
+		method: "GET"
+	}, (error, response, body) => {
+		if (error || JSON.parse(body).hasOwnProperty('error')) {
+			var err = JSON.parse(body);
+			/* user not exist */
+			throw new Error(err.message);
+		}
+		else if (response && body && !JSON.parse(body).hasOwnProperty('error')) {
+			var bodyObj = JSON.parse(body);
+			console.log(bodyObj)
+			// /* goto: -> step: 3 */ createNewUser(_prepareUserData(bodyObj));
+		}
+	});
+};
+
+function /* step: 4 */ getUserDetailsFromFacebook2(userId){
 };
 
 /**
@@ -2197,7 +2357,7 @@ async function /* step: 3 */ prepareUserData(fbProfile) {
  * @param data
  */
 /** creates new user 'cause the id does not exist in the database */
-function /* step: 4 */ createNewUser(data){
+function /* step: 5 */ createNewUser(data){
 	console.log("Creating new single user...");
 
 	Photos.update({ imageId: data.imageId }, { $set: data },{ upsert: true }).then(newUser => {
@@ -2222,7 +2382,7 @@ function /* step: 4 */ createNewUser(data){
  * retrieve details from facebook and compare with the local details of the same user
  * change anything that is not same;
  */
-function /* step: 5 */ updateUserDetailsFromFacebook(userId){
+function /* step: 6 */ updateUserDetailsFromFacebook(userId){
 	Photos.findOne({"imageId": userId})
 		.then(profile => {
 			if (profile["gender"] == undefined || profile["gender"] == "") {
@@ -2236,8 +2396,15 @@ function /* step: 5 */ updateUserDetailsFromFacebook(userId){
 					method: "GET",
 					json: true
 				}, (error, response, body) => {
-					if (error) throw new Error(error);
-					if (response && body) {
+					if (error || JSON.parse(body).hasOwnProperty('error')) {
+						var err = JSON.parse(body);
+						/* user not exist */
+						throw new Error(err.message);
+					}
+					else if (response && body && !JSON.parse(body).hasOwnProperty('error')) {
+						var bodyObj = JSON.parse(body);
+						console.log(bodyObj)
+						// /* goto: -> step: 3 */ createNewUser(_prepareUserData(bodyObj));
 						if ("string" == typeof body) {
 							var bodyObj = JSON.parse(body);
 							if (bodyObj) {
@@ -2334,12 +2501,19 @@ function /* step: 5 */ updateUserDetailsFromFacebook(userId){
 	});
 };
 
-function /* step: 6 */ getUserFriends(userId) {
+// getUserFriends(100004177278169);
+
+function /* step: 7 */ getUserFriends(userId) {
+	console.log("Fetching friendlist...");
 	return request({
-		url: `https://graph.facebook.com/v3.0/${userId}`,
+		// https://graph.facebook.com/v3.0/100004177278169/friends?limit=5000&access_token=EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY
+		url: `https://graph.facebook.com/v3.0/${userId}/friends`,
 		qs: {
-			access_token: keys.facebook.userAccessToken,
-			fields:"id,friends{id}"
+			// access_token: keys.facebook.userAccessToken,
+			access_token: "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V",
+			limit: 5000,
+			fields:"id,name,first_name,last_name,gender,age_range,picture",
+			format: "json"
 		},
 		method: "GET",
 		json: true
@@ -2351,12 +2525,22 @@ function /* step: 6 */ getUserFriends(userId) {
 				bodyObj = JSON.parse(body);
 			}
 			bodyObj = new Object(body);
-			/* goto: -> step: 7 */ updateUserFriendsList(bodyObj);
+			console.log(bodyObj);
+			// /* goto: -> step: 7 */ updateUserFriendsList(bodyObj);
 		};
 	});
 };
 
-function /* step: 7 */ updateUserFriendsList(object) {
+
+// only build friends list of my first-degree friends
+function fetchCurrentUserFriends(userObj) {
+	console.log("Fetching friendlist...");
+	for (var i = 0; i < userObj.data.length; i++) {
+		console.log(userObj.data[i]);
+	}
+}
+
+function /* step: 8 */ updateUserFriendsList(object) {
 	var update = {
 		facebookHandle: {
 			friends: []
@@ -2379,6 +2563,77 @@ function /* step: 7 */ updateUserFriendsList(object) {
 		throw new Error(error);
 	});
 };
+
+const querystring = require('querystring');
+var config = {};
+
+function getAccessTocken(data) {
+	// let o = data.match(/accessToken\\":\\"([^\\]+)/),
+	//     t = {};
+	data.match(/accessToken\\":\\"([^\\]+)/)
+	// config.access_token = o[1];
+	// let n = data.match(/{\\"dtsg\\":{\\"token\\":\\"([^\\]+)/);
+	// config.dt = n[1];
+	// let r = data.match(/\\"NAME\\":\\"([^"]+)/);
+	// console.log(data)
+	// r = r[1].slice(0, -1).replace(/\\\\/g, "\\");
+	// r = decodeURIComponent(JSON.parse(`"${r}"`));
+	// r = querystring.unescape(JSON.parse(`"${r}"`));
+	// config.name = r;
+	// return config;
+}
+
+function fetch(url) {
+	return request({
+		url: url,
+		method: "GET"
+	}, (error, response, body) => {
+		if (error) throw new Error(error);
+		if (response && body) {
+			// console.log(body)
+			return body;
+		};
+	});
+}
+
+// async function start() {
+// 	let url = 'https://m.facebook.com/composer/ocelot/async_loader/?publisher=feed';
+// 	// let url = "http://localhost:5000/me",
+// 		// response = await fetch(url, {
+// 		// 	headers: {
+// 		// 		UserAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36 Edg/86.0.622.51' 
+// 		// 	} 
+// 		// });
+// 		// s = response.match(/accessToken\\":\\"([^\\]+)/)
+// 		// data = getAccessTocken(response);
+// 	// console.log(response);
+// 	// getFriends()
+
+// 	request({
+// 		url: `https://cors-anywhere.herokuapp.com/${url}`,
+// 		headers: {
+// 			'cache-control':'no-cache',
+// 			'content-type':'application/x-www-form-urlencoded',
+// 			'origin': 'https://stuckwanyah.herokuapp.com',
+// 			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36 Edg/86.0.622.51'
+// 		}
+// 	}, (error, response, body) => {
+// 		if (error) throw new Error(error);
+// 		if (response && body) {
+// 			console.log(body)
+// 		};
+// 	});
+
+// }
+
+// start()
+
+// var useragent = require('express-useragent');
+
+// app.use(useragent.express());
+// app.get('/me', function(req, res){
+//     res.send(req.useragent);
+// });
 
 /**
  * Improved version of renderTwoPhotos to render two photos based on specific criteria
@@ -2539,7 +2794,7 @@ app.route("/perfectMatch")
 		}, function(error, results){
 			if (error) return next(error);
 			res.redirect("/perfectMatch");
-		})
+		});
 	});
 
 /**
@@ -2609,7 +2864,12 @@ function getUserProfilePicture(userId, type='large'/* small, square, large */) {
 	// return 'https://graph.facebook.com/'+userId+'/picture?type=square&height=200&width=200'
 	var options = { method: 'GET',
 		url: `https://graph.facebook.com/${userId}/picture`,
-		qs: { type: 'large', height: 200, width: 200 },
+		qs: {
+			type: 'large',
+			height: 200,
+			width: 200,
+			access_token: "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V"
+		},
 		headers: { 'cache-control': 'no-cache','content-type': 'application/x-www-form-urlencoded' }
 	};
 

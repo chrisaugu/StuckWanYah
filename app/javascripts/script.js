@@ -892,7 +892,7 @@ App = function () {
 			current = App;
 			// this.getSession();
 			this.initFacebookApi();
-			Api.checkLoginState();
+			// Api.checkLoginState();
 			this.setDefaultData();
 			this.initPageEventListener();
 			this.initClickEventListener();
@@ -1155,7 +1155,7 @@ App = function () {
 			output += '<tr>';
 			output += '<td class="photos" style="width: 902px;">';
 			$.each(response, function(i, item) {
-				output += '<a href="https://www.facebook.com' + item.profileUrl + '" data-profileid="' + item.facebookHandle.id + '">';
+				output += '<a href="https://www.facebook.com/profile.php?id=' + item.imageId + '" data-profileid="' + item.imageId + '">';
 				output += '<img class="photo" src="' + item.picture + '" style="width:70px!important">';
 				//output += '<img class=\"photo\" src=\"https://graph.facebook.com/' + item.facebookHandle.id + '/picture?type=small\">'; //https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32
 				output += '</a>';
@@ -1211,7 +1211,7 @@ App = function () {
 				$.each(response, function (i, item) {
 					output += '<tr align="center"><td>';
 					output += rank++;
-					output += '</td><td></td><td><a href="https://www.facebook.com' + item.profileUrl + '">';
+					output += '</td><td></td><td><a href="https://www.facebook.com/profile.php?id=' + item.imageId + '">';
 					output += '<img class=\'photo\' src=\'' + item.picture + '\' data-profileid="' + item.imageId + '" width=\'180\'>';
 					output += '</a></td><td></td><td>';
 					output += item.ratings;

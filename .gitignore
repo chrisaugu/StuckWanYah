@@ -1,11 +1,4 @@
-node_modules
-stuckwanyahgame
-data
-mean
-tic-tac-toe
-newfolder
-instantgame
-.idea
+# files
 .env
 .babelrc
 *.sublime-project
@@ -14,14 +7,20 @@ package-lock.json
 *.pem
 */.DS_Store
 *.DS_Store
-node_modules/
-xnode_modules/
-build/
 config.json
+*.zip
+
+# folders
+.idea
+instantgame
+data
+newfolder
+node_modules/
+build/
+app/*
 app/images/cards
 app/images/photos
 app/javascripts/physics
 app/javascripts/lib
 app/sounds
 views/physics
-*.zip

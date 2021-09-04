@@ -1,7 +1,6 @@
 {
-  "name": "stuckwanyah",
+  "name": "StuckWanYah",
   "version": "1.0.0",
-  "homepage": "https://github.com/chrisaugu/stuckwanyah",
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
   "main": "server.js",
   "engines": {
@@ -26,6 +25,7 @@
     "node",
     "express"
   ],
+  "homepage": "https://github.com/chrisaugu/stuckwanyah",
   "author": "Christian Augustyn <chrisaugu61@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -47,6 +47,7 @@
     "express": "4.16.2",
     "express-jwt": "*",
     "express-session": "*",
+    "express-useragent": "^1.0.15",
     "favicon": "*",
     "fs": "*",
     "http": "*",

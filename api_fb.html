@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Tool Auto Post To Groups On Facebook</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+
+</head>
+<body>
+	<div class="container">
+		<h6><a href="https://m.facebook.com/composer/ocelot/async_loader/?publisher=feed" target="_blank">First click here to get the token</a></h6>
+		<marquee width="50%">
+            <h2 style="color:rgb(255, 0, 13)">Tool Auto Post To Group On Facebook</h2>
+        </marquee>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+				  <div class="col-md-12">
+					<div class="form-group">
+					  <label for="first">Access Token</label>
+					  <input type="text" class="form-control" placeholder="Access Token..." id="access-token">
+					</div>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-md-12">
+					<div class="form-group">
+					  <label for="first">Spam target (separated by ";")</label>
+					  <input type="text" class="form-control" placeholder="User Group ID/..." id="spam-target">
+					</div>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-md-12">
+					<div class="form-group">
+					  <label for="last">Message (separated by "|")</label>
+					  <textarea type="text" class="form-control" placeholder="Message..." id="spam-message"></textarea>
+					</div>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-md-12">
+					<div class="form-group">
+					  <label for="last">URL (*Requires upload file)</label>
+					  <input type="text" class="form-control" placeholder="Image URL" id="spam-attachment">
+					</div>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="col-md-12">
+					<div class="form-group">
+					  <label for="last">Timer (millisecond)</label>
+					  <input type="text" class="form-control" placeholder="Distance per post..." id="spam-timer" value="10000">
+					</div>
+				  </div>
+				</div>
+			</div>
+			<div class="col-md-6" id="logText">
+			
+			</div>
+		</div>
+
+		<button id="start-spam" class="btn btn-primary">Submit</button>
+		<button id="clean-spam" class="btn btn-primary">Clean</button>
+		<button id="group-spam" class="btn btn-info">Get Groups ID</button>
+	</div>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+	<script>
+		$("#start-spam").click(e => {
+		    var counter = 0;
+		    var countPost = 0;
+		    let messages = $('#spam-message').val().split('|');
+		    let targets = $('#spam-target').val().split(';');
+		    let timer = $('#spam-timer').val();
+		    targets.forEach(target => {
+		        counter++;
+		        setTimeout(() => {
+		            let mess = messages[~~(Math.random() * messages.length)];
+		            $.post("https://graph.facebook.com/" + target + "/photos", {
+		                access_token: $('#access-token').val(),
+		                message: mess,
+		                url: $('#spam-attachment').val()
+		            }).then(dataPost => {
+		                countPost++;
+		                var link = "https://www.facebook.com/" + dataPost.post_id;
+		                $('#logText').append('<span style="color: green;">Succeed to post ' + countPost + ' on <a href="' + link + '" target="_blank">' + dataPost.post_id + '</a></span><br/>');
+		                if (countPost === targets.length) {
+		                    timeOutDone();
+		                };
+		            }).fail(() => {
+		                countPost++;
+		                var link = "https://www.facebook.com/" + target;
+		                $('#logText').append('<span style="color: red;">Fail to post ' + countPost + ' on <a href="' + link + '" target="_blank">' + target + '</a></span><br/>');
+		                if (countPost === targets.length) {
+		                    timeOutDone();
+		                };
+		            });
+		        }, counter * timer);
+		    });
+		    $('#logText').append('<span style="color: black;font-weight: bold;"> - - - - START - - - -</span><br/>');
+		});
+
+		$("#clean-spam").click(e => {
+		    $('#logText').html("");
+		});
+
+		$("#group-spam").click(e => {
+		    var groupsId = '';
+		    $('#logText').html("");
+		    $.get("https://graph.facebook.com/me/groups", {
+		        access_token: $('#access-token').val()
+		    }).then(dataGet => {
+		        console.log(dataGet);
+		        dataGet.data.forEach(groupId => {
+		            groupsId += ';' + groupId.id;
+		        });
+		        $('#logText').html(groupsId.substring(1, groupsId.length));
+		    }).fail(() => {
+		        $('#logText').append('<span style="color: red;"> - - - - Fail - - - -</span><br/>');
+		    });
+		});
+
+		function timeOutDone() {
+		    $('#logText').append('<span style="color: blue;"> - - - - DONE - - - -</span><br/>');
+		};
+	</script>
+</body>
+</html>
+<br>
+<br>
+<!-- Footer -->
+<footer class="page-footer font-small blue-grey lighten-5">
+
+    <div style="background-color: #21d192;">
+      <div class="container">
+  
+        <!-- Grid row-->
+        <div class="row py-4 d-flex align-items-center">
+  
+          <!-- Grid column -->
+          <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+            <h6 class="mb-0"> <br> </h6>
+          </div>
+          <!-- Grid column -->
+  
+          <!-- Grid column -->
+          <div class="col-md-6 col-lg-7 text-center text-md-right">
+  
+            <!-- Facebook -->
+            <a class="fb-ic">
+              <i class="fab fa-facebook-f white-text mr-4"> </i>
+            </a>
+            <!-- Twitter -->
+            <a class="tw-ic">
+              <i class="fab fa-twitter white-text mr-4"> </i>
+            </a>
+            <!-- Google +-->
+            <a class="gplus-ic">
+              <i class="fab fa-google-plus-g white-text mr-4"> </i>
+            </a>
+            <!--Linkedin -->
+            <a class="li-ic">
+              <i class="fab fa-linkedin-in white-text mr-4"> </i>
+            </a>
+            <!--Instagram-->
+            <a class="ins-ic">
+              <i class="fab fa-instagram white-text"> </i>
+            </a>
+  
+          </div>
+          <!-- Grid column -->
+  
+        </div>
+        <!-- Grid row-->
+  
+      </div>
+    </div>
+  
+    <!-- Footer Links -->
+    <div class="container text-center text-md-left mt-5">
+  
+      <!-- Grid row -->
+      <div class="row mt-3 dark-grey-text">
+  
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+  
+          <!-- Content -->
+          <h6 class="text-uppercase font-weight-bold">Group Name</h6>
+          <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+          <p><b>Group 1</b>: Xây dựng ứng dụng API Facebook</p>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+  
+          <!-- Links -->
+          <h6 class="text-uppercase font-weight-bold">Members</h6>
+          <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+          <p>
+            <a class="dark-grey-text" href="#!">Nguyễn Xuân Thuận</a>
+          </p>
+          <p>
+            <a class="dark-grey-text" href="#!">Dương Trần Hoài Bảo</a>
+          </p>
+          <p>
+            <a class="dark-grey-text" href="#!">Nguyễn Nhật Trung</a>
+          </p>
+          <p>
+            <a class="dark-grey-text" href="#!">Lê Thành Duy</a>
+          </p>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+  
+          <!-- Links -->
+          <h6 class="text-uppercase font-weight-bold">Members</h6>
+          <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+          <p>
+            <a class="dark-grey-text" href="#!">Lương Thành Ngọc</a>
+          </p>
+          <p>
+            <a class="dark-grey-text" href="#!">Nguyễn Thị Thanh Hằng</a>
+          </p>
+          <p>
+            <a class="dark-grey-text" href="#!">Trần Kiều Trinh</a>
+          </p>
+          
+  
+        </div>
+        <!-- Grid column -->
+  
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+  
+          <!-- Links -->
+          <h6 class="text-uppercase font-weight-bold">Contact</h6>
+          <hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+          <p>
+            <i class="fas fa-home mr-3"></i>371 Nguyen Kiem, Go Vap, TP. HCM</p>
+          <p>
+            <i class="fas fa-envelope mr-3"></i> Nguyenxuanthuan.999@gmail.com</p>
+          <p>
+            <i class="fas fa-phone mr-3"></i> + 84 111 222 333</p>
+          
+  
+        </div>
+        <!-- Grid column -->
+  
+      </div>
+      <!-- Grid row -->
+  
+    </div>
+    <!-- Footer Links -->
+  
+    <!-- Copyright -->
+    <div class="footer-copyright text-center text-black-50 py-3">© 2020 Copyright:
+      <a class="dark-grey-text" href="#!"> Website được xây dựng và thiết kế bởi các thành viên của Group 1</a>
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer -->
