@@ -22,7 +22,7 @@ module.exports = {
 	},
 	mongodb: {
 		testDbURL: process.env.DB_TEST,
-		mongodbURI: process.env.MONGODB_URL
+		mongodbURI: process.env.MONGODB_ADDON_URI
 	},
 	session: {
 		cookieKey: 'sweetlips',

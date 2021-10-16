@@ -75,6 +75,7 @@ app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
 app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
+app.use(morgan('dev')); // log every request to the console.
 app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 // Parse POST request data. It will be available in the req.body object
 app.use(bodyParser.urlencoded({ extended: true }));
