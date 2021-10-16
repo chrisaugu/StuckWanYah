@@ -60,7 +60,6 @@ var Hits = Sweetlips.hits;
 Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
 Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
-// configure the instance
 // Express configuration
 app.set('port', process.env.PORT);
 // app.set('env', 'production');
@@ -76,9 +75,8 @@ app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
 app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
-// Parse POST request data. It will be available in the req.body object
 app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
-//RESTful API requirements
+// Parse POST request data. It will be available in the req.body object
 app.use(bodyParser.urlencoded({ extended: true }));
 // Check Facebook Signature
 app.use(bodyParser.json({
@@ -105,7 +103,7 @@ app.use(bodyParser.json({
 //     }
 // }
 
-app.use(cors());
+// app.use(cors());
 app.use(cookieParser()); // keys.session.cookieSecret));
 // initialize express-session to allow us track the logged-in user across sessions.
 /*app.use(cookieSession({

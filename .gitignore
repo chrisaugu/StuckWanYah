@@ -5,22 +5,14 @@
 *.sublime-workspace
 package-lock.json
 *.pem
-*/.DS_Store
-*.DS_Store
 config.json
 *.zip
 
 # folders
 .idea
-instantgame
-data
 newfolder
 node_modules/
-build/
 app/*
-app/images/cards
 app/images/photos
-app/javascripts/physics
-app/javascripts/lib
 app/sounds
 views/physics
