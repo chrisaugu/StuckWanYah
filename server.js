@@ -240,20 +240,20 @@ app.use(async (req, res, next) => {
 	}
 });
 
-app.use(async (req, res, next) => {
-	try {
-		// if (!req.headers.authorization) throw new Error('Authorization header is required');
-		// const accessToken = req.headers.authorization.trim().split(' ')[1];
-		// await oktaJwtVerifier.verifyAccessToken(accessToken);
-		if (req.isAuthenticated()) {
-			next()
-		}
-		// res.redirect('/');
-		next();
-	} catch (error) {
-		next(error.message);
-	}
-});
+// app.use(async (req, res, next) => {
+// 	try {
+// 		// if (!req.headers.authorization) throw new Error('Authorization header is required');
+// 		// const accessToken = req.headers.authorization.trim().split(' ')[1];
+// 		// await oktaJwtVerifier.verifyAccessToken(accessToken);
+// 		if (isAuthenticated(req, res, next)) {
+// 			next()
+// 		}
+// 		// res.redirect('/');
+// 		next();
+// 	} catch (error) {
+// 		next(error.message);
+// 	}
+// });
 
 app.use(passport.initialize());
 app.use(passport.session());

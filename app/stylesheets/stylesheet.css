@@ -124,3 +124,22 @@ button{color:inherit;}
 .about-permissions{max-width:270px;margin:0 auto}
 .about-permissions .title{font-size:14px;text-align:center;margin:32px auto 16px}
 .about-permissions .permission{font-size:10px;margin:1em 0;color:#666}
+
+
+.privacy-policy {text-align: left;padding: 0 155px;}
+.privacy-policy h1 {
+    background: 0;
+    color: black;
+    /*font-size: 1.5rem; */
+}
+.privacy-policy h1:first-of-type {
+    margin-top: 0;
+}
+.privacy-policy h2 {}
+.privacy-policy h3 {}
+.privacy-policy h4 {}
+.privacy-policy h5 {}
+
+.privacy-policy ul {
+    list-style: none;
+}
