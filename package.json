@@ -4,10 +4,6 @@
   "description": "My revamp version of Facemash, website created by Mark Zuckerberg for rating people based on their looks",
   "private": true,
   "main": "server.js",
-  "engines": {
-    "node": "v12.x",
-    "npm": "7.x"
-  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -55,7 +51,7 @@
     "http-server": "^0.12.1",
     "jwt-simple": "*",
     "lodash.merge": "^4.6.2",
-    "log-symbols": "^5.0.0",
+    "log-symbols": "^4.0.0",
     "merge": "^1.2.1",
     "method-override": ">=2.3.10",
     "moment": "^2.29.1",
