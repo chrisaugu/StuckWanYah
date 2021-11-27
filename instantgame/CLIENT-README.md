@@ -9,7 +9,7 @@ To run this demo, you will need:
 1. A Facebook App configured as an Instant Game. ([More information](https://developers.facebook.com/docs/games/instant-games/getting-started/game-setup))
 1. The [server-side counterpart](https://github.com/edgarjcfn/fbinstant-server) to this demo running in a cloud-based service, like Heroku, AWS or Google Cloud
 
-## Install dependencies 
+## Install dependencies
 After checking out the code, run
 ```sh
 $ cd /path/to/fbinstant-new

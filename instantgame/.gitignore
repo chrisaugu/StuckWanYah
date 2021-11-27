@@ -1,6 +1,0 @@
-*.pem
-*/.DS_Store
-*.DS_Store
-node_modules/
-build/
-config.json
