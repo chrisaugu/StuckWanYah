@@ -279,7 +279,6 @@ var opts = {
 	// 	retryMiliSeconds: 1000
 	// }
 };
-mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
 // switch(app.get('env')) {
 // 	case 'development':
@@ -291,8 +290,8 @@ mongoose.Promise = global.Promise;
 // 	default:
 // 		throw new Error('Unknown execution environment: ', app.get('env'));
 // }
-
 mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
+mongoose.Promise = global.Promise;
 mongoose.connection.on("connected", function(){
 	console.log(logSymbols.success, "Connected: Successfully connect to mongo server".green);
 	console.log("-----------------------------------------------".blue);
@@ -304,6 +303,11 @@ mongoose.connection.on('error', function(){
 
 // API namespace
 app.use('/api/v1', router);
+
+app.get("/test", function(req, res) {
+	res.send("working");
+	console.log("hello");
+});
 
 /**
  * Routes
