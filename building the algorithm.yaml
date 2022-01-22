@@ -1,0 +1,80 @@
+Rating Algorithm:
+- Rating girls based on their hotness
+
+Ranking algrithm is a formula for finding an object that is strong in the same class.
+Ranking works by comparing ratings of two objects of the same class
+
+ELO Rating System:
+Ea = 1/(1 + 10(Ra - Rb)1400)
+Eb = 1/(1 + 10(Rb - Ra)1400)
+
+give each girl a base rating of 1400 at any given time 
+girl a has a Rating Ra
+girl b has a Rating Rb
+
+@OutOfScopeOfAlgorithm: 
+  store each friends along with the counts of their hotness
+  retrieve each friends with their hotness counts
+  perform ranking function based on the hotness counts
+  rank friends in descending order from hottest to not so hot
+
+1: input friends
+2: compare friend's hotness with other friend's hotness
+3: rank friends with the most hotness based
+4: 
+
+Inspired from Facemash, is there a desktop application that:
+1: Scans the pictures in a folder
+2: Shows two random pictures and asks me to choose which one I prefer
+3: The picture I prefer will be the winner and gets a higher ratings (as in chess ratings), while the losing picture loses ratings
+4: Repeats steps 2 and 3 indefinitely till it decides the ratings for the pictures are accurate
+5: Sorts the pictures by their rating
+
+
+// 
+var rank = 0.00;
+var Time = Date;
+s = pics.
+order = Math.log10([s.abs, 1].max);
+
+if s > 0
+  sign = 1
+else if s < 0 
+  sign = -1
+else 
+  sign = 0
+
+td = (Time.now - post.created_at)
+
+hot(ups, downs, date)
+  var s = ups - downs
+  var sign, date = Date, order
+  order = Math.log10([s.abs, 1].max)
+  if (s > 0)
+    then sign = 1 
+  else if (s < 0)
+    then sign = -1
+  else 
+    sign = 0
+  seconds = date.now - 
+  (sign * order + seconds / 45000).sqrt(7)
+
+
+
+
+
+Wordings:
+  Greeting: Welcome to StuckWanYah, the app that lets you put the very "Turing" feel in your friends' hotness. 
+  Welcome to StuckWanYah, the app that lets you vote for your friends' hotness
+  
+  About: StuckWanYah is an app that put your Facebook female friends next to each other and lets you vote for who's hotter.
+  Terms: The creator of SweetLips will not be liable for any happenings may or may not occure since the whole idea of the app is to give the whole thing a very "Turing" feel.
+  Creator's word: 
+
+steps:
+  Introductory words
+  get current user gender
+  vote for hotness
+  
+
+

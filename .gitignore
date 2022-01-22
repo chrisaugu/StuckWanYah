@@ -12,5 +12,5 @@ config.json
 .idea
 newfolder
 node_modules/
-#app/images/photos
+#public/images/photos
 instantgame

@@ -1,6 +1,5 @@
-// Invoke JavaScript Strict mode
 'use strict';
-// Initializing dependencies
+
 var express = require("express")
 	, http = require("http")
 	, https = require("https")
@@ -31,7 +30,6 @@ var express = require("express")
 	, dotenv = require('dotenv').config()
 	, cors = require('cors')
 	, keys = require("./config/keys")
-	// , Socket = require('socket.io')
 	, logSymbols = require('log-symbols')
 // , merge = require('lodash.merge')
 // , merge_it = require('merge');
@@ -48,8 +46,6 @@ server = http.createServer(app);
 // }, app);
 
 const router = express.Router();
-
-// var io = new Socket(server);
 
 var sourceDirectory = "app/images/photos/";
 // Invoke model
@@ -71,41 +67,41 @@ app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
 // Make the files in the app/ folder avilable to the world
 app.use(express.static(path.join(__dirname, 'views')));
-app.use(express.static(path.join(__dirname, 'app')));
-app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/photos', express.static(path.join(__dirname, 'public/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
 app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
 app.use(morgan('dev')); // log every request to the console.
-app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Parse POST request data. It will be available in the req.body object
 app.use(bodyParser.urlencoded({ extended: true }));
 // Check Facebook Signature
 app.use(bodyParser.json({
-	// verify: check_fb_signature
+	verify: check_fb_signature
 }));
 
-// function check_fb_signature(req, res, buf) {
-//     console.log('Check facebook signature step.');
-//     var fb_signature = req.headers["x-hub-signature"];
-//     if (!fb_signature) {
-//         throw new Error('Signature ver failed.');
-//     } else {
-//         var sign_splits = signature.split('=');
-//         var method = sign_splits[0];
-//         var sign_hash = sign_splits[1];
+function check_fb_signature(req, res, buf) {
+    console.log('Check facebook signature step.');
+    var fb_signature = req.headers["x-hub-signature"];
+    if (!fb_signature) {
+        throw new Error('Signature ver failed.');
+    } else {
+        var sign_splits = signature.split('=');
+        var method = sign_splits[0];
+        var sign_hash = sign_splits[1];
 
-//         var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
-//             .update(buf)
-//             .digest('hex');
+        var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
+            .update(buf)
+            .digest('hex');
 
-//         if (sign_hash != real_hash) {
-//             throw new Error('Signature ver failed.');
-//         }
-//     }
-// }
+        if (sign_hash != real_hash) {
+            throw new Error('Signature ver failed.');
+        }
+    }
+}
 
-// app.use(cors());
+app.use(cors());
 app.use(cookieParser()); // keys.session.cookieSecret));
 // initialize express-session to allow us track the logged-in user across sessions.
 /*app.use(cookieSession({
@@ -121,73 +117,73 @@ app.use(session({
 	cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
 }));
 
-passport.use(new FacebookStrategy({
-	// options for the facebook strat
-	clientID: keys.facebook.appID,
-	clientSecret: keys.facebook.clientSecret,
-	callbackURL: keys.facebook.callbackURL,
-	profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/'email'],
-	enableProof: true
-}, function(accessToken, refreshToken, profile, done) {
+// passport.use(new FacebookStrategy({
+// 	// options for the facebook strat
+// 	clientID: keys.facebook.appID,
+// 	clientSecret: keys.facebook.clientSecret,
+// 	callbackURL: keys.facebook.callbackURL,
+// 	profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/'email'],
+// 	enableProof: true
+// }, function(accessToken, refreshToken, profile, done) {
 
-	console.log(profile);
-	// var me = new Photos({
-	// 	email: profile.emails[0].value,
-	// 	name: profile.displayName
-	// });
+// 	console.log(profile);
+// 	// var me = new Photos({
+// 	// 	email: profile.emails[0].value,
+// 	// 	name: profile.displayName
+// 	// });
 
-	/* save if new */
-	// Photos.findOne({ email: me.email }, function(err, u) {
-	// 	if(!u) {
-	// 		me.save().then(function(newUser) {
-	// 			console.log("new user created: " + newUser);
-	// 			done(null, newUser);
-	// 		}).catch(function(err){
-	// 			return done(err);
-	// 		});
-	// 	} else {
-	// 		console.log("user is: " + u);
-	// 		done(null, u);
-	// 	}
-	// });
+// 	/* save if new */
+// 	// Photos.findOne({ email: me.email }, function(err, u) {
+// 	// 	if(!u) {
+// 	// 		me.save().then(function(newUser) {
+// 	// 			console.log("new user created: " + newUser);
+// 	// 			done(null, newUser);
+// 	// 		}).catch(function(err){
+// 	// 			return done(err);
+// 	// 		});
+// 	// 	} else {
+// 	// 		console.log("user is: " + u);
+// 	// 		done(null, u);
+// 	// 	}
+// 	// });
 
-	// var options = {accessToken, refreshToken, profile};
-	// Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
-	// 	return done(err, user);
-	// });
+// 	// var options = {accessToken, refreshToken, profile};
+// 	// Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
+// 	// 	return done(err, user);
+// 	// });
 
-	// // check if photo already exists in the db
-	// Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
-	// 	if (!currentUser) {
-	// 		// already have the photo
-	// 		console.log("user is:", currentUser);
-	// 		done(null, currentUser);
-	// 	} else {
-	// 		// if not, create user in the db
-	// 		new Photos({
-	// 			displayName: profile.displayName,
-	// 			facebookHandle: {id: profile.id}
-	// 		}).save().then((newPhoto) => {
-	// 			console.log('new photo created:' + newPhoto);
-	// 		})
-	// 	}
-	// });
-}));
+// 	// // check if photo already exists in the db
+// 	// Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
+// 	// 	if (!currentUser) {
+// 	// 		// already have the photo
+// 	// 		console.log("user is:", currentUser);
+// 	// 		done(null, currentUser);
+// 	// 	} else {
+// 	// 		// if not, create user in the db
+// 	// 		new Photos({
+// 	// 			displayName: profile.displayName,
+// 	// 			facebookHandle: {id: profile.id}
+// 	// 		}).save().then((newPhoto) => {
+// 	// 			console.log('new photo created:' + newPhoto);
+// 	// 		})
+// 	// 	}
+// 	// });
+// }));
 
 /** Registers a function used to serialize user objects into the session. */
-passport.serializeUser((user, done) => {
-	console.log(user);
-	//done(null, user._id);
-	done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+// 	console.log(user);
+// 	//done(null, user._id);
+// 	done(null, user.id);
+// });
 /** Registers a function used to deserialize user objects out of the session. */
-passport.deserializeUser((id, done) => {
-	console.log(id)
-	done(null, id)
-	// Photos.findById(id).then((user) => {
-	// 	done(null, user);
-	// });
-});
+// passport.deserializeUser((id, done) => {
+// 	console.log(id)
+// 	done(null, id)
+// 	// Photos.findById(id).then((user) => {
+// 	// 	done(null, user);
+// 	// });
+// });
 
 app.use((req, res, next) => {
 	if (!req.session.views) req.session.views = {}
@@ -268,16 +264,7 @@ server.listen(app.get('port'), function(){
 
 var opts = {
 	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	// auto_reconnect: true,
-	// poolSize: 10,
-	// server: {
-	// 	socketOptions: { keepAlive: 1 }
-	// },
-	// db: {
-	// 	numberOfRetries: 1000,
-	// 	retryMiliSeconds: 1000
-	// }
+	useUnifiedTopology: true
 };
 // Creating an instance for MongoDB
 // switch(app.get('env')) {
@@ -302,12 +289,7 @@ mongoose.connection.on('error', function(){
 });
 
 // API namespace
-app.use('/api/v1', router);
-
-app.get("/test", function(req, res) {
-	res.send("working");
-	console.log("hello");
-});
+app.use('/api', router);
 
 /**
  * Routes

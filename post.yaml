@@ -1,0 +1,297 @@
+check_list:
+  : create an index page using ejs to render two random image
+  : create a get request to server the index page from backend
+  : create a put request to update images ratings each time their are being voted
+  : create a ranking page to show top hottest friends
+  : create a friends page called facebook to display all facebook friends participating
+  : create a about page for information
+  : create a submit page for submiting
+  : create a disclaimer page for privacy policy
+  : create a facebook page "Stuck Wan Yah" for serving the bot
+  : create an heroku app for hosting server
+  : create a github repo for hosting codes
+  : function for getting current user infor (name, uri, photo, gender, age)
+  : function for installing images
+  : function for working on updating records each time
+  : function for calculating ELO rating system
+  : function for handling page hits
+  : function for handling database
+  : function for handling postback, sending message back to user(person using StuckWanYah),
+    blocking, unblocking user,
+  : create a sandbox database and input "MONGO_URI mongodb://admin\:1234@ds061757.mongolab.com:61757/sweetlipsdb"
+    into Config Vars for ENVIRONMENT
+  : setup Facebok login on facebook developers site
+  : https://amp-error-reporting.appspot.com
+  : https://stuckwanyah.herokuapp.com
+
+npm install --save request request-promise
+
+bash commands:
+$ mkdir StuckWanYah
+$ cd StuckWanYah
+$ npm init
+
+$ git init
+$ git add .gitignore
+$ git commit -m 'initial commit'
+
+$ heroku login # only log in if not yet logged in
+$ heroku create # only perform this if you have not yet created an heroku app
+$ heroku git:remote -a stuckwanyah
+$ git push heroku master
+$ heroku open
+$ heroku logs
+
+# $ heroku config:set MONGODB_URI=mongodb://your-user:your-pass@host:port/db-name
+# 'mongodb://admin:1234@ds061757.mongolab.com:61757/sweetlipsdb'
+# 'mongodb://<dbuser>:<dbpassword>@ds153682.mlab.com:53682/sweetlipsdb'
+$ heroku config:set MONGODB_URI mongodb://chrisaugu:chatm3@ds117719.mlab.com:17719/sweetlipsdb
+
+$ git clone https://github.com/chrisaugu/stuckwanyah.git # clone repo from remote repo to local repo
+$ git init # initialize git repo
+$ heroku git:remote -a <your heroku app name> # add heroku git remote
+$ git add . # <filename> # add files in the local repo
+$ git commit -a -m "initial commit" # commit changes
+$ git push heroku master # push to heroku git repo
+$ git push -u origin master # push to github repo
+$ git heroku open # opens tab on browser
+
+$ heroku ps:scale web=1
+
+
+"lwip": "latest",
+"nightmare": "^1.8.2",
+"should": "~4.0.4",
+"supertest": "~0.13.0",
+
+# Alternatively, you can visit https://mlab.com/databases/your-db-name/collections/contacts and observe your new contact there.
+
+https://www.facebook.com/dialog/oauth?response_type=code&client_id=657854390977827&redirect_uri=https://satellizer.herokuapp.com/&display=popup&scope=email
+
+me?fields=id,name,friendlists.limit(2){id,name},age_range
+me?fields=friendlists.limit(2){id,name},age_range,id,name,profile_pic,gender,friends{age_range,name,link,profile_pic},link
+me?fields=friendlists.limit(2){id,name},age_range,id,name,profile_pic,gender,friends{age_range,name,link,profile_pic},link
+me?fields=id,name,friendlists.limit(2){id,name},age_range
+friends?fields=id,name,picture.type(square).width(1000).height(1000)
+FB.api('me/friends?limit=50', cb)
+
+
+// $facebook->api("/{$user_id}/friends?fields=id,name,gender");
+// /fql?q=select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = "female"
+// /{user-id}/photos?type=uploaded
+
+FB.api('/fql',
+    'GET',
+    {"q":"select uid, name, sex from user where uid in(select uid2 from friend where uid1 = me()) and sex = female "},
+    function(response){
+        // Insert your code here
+    }
+);
+
+/* make the API call */
+FB.api(
+    "/{friend-list-id/}",// /{user-id}/friendlists
+    function (response){
+      if (response && !response.error) {
+        /* handle the result /
+      }
+    }
+);
+FB.api('/me/friends', {fields: 'name,id,location,birthday'}, function(response) {
+  //...
+});
+
+https://graph.facebook.com/v2.8/user_id/friends?fields=id,name,gender
+https://graph.facebook.com/v2.6/user_id/friends/pictures
+https://developers.facebook.com/tools/explorer/145634995501895?method=GET&path=me%3Ffields%3Did%2Cname%2Cfriendlists&version=v2.12
+https://developers.facebook.com/tools/explorer/145634995501895?method=GET&path=me%3Ffields%3Did%2Cname%2Cfriendlists&version=v2.12
+
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p32x32/25299066_1427075520736791_7895762141614959026_n.jpg?oh=7059898388703004036bbc566659f38a&oe=5A8B3CA6
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/c0.0.32.32/p32x32/25395848_328134744329406_8742747643512503740_n.jpg?oh=27936e7f8acd73b3c471dabc5d16cd26&oe=5AB7B45A
+https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/25398952_508400639544802_1868320785980351014_n.png?oh=44580410770e140865a10d5866c2272a&oe=5AB72B4B
+
+whitecollar.usanetwork.com
+
+https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&next=YOUR_URL
+https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&redirect_uri=YOUR_URL
+https://www.facebook.com/dialog/pagetab?app_key=YOUR_APP_ID&pages
+
+/me/?fields=first_name,last_name,birthday,age_range,genderphotos{picture,link},friends{id,first_name,last_name,birthday,picture{url},friends}
+100004177278169/?fields=id,first_name,last_name,age_range,birthday,gender,picture{url},friends{birthday,age_range,picture{url}}
+
+https://graph.facebook.com/100004177278169/picture?type=small
+
+# https://apps.facebook.com/stuckwanyah/
+# https://stuckwanyah.herokuapp.com/
+
+## StuckWanYah intergrated with Facebook products
+# canvas app
+# messenger bot
+# tab app
+# website
+
+
+### Needed to be done
+> connecting server on heroku to mlab
+
+how StuckWanYah works:
+  InstantGame:
+    fb user lauch the game and is labeled as current player.
+    while the game is loading, InstantGame gathers data about the current player like the his/her igid and is sent to the server.
+    server query fbgraph using igid for current player's fbid. the fbid is used by the server to retrieve current player's friends' fbid & igid.
+    server then make match of any two random friends and send to stuckwanyah.
+    stuckwanyah receives the match and put up the match.
+    current player then perform the voting. the results are again sent to server for processing and making new matches.
+  Website:
+    User visits StuckWanYah website, he/she logs in using Facebook. His/Her info such as friends and PSID is return.
+    These info are then sent to server. The server uses the info to build a new user if the PSID doesn't exit but update user if
+    the PSID already exists. The server uses the PSID to retrieve user's
+
+Well building a website to retrieve all friends of every user participating on the site from Facebook via its Graph API is a piece of
+cake but if I want to retrieve all friends of every user participating, checking if each friend is a user but create new user if each
+friend is not a user. That is a lot of hard work to do.
+Thats why I created a simple Algorithm for that.
+Step1: First user logs in with Facebook.
+Step2: Then I will use the facebook psid of the user to query the database to check if the user exists or not.
+Step3: If the user already exist, then log the user in but if not create a new user and log the user in.
+Step4: Then I will have to retrieve the list of friends of a user and store them along with their id on the site's database.
+Step5: Then I will check the entire friends list if each friend is a user by querying the database using friend id.
+Step6: Then if the friend is found as a user leave out and go to the next friend until all friends are checked.
+Step7: Then if the friend is not found as a user, create a new user by using its id to query the facebook for its data.
+Step8: Then retrieve the friend's data from faceook via graph api and create a new user out of the data.
+Step9: repeat Step2.
+
+posts:
+  It's boring here. my facebook profile is open up on my desktop and sitting here strolling
+  down my news feeds into some friends propic likes. I need a idea to get active. Except enough I need an idea to do that.
+  Zuckerberg from "the social media" gives me an idea of putting pictures of two
+  people and let others vote for who's hotter.
+  Yea, it's on. I'm not gonna do the same thing mark did. But i like the idea of manipulating third-party api
+  and making everything a little AI in style.
+  first thing i will need is a lot of pictures from facebook. unfortunately facebook doesn't allow access to its database
+  but the folks there made it easy for developers to use their service throught its graph api. great!
+  i will use facebook's graph api to get friends age, propics and
+
+  Next i will have to create a server to serve everything on the backend. Sounds like the job for nodejs.
+
+  I want something dynamic, say when I end open the page two random pictures will appear asking me to vote for who's hotter
+  and then the next two random pictures appear again asking me to do the same thing I had just done. is perfect for ajax.
+  But i like ruby so why don't i use mix match ajax on ruby on rails. GREAT!
+
+  04-01-2018:
+    I must keep a record of every contenders performance. in other words, every time two random pictures appear I must
+    update the database about that so that their individual ratings will have accurate scores.
+    I'm not alone in this world. there's quora, google, github and too many forums/sites where experienced developers
+    and newbies hold their discussions. done! moving forward.
+    I downloaded a very similar facemash-script in php. PHP is just great but I'm not gonna touch on that yet
+    instead I'll rewrite the sript using ruby. pink!
+
+  06-01-2018:
+    going back to the graph api. facebook, however, won't just give me direct access to get users info but instead the
+    user info is given in json format. what! a relief. I can parse the data and javascript will render it into html..
+    moving right on
+
+  07-01-2018:
+    Mark used Howard network to put up his site. for me I'll just use github as my repository for hosting all the
+    scripts and codes and just hook 'em up to a free-tier hosting platform i found called heroku. their service is great.
+    they allow anyone to host small hobby projects for free and charge them a quid if they decides to upgrade. cool!
+
+    Getting data from facebook graph api is not a public data; it requires an API key.
+    This ranking website/app will be working with two photos each time and its impossible to update each photo at the same
+    time using ajax. however, it is possible with async, a javascript library for making asynchronouse protocol over the internet
+    and it's also available as a package for nodejs. perfect. I just have to read its docs and get my hands dirty with async and i'll be good to go.
+
+    *sight* it's working. my database is working. now i just have to create an api to deal with the database and respond to backend
+    request and work with ajax to update client-side.
+
+    it's 11pm on a sunday night and I've sitting here since 10am in the morning. that's enough for today i'll continue tomorrow.
+    now i can use data from database on my algorithm. hope it works perfectly.
+
+  08-01-2018:
+    this whole thing won't function as I want it to be without the algorithm. I need the algorithm. On "the social network"
+    soverin wrote a somewhat scribble writing on mark's dorm room window. it's the equation for the algorithm. the algorithm
+    is called ELO Rating System, initially used as rating system for rating chess players. I dont know much about implementing
+    algorithm so i'll just have to get help from all the help on internet. not a very good idea! though.
+
+    it's 2am in the morning.
+    I am trying to write a code that gets the current_year start looping 13 decrementally down to at
+    the equation is `current_year - date_of_birth = age`. simple isn't it? yea. but i don't want just simple, i want complex
+    one. what want to do is calculate the simple age and
+  09-01-2018:
+    it's 6:30am in the morning and still sitting here typing...
+    uploading 2 to 4 pictures to server is not a big deal but uploading 100 pictures... you're talking like you need help
+    from flash... I've 43 photos sitting inside a folder ready to be uploaded to the server and register each one on the database and I'm too lazy to upload
+    each one at a time and register it on the database... a little hacking is required.
+    I got to write script to handle this for me... php is just perfect for handling events on the backend but I'm talking
+    nodejs... deals with javascript... there are good nodejs libs out there for reading directory and i'll take it here and
+    write a loop and pictures will be up in a sec... that's what i like about programs... they do what you want...
+
+  12-01-2018:
+    and so what if it's a 1:15am on a friday morning watching forest on one window docking on one side of the desktop and
+    friend request on docked on the other side of the desktop whilst scares me to hell and back. huh not friend request it's suicide note i mean. i wouldn't just say it
+    out of habbit and pretending that i'm scared without doing so and i am frankly petrofied, horrified, and all the fied
+    just got me whole heartedly, so here's a tip for a cool guy for cool stuff. warning!!! never look behind you or in the dark.
+    and the sound just someone fell on the ground. oh. shit! i'm never looking back into the dark. then
+
+  12-01-2018-12-30pm:
+    i am too lazy to copy&paste contents of 72 different files into one specific file. a little hacking is required.
+    here's how i did it without any help from anyone except the language docs which only provides little intel about
+    writing and reading files but not to the specific point where i have to read and write simultanusely, create a script
+    to read each file's content and write them on one specific file. i need all these contents. without one single one, i
+    can't get my phising page live.
+
+  14-01-2018: 12:37pm:
+    site's almost done. to monitor the traffic flow of my site i need to keep records of page activities, traffic amounts...
+    in order to get site hits. sounds creepy right? yea! I'll do a simple DIM/DIY page counts so i'll keep records of
+    activities happening on site. first thing i'll do is to write a javascript to get the current page address or pathname as it
+    is called in web and invoke a ajax PUT request to upsert (update + insert) the database based on pathname. everytime the server receives the
+    PUT request from client-side, it increments the page hits by 1. simple as that.
+
+  d:
+    site's live. source codes is available at my github page @chrisaugu
+
+  17-01-2018: 12:43am:
+    I need to recreate the index page with something dynamic. i'll use ejs
+
+  20-01-2018: 7:26pm:
+    the random function works perfectly but the problem is i switched from normal OOP standard to promise which uses
+    '.then' and '.catch' keyword and stuffs like that and i'm not so familiar with those one so the rate function can't
+    function well and I need to look into promise and async and intergrate both to achieve one desire result.
+    since my idea is based on manipulating facebook data and of course i can do that but frankly i have to keep my own data
+    for accurate and consistant rating to work out. and in the case that i'll use your existing facebook friends, sorry for
+    that but you should've read the Facebook Terms and Policies before signing up, alright i'll stop flattering... yeah I
+    given to you is an analogy... I have 800+ friends and if i happen to use this Stuck Wan Yah bot/website, it will know
+    who i am, scary, isn't? yea... if i am a male, definately i am, i'll be rating girls.
+
+    since i do not want to mess around with the grown ups lives, a filter function needs to be employed for that purpose.
+    This function will cause a filter for every friends you have and only accept a certain age group which is 13-21 before
+    they're being save in Stuck Wan Yah database. I'll be also taking your age, name, current facebook profile picture,
+    you gender for deciding what gender group you should be rating unless you're a transgender nothing i can do about that.
+
+  27-01-2018: 4:03am:
+    Server! Every website/webapp/bot needs a server. And a server is a machine that response to HTTP Requests over internet.
+    Simple a server is a computer that serves HTTP Requests. I can build a server with nodejs and put it online via
+    ngrok, ngix so anyone can have direct access to my computer over the internet. But too many requests might shut down
+    my computer completely and in this case i don't want that to possibly happen. another thing my computer will need to run 24/7
+    nonstop and that could possibly crash the system. don't want that either. so the best solutions is to use heroku with github
+    and i think dropbox too? huh.
+
+    do you find mildly when people say "Hey Stuck Wan Yah".
+    wouldn't it be cool for a girl to vote a girl hotness
+
+
+  10-02-2018: 7:14pm:
+    Here debugging my server to figure out what causes the serve to crash. Data sent from client-side successfully received
+    on the server-side, find the matching data on database but lost the data along the way in the async.parallel.
+    Alright i figured it out, the two nights before I created a function "getScore" and return winner and loser so I was
+    able to call each one outside and get the returned results, but I changed it and never let it return anything so now
+    I cannot get any returned results. hope this is the probs.
+    it's back to normal, yea babe
+
+  05-03-2018: 7:09pm:
+    My random picking method is not working effectively, what I mean is everytime somebody votes the hottest person between the people
+    my random method comes into play by pick any two random person again but you know some algorithm works effectively others not so much
+    so I come up with an hack that will work. I will write a conditional statement for monitoring the selection of photos and if it does not
+    match the criteria which is set to pick two pictures only, the page will be asking the player to like the StuckWanYah facebook page before
+    continue playing. cool :)
+
