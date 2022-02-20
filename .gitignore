@@ -1,16 +1,16 @@
 # files
-.env
+# .env
 .babelrc
 *.sublime-project
 *.sublime-workspace
 package-lock.json
-*.pem
+# *.pem
 config.json
-*.zip
+# *.zip
 
 # folders
 .idea
 newfolder
 node_modules/
 #public/images/photos
-instantgame
+# instantgame
