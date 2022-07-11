@@ -95,7 +95,7 @@ var Api = function () {
 			// "API_URL": "https://stuckwanyah.herokuapp.com/api",
 			"BASE_URL": "https://stuckwanyah.cleverapps.io",
 			"API_URL": "https://stuckwanyah.cleverapps.io/api",
-			"FACEBOOK_APP_ID": "731521864795265", //"1791165357568831",
+			"FACEBOOK_APP_ID": "1791165357568831",
 			"FACEBOOK_APP_URL": "https://apps.facebook.com/stuckwanyah",
 			"FACEBOOK_PAGE_URL": "https://www.facebook.com/stuckwanyah"
 		},

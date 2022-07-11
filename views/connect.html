@@ -37,13 +37,15 @@ FB.Event.subscribe('xfbml.render', finished_rendering);
             <tr>
                 <td>
                     <% if (!connected) { %>
-                    <!-- <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
+                    <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
                         <img alt="" src="/images/TSXtq24.png" style="position:absolute;left:0px;top:0px;width:245px;height:47px;user-select:none;border:0px;padding:0px;margin:0px;">
-                    </button> -->
+                    </button>
 
                     <a href="/api/login/facebook" type="button" aria-label="Login with Facebook" style="margin:10px 14px">
                         <img alt="" src="/images/TSXtq24.png" style="background:none;border:0px;margin:0;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;left:0px;">
                     </a>
+
+                    <a href="/api/auth/me">Log In With Facebook</a>
 
                     <a href="/api/login/instagram" type="button">Login with Instagram</a>
 
