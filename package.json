@@ -25,6 +25,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.5",
     "crypto-js": "^3.1.9-1",
+    "dotenv": "^5.0.1",
     "ejs": "~> 2.5.5",
     "express": "4.16.2",
     "express-jwt": "*",
@@ -43,6 +44,7 @@
     "mongoose": "^4.13.20",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
+    "morgan": "^1.10.0",
     "node-restful": "0.2.6",
     "open": ">=6.0.0",
     "parseurl": "*",
@@ -60,8 +62,6 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "dotenv": "^5.0.1",
-    "morgan": "^1.10.0",
     "nodemon": "*"
   },
   "license": "MIT",
