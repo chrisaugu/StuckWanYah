@@ -40,7 +40,7 @@
     "merge": "^1.2.1",
     "method-override": ">=2.3.10",
     "moment": "^2.29.1",
-    "mongoose": "^5.9.14",
+    "mongoose": "^4.13.20",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "*",
     "node-restful": "0.2.6",

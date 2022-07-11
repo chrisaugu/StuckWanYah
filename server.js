@@ -311,7 +311,8 @@ server.listen(app.get('port'), function(){
 
 var opts = {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true, 
+	useMongoClient: true
 };
 mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
