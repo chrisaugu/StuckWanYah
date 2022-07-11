@@ -6,13 +6,14 @@ var express = require("express")
 	, https = require("https")
 	, ejs = require('ejs')
 	, session = require("express-session")
+	, RedisStore = require('connect-redis')(session)
+	, MongoDBStore = require('connect-mongodb-session')(session)
+	, Redis = require('redis')
 	, restful = require('node-restful')
 	, mongoose = require("mongoose")
 	, morgan = require("morgan")
 	, _ = require('underscore')
 	, moment = require("moment")
-	, cookieParser = require('cookie-parser')
-	// , cookieSession = require('cookie-session')
 	, bodyParser = require("body-parser")
 	, path = require("path")
 	, favicon = require('serve-favicon')
@@ -20,6 +21,7 @@ var express = require("express")
 	, request = require('request-promise')
 	, passport = require('passport')
 	, FacebookStrategy = require('passport-facebook').Strategy
+	, InstagramStrategy = require('passport-instagram').Strategy
 	, jwt = require('jwt-simple')
 	, CryptoJS = require('crypto-js')
 	// , expressJwt = require('express-jwt')
@@ -31,10 +33,7 @@ var express = require("express")
 	, dotenv = require('dotenv').config()
 	, cors = require('cors')
 	, keys = require("./config/keys")
-	// , Socket = require('socket.io')
 	, logSymbols = require('log-symbols')
-// , merge = require('lodash.merge')
-// , merge_it = require('merge');
 
 // Creating Global instance for express
 const app = express();
@@ -43,13 +42,11 @@ let server;
 server = http.createServer(app);
 
 // server = https.createServer({
-// 	key: fs.readFileSync('./key.pem'),
-// 	cert: fs.readFileSync('./cert.pem')
+// 	key: fs.readFileSync('./ca-key.pem'),
+// 	cert: fs.readFileSync('./ca-cert.pem')
 // }, app);
 
 const router = express.Router();
-
-// var io = new Socket(server);
 
 var sourceDirectory = "app/images/photos/";
 // Invoke model
@@ -105,31 +102,30 @@ app.use(bodyParser.json({
 //     }
 // }
 
-// app.use(cors());
-app.use(cookieParser()); // keys.session.cookieSecret));
+app.use(cors());
+
+// var store = new MongoDBStore({
+//   uri: process.env.MONGODB_ADDON_URI,
+//   collection: 'mySessions'
+// });
+// store.on('error', function(error) {
+//   console.log(error);
+// });
 // initialize express-session to allow us track the logged-in user across sessions.
-/*app.use(cookieSession({
-	name: 'session',
-	keys: [keys.session.cookieKey],
-	maxAge: 3 * 24 * 60 * 60 * 1000 // 72 hours (3 days)
-}))*/
 app.use(session({
-	key: 'user_sid',
+	// key: 'user_sid',
 	secret: keys.session.cookieSecret,
-	resave: true,
-	saveUninitialized: true,
-	cookie: { maxAge: 2 * 7 * 24 * 60 * 60 * 1000, expires: 600000 }
+	resave: false,
+	saveUninitialized: false,
+	// store: new RedisStore({ client: new Redis() })
+	// store: store,
+	cookie: { maxAge: 3 * 24 * 60 * 60 * 1000, expires: 600000 } // 72 hours (3 days)
 }));
+app.use(passport.authenticate('session'));
+app.use(passport.initialize());
+app.use(passport.session());
 
-passport.use(new FacebookStrategy({
-	// options for the facebook strat
-	clientID: keys.facebook.appID,
-	clientSecret: keys.facebook.clientSecret,
-	callbackURL: keys.facebook.callbackURL,
-	profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/'email'],
-	enableProof: true
-}, function(accessToken, refreshToken, profile, done) {
-
+function jitProvision(provider, profile, done) {
 	console.log(profile);
 	// var me = new Photos({
 	// 	email: profile.emails[0].value,
@@ -172,41 +168,81 @@ passport.use(new FacebookStrategy({
 	// 		})
 	// 	}
 	// });
+	 //    User.findOrCreate({ instagramId: profile.id }, function (err, user) {
+  //     return done(err, user);
+  //   });
+  // }
+
+  done(null);
+
+}
+
+passport.use(new FacebookStrategy({
+	// options for the facebook strat
+	clientID: keys.facebook.appID,
+	clientSecret: keys.facebook.clientSecret,
+	// callbackURL: keys.facebook.callbackURL,
+	callbackURL: '/api/auth/facebook/callback',
+	// profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/],
+	profileFields: ['id', 'displayName', 'photos'],
+	// enableProof: true
+	state: true
+}, function verify(accessToken, refreshToken, profile, cb) {
+	return jitProvision('https://www.facebook.com', profile, cb);
+}));
+
+passport.use(new InstagramStrategy({
+	// options for the instagram strat
+	clientID: keys.instagram.appID,
+	clientSecret: keys.instagram.clientSecret,
+	callbackURL: "/api/auth/instagram/callback"
+}, function verify() {
+	return jitProvision('https://www.instagram.com', profile, cb);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
 passport.serializeUser((user, done) => {
 	console.log(user);
-	//done(null, user._id);
-	done(null, user.id);
+	
+	process.nextTick(function() {
+		done(null, { id: user.id, username: user.username, name: user.name });
+	});
+
+	// done(null, user._id);
+	// done(null, user.id);
 });
+
 /** Registers a function used to deserialize user objects out of the session. */
 passport.deserializeUser((id, done) => {
 	console.log(id)
-	done(null, id)
+	process.nextTick(function() {
+		return done(null, user);
+	});
+
 	// Photos.findById(id).then((user) => {
 	// 	done(null, user);
 	// });
+	// done(null, id);
 });
 
 app.use((req, res, next) => {
-	if (!req.session.views) req.session.views = {}
-	// get the url pathname
-	var pathname = parseurl(req).pathname;
-	// count the views
-	req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
+// 	if (!req.session.views) req.session.views = {}
+// 	// get the url pathname
+// 	var pathname = parseurl(req).pathname;
+// 	// count the views
+// 	req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
 
-	if (req.session.seenyou) {
-		res.setHeader('X-Seen-You', true);
-	} else {
-		// setting a property will automatically cause a Set-Cookie response to be sent
-		req.session.seenyou = true;
-		res.setHeader('X-Seen-You', false);
-	}
+// 	if (req.session.seenyou) {
+// 		res.setHeader('X-Seen-You', true);
+// 	} else {
+// 		// setting a property will automatically cause a Set-Cookie response to be sent
+// 		req.session.seenyou = true;
+// 		res.setHeader('X-Seen-You', false);
+// 	}
 
-	res.locals.session = req.session;
-	req.session.visitors = (req.session.visitors || 0) + 1;
-	// req.session.gender = 'male';
+// 	res.locals.session = req.session;
+// 	req.session.visitors = (req.session.visitors || 0) + 1;
+// 	// req.session.gender = 'male';
 
 	next();
 });
@@ -215,29 +251,39 @@ app.use((req, res, next) => {
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 // Middleware for some local variables to be used in the template
-app.use(async (req, res, next) => {
-	var loggedIn = !!req.session.id;
+app.use((req, res, next) => {
+// 	var loggedIn = !!req.session.id;
 
-	if (req.cookies.user_sid && !req.session.user_id) {
-		res.clearCookie('user_sid');
-	}
-	if (req.session.user_id && req.cookies.user_sid) {
-		req.session.authenticated = true;
-		res.locals.connected = req.session.authenticated;
+	if (req.isAuthenticated()) {
 		return next();
+		res.redirect('/');
 	}
-	else {
-		req.session.authenticated = false;
-		res.locals.connected = req.session.authenticated;
 
-		/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
+	res.locals.connected = 0;
 
-		// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
-		// 	return next();
-		// } else {
-		// 	res.redirect('/foo');
-		// }
-	}
+	// if (!req.session) {
+	// 	return next(new Error("oh no"));
+	// }
+
+	// if (req.session.user_id) {
+	// 	req.session.authenticated = true;
+	// 	res.locals.connected = req.session.authenticated;
+	// 	return next();
+	// }
+	// else {
+	// 	req.session.authenticated = false;
+	// 	res.locals.connected = req.session.authenticated;
+
+	// 	/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
+
+	// 	// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
+	// 	// 	return next();
+	// 	// } else {
+	// 	// 	res.redirect('/foo');
+	// 	// }
+	// }
+
+	next();
 });
 
 // app.use(async (req, res, next) => {
@@ -255,29 +301,17 @@ app.use(async (req, res, next) => {
 // 	}
 // });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Invoke instance to listen to port
 // Create new server
 server.listen(app.get('port'), function(){
-	console.log("---------------------------------------".blue);
-	console.log("StuckWanYah server running on port %d".magenta, app.get('port'));
-	console.log("---------------------------------------".blue);
+	console.log("-------------------------------------------".blue);
+	console.log(":".blue + " " + "StuckWanYah server running on port %d".magenta + " :".blue, app.get('port'));
+	console.log("-------------------------------------------".blue);
 });
 
 var opts = {
 	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	// auto_reconnect: true,
-	// poolSize: 10,
-	// server: {
-	// 	socketOptions: { keepAlive: 1 }
-	// },
-	// db: {
-	// 	numberOfRetries: 1000,
-	// 	retryMiliSeconds: 1000
-	// }
+	useUnifiedTopology: true
 };
 mongoose.Promise = global.Promise;
 // Creating an instance for MongoDB
@@ -294,16 +328,17 @@ mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
 mongoose.connection.on("connected", function(){
-	console.log(logSymbols.success, "Connected: Successfully connect to mongo server".green);
-	console.log("-----------------------------------------------".blue);
+	console.log("-----------------------------------------------------".blue);
+	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+	console.log("-----------------------------------------------------".blue);
 });
 mongoose.connection.on('error', function(){
 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-	console.log("--------------------------------------------------------------------".blue);
+	console.log("----------------------------------------------------------------------------".blue);
 });
 
 // API namespace
-app.use('/api/v1', router);
+app.use('/api', router);
 
 /**
  * Routes
@@ -447,7 +482,7 @@ app.get('/bar', function (req, res, next) {
  */
 
 /**
- * GET /api/v1/photos
+ * GET /api/photos
  * For StuckWanYah Facebook InstantGame, runs on user Facebook feeds
  * Returns 2 random photos of the same gender that have not been voted yet.
  */
@@ -515,7 +550,7 @@ router.get("/photos/twophotos", function(req, res, next){
 
 
 /**
- * PUT /api/v1/photos
+ * PUT /api/photos
  * Update winning and losing count for both photos.
  */
 router.put('/photos', function(req, res, next){
@@ -591,7 +626,7 @@ router.put('/photos', function(req, res, next){
 });
 
 /**
- * GET /api/v1/photos/top?race=caldari&bloodline=civire&gender=male
+ * GET /api/photos/top?race=caldari&bloodline=civire&gender=male
  * Return 10 highest ranked photos. Filter by gender
  */
 router.get('/photos/top', /*sessionChecker,*/ function(req, res, next){
@@ -607,7 +642,7 @@ router.get('/photos/top', /*sessionChecker,*/ function(req, res, next){
 });
 
 /**
- * GET /api/v1/photos/top/share
+ * GET /api/photos/top/share
  * Share the top 10 highest ranked photos on Facebook
  */
 router.get('/photos/top/share', function(req, res, next){
@@ -726,8 +761,8 @@ router.get('/photos/me/friends/populate', function (req, res, next) {
 });
 
 /**
- * GET /api/v1/stats
- * GET /api/v1/photos/count
+ * GET /api/stats
+ * GET /api/photos/count
  * Display Database statistics
  * Returns the total # of photos in the Database
  * total photos
@@ -806,7 +841,7 @@ router.get('/stats', function(req, res, next){
 });
 
 /**
- * PUT /api/v1/hits
+ * PUT /api/hits
  * Update site hits
  */
 router.put("/hits", function(req, res, next){
@@ -822,7 +857,7 @@ router.put("/hits", function(req, res, next){
 });
 
 /**
- * GET /api/v1/auth
+ * GET /api/auth
  * After loading has finished, show dialog asking for user gender. Gender is sent along with uid and signature to server
  * Server keeps stateless session using uid, identifies request using signature and make matches using gender.
  */
@@ -890,7 +925,7 @@ router.get("/auth", function(req, res, next){
 });
 
 /**
- * POST /api/v1/auth
+ * POST /api/auth
  * Login with facebook in order to use user's pictures, friends list, etc...
  */
 // {
@@ -964,22 +999,21 @@ router.post('/auth', function(req, res) {
 
 
 /**
- * GET /api/v1/auth/me/
+ * GET /api/auth/me/
  * Retrieve current user status
  */
 router.get('/auth/me', authenticate, getCurrentUser, getOne);
 
 /**
  * Facebook Endpoints
- * @Router /api/v1/auth/facebook
+ * @Router /api/auth/facebook
  * Request will be redirected to Facebook
  */
 //router.get('/auth/facebook', passport.authenticate('facebook', {
 //	authType: 'rerequest',
 //	scope: ['public_profile', /*'first_name', 'last_name',*/ 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
 //}));
-
-router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('/login/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	successRedirect: '/',
@@ -987,7 +1021,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 }), function(req, res) {
 	// Successful authentication, redirect home
 	console.log("success")
-	res.json(req.user).redirect('/');
+	res.json(req.user)//.redirect('/');
 });
 
 /**
@@ -1013,7 +1047,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
  *
  * @method
  */
-router.post('/auth/facebook/token',
+router.post('/login/facebook/token',
 	passport.authenticate('facebook-token', {
 		session: false
 	}), function (req, res, next){
@@ -1034,36 +1068,46 @@ router.post('/auth/facebook/token',
 	}, /*generateToken,*/ sendToken);
 
 /**
- * POST /api/v1/foo/facebook/logout
+ * Instagram Endpoints
+ * @Router /api/auth/instagram
+ */
+router.get('/login/instagram', passport.authenticate('instagram'));
+
+// router.get('/auth/instagram/callback', passport.authenticate('instagram'), function(req, res) {
+// 	res.json(req.user);
+// });
+router.get('/auth/instagram/callback', 
+  passport.authenticate('instagram', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+/**
+ * POST /api/foo/facebook/logout
  * Logout with facebook
  */
-router.post("/auth/facebook/logout", function (req, res, next) {
+router.post('/logout', function (req, res, next) {
 	//var url = req.session.reset() ? '/login' : '/';
-	if (req.session.user_id && req.cookies.user_sid) {
-		res.clearCookie('user_sid');
-		req.logout();
+	// if (req.session.user_id && req.cookies.user_sid) {
+	// 	res.clearCookie('user_sid');
+	// 	req.logout();
 
-		req.session.destroy(function (err) {
-			if (err) {
-				console.log(err);
-			}
-		});
-	}
+	// 	req.session.destroy(function (err) {
+	// 		if (err) {
+	// 			console.log(err);
+	// 		}
+	// 	});
+	// }
+	req.logout(function(err) {
+		if (err) { return next(err); }
+		res.redirect('/');
+	});
 });
 
-/**
- * Instagram Endpoints
- * @Router /api/v1/auth/instagram
- */
-router.get('/auth/instagram', passport.authenticate('instagram'), function(req, res) {
-	// request will be redirected to Instagram
-});
-router.get('/auth/instagram/callback', passport.authenticate('instagram'), function(req, res) {
-	res.json(req.user);
-});
 
 /**
- * GET /api/v1/instagram/photos
+ * GET /api/instagram/photos
  * Get photos from instagram
  */
 router.route("/instagram/photos")
@@ -1092,17 +1136,6 @@ router.route("/instagram/photos")
 			});
 		});
 	});
-
-/**
- * Twitter Endpoints
- * @Router /api/v1/auth/twitter
- */
-router.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
-	// request will be redirected to Twitter
-});
-router.get('/auth/twitter/callback', passport.authenticate('twitter'), function(req, res) {
-	res.json(req.user);
-});
 
 // Global Functions
 var renderIndexPage = function(config){
@@ -1188,9 +1221,9 @@ var getTwoRandomPhotos = function(config){
 		}
 
 	})
-		.catch(function(error){
-			config.error.call(this, error);
-		});
+	.catch(function(error){
+		config.error.call(this, error);
+	});
 };
 /**
  * rateImages
@@ -1627,7 +1660,7 @@ function isAuthenticated(req, res, next){
 function isLoggedIn(req, res, next) {
 	req.loggedIn = !!req.user;
 	next();
-	//!req.session.user_id ? res.redirect('/api/v1/auth/facebook/login') : next();
+	//!req.session.user_id ? res.redirect('/api/auth/facebook/login') : next();
 	//req.session.id ? res.redirect('/auth/facebook/login') : next();
 	//return req.session.user_id ? true : false;
 };

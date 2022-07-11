@@ -3,7 +3,6 @@ module.exports = {
 		// Facebook App Settings
 		appID: process.env.FACEBOOK_APP_ID,
 		appSecret: process.env.FACEBOOK_APP_SECRET,
-		appKey: process.env.FACEBOOK_APP_KEY,
 		pageID: process.env.FACEBOOK_PAGE_ID,
 
 		// access token for posting to page
@@ -19,6 +18,10 @@ module.exports = {
 		
 		// Memorable word to verify webhooks with Messenger platform
 		botVerifyToken: process.env.BOT_VERIFICATION_TOKEN
+	},
+	instagram: {
+		appID: process.env.INSTAGRAM_CLIENT_ID,
+		appSecret: process.env.INSTAGRAM_CLIENT_SECRET
 	},
 	mongodb: {
 		testDbURL: process.env.DB_TEST,

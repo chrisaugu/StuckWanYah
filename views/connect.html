@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
 
-    <link rel="preload" href="https://connect.facebook.net/en_US/sdk.js" as="script"></script>
+    <!-- <link rel="preload" href="https://connect.facebook.net/en_US/sdk.js" as="script"></script> -->
     
     <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <!-- <script src="/javascripts/sdk.js#xfbml=1&version=v3.2&appId=1791165357568831&autoLogAppEvents=1" type="text/javascript"></script> -->
-    <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script>
+    <!-- <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script> -->
     <!-- Facebook Pixel Code -->
-    <script>
+    <!-- <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
         n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -22,8 +22,29 @@
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '163781604332306');
-    </script>
+    </script> -->
     <!-- End Facebook Pixel Code -->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '731521864795265',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v6.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 </head>
 <body>
 <!-- <script type="text/javascript" src="/javascripts/fb_init.js?fb_app_id=267969823906&amp;fb_fanpage_id=226607102386&amp;v=1532629527"></script> -->
@@ -52,15 +73,17 @@ FB.Event.subscribe('xfbml.render', finished_rendering);
             <tr>
                 <td>
                     <% if (!connected) { %>
-                    <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
+                    <!-- <button xid="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
                         <img alt="" src="/images/TSXtq24.png" style="position:absolute;left:0px;top:0px;width:245px;height:47px;user-select:none;border:0px;padding:0px;margin:0px;">
-                    </button>
+                    </button> -->
 
                     <!-- <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div> -->
 
-                    <!-- <a href="/api/v1/auth/facebook" type="button" aria-label="Connect to Facebook" style="margin:10px 14px">
+                    <a href="/api/login/facebook" type="button" aria-label="Login with Facebook" style="margin:10px 14px">
                         <img alt="" src="/images/TSXtq24.png" style="background:none;border:0px;margin:0;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;left:0px;">
-                    </a> -->
+                    </a>
+
+                    <a href="/api/login/instagram" type="button">Login with Instagram</a>
 
                     <!-- <form name="connect" action="/foo" method="post">
                         <input type="hidden" name="token" value="1234567890">
