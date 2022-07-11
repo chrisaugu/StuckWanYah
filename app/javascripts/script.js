@@ -37,8 +37,8 @@ window.StuckWanYah = {
 	"viewMode": "website"
 };
 
-var _permissions = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender,pages_messaging,pages_manage_posts';
-var _fields = 'public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender,pages_messaging,pages_manage_posts';
+var _permissions = 'public_profile, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender,pages_messaging,pages_manage_posts';
+var _fields = 'public_profile, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends';
 
 /**
  * StuckWanYah JavaScript
@@ -95,7 +95,7 @@ var Api = function () {
 			// "API_URL": "https://stuckwanyah.herokuapp.com/api",
 			"BASE_URL": "https://stuckwanyah.cleverapps.io",
 			"API_URL": "https://stuckwanyah.cleverapps.io/api",
-			"FACEBOOK_APP_ID": "1791165357568831",
+			"FACEBOOK_APP_ID": "731521864795265", //"1791165357568831",
 			"FACEBOOK_APP_URL": "https://apps.facebook.com/stuckwanyah",
 			"FACEBOOK_PAGE_URL": "https://www.facebook.com/stuckwanyah"
 		},
@@ -281,7 +281,8 @@ var Api = function () {
 					// receive response sent by Facebook 
 					if (response.status == "connected" && response.authResponse) {
 						resolve(response);
-					} else {
+					} 
+					else {
 						reject({ success: false, reason: "cancel" });
 					}
 				}, { scope: _fields });
@@ -291,51 +292,52 @@ var Api = function () {
 			return new Promise(function (resolve, reject) {
 				// Invoke Facebook login
 				Api.fblogin().then(function(fbRes) {
+					console.log(fbRes)
 					// receive response sent by Facebook server
-					if (fbRes.authResponse) {
-						Api.checkLoginState().then(function(fbRes){
-							if (fbRes.authResponse === null) {
-								setTimeout(function(){
-									reject({ success: false, reason: "cancel" });
-								}, 1000);
-							} else {
-								Api.userDetailsFromFb().then(function(fbResponse){
-									if (fbResponse) {
-										resolve({ success: true, authResponse: fbResponse.authResponse, userData: fbResponse });
-										// pass response to my server 
-										console.log(fbRes.authResponse);
-										$.post("/foo", {
-											profileid: fbRes.authResponse.userID,
-											accessToken: fbRes.authResponse.accessToken,
-											// name: 
-										}).then(function(status, statusText, response) {
-											console.log(statusText);
-										})
-									// 	$.post(Api.getApiUrl() + '/auth/web', fbRes.authResponse /**{
-									// 		userID: 100004177278169,
-									// 		accessToken: "123456789",
-									// 		expiresIn: ""
-									// 	}*/).then(function(status, statusText, response){
-									// 		// server receive response, query database and reply with response, sets response to localStorage 
-									// 		var token = response.getResponseHeader('accessToken');/*response.headers.get('x-auth-token');*/
-									// 		if (token) {
-									// 			Utils.writeItemToLocalStorage('c_user', /*response.headers.get('userId')*/response.getResponseHeader('userId'));
-									// 			Utils.writeItemToLocalStorage('display_name', /*response.headers.get('userName')*/response.getResponseHeader('userName'));
-									// 			Utils.writeItemToLocalStorage('access_token', token);
-									// 		}
-									// 		// resolve(response);
-									// 		location.href = Api.getBaseUrl();
-									// 	}).catch(function(){
-									// 		reject({ success: false, reason: "cancel" });
-									// 	});
-									}
-									reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
-								});
-							}
-						})
-					} else {
-						reject({ success: false, reason: "cancel" });
-					}
+					// if (fbRes.authResponse) {
+					// 	Api.checkLoginState().then(function(fbRes){
+					// 		if (fbRes.authResponse === null) {
+					// 			setTimeout(function(){
+					// 				reject({ success: false, reason: "cancel" });
+					// 			}, 1000);
+					// 		} else {
+					// 			Api.userDetailsFromFb().then(function(fbResponse){
+					// 				if (fbResponse) {
+					// 					resolve({ success: true, authResponse: fbResponse.authResponse, userData: fbResponse });
+					// 					// pass response to my server 
+					// 					console.log(fbRes.authResponse);
+					// 					$.post("/foo", {
+					// 						profileid: fbRes.authResponse.userID,
+					// 						accessToken: fbRes.authResponse.accessToken,
+					// 						// name: 
+					// 					}).then(function(status, statusText, response) {
+					// 						console.log(statusText);
+					// 					})
+					// 				// 	$.post(Api.getApiUrl() + '/auth/web', fbRes.authResponse /**{
+					// 				// 		userID: 100004177278169,
+					// 				// 		accessToken: "123456789",
+					// 				// 		expiresIn: ""
+					// 				// 	}*/).then(function(status, statusText, response){
+					// 				// 		// server receive response, query database and reply with response, sets response to localStorage 
+					// 				// 		var token = response.getResponseHeader('accessToken');/*response.headers.get('x-auth-token');*/
+					// 				// 		if (token) {
+					// 				// 			Utils.writeItemToLocalStorage('c_user', /*response.headers.get('userId')*/response.getResponseHeader('userId'));
+					// 				// 			Utils.writeItemToLocalStorage('display_name', /*response.headers.get('userName')*/response.getResponseHeader('userName'));
+					// 				// 			Utils.writeItemToLocalStorage('access_token', token);
+					// 				// 		}
+					// 				// 		// resolve(response);
+					// 				// 		location.href = Api.getBaseUrl();
+					// 				// 	}).catch(function(){
+					// 				// 		reject({ success: false, reason: "cancel" });
+					// 				// 	});
+					// 				}
+					// 				reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
+					// 			});
+					// 		}
+					// 	})
+					// } else {
+					// 	reject({ success: false, reason: "cancel" });
+					// }
 				});
 			});
 		},
@@ -439,14 +441,6 @@ var Api = function () {
 					caption: caption,
 					url: imageurl
 				});
-			});
-		},
-		postVideoOnFacebook: function(caption, videourl, facebookid) {
-			return new Promise(function(resolve, reject) {
-				FB.api("/me/videos" /*${id}/videos*/, "post", {
-					description: 'Caption goes here',
-					file_url: 'Video url goes here'
-				}); 
 			});
 		},
 		shareOnFacebook: function e(e) {
@@ -888,7 +882,7 @@ App = function () {
 		c.send()
 	}
 	return {
-		init: async function e() {
+		init: function e() {
 			name = "StuckWanYah";
 			version = "v1.0.0";
 			current = App;
@@ -931,13 +925,13 @@ App = function () {
 					appId: Api._production["FACEBOOK_APP_ID"].toString(),
 					cookie: true,
 					xfbml: true,
-					status: true,
-					version: 'v6.0'
+					// status: true,
+					version: 'v7.0'
 				};
+
 				FB.init(options);
-				FB.AppEvents.logPageView();   
+			    FB.AppEvents.logPageView();   
 				initialized = true;
-				return;
 			} else {
 				Utils.log("FB SDK already initialized");
 			}
@@ -987,7 +981,7 @@ App = function () {
 			.on('click', '#ShowMyName', Api.userDetailsFromFb.bind(this))
 			.on('click', '#postToFacebook', function c(){Api.postToFacebook()})
 
-			$('#loginbutton, #feedbutton').removeAttr('disable');
+			// $('#loginbutton, #feedbutton').removeAttr('disable');
 		},
 		initPageEventListener: function e() {
 			if (initialized) {

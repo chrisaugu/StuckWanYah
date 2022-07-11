@@ -174,7 +174,6 @@ function jitProvision(provider, profile, done) {
   // }
 
   done(null);
-
 }
 
 passport.use(new FacebookStrategy({
@@ -866,6 +865,18 @@ router.put("/hits", function(req, res, next){
 			console.error("Error occurred: ", err);
 		}
 	});
+});
+
+router.get('/auth/me', (req, res) => {
+  res.send(`
+    <html>
+      <body>
+        <a href="https://www.facebook.com/v6.0/dialog/oauth?client_id=${keys.facebook.appID}&redirect_uri=${encodeURIComponent('https://stuckwanyah.herokuapp.com/api/auth/facebook/callback')}">
+          Log In With Facebook
+        </a>
+      </body>
+    </html>
+  `);
 });
 
 /**
