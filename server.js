@@ -110,6 +110,7 @@ passport.use(new FacebookStrategy({
 	profileFields: ['id','displayName','name','gender','age_range','birthday','friends','photos','link'],
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
+	console.log(profile)
 	// var me = new Photos({
 	// 	email: profile.emails[0].value,
 	// 	name: profile.displayName
@@ -288,35 +289,35 @@ var opts = {
 };
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
-mongoose.connection.on("connected", function(){
-	console.log("-----------------------------------------------------".blue);
-	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-	console.log("-----------------------------------------------------".blue);
-});
-mongoose.connection.on('error', function(){
-	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-	console.log("----------------------------------------------------------------------------".blue);
-});
-
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = keys.mongodb.mongodbURI;
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-// client.connect(err => {
-// 	if (err) {
-// 		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-// 		console.log("----------------------------------------------------------------------------".blue);
-// 	}
-// 	else {
-// 		console.log("-----------------------------------------------------".blue);
-// 		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-// 		console.log("-----------------------------------------------------".blue);
-
-// 	} 
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
+// mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
+// mongoose.connection.on("connected", function(){
+// 	console.log("-----------------------------------------------------".blue);
+// 	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+// 	console.log("-----------------------------------------------------".blue);
 // });
+// mongoose.connection.on('error', function(){
+// 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+// 	console.log("----------------------------------------------------------------------------".blue);
+// });
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = keys.mongodb.mongodbURI;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+client.connect(err => {
+	if (err) {
+		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+		console.log("----------------------------------------------------------------------------".blue);
+	}
+	else {
+		console.log("-----------------------------------------------------".blue);
+		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+		console.log("-----------------------------------------------------".blue);
+
+	} 
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
 
 // API namespace
 app.use('/api', router);
