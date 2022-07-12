@@ -133,7 +133,7 @@ passport.use(new FacebookStrategy({
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.clientSecret,
 	// callbackURL: keys.facebook.callbackURL,
-	callbackURL: 'https://stuckwanyah.herokuapp.com/api/auth/facebook/callback',
+	callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
 	// profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/],
 	profileFields: ['id', 'displayName', 'photos'],
 	// enableProof: true
@@ -1021,7 +1021,7 @@ router.get('/oauth-redirect', (req, res) => {
 		const accessToken = response['access_token'];
 		// Store the token in memory for now. Later we'll store it in the database.
     	console.log('Access token is', accessToken);
-    	await AccessToken.create({ _id: accessToken });
+    	// await AccessToken.create({ _id: accessToken });
 
 		// Set a cookie. Handy when working with a traditional web app.
     	res.cookie('accessToken', accessToken, { maxAge: 900000, httpOnly: true });
@@ -1083,10 +1083,12 @@ router.get('/auth/mex', authenticate, getCurrentUser, getOne);
  * @Router /api/auth/facebook
  * Request will be redirected to Facebook
  */
-router.get('/login/facebook', passport.authenticate('facebook', {
-	scope: ['public_profile', /*'first_name', 'last_name',*/ 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
+// app.get('/auth/facebook', passport.authenticate('facebook', {
+router.get('/auth/facebook', passport.authenticate('facebook', {
+	// scope: ['public_profile', 'first_name', 'last_name', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
+	scope : ['public_profile']
 }));
-// router.get('/login/facebook', passport.authenticate('facebook'));
+// router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	successRedirect: '/',
@@ -1120,7 +1122,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
  *
  * @method
  */
-router.post('/login/facebook/token',
+router.post('/auth/facebook/token',
 	passport.authenticate('facebook-token', {
 		session: false
 	}), function (req, res, next){
