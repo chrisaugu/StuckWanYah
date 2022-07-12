@@ -11,16 +11,12 @@ module.exports = {
 		// access token for posting to user's feed
 		userAccessToken: process.env.USER_ACCESS_TOKEN,
 		
-		callbackURL: 'http://stuckwanyah.herokuapp.com/api/auth/facebook/callback',
+		callbackURL: 'https://stuckwanyah.herokuapp.com/api/auth/facebook/callback',
 		profileURL: 'https://graph.facebook.com/v2.5/me?fields=id,name,first_name,last_name,age_range,birthday,gender,picture{url},friends{id}',
 		profileFields: ['id','displayName','name','gender','age_range','birthday','friends','photos','link'],
 	
 		// Memorable word to verify webhooks with Messenger platform
 		botVerifyToken: process.env.BOT_VERIFICATION_TOKEN
-	},
-	instagram: {
-		appID: process.env.INSTAGRAM_CLIENT_ID,
-		appSecret: process.env.INSTAGRAM_CLIENT_SECRET
 	},
 	mongodb: {
 		testDbURL: process.env.DB_TEST,

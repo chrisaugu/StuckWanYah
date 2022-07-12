@@ -102,14 +102,14 @@ app.use(bodyParser.json({
 //     }
 // }
 
-// app.use(cors());
+app.use(cors());
 
 passport.use(new FacebookStrategy({
 	// options for the facebook strat
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.appSecret,
-	// callbackURL: keys.facebook.callbackURL,
-	callbackURL: '/api/auth/facebook/callback',
+	callbackURL: keys.facebook.callbackURL,
+	// callbackURL: '/api/auth/facebook/callback',
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
@@ -1049,12 +1049,7 @@ router.get('/auth/mex', authenticate, getCurrentUser, getOne);
  * @Router /api/auth/facebook
  * Request will be redirected to Facebook
  */
-// app.get('/auth/facebook', passport.authenticate('facebook', {
-router.get('/auth/facebook', passport.authenticate('facebook', {
-	// scope: ['public_profile', 'first_name', 'last_name', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
-	// scope : ['public_profile']
-}));
-// router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	// successRedirect: '/',
