@@ -11,7 +11,7 @@ var express = require("express")
 	, cookieParser = require('cookie-parser')
 	, Redis = require('redis')
 	, mongoose = require("mongoose")
-	, morgan = require("morgan")
+	// , morgan = require("morgan")
 	, _ = require('underscore')
 	, moment = require("moment")
 	, bodyParser = require("body-parser")
@@ -73,7 +73,7 @@ app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
 app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
-app.use(morgan('dev')); // log every request to the console.
+// app.use(morgan('dev')); // log every request to the console.
 app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 // Parse POST request data. It will be available in the req.body object
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -102,7 +102,7 @@ app.use(bodyParser.json({
 //     }
 // }
 
-app.use(cors());
+// app.use(cors());
 
 passport.use(new FacebookStrategy({
 	// options for the facebook strat
