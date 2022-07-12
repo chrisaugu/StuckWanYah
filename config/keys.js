@@ -13,8 +13,8 @@ module.exports = {
 		
 		callbackURL: 'http://stuckwanyah.herokuapp.com/api/auth/facebook/callback',
 		profileURL: 'https://graph.facebook.com/v2.5/me?fields=id,name,first_name,last_name,age_range,birthday,gender,picture{url},friends{id}',
-		profileFields: ['id', 'email', 'name'],
-		
+		profileFields: ['id','displayName','name','gender','age_range','birthday','friends','photos','link'],
+	
 		// Memorable word to verify webhooks with Messenger platform
 		botVerifyToken: process.env.BOT_VERIFICATION_TOKEN
 	},

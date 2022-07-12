@@ -10,7 +10,6 @@ var express = require("express")
 	, MongoDBStore = require('connect-mongodb-session')(session)
 	, cookieParser = require('cookie-parser')
 	, Redis = require('redis')
-	, restful = require('node-restful')
 	, mongoose = require("mongoose")
 	, morgan = require("morgan")
 	, _ = require('underscore')
@@ -50,14 +49,18 @@ const router = express.Router();
 
 var sourceDirectory = "app/images/photos/";
 // Invoke model
-var Sweetlips = require("./models/sweetlips");
+let Sweetlips = require("./models/sweetlips");
 // Register photos model
-var Photos = Sweetlips.photos;
-var Hits = Sweetlips.hits;
+// var Photos = Sweetlips.photos;
+// var Hits = Sweetlips.hits;
 // var BlockedPhotos = Sweetlips.blockedPhotos;
-var AccessToken = Sweetlips.accessToken;
-Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
-Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
+// var AccessToken = Sweetlips.accessToken;
+const Photos = mongoose.model('photos');
+const Hits = mongoose.model('hits');
+// const BlockedPhotos = Sweetlips.blockedPhotos;
+const AccessToken = mongoose.model('accessToken');
+// Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
+// Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
 // Express configuration
 app.set('port', process.env.PORT);
@@ -99,7 +102,7 @@ app.use(bodyParser.json({
 //     }
 // }
 
-app.use(cors());
+// app.use(cors());
 
 passport.use(new FacebookStrategy({
 	// options for the facebook strat
@@ -107,10 +110,9 @@ passport.use(new FacebookStrategy({
 	clientSecret: keys.facebook.appSecret,
 	// callbackURL: keys.facebook.callbackURL,
 	callbackURL: '/api/auth/facebook/callback',
-	profileFields: ['id','displayName','name','gender','age_range','birthday','friends','photos','link'],
+	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
-	console.log(profile)
 	// var me = new Photos({
 	// 	email: profile.emails[0].value,
 	// 	name: profile.displayName
@@ -131,13 +133,8 @@ passport.use(new FacebookStrategy({
 	// 	}
 	// });
 
-	// var options = {accessToken, refreshToken, profile};
-	// Photos.findOrCreate({ "facebookHandle.id": profile.id }, options, function(err, user) {
-	// 	return done(err, user);
-	// });
-
-	// // check if photo already exists in the db
-	// Photos.findOne({"facebookHandle.id": profile.id}).then((currentUser) => {
+	// check if photo already exists in the db
+	// Photos.findOne({"facebook.id": profile.id}).then((currentUser) => {
 	// 	if (!currentUser) {
 	// 		// already have the photo
 	// 		console.log("user is:", currentUser);
@@ -146,35 +143,36 @@ passport.use(new FacebookStrategy({
 	// 		// if not, create user in the db
 	// 		new Photos({
 	// 			displayName: profile.displayName,
-	// 			facebookHandle: {id: profile.id}
+	// 			facebook: {id: profile.id}
 	// 		}).save().then((newPhoto) => {
 	// 			console.log('new photo created:' + newPhoto);
 	// 		})
 	// 	}
 	// });
 
-	done(null, profile);
+	// Photos.findOrCreate({ "facebook.id": profile.id }, function(err, user) {
+	// 	return done(err, user);
+	// });
+	done(null, profile)
 }));
 
 /** Registers a function used to serialize user objects into the session. */
 passport.serializeUser((user, done) => {
 	process.nextTick(function() {
-		done(null, { id: user.id, username: user.username, name: user.name });
+		done(null, { id: user.id, username: user.username, name: user.name, gender: user.gender, link: user.profileUrl, picture: user.photos[0].value});
 	});
-
-	// done(null, user.id);
 });
 
 /** Registers a function used to deserialize user objects out of the session. */
-passport.deserializeUser((id, done) => {
+passport.deserializeUser((user, done) => {
 	process.nextTick(function() {
-		return done(null, id);
-	});
+		return done(null, user);
 
-	// Photos.findById(id).then((user) => {
-	// 	done(null, user);
-	// });
-	// done(null, id);
+		// Photos.findById(user.id).then((profile) => {
+		// 	done(null, profile);
+		// });
+
+	});
 });
 
 app.use(cookieParser());
@@ -196,8 +194,8 @@ app.use(session({
 	store: store,
 	cookie: { maxAge: 3 * 24 * 60 * 60 * 1000, expires: 600000 } // 72 hours (3 days)
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(passport.authenticate('session'));
 
 app.use((req, res, next) => {
@@ -228,11 +226,6 @@ app.use((req, res, next) => {
 // Middleware for some local variables to be used in the template
 app.use((req, res, next) => {
 // 	var loggedIn = !!req.session.id;
-
-	if (req.isAuthenticated()) {
-		return next();
-		res.redirect('/');
-	}
 
 	// if (!req.session) {
 	// 	return next(new Error("oh no"));
@@ -284,40 +277,39 @@ server.listen(app.get('port'), function(){
 
 var opts = {
 	useNewUrlParser: true,
-	useUnifiedTopology: true, 
-	useMongoClient: true
+	useUnifiedTopology: true
 };
 mongoose.Promise = global.Promise;
 
-// mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
-// mongoose.connection.on("connected", function(){
-// 	console.log("-----------------------------------------------------".blue);
-// 	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-// 	console.log("-----------------------------------------------------".blue);
-// });
-// mongoose.connection.on('error', function(){
-// 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-// 	console.log("----------------------------------------------------------------------------".blue);
-// });
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = keys.mongodb.mongodbURI;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-client.connect(err => {
-	if (err) {
-		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-		console.log("----------------------------------------------------------------------------".blue);
-	}
-	else {
-		console.log("-----------------------------------------------------".blue);
-		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-		console.log("-----------------------------------------------------".blue);
-
-	} 
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
+mongoose.connection.on("connected", function(){
+	console.log("-----------------------------------------------------".blue);
+	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+	console.log("-----------------------------------------------------".blue);
 });
+mongoose.connection.on('error', function(){
+	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+	console.log("----------------------------------------------------------------------------".blue);
+});
+
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+// const uri = keys.mongodb.mongodbURI;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+// client.connect(err => {
+// 	if (err) {
+// 		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+// 		console.log("----------------------------------------------------------------------------".blue);
+// 	}
+// 	else {
+// 		console.log("-----------------------------------------------------".blue);
+// 		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+// 		console.log("-----------------------------------------------------".blue);
+
+// 	} 
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 // API namespace
 app.use('/api', router);
@@ -326,7 +318,7 @@ app.use('/api', router);
  * Routes
  */
 // Server index page
-app.get("/", /*sessionChecker,*/ function (req, res, next){
+app.get("/", isLoggedIn, function (req, res, next){
 	renderIndexPage({
 		params: req,
 		success: function(obj){
@@ -338,7 +330,7 @@ app.get("/", /*sessionChecker,*/ function (req, res, next){
 	});
 });
 
-app.get("/rate", function(req, res, next){
+app.get("/rate", isLoggedIn, function(req, res, next){
 	rateImages({
 		params: req,
 		success: function(obj){
@@ -350,7 +342,7 @@ app.get("/rate", function(req, res, next){
 	});
 });
 
-app.get("/tie", function(req, res, next){
+app.get("/tie", isLoggedIn, function(req, res, next){
 	tieBreaker({
 		params: req,
 		success: function(obj){
@@ -363,29 +355,11 @@ app.get("/tie", function(req, res, next){
 });
 
 // connect to facebook page
-app.route('/foo')
-	.get(function (req, res) {
-		res.render('connect.html', { user: req.user });
-	})
-	.post(function (req, res) {
-		var session = req.session;
-		var userId = req.body.profileId;
-		// Query database with the userid
-		console.log(req.body)
-		// Photos.findOne({$or: [{"imageId": userId},{"facebookHandle.ids": userId}]}, (err, user) => {
-		// 	if (!user) {
-		// 		// create new user
-		// 		res.send("user does not exist")
-		// 	} else if (user) {
-		// 		// Assign userid to session.user_id variables
-		// 		session.user_id = userId;
-		// 		res.setHeader('userId', session.user_id);
-		// 		res.redirect('/bar'); // redirect to homepage /
-		// 	}
-		// });
-	});
+app.get('/foo', function (req, res) {
+	res.render('connect.html', { user: req.user });
+});
 
-app.get('/bar', function (req, res, next) {
+app.get('/bar', isLoggedIn, function (req, res, next) {
 	var session = req.session;
 	var someAttribute = session.someAttribute;
 
@@ -456,6 +430,18 @@ app.get('/bar', function (req, res, next) {
 /**
  * REST API Routes Endpoints
  */
+
+
+router.get('/photos', function(req, res, next) {
+	Photos.find({})
+	.exec()
+	.then(function(result) {
+		res.json(result);
+	})
+	.catch(function(error) {
+		res.send(error);
+	})
+})
 
 /**
  * GET /api/photos
@@ -605,7 +591,7 @@ router.put('/photos', function(req, res, next){
  * GET /api/photos/top?race=caldari&bloodline=civire&gender=male
  * Return 10 highest ranked photos. Filter by gender
  */
-router.get('/photos/top', /*sessionChecker,*/ function(req, res, next){
+router.get('/photos/top', isLoggedInApi, function(req, res, next){
 	console.log('545: ' + req.query);
 
 	topTenRatings({
@@ -646,11 +632,6 @@ router.get('/photos/hottest', function (req, res, next) {
 		});
 });
 
-router.get('/photos/me/block', function (req, res, next) {
-	var userId = req.session.user_id; //req.query.userId;
-	processBlockUnblock(userId);
-});
-
 // display my profile
 router.get('/photos/me', function (req, res, next) {
 	var userId = req.session.user_id;
@@ -660,9 +641,16 @@ router.get('/photos/me', function (req, res, next) {
 	});
 });
 
+router.get('/photos/me/block', function (req, res, next) {
+	var userId = req.session.user_id; //req.query.userId;
+	processBlockUnblock(userId);
+});
+
 // list all my facebook friends playing stuckwanyah
-router.get('/photos/me/friends', /*sessionChecker,*/ function(req, res, next){
-	var userId = req.session.user_id;
+router.get('/photos/me/friends', isLoggedInApi, function(req, res, next){
+	// var userId = req.session.user_id;
+	var userId = req.user.id;
+
 	Photos
 		.find({"imageId": userId})
 		.lean()
@@ -689,6 +677,7 @@ router.get('/photos/me/whoIvote', function(req, res) {
 			res.send(result)
 		});
 });
+
 // run an aggregate query that gets all the photos that voted me.
 router.get('/photos/me/whovoteme', function(req, res) {
 	Photos.aggregate(
@@ -702,6 +691,7 @@ router.get('/photos/me/whovoteme', function(req, res) {
 			res.send(result)
 		});
 });
+
 // populate my facebook friends list with names
 router.get('/photos/me/friends/populate', function (req, res, next) {
 	var userId = req.session.user_id;
@@ -723,7 +713,7 @@ router.get('/photos/me/friends/populate', function (req, res, next) {
 						//})
 						user.friends.push({
 							_id: friendslist[i].id,
-							facebookHandle: {id: friendslist[i].imageId}
+							facebook: {id: friendslist[i].imageId}
 						});
 					};
 					user.save(function (error, savedProfile) {
@@ -865,7 +855,7 @@ router.get("/auth", function(req, res, next){
 	//   request_payload: 'my_payload'
 	//  }
 
-	Photos.findOne({$or: [{"imageId": uid},{"facebookHandle.ids": uid}]}, function(error, result){
+	Photos.findOne({$or: [{"imageId": uid},{"facebook.ids": uid}]}, function(error, result){
 		// if user id not found create user
 		if (!result || result === null) {
 
@@ -877,7 +867,7 @@ router.get("/auth", function(req, res, next){
 			console.log("creating user");
 			var newPhoto = {
 				imageId: uid,
-				facebookHandle: {
+				facebook: {
 					ids: [uid]
 				}
 			};
@@ -885,7 +875,7 @@ router.get("/auth", function(req, res, next){
 				if (error) console.error(error);
 				Photos.findOne({$or: [
 						{"imageId": uid},
-						{"facebookHandle.ids": uid}
+						{"facebook.ids": uid}
 					]}).exec().then(function(result){
 					res.send(result);
 				});
@@ -935,7 +925,7 @@ router.post('/auth', function(req, res) {
 	// Query database for user using the stuckwanyah algorithm
 	// checkUserExistance(userId);
 	// Query database with the userid
-	Photos.findOne({$or: [{"imageId": userId},{"facebookHandle.ids": userId}]}, (err, user) => {
+	Photos.findOne({$or: [{"imageId": userId},{"facebook.ids": userId}]}, (err, user) => {
 		if (!user) {
 			// create new user
 			res.sendStatus(200)
@@ -949,7 +939,7 @@ router.post('/auth', function(req, res) {
 
 	// Photos.findOne({$or: [
 	// 	{"imageId": uid},
-	// 	{"facebookHandle.ids": uid}
+	// 	{"facebook.ids": uid}
 	// ]})
 	// .exec()
 	// .then(function(user){
@@ -1171,7 +1161,7 @@ var getTwoRandomPhotos = function(config){
 		// Photos
 		// // .find()
 		//  .where('random').near([Math.random(), 0])
-		//  .where("facebookHandle.id").ne(userId)
+		//  .where("facebook.id").ne(userId)
 		// 	.where('age').gte(13).lte(24)
 		// 	.where({gender: gender}) //randomGender)
 		// 	.where({is_blocked: false})
@@ -1193,7 +1183,7 @@ var getTwoRandomPhotos = function(config){
 						"random": {$near: [Math.random(), 0]},
 						$or: [
 							{"imageId": { $ne: userId }},
-							{"facebookHandle.ids": { $ne: userId }}
+							{"facebook.ids": { $ne: userId }}
 						]
 					})
 					.where("is_blocked", false)
@@ -1508,7 +1498,7 @@ var topTenRatings = function(config){
 	var query_limit = config.params.query.limit;
 
 	Photos
-		.find({"facebookHandle.id": { $ne: config.params.session.user_id } })
+		.find({"facebook.id": { $ne: config.params.session.user_id } })
 		.sort({'ratings': -1})
 		.where({"gender": query_gender})
 		.limit(10)
@@ -1643,31 +1633,42 @@ var authenticate = expressJwt({
 	}
 });
 */
-function isAuthenticated(req, res, next){
-	if (!(req.headers && req.headers.authorization)) {
-		return res.status(400).send({ message: 'You did not provide a JSON Web Token in the Authorization header.' });
-	}
 
-	var header = req.headers.authorization.split(' ');
-	var token = header[1];
-	var payload = jwt.decode(token, keys.facebook.appSecret);
-	var now = moment().unix();
-	if (now && payload.exp) {
-		return res.status(401).send({ message: 'Token has expired.' });
-	}
-
-	Photo.findById(payload.sub, function(err, user){
-		if (!user) {
-			return res.status(400).send({ message: 'User no longer exists.' });
-		}
-
-		req.user = user;
-		next();
-	});
-};
 function isLoggedIn(req, res, next) {
-	req.loggedIn = !!req.user;
-	next();
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/foo');
+}
+
+// function isAuthenticated(req, res, next){
+// 	if (!(req.headers && req.headers.authorization)) {
+// 		return res.status(400).send({ message: 'You did not provide a JSON Web Token in the Authorization header.' });
+// 	}
+
+// 	var header = req.headers.authorization.split(' ');
+// 	var token = header[1];
+// 	var payload = jwt.decode(token, keys.facebook.appSecret);
+// 	var now = moment().unix();
+// 	if (now && payload.exp) {
+// 		return res.status(401).send({ message: 'Token has expired.' });
+// 	}
+
+// 	Photo.findById(payload.sub, function(err, user){
+// 		if (!user) {
+// 			return res.status(400).send({ message: 'User no longer exists.' });
+// 		}
+
+// 		req.user = user;
+// 		next();
+// 	});
+// };
+function isLoggedInApi(req, res, next) {
+	// req.loggedIn = !!req.user;
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.json('Not Authenticated');
 	//!req.session.user_id ? res.redirect('/api/auth/facebook/login') : next();
 	//req.session.id ? res.redirect('/auth/facebook/login') : next();
 	//return req.session.user_id ? true : false;
@@ -1689,12 +1690,11 @@ function getNativeIdFromImageId(userid) {
 	return new Promise(function(resolve, reject) {
 		// Photos.findOne({$or: [
 		// 		{"imageId": userid},
-		// 		{"facebookHandle.ids": userid}
+		// 		{"facebook.ids": userid}
 		// 	]}, (err, user) => {
 		// 	resolve(user._id);
 		// });
 		Photos.findOne({imageId: userid}, (err, user) => {
-			console.log(user)
 			if (user) {
 				resolve(user._id);
 			}
@@ -1715,7 +1715,7 @@ function getIdFromSession(id) {
 
 function getFacebookUser(userId) {
 	return new Promise((resolve, reject) => {
-		Photos.findOne({"facebookHandle.id": userId}, (err, user) => {
+		Photos.findOne({"facebook.id": userId}, (err, user) => {
 			if (err) reject(err);
 			resolve(user);
 		});
@@ -1724,7 +1724,7 @@ function getFacebookUser(userId) {
 function getOne(req, res) {
 	var user = req.user.toObject();
 
-	delete user['facebookHandle'];
+	delete user['facebook'];
 	delete user['__v'];
 
 	res.json(user);
@@ -1946,7 +1946,7 @@ function blockPhoto(callback){
 			throw error;
 		else
 			console.log("Your photo has been blocked. You will not be able to be voted nor vote again in the future.");
-		sendMessage(callback.facebookHandle.id, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."});
+		sendMessage(callback.facebook.id, {text: "Your photo has been blocked. You will not be able to be voted nor vote again in the future."});
 	});
 	// new BlockedPhotos({id: callback.imageId,is_blocked: true}).save();
 	return callback;
@@ -1957,7 +1957,7 @@ function unblockPhoto(callback){
 		if (error) throw error;
 		else
 			console.log("Your photo has been unblocked. Your photo can be voted by your friends.");
-		sendMessage(callback.facebookHandle.id, {text: "Your photo has been unblocked. Your photo can be voted by your friends."});
+		sendMessage(callback.facebook.id, {text: "Your photo has been unblocked. Your photo can be voted by your friends."});
 	});
 	// BlockedPhotos.remove({id: callback.imageId}).save();
 	return callback;
@@ -2019,7 +2019,7 @@ function randomQuery(config){
 		"gender": gender,
 		"voted": 'false',
 		"is_blocked": 'false',
-		"facebookHandle.id": {$ne: userId}
+		"facebook.id": {$ne: userId}
 	};
 	var fields = {};
 	var options = {"limit": 2};
@@ -2205,7 +2205,7 @@ async function _prepareUserData(fbProfile) {
 
 	object['profileUrl'] = `/profile.php?id=${fbProfile.id}`;
 
-	object['facebookHandle'] = {
+	object['facebook'] = {
 		ids: new Array()
 	};
 	if (fbProfile.ids_for_apps && fbProfile.ids_for_apps.data && Array.isArray(fbProfile.ids_for_apps.data)) {
@@ -2213,15 +2213,15 @@ async function _prepareUserData(fbProfile) {
 			// switch (bodyObj.data[i].apps.id) {
 			// 	case "1791165357568831":
 			// 		// stuckwanyah web
-			// 		fbProfile['facebookHandle']['instantGameId'] = bodyObj.data[i].id;
+			// 		fbProfile['facebook']['instantGameId'] = bodyObj.data[i].id;
 			// 		break;
 			// 	case "206200729983202":
 			// 		// stuckwanyah instantgame
-			// 		fbProfile['facebookHandle']['instantGameId'] = bodyObj.data[i].id;
+			// 		fbProfile['facebook']['instantGameId'] = bodyObj.data[i].id;
 			// 		break;
 			// }
-			object['facebookHandle']['ids'].push(fbProfile.ids_for_apps.data[i].id);
-			// object['facebookHandle'] = {
+			object['facebook']['ids'].push(fbProfile.ids_for_apps.data[i].id);
+			// object['facebook'] = {
 			// 	// id: fbProfile.id,
 			// 	instantGameId: fbProfile.id
 			// 	// webId: 
@@ -2232,10 +2232,10 @@ async function _prepareUserData(fbProfile) {
 
 	// if (fbProfile.friends && fbProfile.friends.data && Array.isArray(fbProfile.friends.data)) {
 	// 	for (var i = 0; i < fbProfile.friends.data.length; i++) {
-	// 		if(!object['facebookHandle']['friends'].includes(fbProfile.friends.data[i])) {
-	// 			Array.prototype.push.apply(object['facebookHandle']['friends'], fbProfile.friends.data[i]);
+	// 		if(!object['facebook']['friends'].includes(fbProfile.friends.data[i])) {
+	// 			Array.prototype.push.apply(object['facebook']['friends'], fbProfile.friends.data[i]);
 	// 		} else {continue;}
-	// 		object['facebookHandle'] = {
+	// 		object['facebook'] = {
 	// 			'friends': fbProfile.friends.data
 	// 		}
 	// 	}
@@ -2278,7 +2278,7 @@ function /* step: 1 */ checkUserExistance(userId) {
 	Photos.findOne({
 		$or: [
 			{"imageId": userId},
-			{"facebookHandle.ids": userId}
+			{"facebook.ids": userId}
 		]
 	}).then((user) => {
 		if (!user) {
@@ -2498,7 +2498,7 @@ function /* step: 6 */ updateUserDetailsFromFacebook(userId){
 				});
 			}
 
-			if (profile["facebookHandle"]["ids"].length) {
+			if (profile["facebook"]["ids"].length) {
 				// /* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
 				request({
 					url: `https://graph.facebook.com/v3.0/${userId}`,
@@ -2521,14 +2521,14 @@ function /* step: 6 */ updateUserDetailsFromFacebook(userId){
 								// switch (bodyObj.data[i].apps.id) {
 								// 	case "1791165357568831":
 								// 		// stuckwanyah web
-								// 		profile['facebookHandle']['instantGameId'] = bodyObj.data[i].id;
+								// 		profile['facebook']['instantGameId'] = bodyObj.data[i].id;
 								// 		break;
 								// 	case "206200729983202":
 								// 		// stuckwanyah instantgame
-								// 		profile['facebookHandle']['instantGameId'] = bodyObj.data[i].id;
+								// 		profile['facebook']['instantGameId'] = bodyObj.data[i].id;
 								// 		break;
 								// }
-								profile['facebookHandle']['ids'].push(bodyObj.data[i].id);
+								profile['facebook']['ids'].push(bodyObj.data[i].id);
 							}
 						}
 					};
@@ -2586,15 +2586,15 @@ function fetchCurrentUserFriends(userObj) {
 
 function /* step: 8 */ updateUserFriendsList(object) {
 	var update = {
-		facebookHandle: {
+		facebook: {
 			friends: []
 		}
 	};
 
 	if (object.friends && object.friends.data && Array.isArray(object.friends.data)) {
 		for (var i = 0; i < object.friends.data.length; i++) {
-			if(!update['facebookHandle']['friends'].includes(object.friends.data[i])) {
-				Array.prototype.push.apply(object['facebookHandle']['friends'], profile.friends.data[i]);
+			if(!update['facebook']['friends'].includes(object.friends.data[i])) {
+				Array.prototype.push.apply(object['facebook']['friends'], profile.friends.data[i]);
 			} else continue
 		}
 	};

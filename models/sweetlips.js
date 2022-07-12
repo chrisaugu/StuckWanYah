@@ -1,8 +1,6 @@
-'use strict';
-// Initializing dependencies
-var restful = require('node-restful');
 var mongoose = require('mongoose');
 var random = require('mongoose-simple-random');
+// var random = require('abazunts-mongoose-random');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId; 
 // var ObjectId = mongoose.Types.ObjectId;
@@ -23,8 +21,8 @@ var SweetLipsSchema = new Schema({
         ref: 'photos',
         // unique: true
     }],
-    facebookHandle: {
-        ids: [],
+    facebook: {
+        id: String,
         friends: []
     },
     is_blocked: {type: Boolean, default: false},
@@ -44,7 +42,7 @@ var SweetLipsSchema = new Schema({
 // Attaching random plugin to the schema
 SweetLipsSchema.plugin(random);
 
-var Photos = restful.model('photos', SweetLipsSchema);
+var Photos = mongoose.model('photos', SweetLipsSchema);
 
 SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
     Photos.find({
@@ -56,7 +54,7 @@ SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
 
 SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profile, callback) {
     const $this = this;
-    return Photos.findOne({'facebookHandle.id': profile.id}).then((player) => {
+    return Photos.findOne({'facebook.id': profile.id}).then((player) => {
         if (player) {
             return callback(null, player);
         } else {
@@ -70,7 +68,7 @@ SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profi
                 picture: profile.picture,
                 image_url: profile.picture, // profile.picture.data.url
                 link: profile.profileUrl,
-                facebookHandle: {
+                facebook: {
                     id: profile.id,
                     token: accessToken,
                     friends: [
@@ -111,7 +109,7 @@ SweetLipsSchema.statics.findOneAndUpdate = function(query, update, options, call
                 picture: update.picture.data.url, // user public profile
                 image_url: update.thumbSrc,
                 link: update.uri,
-                facebookHandle: {
+                facebook: {
                     friends: update.friends
                 },
                 // leave is_blocked false
@@ -128,24 +126,24 @@ SweetLipsSchema.statics.findOneAndUpdate = function(query, update, options, call
     });
 };
 
-var hits = restful.model('hits', new Schema({
+var hits = mongoose.model('hits', new Schema({
     page: String,
     hits: Number,
     date: {type: Date, default: Date.now()}
 }));
 
-var battle = restful.model('battle', new Schema({
+var battle = mongoose.model('battle', new Schema({
     battleId: {type: Number, unique: true, index: true},
     winner: Number,
     loser: Number
 }));
 
-var visitors = restful.model('visitors', new Schema({
+var visitors = mongoose.model('visitors', new Schema({
     daily: Number,
     monthly: Number
 }));
 
-var blockedPhotos = restful.model("blockedPhotos", new Schema({
+var blockedPhotos = mongoose.model("blockedPhotos", new Schema({
     id: Number,
     is_blocked: Boolean
 }));

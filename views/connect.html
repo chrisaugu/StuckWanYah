@@ -61,9 +61,18 @@ FB.Event.subscribe('xfbml.render', finished_rendering);
         </table>
 
         <% } else { %>
-            <h3>Welcome <%= user.name %></h3>
+            <h3>Welcome <%= user.name.givenName %></h3>
 
-            <img src="<%= `https://graph.facebook.com/${user.id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic">
+            <a href="<%= user.link %>">
+                <!-- <img src="<%= `https://graph.facebook.com/${user.id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic"> -->
+                <img src="<%= user.picture %>" alt="userimg" class="fbpic">
+            </a>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <a href="/api/logout" class="button" type="button">Logout</a>
         <% } %>
 
         <br/><br/><br/><br/>
