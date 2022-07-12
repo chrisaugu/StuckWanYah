@@ -108,8 +108,8 @@ passport.use(new FacebookStrategy({
 	// options for the facebook strat
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.appSecret,
-	callbackURL: keys.facebook.callbackURL,
-	// callbackURL: '/api/auth/facebook/callback',
+	// callbackURL: keys.facebook.callbackURL,
+	callbackURL: '/api/auth/facebook/callback',
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
@@ -444,74 +444,6 @@ router.get('/photos', function(req, res, next) {
 })
 
 /**
- * GET /api/photos
- * For StuckWanYah Facebook InstantGame, runs on user Facebook feeds
- * Returns 2 random photos of the same gender that have not been voted yet.
- */
-router.get("/photos/twophotos", function(req, res, next){
-	var uid = req.query.uid;
-	var signature = req.query.signature;
-	var gender = req.query.gender;
-
-	var choices = ['female', 'male'];
-	// var randomGender = _.sample(choices);
-	var randomGender;
-
-	if (gender) {
-		randomGender = shim(gender);
-	} else {
-		randomGender = _.first(_.shuffle(choices));
-	}
-
-	// request two photos that are friends of the uid
-	Photos.findRandom({
-		gender: randomGender,
-		age: { $gt: 13 }
-	}, {}, {
-		limit: 2
-	}, function(err, photos) {
-
-		// Photos
-		// .find({"random": {$near: [Math.random(), 0]}})
-		// .where("voted", false)
-		// .where("gender", randomGender)
-		// .limit(2)
-		// .exec(function(err, photos){
-		if (err) {
-			return next(err);
-		}
-
-		if (photos.length === 2) {
-			return res.send(photos);
-		}
-
-		var oppositeGender = _.first(_.without(choices, randomGender));
-
-		Photos.find({"random": {$near: [Math.random(), 0]}})
-			.where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos){
-			if (err)
-				return next(err);
-
-			if (photos.length === 2)
-				return res.send(photos);
-
-			Photos.update({}, {
-				$set: {
-					voted: false
-				}
-			}, {
-				multi: true
-			}, function(err){
-				if (err)
-					return next(err);
-				res.send([]);
-			});
-		});
-	});
-});
-
-
-/**
  * PUT /api/photos
  * Update winning and losing count for both photos.
  */
@@ -585,6 +517,73 @@ router.put('/photos', function(req, res, next){
 				res.status(200).end();
 			});
 		});
+});
+
+/**
+ * GET /api/photos
+ * For StuckWanYah Facebook InstantGame, runs on user Facebook feeds
+ * Returns 2 random photos of the same gender that have not been voted yet.
+ */
+router.get("/photos/twophotos", function(req, res, next){
+	var uid = req.query.uid;
+	var signature = req.query.signature;
+	var gender = req.query.gender;
+
+	var choices = ['female', 'male'];
+	// var randomGender = _.sample(choices);
+	var randomGender;
+
+	if (gender) {
+		randomGender = shim(gender);
+	} else {
+		randomGender = _.first(_.shuffle(choices));
+	}
+
+	// request two photos that are friends of the uid
+	Photos.findRandom({
+		gender: randomGender,
+		age: { $gt: 13 }
+	}, {}, {
+		limit: 2
+	}, function(err, photos) {
+
+		// Photos
+		// .find({"random": {$near: [Math.random(), 0]}})
+		// .where("voted", false)
+		// .where("gender", randomGender)
+		// .limit(2)
+		// .exec(function(err, photos){
+		if (err) {
+			return next(err);
+		}
+
+		if (photos.length === 2) {
+			return res.send(photos);
+		}
+
+		var oppositeGender = _.first(_.without(choices, randomGender));
+
+		Photos.find({"random": {$near: [Math.random(), 0]}})
+			.where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos){
+			if (err)
+				return next(err);
+
+			if (photos.length === 2)
+				return res.send(photos);
+
+			Photos.update({}, {
+				$set: {
+					voted: false
+				}
+			}, {
+				multi: true
+			}, function(err){
+				if (err)
+					return next(err);
+				res.send([]);
+			});
+		});
+	});
 });
 
 /**
@@ -823,7 +822,7 @@ router.put("/hits", function(req, res, next){
 });
 
 router.get('/auth/me', (req, res) => {
-  res.redirect(`https://www.facebook.com/v6.0/dialog/oauth?client_id=${keys.facebook.appID}&redirect_uri=${encodeURIComponent('http://localhost:5000/api/oauth-redirect')}`);
+  res.redirect(`https://www.facebook.com/v6.0/dialog/oauth?client_id=${keys.facebook.appID}&redirect_uri=${encodeURIComponent('https://stuckwanyah.herokuapp.com/api/oauth-redirect')}`);
 });
 
 /**
@@ -977,7 +976,7 @@ router.get('/oauth-redirect', (req, res) => {
 		qs: {
 			'client_id': keys.facebook.appID,
 			'client_secret': keys.facebook.appSecret,
-			'redirect_uri': 'http://localhost:5000/api/oauth-redirect',
+			'redirect_uri': 'https://stuckwanyah.herokuapp.com/api/oauth-redirect',
 			'code': encodeURIComponent(authCode)
 		},
 		method: "GET"
