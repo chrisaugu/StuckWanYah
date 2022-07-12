@@ -27,32 +27,28 @@ FB.Event.subscribe('xfbml.render', finished_rendering);
 </div>
     <h1>StuckWanYah</h1>
     <h2></h2>
-    <h3>StuckWanYah uses your Facebook pictures</h3>
-
-    <span>By clicking 'Login with Facebook' button, you have read and agreed to the site's <a href="/disclaimer.html">terms of use</a>.</span>
 
     <center>
+        <% if (!user) { %>
+
+        <h3>StuckWanYah uses your Facebook pictures</h3>
+
+        <span>By clicking 'Login with Facebook' button, you have read and agreed to the site's <a href="/disclaimer.html">terms of use</a>.</span>
+
+        <br/>
+        <br/>
+        <br/>
+
         <table id="connect" align="center" style="padding:0 15px;">
             <tr>
                 <td>
-                    <% if (!connected) { %>
-                    <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
+                    <!-- <button id="loginbutton" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" style="background:none;border:0px;margin:10px 14px;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;">
                         <img alt="" src="/images/TSXtq24.png" style="position:absolute;left:0px;top:0px;width:245px;height:47px;user-select:none;border:0px;padding:0px;margin:0px;">
-                    </button>
+                    </button> -->
 
                     <a href="/api/auth/facebook" type="button" aria-label="Login with Facebook" style="margin:10px 14px">
                         <img alt="" src="/images/TSXtq24.png" style="background:none;border:0px;margin:0;padding:0px;position:relative;cursor:pointer;user-select:none;width:245px;height:47px;overflow:hidden;top:0px;right:0px;left:0px;">
                     </a>
-
-                    <!-- <form name="connect" action="/foo" method="post">
-                        <input type="hidden" name="token" value="1234567890">
-                        <input type="hidden" name="profileid" placeholder="Facebook User ID" class="text" value="100004177278169" style="width: fit-content;"></br>
-                        <button type="submit" draggable="false" title="Connect to Facebook" aria-label="Connect to Facebook" type="button" class="button">Login</button>
-                    </form> -->
-
-                    <% } else { %>
-                        <img src="<%= `https://graph.facebook.com/${session.user_id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic">
-                    <% } %>
 
                     <div class="about-permissions">
                         <div class="title">About the permissions required</div>
@@ -64,9 +60,15 @@ FB.Event.subscribe('xfbml.render', finished_rendering);
             </tr>
         </table>
 
+        <% } else { %>
+            <h3>Welcome <%= user.name %></h3>
+
+            <img src="<%= `https://graph.facebook.com/${user.id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic">
+        <% } %>
+
         <br/><br/><br/><br/>
 
-        <% if (connected) { %>
+        <% if (user) { %>
         <div class="footer">
             <div class="container">
                 <ul>

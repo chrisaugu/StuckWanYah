@@ -12,7 +12,7 @@ var express = require("express")
 	, Redis = require('redis')
 	, restful = require('node-restful')
 	, mongoose = require("mongoose")
-	// , morgan = require("morgan")
+	, morgan = require("morgan")
 	, _ = require('underscore')
 	, moment = require("moment")
 	, bodyParser = require("body-parser")
@@ -61,20 +61,16 @@ Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
 // Express configuration
 app.set('port', process.env.PORT);
-// app.set('env', 'production');
-// Tell express where it can find the templates
 app.set('views', path.join(__dirname + '/views'));
-//Set ejs as the default template
 app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
-// Make the files in the app/ folder avilable to the world
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'app')));
 app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
 app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
-// app.use(morgan('dev')); // log every request to the console.
+app.use(morgan('dev')); // log every request to the console.
 app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 // Parse POST request data. It will be available in the req.body object
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -103,43 +99,17 @@ app.use(bodyParser.json({
 //     }
 // }
 
-// app.use(cors());
-
-app.use(cookieParser());
-
-// var store = new MongoDBStore({
-//   uri: process.env.MONGODB_ADDON_URI,
-//   collection: 'mySessions'
-// });
-// store.on('error', function(error) {
-//   console.log(error);
-// });
-// initialize express-session to allow us track the logged-in user across sessions.
-app.use(session({
-	// key: 'user_sid',
-	secret: keys.session.cookieSecret,
-	resave: false,
-	saveUninitialized: false,
-	// store: new RedisStore({ client: new Redis() })
-	// store: store,
-	cookie: { maxAge: 3 * 24 * 60 * 60 * 1000, expires: 600000 } // 72 hours (3 days)
-}));
-app.use(passport.authenticate('session'));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(cors());
 
 passport.use(new FacebookStrategy({
 	// options for the facebook strat
 	clientID: keys.facebook.appID,
-	clientSecret: keys.facebook.clientSecret,
+	clientSecret: keys.facebook.appSecret,
 	// callbackURL: keys.facebook.callbackURL,
-	callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
-	// profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/],
-	profileFields: ['id', 'displayName', 'photos'],
-	// enableProof: true
-	// state: true
+	callbackURL: '/api/auth/facebook/callback',
+	profileFields: ['id','displayName','name','gender','age_range','birthday','friends','photos','link'],
+	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
-	console.log(profile);
 	// var me = new Photos({
 	// 	email: profile.emails[0].value,
 	// 	name: profile.displayName
@@ -182,26 +152,22 @@ passport.use(new FacebookStrategy({
 	// 	}
 	// });
 
-	done(null);
+	done(null, profile);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
 passport.serializeUser((user, done) => {
-	console.log(user);
-	
 	process.nextTick(function() {
 		done(null, { id: user.id, username: user.username, name: user.name });
 	});
 
-	// done(null, user._id);
 	// done(null, user.id);
 });
 
 /** Registers a function used to deserialize user objects out of the session. */
 passport.deserializeUser((id, done) => {
-	console.log(id)
 	process.nextTick(function() {
-		return done(null, user);
+		return done(null, id);
 	});
 
 	// Photos.findById(id).then((user) => {
@@ -209,6 +175,29 @@ passport.deserializeUser((id, done) => {
 	// });
 	// done(null, id);
 });
+
+app.use(cookieParser());
+
+var store = new MongoDBStore({
+  uri: process.env.MONGODB_ADDON_URI,
+  collection: 'mySessions'
+});
+store.on('error', function(error) {
+  console.log(error);
+});
+// initialize express-session to allow us track the logged-in user across sessions.
+app.use(session({
+	// key: 'user_sid',
+	secret: keys.session.cookieSecret,
+	resave: false,
+	saveUninitialized: false,
+	// store: new RedisStore({ client: new Redis() })
+	store: store,
+	cookie: { maxAge: 3 * 24 * 60 * 60 * 1000, expires: 600000 } // 72 hours (3 days)
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.authenticate('session'));
 
 app.use((req, res, next) => {
 // 	if (!req.session.views) req.session.views = {}
@@ -243,8 +232,6 @@ app.use((req, res, next) => {
 		return next();
 		res.redirect('/');
 	}
-
-	res.locals.connected = 0;
 
 	// if (!req.session) {
 	// 	return next(new Error("oh no"));
@@ -300,47 +287,36 @@ var opts = {
 	useMongoClient: true
 };
 mongoose.Promise = global.Promise;
-// Creating an instance for MongoDB
-// switch(app.get('env')) {
-// 	case 'development':
-// 		mongoose.connect(keys.mongodb.testDbURL, opts);
-// 		break;
-// 	case 'production':
-// 		mongoose.connect(keys.mongodb.mongodbURI, opts);
-// 		break;
-// 	default:
-// 		throw new Error('Unknown execution environment: ', app.get('env'));
-// }
 
-// mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
-// mongoose.connection.on("connected", function(){
-// 	console.log("-----------------------------------------------------".blue);
-// 	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-// 	console.log("-----------------------------------------------------".blue);
-// });
-// mongoose.connection.on('error', function(){
-// 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-// 	console.log("----------------------------------------------------------------------------".blue);
-// });
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = keys.mongodb.mongodbURI;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-client.connect(err => {
-	if (err) {
-		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-		console.log("----------------------------------------------------------------------------".blue);
-	}
-	else {
-		console.log("-----------------------------------------------------".blue);
-		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-		console.log("-----------------------------------------------------".blue);
-
-	} 
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
+mongoose.connection.on("connected", function(){
+	console.log("-----------------------------------------------------".blue);
+	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+	console.log("-----------------------------------------------------".blue);
 });
+mongoose.connection.on('error', function(){
+	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+	console.log("----------------------------------------------------------------------------".blue);
+});
+
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+// const uri = keys.mongodb.mongodbURI;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+// client.connect(err => {
+// 	if (err) {
+// 		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
+// 		console.log("----------------------------------------------------------------------------".blue);
+// 	}
+// 	else {
+// 		console.log("-----------------------------------------------------".blue);
+// 		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
+// 		console.log("-----------------------------------------------------".blue);
+
+// 	} 
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 // API namespace
 app.use('/api', router);
@@ -350,7 +326,6 @@ app.use('/api', router);
  */
 // Server index page
 app.get("/", /*sessionChecker,*/ function (req, res, next){
-	res.locals.accessToken = "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V";
 	renderIndexPage({
 		params: req,
 		success: function(obj){
@@ -389,7 +364,7 @@ app.get("/tie", function(req, res, next){
 // connect to facebook page
 app.route('/foo')
 	.get(function (req, res) {
-		res.render('connect.html');
+		res.render('connect.html', { user: req.user });
 	})
 	.post(function (req, res) {
 		var session = req.session;
@@ -1086,17 +1061,20 @@ router.get('/auth/mex', authenticate, getCurrentUser, getOne);
 // app.get('/auth/facebook', passport.authenticate('facebook', {
 router.get('/auth/facebook', passport.authenticate('facebook', {
 	// scope: ['public_profile', 'first_name', 'last_name', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
-	scope : ['public_profile']
+	// scope : ['public_profile']
 }));
 // router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-	successRedirect: '/',
-	failureRedirect: '/foo'
+	// successRedirect: '/',
+	successReturnToOrRedirect: '/',
+	failureRedirect: '/',
+	failureMessage: true
 }), function(req, res) {
 	// Successful authentication, redirect home
 	console.log("success")
-	res.json(req.user)//.redirect('/');
+	// res.json(req.user)
+	res.redirect('/');
 });
 
 /**
@@ -1143,10 +1121,10 @@ router.post('/auth/facebook/token',
 	}, /*generateToken,*/ sendToken);
 
 /**
- * POST /api/foo/facebook/logout
+ * GET /api/foo/facebook/logout
  * Logout with facebook
  */
-router.post('/logout', function (req, res, next) {
+router.get('/logout', function (req, res, next) {
 	//var url = req.session.reset() ? '/login' : '/';
 	// if (req.session.user_id && req.cookies.user_sid) {
 	// 	res.clearCookie('user_sid');
@@ -1160,7 +1138,7 @@ router.post('/logout', function (req, res, next) {
 	// }
 	req.logout(function(err) {
 		if (err) { return next(err); }
-		res.redirect('/');
+		res.redirect('/foo');
 	});
 });
 
@@ -1262,9 +1240,10 @@ var rateImages = async function(config){
 	var winnerID = config.params.query.winner;
 	var loserID = config.params.query.loser;
 	// getting the current user id from session
-	var voter = await getNativeIdFromImageId(config.params.session.user_id);
+	var voter = await getNativeIdFromImageId(config.params.user.id);
+	// var voter = await getNativeIdFromImageId(config.params.session.user_id);
 
-	console.log("User "+voter+" votes for "+config.params.query.winner)
+	console.log("User "+voter+" votes for " + winnerID)
 
 	if (winnerID && loserID) {
 		async.parallel([
@@ -1309,39 +1288,39 @@ var rateImages = async function(config){
 			});
 
 			async.parallel({
-					winner: function(callback){
-						winner.wins++;
-						winner.score = score.player1_actual_score;
-						winner.ratings = winnerNewRatings; // winnerNewScore;
-						winner.voted = true;
-						winner.random = [Math.random(), 0];
-						// keep record who voted who and who plays who
-						winner.voted_by.push(voter);
-						winner.challengers.push(loser._id); // loser.imageId
+				winner: function(callback){
+					winner.wins++;
+					winner.score = score.player1_actual_score;
+					winner.ratings = winnerNewRatings; // winnerNewScore;
+					winner.voted = true;
+					winner.random = [Math.random(), 0];
+					// keep record who voted who and who plays who
+					winner.voted_by.push(voter);
+					winner.challengers.push(loser._id); // loser.imageId
 
-						winner.save(function(err){
-							callback(err);
-						});
-					},
-					loser: function(callback) {
-						loser.losses++;
-						loser.score = score.player2_actual_score;
-						loser.ratings = loserNewRatings; // loserNewScore;
-						loser.voted = true;
-						loser.random = [Math.random(), 0];
-						// keep record who voted who and who plays who
-						loser.voted_by.push(voter);
-						loser.challengers.push(winner._id); // loser.imageId
-
-						loser.save(function(err){
-							callback(err);
-						});
-					}
+					winner.save(function(err){
+						callback(err);
+					});
 				},
-				function(err, results){
-					if (err) config.error.call(this, err);
-					config.success.call(this);
-				});
+				loser: function(callback) {
+					loser.losses++;
+					loser.score = score.player2_actual_score;
+					loser.ratings = loserNewRatings; // loserNewScore;
+					loser.voted = true;
+					loser.random = [Math.random(), 0];
+					// keep record who voted who and who plays who
+					loser.voted_by.push(voter);
+					loser.challengers.push(winner._id); // loser.imageId
+
+					loser.save(function(err){
+						callback(err);
+					});
+				}
+			},
+			function(err, results){
+				if (err) config.error.call(this, err);
+				config.success.call(this);
+			});
 		});
 	} else {
 		config.error.call(this, null, 'Voting requires two photos.' );
@@ -1351,7 +1330,8 @@ var rateImages = async function(config){
 var tieBreaker = async function(config){
 	var player_1 = config.params.query.player1;
 	var player_2 = config.params.query.player2;
-	var voter = await getNativeIdFromImageId(config.params.session.user_id);
+	var voter = await getNativeIdFromImageId(config.params.user.id);
+	// var voter = await getNativeIdFromImageId(config.params.session.user_id);
 
 	if (player_1 && player_2){
 		async.parallel({
