@@ -61,9 +61,9 @@ FB.Event.subscribe('xfbml.render', finished_rendering);
         </table>
 
         <% } else { %>
-            <h3>Welcome <%= user.name.givenName %></h3>
+            <h3>Welcome <%= user.fullName %></h3>
 
-            <a href="<%= user.link %>">
+            <a href="<%= user.profileUrl %>">
                 <!-- <img src="<%= `https://graph.facebook.com/${user.id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic"> -->
                 <img src="<%= user.picture %>" alt="userimg" class="fbpic">
             </a>

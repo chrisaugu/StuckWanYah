@@ -134,32 +134,45 @@ passport.use(new FacebookStrategy({
 	// });
 
 	// check if photo already exists in the db
-	// Photos.findOne({"facebook.id": profile.id}).then((currentUser) => {
-	// 	if (!currentUser) {
-	// 		// already have the photo
-	// 		console.log("user is:", currentUser);
-	// 		done(null, currentUser);
-	// 	} else {
-	// 		// if not, create user in the db
-	// 		new Photos({
-	// 			displayName: profile.displayName,
-	// 			facebook: {id: profile.id}
-	// 		}).save().then((newPhoto) => {
-	// 			console.log('new photo created:' + newPhoto);
-	// 		})
-	// 	}
-	// });
+	Photos.findOne({"facebook.id": profile.id}).then((currentUser) => {
+		if (currentUser) {
+			// already have the photo
+			console.log("user is:", currentUser);
+			done(null, currentUser);
+		} else {
+			// if not, create user in the db
+			new Photos({
+				fullName: profile._json.name,
+				firstName: profile._json.givenName,
+				lastName: profile._json.familyName,
+				age: (new Date().getYear() - new Date(profile._json.birthday).getYear()),
+				gender: profile._json.gender,
+				picture: profile.photos[0].value,
+				profileUrl: profile._json.link,
+				facebook: {
+					id: profile._json.id,
+					friends: profile._json.friends
+				}
+			})
+			.save((error, newPhoto) => {
+				console.log('new photo created:', newPhoto);
+				done(error, newPhoto);
+			})
+		}
+	});
 
-	// Photos.findOrCreate({ "facebook.id": profile.id }, function(err, user) {
+	// Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
 	// 	return done(err, user);
 	// });
-	done(null, profile)
+
+	// done(null, profile);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
 passport.serializeUser((user, done) => {
 	process.nextTick(function() {
-		done(null, { id: user.id, username: user.username, name: user.name, gender: user.gender, link: user.profileUrl, picture: user.photos[0].value});
+		done(null, user);
+		// done(null, { id: user.id, username: user.username, name: user.name, gender: user.gender, link: user.profileUrl, picture: user.photos[0].value});
 	});
 });
 
@@ -304,7 +317,6 @@ mongoose.connection.on('error', function(){
 // 		console.log("-----------------------------------------------------".blue);
 // 		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
 // 		console.log("-----------------------------------------------------".blue);
-
 // 	} 
 //   const collection = client.db("test").collection("devices");
 //   // perform actions on the collection object
@@ -986,7 +998,7 @@ router.get('/oauth-redirect', (req, res) => {
 		const accessToken = response['access_token'];
 		// Store the token in memory for now. Later we'll store it in the database.
     	console.log('Access token is', accessToken);
-    	// await AccessToken.create({ _id: accessToken });
+    	await AccessToken.create({ _id: accessToken });
 
 		// Set a cookie. Handy when working with a traditional web app.
     	res.cookie('accessToken', accessToken, { maxAge: 900000, httpOnly: true });
