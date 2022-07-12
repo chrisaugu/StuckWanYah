@@ -8,6 +8,7 @@ var express = require("express")
 	, session = require("express-session")
 	, RedisStore = require('connect-redis')(session)
 	, MongoDBStore = require('connect-mongodb-session')(session)
+	, cookieParser = require('cookie-parser')
 	, Redis = require('redis')
 	, restful = require('node-restful')
 	, mongoose = require("mongoose")
@@ -21,7 +22,6 @@ var express = require("express")
 	, request = require('request-promise')
 	, passport = require('passport')
 	, FacebookStrategy = require('passport-facebook').Strategy
-	, InstagramStrategy = require('passport-instagram').Strategy
 	, jwt = require('jwt-simple')
 	, CryptoJS = require('crypto-js')
 	// , expressJwt = require('express-jwt')
@@ -55,6 +55,7 @@ var Sweetlips = require("./models/sweetlips");
 var Photos = Sweetlips.photos;
 var Hits = Sweetlips.hits;
 // var BlockedPhotos = Sweetlips.blockedPhotos;
+var AccessToken = Sweetlips.accessToken;
 Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
 Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
@@ -102,7 +103,9 @@ app.use(bodyParser.json({
 //     }
 // }
 
-app.use(cors());
+// app.use(cors());
+
+app.use(cookieParser());
 
 // var store = new MongoDBStore({
 //   uri: process.env.MONGODB_ADDON_URI,
@@ -125,7 +128,17 @@ app.use(passport.authenticate('session'));
 app.use(passport.initialize());
 app.use(passport.session());
 
-function jitProvision(provider, profile, done) {
+passport.use(new FacebookStrategy({
+	// options for the facebook strat
+	clientID: keys.facebook.appID,
+	clientSecret: keys.facebook.clientSecret,
+	// callbackURL: keys.facebook.callbackURL,
+	callbackURL: 'https://stuckwanyah.herokuapp.com/api/auth/facebook/callback',
+	// profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/],
+	profileFields: ['id', 'displayName', 'photos'],
+	// enableProof: true
+	// state: true
+}, function verify(accessToken, refreshToken, profile, done) {
 	console.log(profile);
 	// var me = new Photos({
 	// 	email: profile.emails[0].value,
@@ -168,35 +181,8 @@ function jitProvision(provider, profile, done) {
 	// 		})
 	// 	}
 	// });
-	 //    User.findOrCreate({ instagramId: profile.id }, function (err, user) {
-  //     return done(err, user);
-  //   });
-  // }
 
-  done(null);
-}
-
-passport.use(new FacebookStrategy({
-	// options for the facebook strat
-	clientID: keys.facebook.appID,
-	clientSecret: keys.facebook.clientSecret,
-	// callbackURL: keys.facebook.callbackURL,
-	callbackURL: '/api/auth/facebook/callback',
-	// profileFields: ['id','displayName','photos',/*'birthday','gender','profileUrl','link','age',*/],
-	profileFields: ['id', 'displayName', 'photos'],
-	// enableProof: true
-	state: true
-}, function verify(accessToken, refreshToken, profile, cb) {
-	return jitProvision('https://www.facebook.com', profile, cb);
-}));
-
-passport.use(new InstagramStrategy({
-	// options for the instagram strat
-	clientID: keys.instagram.appID,
-	clientSecret: keys.instagram.clientSecret,
-	callbackURL: "/api/auth/instagram/callback"
-}, function verify() {
-	return jitProvision('https://www.instagram.com', profile, cb);
+	done(null);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
@@ -407,20 +393,20 @@ app.route('/foo')
 	})
 	.post(function (req, res) {
 		var session = req.session;
-		var userId = req.body.profileid;
+		var userId = req.body.profileId;
 		// Query database with the userid
-		// console.log(req.body)
-		Photos.findOne({$or: [{"imageId": userId},{"facebookHandle.ids": userId}]}, (err, user) => {
-			if (!user) {
-				// create new user
-				res.send("user does not exist")
-			} else if (user) {
-				// Assign userid to session.user_id variables
-				session.user_id = userId;
-				res.setHeader('userId', session.user_id);
-				res.redirect('/bar'); // redirect to homepage /
-			}
-		});
+		console.log(req.body)
+		// Photos.findOne({$or: [{"imageId": userId},{"facebookHandle.ids": userId}]}, (err, user) => {
+		// 	if (!user) {
+		// 		// create new user
+		// 		res.send("user does not exist")
+		// 	} else if (user) {
+		// 		// Assign userid to session.user_id variables
+		// 		session.user_id = userId;
+		// 		res.setHeader('userId', session.user_id);
+		// 		res.redirect('/bar'); // redirect to homepage /
+		// 	}
+		// });
 	});
 
 app.get('/bar', function (req, res, next) {
@@ -490,11 +476,6 @@ app.get('/bar', function (req, res, next) {
 // 	}
 // 	// next();
 // });
-
-// require('./app')(router);
-// require('./api')(router);
-// require('./bot')(router);
-// require('./routes')(router, passport);
 
 /**
  * REST API Routes Endpoints
@@ -876,7 +857,7 @@ router.put("/hits", function(req, res, next){
 });
 
 router.get('/auth/me', (req, res) => {
-  res.redirect(`https://www.facebook.com/v6.0/dialog/oauth?client_id=${keys.facebook.appID}&redirect_uri=${encodeURIComponent('https://stuckwanyah.herokuapp.com/api/auth/facebook/callback')}`);
+  res.redirect(`https://www.facebook.com/v6.0/dialog/oauth?client_id=${keys.facebook.appID}&redirect_uri=${encodeURIComponent('http://localhost:5000/api/oauth-redirect')}`);
 });
 
 /**
@@ -1020,6 +1001,76 @@ router.post('/auth', function(req, res) {
 	// });
 });
 
+// Route 2: Exchange auth code for access token
+router.get('/oauth-redirect', (req, res) => {
+  try {
+    const authCode = req.query.code;
+
+    request({
+		url: `https://graph.facebook.com/v6.0/oauth/access_token`,
+		qs: {
+			'client_id': keys.facebook.appID,
+			'client_secret': keys.facebook.appSecret,
+			'redirect_uri': 'http://localhost:5000/api/oauth-redirect',
+			'code': encodeURIComponent(authCode)
+		},
+		method: "GET"
+	})
+	.then(response => JSON.parse(response))
+	.then(async (response) => {
+		const accessToken = response['access_token'];
+		// Store the token in memory for now. Later we'll store it in the database.
+    	console.log('Access token is', accessToken);
+    	await AccessToken.create({ _id: accessToken });
+
+		// Set a cookie. Handy when working with a traditional web app.
+    	res.cookie('accessToken', accessToken, { maxAge: 900000, httpOnly: true });
+    	res.redirect('/api/me');
+	})
+	.catch(error => {
+		res.send(error);
+	})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.response.data || err.message });
+  }
+});
+
+// Route 3: Make requests to FB on behalf of the user
+router.get('/me', async (req, res) => {
+  try {
+    const accessToken = String(req.cookies.accessToken);
+    const tokenFromDb = await AccessToken.findOne({ _id: accessToken });
+    if (tokenFromDb == null) {
+      throw new Error(`Invalid access token "${accessToken}"`);
+    }
+
+    // Get the name and user id of the Facebook user associated with the
+    // access token.
+    request({
+		url: `https://graph.facebook.com/me`,
+		qs: {
+			access_token: accessToken,
+			// fields: "gender"
+		},
+		method: "GET"
+	})
+	.then(function(body){
+	    return res.send(`
+	      <html>
+	        <body>Your name is ${JSON.parse(body).name}</body>
+	      </html>
+	    `);
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.response.data || err.message });
+  }
+});
+
 
 /**
  * GET /api/auth/me/
@@ -1032,11 +1083,10 @@ router.get('/auth/mex', authenticate, getCurrentUser, getOne);
  * @Router /api/auth/facebook
  * Request will be redirected to Facebook
  */
-//router.get('/auth/facebook', passport.authenticate('facebook', {
-//	authType: 'rerequest',
-//	scope: ['public_profile', /*'first_name', 'last_name',*/ 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
-//}));
-router.get('/login/facebook', passport.authenticate('facebook'));
+router.get('/login/facebook', passport.authenticate('facebook', {
+	scope: ['public_profile', /*'first_name', 'last_name',*/ 'age', 'age_range', 'gender', 'profile_pic', 'picture', 'user_photos', 'user_friends', 'friends']
+}));
+// router.get('/login/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	successRedirect: '/',
@@ -1091,22 +1141,6 @@ router.post('/login/facebook/token',
 	}, /*generateToken,*/ sendToken);
 
 /**
- * Instagram Endpoints
- * @Router /api/auth/instagram
- */
-router.get('/login/instagram', passport.authenticate('instagram'));
-
-// router.get('/auth/instagram/callback', passport.authenticate('instagram'), function(req, res) {
-// 	res.json(req.user);
-// });
-router.get('/auth/instagram/callback', 
-  passport.authenticate('instagram', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
-/**
  * POST /api/foo/facebook/logout
  * Logout with facebook
  */
@@ -1127,38 +1161,6 @@ router.post('/logout', function (req, res, next) {
 		res.redirect('/');
 	});
 });
-
-
-/**
- * GET /api/instagram/photos
- * Get photos from instagram
- */
-router.route("/instagram/photos")
-	.get(function (req, res, next) {
-		res.send("Welcome to StuckWanYah instagram. I collect peeple's photos from instagram, you vote who's hotter?")
-	})
-	.post(function(req, res, next){
-		var body = req.body;
-		Photo.findOne({ instagramId: body.user.id }, function(err, existingUser){
-			if (existingUser) {
-				var token = createToken(existingUser);
-				return res.send({ token: token, user: existingUser });
-			}
-
-			var user = new User({
-				instagramId: body.user.id,
-				username: body.user.username,
-				displayName: body.user.full_name,
-				picture: body.user.profile_picture,
-				accessToken: body.access_token
-			});
-
-			user.save(function(){
-				var token = createToken(user);
-				res.send({ token: token, user: user });
-			});
-		});
-	});
 
 // Global Functions
 var renderIndexPage = function(config){
@@ -2131,46 +2133,47 @@ router.get('/populate', function (req, res, next) {
 	}, (error, response, body) => {
 		if (error) throw new Error(error);
 		if (response && body) {
-			var bodyObj;
-			if ("string" == typeof body) {
-				bodyObj = JSON.parse(body);
-			}
+			console.log(body)
+		// 	var bodyObj;
+		// 	if ("string" == typeof body) {
+		// 		bodyObj = JSON.parse(body);
+		// 	}
 
-			bodyObj = new Object(body);
+		// 	bodyObj = new Object(body);
 
-			Photos.create({
-				imageId: "100004177278169",
-				fullName: "Christian Augustyn",
-				firstName: "Christian",
-				lastName: "Augustyn",
-				age: 21,
-				gender: "male",
-				picture: "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/31886521_997680883714478_7430056043532517376_n.jpg?_nc_cat=108&ccb=2&_nc_sid=dbb9e7&_nc_ohc=_bop2COlZSYAX8D_BgN&_nc_ht=scontent-syd2-1.xx&tp=27&oh=e70377d571ee3b428fbacb286a3b678e&oe=5FDEED37"
-			});
+		// 	Photos.create({
+		// 		imageId: "100004177278169",
+		// 		fullName: "Christian Augustyn",
+		// 		firstName: "Christian",
+		// 		lastName: "Augustyn",
+		// 		age: 21,
+		// 		gender: "male",
+		// 		picture: "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/31886521_997680883714478_7430056043532517376_n.jpg?_nc_cat=108&ccb=2&_nc_sid=dbb9e7&_nc_ohc=_bop2COlZSYAX8D_BgN&_nc_ht=scontent-syd2-1.xx&tp=27&oh=e70377d571ee3b428fbacb286a3b678e&oe=5FDEED37"
+		// 	});
 
-			for (var i = 0; i < bodyObj.data.length; i++) {
-				// Photos.findOne({imageId: bodyObj.data[i].id}).then(function(res){
-				// 	if (res) {
-				// 		console.info("User with the same id found");
-				// 	} else {
-				new Photos({
-					imageId: bodyObj.data[i].id,
-					fullName: bodyObj.data[i].name,
-					firstName: bodyObj.data[i].first_name,
-					lastName: bodyObj.data[i].last_name,
-					age: bodyObj.data[i].age_range ? calcAge(bodyObj.data[i].age_range) : 22,
-					gender: bodyObj.data[i].gender,
-					picture: bodyObj.data[i].picture.data.url,/*getUserProfilePicture(bodyObj.data[i].id),*/
-				})
-					.save(function(err, result) {
-						if (err) console.error(err);
-						// else {
-						// 	console.log(result);
-						// }
-					})
-				// }
-				// });
-			}
+		// 	for (var i = 0; i < bodyObj.data.length; i++) {
+		// 		// Photos.findOne({imageId: bodyObj.data[i].id}).then(function(res){
+		// 		// 	if (res) {
+		// 		// 		console.info("User with the same id found");
+		// 		// 	} else {
+		// 		new Photos({
+		// 			imageId: bodyObj.data[i].id,
+		// 			fullName: bodyObj.data[i].name,
+		// 			firstName: bodyObj.data[i].first_name,
+		// 			lastName: bodyObj.data[i].last_name,
+		// 			age: bodyObj.data[i].age_range ? calcAge(bodyObj.data[i].age_range) : 22,
+		// 			gender: bodyObj.data[i].gender,
+		// 			picture: bodyObj.data[i].picture.data.url,/*getUserProfilePicture(bodyObj.data[i].id),*/
+		// 		})
+		// 			.save(function(err, result) {
+		// 				if (err) console.error(err);
+		// 				// else {
+		// 				// 	console.log(result);
+		// 				// }
+		// 			})
+		// 		// }
+		// 		// });
+		// 	}
 
 			res.send("finished");
 		};

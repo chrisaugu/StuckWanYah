@@ -27,10 +27,6 @@ var SweetLipsSchema = new Schema({
         ids: [],
         friends: []
     },
-    instagramHandle: {
-        id: {type: String},
-        followers: [{type: 'ObjectId', ref: 'photos'}]
-    },
     is_blocked: {type: Boolean, default: false},
     wins: {type: Number, default: 0},
     losses: {type: Number, default:0},
@@ -154,10 +150,19 @@ var blockedPhotos = restful.model("blockedPhotos", new Schema({
     is_blocked: Boolean
 }));
 
+const AccessToken = mongoose.model('accessToken', new mongoose.Schema({
+    // Use the `accessToken` string itself as `_id` so you get an
+    // index for fast queries.
+    _id: String,
+    userId: String
+}));
+
+
 // Make the photos and hits data sets available to the code
 module.exports = {
     photos: Photos,
     battle: battle,
     hits: hits,
-    blockedPhotos: blockedPhotos
+    blockedPhotos: blockedPhotos,
+    accessToken: AccessToken
 };

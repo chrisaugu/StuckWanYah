@@ -294,50 +294,51 @@ var Api = function () {
 				Api.fblogin().then(function(fbRes) {
 					console.log(fbRes)
 					// receive response sent by Facebook server
-					// if (fbRes.authResponse) {
-					// 	Api.checkLoginState().then(function(fbRes){
-					// 		if (fbRes.authResponse === null) {
-					// 			setTimeout(function(){
-					// 				reject({ success: false, reason: "cancel" });
-					// 			}, 1000);
-					// 		} else {
-					// 			Api.userDetailsFromFb().then(function(fbResponse){
-					// 				if (fbResponse) {
-					// 					resolve({ success: true, authResponse: fbResponse.authResponse, userData: fbResponse });
-					// 					// pass response to my server 
-					// 					console.log(fbRes.authResponse);
-					// 					$.post("/foo", {
-					// 						profileid: fbRes.authResponse.userID,
-					// 						accessToken: fbRes.authResponse.accessToken,
-					// 						// name: 
-					// 					}).then(function(status, statusText, response) {
-					// 						console.log(statusText);
-					// 					})
-					// 				// 	$.post(Api.getApiUrl() + '/auth/web', fbRes.authResponse /**{
-					// 				// 		userID: 100004177278169,
-					// 				// 		accessToken: "123456789",
-					// 				// 		expiresIn: ""
-					// 				// 	}*/).then(function(status, statusText, response){
-					// 				// 		// server receive response, query database and reply with response, sets response to localStorage 
-					// 				// 		var token = response.getResponseHeader('accessToken');/*response.headers.get('x-auth-token');*/
-					// 				// 		if (token) {
-					// 				// 			Utils.writeItemToLocalStorage('c_user', /*response.headers.get('userId')*/response.getResponseHeader('userId'));
-					// 				// 			Utils.writeItemToLocalStorage('display_name', /*response.headers.get('userName')*/response.getResponseHeader('userName'));
-					// 				// 			Utils.writeItemToLocalStorage('access_token', token);
-					// 				// 		}
-					// 				// 		// resolve(response);
-					// 				// 		location.href = Api.getBaseUrl();
-					// 				// 	}).catch(function(){
-					// 				// 		reject({ success: false, reason: "cancel" });
-					// 				// 	});
-					// 				}
-					// 				reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
-					// 			});
-					// 		}
-					// 	})
-					// } else {
-					// 	reject({ success: false, reason: "cancel" });
-					// }
+					if (fbRes.authResponse) {
+						// Api.checkLoginState().then(function(fbRes){
+						// 	if (fbRes.authResponse === null) {
+						// 		setTimeout(function(){
+						// 			reject({ success: false, reason: "cancel" });
+						// 		}, 1000);
+						// 	} else {
+								Api.userDetailsFromFb().then(function(fbResponse){
+									if (fbResponse) {
+										resolve({ success: true, authResponse: fbResponse.authResponse, userData: fbResponse });
+										// pass response to my server 
+										console.log(fbRes.authResponse);
+										// $.post("/foo", {
+										$.get("/api/me", {
+											profileId: fbRes.authResponse.userID,
+											accessToken: fbRes.authResponse.accessToken,
+											// name: 
+										}).then(function(status, statusText, response) {
+											console.log(response.responseText);
+										});
+									// 	$.post(Api.getApiUrl() + '/auth/web', fbRes.authResponse /**{
+									// 		userID: 100004177278169,
+									// 		accessToken: "123456789",
+									// 		expiresIn: ""
+									// 	}*/).then(function(status, statusText, response){
+									// 		// server receive response, query database and reply with response, sets response to localStorage 
+									// 		var token = response.getResponseHeader('accessToken');/*response.headers.get('x-auth-token');*/
+									// 		if (token) {
+									// 			Utils.writeItemToLocalStorage('c_user', /*response.headers.get('userId')*/response.getResponseHeader('userId'));
+									// 			Utils.writeItemToLocalStorage('display_name', /*response.headers.get('userName')*/response.getResponseHeader('userName'));
+									// 			Utils.writeItemToLocalStorage('access_token', token);
+									// 		}
+									// 		// resolve(response);
+									// 		location.href = Api.getBaseUrl();
+									// 	}).catch(function(){
+									// 		reject({ success: false, reason: "cancel" });
+									// 	});
+									}
+									reject({ success: false, reason: "facebookPermissionCodes.noEmailPermission" });
+								});
+						// 	}
+						// })
+					} else {
+						reject({ success: false, reason: "cancel" });
+					}
 				});
 			});
 		},
@@ -384,8 +385,9 @@ var Api = function () {
 		userDetailsFromFb: function e() {
 			Utils.log('Welcome! Fetching your information.... ');
 			return new Promise(function (resolve) {
-				FB.api("/me?fields=id,first_name,picture{url},email,birthday,gender,age_range,friends{id,first_name,birthday,age_range,gender}", 
-				function (response) {
+				// FB.api("/me?fields=id,first_name,picture{url},link,birthday,gender,age_range,friends{id,first_name,birthday,age_range,gender}",
+				FB.api('/me','GET',{"fields":"link,first_name,last_name,name,age_range,birthday,id,friends,photos,gender,picture"},
+  				function (response) {
 					console.log(response)
 					console.log('Successful login for: ' + response.first_name + " = " + response.id + ".");
 					// document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';			
