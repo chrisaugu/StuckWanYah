@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var random = require('mongoose-simple-random');
-// var random = require('abazunts-mongoose-random');
+var findOrCreate = require('mongoose-findorcreate');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId; 
 // var ObjectId = mongoose.Types.ObjectId;
@@ -41,6 +41,7 @@ var SweetLipsSchema = new Schema({
 
 // Attaching random plugin to the schema
 SweetLipsSchema.plugin(random);
+SweetLipsSchema.plugin(findOrCreate);
 
 var Photos = mongoose.model('photos', SweetLipsSchema);
 

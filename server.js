@@ -116,7 +116,7 @@ passport.use(new FacebookStrategy({
 	// Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
 	// 	console.log(user)
 	//     if (err) throw err;
-	    
+	
 	//     if (user) {
 	// 		// already have the photo
 	// 		// req.session.strategy = 'facebook';
@@ -146,9 +146,9 @@ passport.use(new FacebookStrategy({
 	// 	}
 	// });
 
-	// Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
-	// 	return done(err, user);
-	// });
+	Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
+		return done(err, user);
+	});
 
 	done(null, profile);
 }));
