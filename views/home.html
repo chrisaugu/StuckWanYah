@@ -28,9 +28,9 @@
 
 				<table itemprop="mainEntity" itemscope itemtype="http://schema.org/Book">
 					<tr id="photos" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].imageId %>"><img class="img" itemprop="image" xsrc="http://graph.facebook.com/<%= images[1].imageId %>/picture?type=large&access_token=<%= 'accessToken' %>" src="<%= images[0].picture %>"></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[0].imageId %>&loser=<%= images[1].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[0].imageId %>"><img class="img" itemprop="image" xsrc="http://graph.facebook.com/<%= images[0].imageId %>/picture?type=large&access_token=<%= 'accessToken' %>" src="<%= images[0].picture %>"></a></td>
 						<td id="OR" width="55" align="center"><a href="tie?player1=<%= images[0].imageId %>&player2=<%= images[1].imageId %>" style="text-decoration:none;"><b>OR</b></a></td>
-						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].imageId %>"><img class="img" itemprop="image" xsrc="http://graph.facebook.com/<%= images[0].imageId %>/picture?type=large&access_token=<%= 'accessToken' %>" src="<%= images[1].picture %>"></a></td>
+						<td valign="top" align="center" class="photo"><a href="rate?winner=<%= images[1].imageId %>&loser=<%= images[0].imageId %>" onclick="sh('vote')" data-fb-id="<%= images[1].imageId %>"><img class="img" itemprop="image" xsrc="http://graph.facebook.com/<%= images[1].imageId %>/picture?type=large&access_token=<%= 'accessToken' %>" src="<%= images[1].picture %>"></a></td>
 					</tr>
 					<tr align="center" itemprop="names" itemscope itemtype="http://schema.org/Person">
 						<td itemprop="name"><%= images[0].name %></td>
