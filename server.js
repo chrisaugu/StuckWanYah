@@ -108,8 +108,8 @@ passport.use(new FacebookStrategy({
 	// options for the facebook strat
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.appSecret,
-	callbackURL: keys.facebook.callbackURL,
-	// callbackURL: '/api/auth/facebook/callback',
+	// callbackURL: keys.facebook.callbackURL,
+	callbackURL: '/api/auth/facebook/callback',
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
@@ -197,7 +197,7 @@ app.use(cookieParser());
 
 var store = new MongoDBStore({
   uri: process.env.MONGODB_ADDON_URI,
-  collection: 'mySessions'
+  collection: 'sessions'
 });
 store.on('error', function(error) {
   console.log(error);
@@ -309,24 +309,6 @@ mongoose.connection.on('error', function(){
 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
 	console.log("----------------------------------------------------------------------------".blue);
 });
-
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = keys.mongodb.mongodbURI;
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-// client.connect(err => {
-// 	if (err) {
-// 		console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
-// 		console.log("----------------------------------------------------------------------------".blue);
-// 	}
-// 	else {
-// 		console.log("-----------------------------------------------------".blue);
-// 		console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
-// 		console.log("-----------------------------------------------------".blue);
-// 	} 
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
 
 // API namespace
 app.use('/api', router);
@@ -871,7 +853,7 @@ router.get("/auth", function(req, res, next){
 	//   request_payload: 'my_payload'
 	//  }
 
-	Photos.findOne({$or: [{"imageId": uid},{"facebook.ids": uid}]}, function(error, result){
+	Photos.findOne({$or: [{"imageId": uid},{"facebook.id": uid}]}, function(error, result){
 		// if user id not found create user
 		if (!result || result === null) {
 
@@ -891,7 +873,7 @@ router.get("/auth", function(req, res, next){
 				if (error) console.error(error);
 				Photos.findOne({$or: [
 						{"imageId": uid},
-						{"facebook.ids": uid}
+						{"facebook.id": uid}
 					]}).exec().then(function(result){
 					res.send(result);
 				});
@@ -941,7 +923,7 @@ router.post('/auth', function(req, res) {
 	// Query database for user using the stuckwanyah algorithm
 	// checkUserExistance(userId);
 	// Query database with the userid
-	Photos.findOne({$or: [{"imageId": userId},{"facebook.ids": userId}]}, (err, user) => {
+	Photos.findOne({$or: [{"imageId": userId},{"facebook.id": userId}]}, (err, user) => {
 		if (!user) {
 			// create new user
 			res.sendStatus(200)
@@ -955,7 +937,7 @@ router.post('/auth', function(req, res) {
 
 	// Photos.findOne({$or: [
 	// 	{"imageId": uid},
-	// 	{"facebook.ids": uid}
+	// 	{"facebook.id": uid}
 	// ]})
 	// .exec()
 	// .then(function(user){
@@ -1069,14 +1051,14 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	// successRedirect: '/',
-	successReturnToOrRedirect: '/',
-	failureRedirect: '/',
+	successReturnToOrRedirect: '/foo',
+	failureRedirect: '/foo',
 	failureMessage: true
 }), function(req, res) {
 	// Successful authentication, redirect home
 	console.log("success")
 	// res.json(req.user)
-	res.redirect('/');
+	res.redirect('/foo');
 });
 
 /**
@@ -1154,8 +1136,10 @@ var getTwoRandomPhotos = function(config){
 	var choices = ['female', 'male'];
 	// var randomGender = _.sample(choices);
 	var randomGender = _.first(_.shuffle(choices));
-	var gender = shim(config.params.session.gender);
-	var userId = config.params.session.user_id;
+	// var gender = shim(config.params.session.gender);
+	var gender = shim(config.params.user.gender);
+	// var userId = config.params.session.user_id;
+	var userId = config.params.user._id;
 
 	var filter = {
 		age: {$gt: 13, $lt: 23 },
@@ -1185,7 +1169,8 @@ var getTwoRandomPhotos = function(config){
 		if (photos && photos[0] && photos[1]) {
 			if (photos[0].imageId !== photos[1].imageId) {
 				randomImages = photos;
-			} else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
+			} 
+			else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
 
 				var oppositeGender = _.first(_.without(choices, randomGender));
 
@@ -1194,7 +1179,7 @@ var getTwoRandomPhotos = function(config){
 						"random": {$near: [Math.random(), 0]},
 						$or: [
 							{"imageId": { $ne: userId }},
-							{"facebook.ids": { $ne: userId }}
+							{"facebook.id": { $ne: userId }}
 						]
 					})
 					.where("is_blocked", false)
@@ -1206,7 +1191,7 @@ var getTwoRandomPhotos = function(config){
 						if (photos.length === 2) {
 							randomImages = photos;
 						}
-							// When there no more photo pairs left of either gender
+						// When there no more photo pairs left of either gender
 						// reset the flags, and start the vote again
 						else if (photos.length < 2) {
 							Photos.update({}, {$set: {"voted": false}
@@ -1701,7 +1686,7 @@ function getNativeIdFromImageId(userid) {
 	return new Promise(function(resolve, reject) {
 		// Photos.findOne({$or: [
 		// 		{"imageId": userid},
-		// 		{"facebook.ids": userid}
+		// 		{"facebook.id": userid}
 		// 	]}, (err, user) => {
 		// 	resolve(user._id);
 		// });
@@ -2289,7 +2274,7 @@ function /* step: 1 */ checkUserExistance(userId) {
 	Photos.findOne({
 		$or: [
 			{"imageId": userId},
-			{"facebook.ids": userId}
+			{"facebook.id": userId}
 		]
 	}).then((user) => {
 		if (!user) {
