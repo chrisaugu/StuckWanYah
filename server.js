@@ -108,8 +108,8 @@ passport.use(new FacebookStrategy({
 	// options for the facebook strat
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.appSecret,
-	// callbackURL: keys.facebook.callbackURL,
-	callbackURL: '/api/auth/facebook/callback',
+	callbackURL: keys.facebook.callbackURL,
+	// callbackURL: '/api/auth/facebook/callback',
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
