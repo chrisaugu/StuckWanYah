@@ -113,7 +113,6 @@ passport.use(new FacebookStrategy({
 	
 	// check if photo already exists in the db
 	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-		console.log(user)
 		if (err) throw err;
 	
 		if (user) {
@@ -125,6 +124,7 @@ passport.use(new FacebookStrategy({
 		else {
 			// if not, create user in the db
 			new Photos({
+				imageId: profile._json.id,
 				fullName: profile._json.name || "",
 				firstName: profile._json.givenName || "",
 				lastName: profile._json.familyName || "",
