@@ -11,7 +11,7 @@ var express = require("express")
 	, cookieParser = require('cookie-parser')
 	, Redis = require('redis')
 	, mongoose = require("mongoose")
-	// , morgan = require("morgan")
+	, morgan = require("morgan")
 	, _ = require('underscore')
 	, moment = require("moment")
 	, bodyParser = require("body-parser")
@@ -73,7 +73,7 @@ app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
 app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
-// app.use(morgan('dev')); // log every request to the console.
+app.use(morgan('dev')); // log every request to the console.
 app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 // Parse POST request data. It will be available in the req.body object
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -108,8 +108,8 @@ passport.use(new FacebookStrategy({
 	// options for the facebook strat
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.appSecret,
-	// callbackURL: keys.facebook.callbackURL,
-	callbackURL: '/api/auth/facebook/callback',
+	callbackURL: keys.facebook.callbackURL,
+	// callbackURL: '/api/auth/facebook/callback',
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
@@ -134,14 +134,18 @@ passport.use(new FacebookStrategy({
 	// });
 
 	// check if photo already exists in the db
-	Photos.findOne({"facebook.id": profile.id}).then((currentUser) => {
-		if (currentUser) {
+	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+	    if (err) throw err;
+	    
+	    if (user) {
 			// already have the photo
-			console.log("user is:", currentUser);
-			done(null, currentUser);
-		} else {
+			// req.session.strategy = 'facebook';
+			console.log("user is:", user);
+			return done(null, user);
+	    }
+	    else {
 			// if not, create user in the db
-			new Photos({
+	    	new Photos({
 				fullName: profile._json.name,
 				firstName: profile._json.givenName,
 				lastName: profile._json.familyName,
@@ -155,8 +159,9 @@ passport.use(new FacebookStrategy({
 				}
 			})
 			.save((error, newPhoto) => {
+				if (error) throw error;
 				console.log('new photo created:', newPhoto);
-				done(error, newPhoto);
+				done(null, newPhoto);
 			})
 		}
 	});
