@@ -116,10 +116,16 @@ passport.use(new FacebookStrategy({
 		if (err) throw err;
 	
 		if (user) {
-			// already have the photo
+			// already have the photo, update the photo
 			// req.session.strategy = 'facebook';
 			console.log("user is:", user);
-			return done(null, user);
+
+			user.picture = profile.photos[0].value;
+			user.profileUrl = profile.__json.link;
+			user.save(function(error, result) {
+				if (err) throw error;
+				return done(null, result);
+			});
 		}
 		else {
 			// if not, create user in the db
