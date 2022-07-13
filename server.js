@@ -1036,14 +1036,13 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	// successRedirect: '/',
-	successReturnToOrRedirect: '/foo',
-	failureRedirect: '/foo',
+	successReturnToOrRedirect: '/',
+	failureRedirect: '/',
 	failureMessage: true
 }), function(req, res) {
 	// Successful authentication, redirect home
 	console.log("success")
-	// res.json(req.user)
-	res.redirect('/foo');
+	res.redirect('/');
 });
 
 /**
