@@ -107,7 +107,6 @@ passport.use(new FacebookStrategy({
 	clientID: keys.facebook.appID,
 	clientSecret: keys.facebook.appSecret,
 	callbackURL: keys.facebook.callbackURL,
-	// callbackURL: '/api/auth/facebook/callback',
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
@@ -129,8 +128,8 @@ passport.use(new FacebookStrategy({
 	// 			fullName: profile._json.name,
 	// 			firstName: profile._json.givenName,
 	// 			lastName: profile._json.familyName,
-	// 			age: (new Date().getYear() - new Date(profile._json.birthday).getYear()),
-	// 			gender: profile._json.gender,
+	// 			age: (new Date().getYear() - new Date(profile._json.birthday).getYear()) || 19,
+	// 			gender: profile._json.gender || 'male',
 	// 			picture: profile.photos[0].value,
 	// 			profileUrl: profile._json.link,
 	// 			facebook: {
