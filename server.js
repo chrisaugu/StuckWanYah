@@ -150,7 +150,7 @@ passport.use(new FacebookStrategy({
 		return done(err, user);
 	});
 
-	done(null, profile);
+	// done(null, profile);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
