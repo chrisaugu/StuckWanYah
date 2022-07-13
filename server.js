@@ -57,10 +57,8 @@ let Sweetlips = require("./models/sweetlips");
 // var AccessToken = Sweetlips.accessToken;
 const Photos = mongoose.model('photos');
 const Hits = mongoose.model('hits');
-// const BlockedPhotos = Sweetlips.blockedPhotos;
+// const BlockedPhotos = mongoose.model('blockedPhotos');
 const AccessToken = mongoose.model('accessToken');
-// Photos.methods(['get', 'put','post', 'delete']).register(router, '/photos');
-// Hits.methods(['get', 'put','post', 'delete']).register(router, '/hits');
 
 // Express configuration
 app.set('port', process.env.PORT);
@@ -113,64 +111,46 @@ passport.use(new FacebookStrategy({
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
-	// var me = new Photos({
-	// 	email: profile.emails[0].value,
-	// 	name: profile.displayName
-	// });
-
-	/* save if new */
-	// Photos.findOne({ email: me.email }, function(err, u) {
-	// 	if(!u) {
-	// 		me.save().then(function(newUser) {
-	// 			console.log("new user created: " + newUser);
-	// 			done(null, newUser);
-	// 		}).catch(function(err){
-	// 			return done(err);
-	// 		});
-	// 	} else {
-	// 		console.log("user is: " + u);
-	// 		done(null, u);
+	console.log(profile)
+	// check if photo already exists in the db
+	// Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+	// 	console.log(user)
+	//     if (err) throw err;
+	    
+	//     if (user) {
+	// 		// already have the photo
+	// 		// req.session.strategy = 'facebook';
+	// 		console.log("user is:", user);
+	// 		return done(null, user);
+	//     }
+	//     else {
+	// 		// if not, create user in the db
+	//     	new Photos({
+	// 			fullName: profile._json.name,
+	// 			firstName: profile._json.givenName,
+	// 			lastName: profile._json.familyName,
+	// 			age: (new Date().getYear() - new Date(profile._json.birthday).getYear()),
+	// 			gender: profile._json.gender,
+	// 			picture: profile.photos[0].value,
+	// 			profileUrl: profile._json.link,
+	// 			facebook: {
+	// 				id: profile._json.id,
+	// 				friends: profile._json.friends
+	// 			}
+	// 		})
+	// 		.save((error, newPhoto) => {
+	// 			if (error) throw error;
+	// 			console.log('new photo created:', newPhoto);
+	// 			done(null, newPhoto);
+	// 		})
 	// 	}
 	// });
-
-	// check if photo already exists in the db
-	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-	    if (err) throw err;
-	    
-	    if (user) {
-			// already have the photo
-			// req.session.strategy = 'facebook';
-			console.log("user is:", user);
-			return done(null, user);
-	    }
-	    else {
-			// if not, create user in the db
-	    	new Photos({
-				fullName: profile._json.name,
-				firstName: profile._json.givenName,
-				lastName: profile._json.familyName,
-				age: (new Date().getYear() - new Date(profile._json.birthday).getYear()),
-				gender: profile._json.gender,
-				picture: profile.photos[0].value,
-				profileUrl: profile._json.link,
-				facebook: {
-					id: profile._json.id,
-					friends: profile._json.friends
-				}
-			})
-			.save((error, newPhoto) => {
-				if (error) throw error;
-				console.log('new photo created:', newPhoto);
-				done(null, newPhoto);
-			})
-		}
-	});
 
 	// Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
 	// 	return done(err, user);
 	// });
 
-	// done(null, profile);
+	done(null, profile);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
@@ -216,13 +196,13 @@ app.use(session({
 // app.use(passport.session());
 app.use(passport.authenticate('session'));
 
-app.use((req, res, next) => {
+// app.use((req, res, next) => {
 // 	if (!req.session.views) req.session.views = {}
 // 	// get the url pathname
 // 	var pathname = parseurl(req).pathname;
 // 	// count the views
 // 	req.session.views[pathname] = (req.session.views[pathname] || 0) + 1;
-
+//
 // 	if (req.session.seenyou) {
 // 		res.setHeader('X-Seen-You', true);
 // 	} else {
@@ -230,45 +210,45 @@ app.use((req, res, next) => {
 // 		req.session.seenyou = true;
 // 		res.setHeader('X-Seen-You', false);
 // 	}
-
+//
 // 	res.locals.session = req.session;
 // 	req.session.visitors = (req.session.visitors || 0) + 1;
 // 	// req.session.gender = 'male';
-
-	next();
-});
+//
+// 	next();
+// });
 
 // middleware function to check for logged-in users
 // This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
 // This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 // Middleware for some local variables to be used in the template
-app.use((req, res, next) => {
+// app.use((req, res, next) => {
 // 	var loggedIn = !!req.session.id;
 
-	// if (!req.session) {
-	// 	return next(new Error("oh no"));
-	// }
+// 	if (!req.session) {
+// 		return next(new Error("oh no"));
+// 	}
 
-	// if (req.session.user_id) {
-	// 	req.session.authenticated = true;
-	// 	res.locals.connected = req.session.authenticated;
-	// 	return next();
-	// }
-	// else {
-	// 	req.session.authenticated = false;
-	// 	res.locals.connected = req.session.authenticated;
+// 	if (req.session.user_id) {
+// 		req.session.authenticated = true;
+// 		res.locals.connected = req.session.authenticated;
+// 		return next();
+// 	}
+// 	else {
+// 		req.session.authenticated = false;
+// 		res.locals.connected = req.session.authenticated;
 
-	// 	/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
+// 		/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
 
-	// 	// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
-	// 	// 	return next();
-	// 	// } else {
-	// 	// 	res.redirect('/foo');
-	// 	// }
-	// }
+// 		// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
+// 		// 	return next();
+// 		// } else {
+// 		// 	res.redirect('/foo');
+// 		// }
+// 	}
 
-	next();
-});
+// 	next();
+// });
 
 // app.use(async (req, res, next) => {
 // 	try {
