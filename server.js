@@ -121,7 +121,7 @@ passport.use(new FacebookStrategy({
 			console.log("user is:", user);
 
 			user.picture = profile.photos[0].value;
-			user.profileUrl = profile.__json.link;
+			// user.profileUrl = profile.__json.link;
 			user.save(function(error, result) {
 				if (err) throw error;
 				return done(null, result);
@@ -130,7 +130,7 @@ passport.use(new FacebookStrategy({
 		else {
 			// if not, create user in the db
 			new Photos({
-				imageId: profile._json.id,
+				imageId: profile.id,
 				fullName: profile._json.name || "",
 				firstName: profile._json.givenName || "",
 				lastName: profile._json.familyName || "",
