@@ -110,46 +110,46 @@ passport.use(new FacebookStrategy({
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
-	console.log(profile)
-	// check if photo already exists in the db
-	// Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-	// 	console.log(user)
-	// 	if (err) throw err;
 	
-	// 	if (user) {
-	// 		// already have the photo
-	// 		// req.session.strategy = 'facebook';
-	// 		console.log("user is:", user);
-	// 		return done(null, user);
-	// 	}
-	// 	else {
-	// 		// if not, create user in the db
-	// 		new Photos({
-	// 			fullName: profile._json.name,
-	// 			firstName: profile._json.givenName,
-	// 			lastName: profile._json.familyName,
-	// 			age: (new Date().getYear() - new Date(profile._json.birthday).getYear()) || 19,
-	// 			gender: profile._json.gender || 'male',
-	// 			picture: profile.photos[0].value,
-	// 			profileUrl: profile._json.link,
-	// 			facebook: {
-	// 				id: profile._json.id,
-	// 				friends: profile._json.friends
-	// 			}
-	// 		})
-	// 		.save((error, newPhoto) => {
-	// 			if (error) throw error;
-	// 			console.log('new photo created:', newPhoto);
-	// 			done(null, newPhoto);
-	// 		})
-	// 	}
-	// });
+	// check if photo already exists in the db
+	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+		console.log(user)
+		if (err) throw err;
+	
+		if (user) {
+			// already have the photo
+			// req.session.strategy = 'facebook';
+			console.log("user is:", user);
+			return done(null, user);
+		}
+		else {
+			// if not, create user in the db
+			new Photos({
+				fullName: profile._json.name || "",
+				firstName: profile._json.givenName || "",
+				lastName: profile._json.familyName || "",
+				age: (new Date().getYear() - new Date(profile._json.birthday).getYear()) || 19,
+				gender: profile._json.gender || 'male',
+				picture: profile.photos[0].value || "",
+				profileUrl: profile._json.link || "",
+				facebook: {
+					id: profile._json.id,
+					friends: profile._json.friends
+				}
+			})
+			.save((error, newPhoto) => {
+				if (error) throw error;
+				console.log('new photo created:', newPhoto);
+				done(null, newPhoto);
+			})
+		}
+	});
 
 	// Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
 	// 	return done(err, user);
 	// });
 
-	done(null, profile);
+	// done(null, profile);
 }));
 
 /** Registers a function used to serialize user objects into the session. */
