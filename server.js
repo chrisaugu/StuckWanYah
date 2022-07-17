@@ -23,6 +23,7 @@ var express = require("express")
 	, FacebookStrategy = require('passport-facebook').Strategy
 	, jwt = require('jwt-simple')
 	, CryptoJS = require('crypto-js')
+	, crypto = require("crypto")
 	// , expressJwt = require('express-jwt')
 	, xml2js = require("xml2js")
 	, fs = require('fs')
@@ -31,8 +32,8 @@ var express = require("express")
 	, Elo = require('arpad')
 	, dotenv = require('dotenv').config()
 	, cors = require('cors')
-	, keys = require("./config/keys")
-	, logSymbols = require('log-symbols');
+	, logSymbols = require('log-symbols')
+	, keys = require("./config/keys");
 
 // Creating Global instance for express
 const app = express();
