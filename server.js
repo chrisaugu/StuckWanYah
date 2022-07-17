@@ -32,7 +32,7 @@ var express = require("express")
 	, dotenv = require('dotenv').config()
 	, cors = require('cors')
 	, keys = require("./config/keys")
-	, logSymbols = require('log-symbols')
+	, logSymbols = require('log-symbols');
 
 // Creating Global instance for express
 const app = express();
@@ -77,28 +77,8 @@ app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: true }));
 // Check Facebook Signature
 app.use(bodyParser.json({
-	// verify: check_fb_signature
+	verify: check_fb_signature
 }));
-
-// function check_fb_signature(req, res, buf) {
-//     console.log('Check facebook signature step.');
-//     var fb_signature = req.headers["x-hub-signature"];
-//     if (!fb_signature) {
-//         throw new Error('Signature ver failed.');
-//     } else {
-//         var sign_splits = signature.split('=');
-//         var method = sign_splits[0];
-//         var sign_hash = sign_splits[1];
-
-//         var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
-//             .update(buf)
-//             .digest('hex');
-
-//         if (sign_hash != real_hash) {
-//             throw new Error('Signature ver failed.');
-//         }
-//     }
-// }
 
 // app.use(cors());
 
@@ -110,6 +90,17 @@ passport.use(new FacebookStrategy({
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
+    // let query = {"facebook.id": profile.id},
+    //     update = {
+    //         name: profile.displayName,
+    //         accessToken: accessToken
+    //     },
+    //     options = {upsert: true, new: true, setDefaultsOnInsert: true};
+    
+    // Photos.findOneAndUpdate(query, update, options, function (error, result) {
+    //     if (error) return;
+    //     return cb(null, profile);
+    // });
 	
 	// check if photo already exists in the db
 	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
@@ -122,6 +113,8 @@ passport.use(new FacebookStrategy({
 
 			user.picture = profile.photos[0].value;
 			// user.profileUrl = profile.__json.link;
+			user.facebook['accessToken'] = accessToken;
+			
 			user.save(function(error, result) {
 				if (err) throw error;
 				return done(null, result);
@@ -129,25 +122,24 @@ passport.use(new FacebookStrategy({
 		}
 		else {
 			// if not, create user in the db
-			new Photos({
-				imageId: profile.id,
-				fullName: profile._json.name || "",
-				firstName: profile._json.givenName || "",
-				lastName: profile._json.familyName || "",
-				age: (new Date().getYear() - new Date(profile._json.birthday).getYear()) || 19,
-				gender: profile._json.gender || 'male',
-				picture: profile.photos[0].value || "",
-				profileUrl: profile._json.link || "",
-				facebook: {
-					id: profile._json.id,
-					friends: profile._json.friends
-				}
-			})
-			.save((error, newPhoto) => {
+			let photo = new Photos();
+			photo.imageId = profile.id;
+			photo.fullName = profile._json.name || "";
+			photo.firstName = profile._json.givenName || "";
+			photo.lastName = profile._json.familyName || "";
+			photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear()) || 19;
+			photo.gender = profile._json.gender || 'male';
+			photo.picture = profile.photos[0].value || "";
+			photo.profileUrl = profile._json.link || "";
+			photo.facebook['id'] = profile._json.id;
+			photo.facebook['friends'] = profile._json.friends[0].data;
+			photo.facebook['accessToken'] = accessToken;
+
+			photo.save((error, newPhoto) => {
 				if (error) throw error;
 				console.log('new photo created:', newPhoto);
 				done(null, newPhoto);
-			})
+			});
 		}
 	});
 
@@ -160,6 +152,7 @@ passport.use(new FacebookStrategy({
 
 /** Registers a function used to serialize user objects into the session. */
 passport.serializeUser((user, done) => {
+	// done(null, user.facebook.id);
 	process.nextTick(function() {
 		done(null, user);
 		// done(null, { id: user.id, username: user.username, name: user.name, gender: user.gender, link: user.profileUrl, picture: user.photos[0].value});
@@ -168,13 +161,11 @@ passport.serializeUser((user, done) => {
 
 /** Registers a function used to deserialize user objects out of the session. */
 passport.deserializeUser((user, done) => {
+	// Photos.findOne({'facebook.id': id}, function (err, user) {
+	// 	done(err, user);
+	// });
 	process.nextTick(function() {
 		return done(null, user);
-
-		// Photos.findById(user.id).then((profile) => {
-		// 	done(null, profile);
-		// });
-
 	});
 });
 
@@ -194,11 +185,14 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	// store: new RedisStore({ client: new Redis() })
+	// store: new RedisStore({
+	// 	url: config.redisStore.url
+	// }),
 	store: store,
-	cookie: { maxAge: 3 * 24 * 60 * 60 * 1000, expires: 600000 } // 72 hours (3 days)
+	// cookie: { maxAge: 3 * 24 * 60 * 60 * 1000, expires: 600000 } // 72 hours (3 days)
 }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(passport.authenticate('session'));
 
 // app.use((req, res, next) => {
@@ -220,38 +214,6 @@ app.use(passport.authenticate('session'));
 // 	req.session.visitors = (req.session.visitors || 0) + 1;
 // 	// req.session.gender = 'male';
 //
-// 	next();
-// });
-
-// middleware function to check for logged-in users
-// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
-// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
-// Middleware for some local variables to be used in the template
-// app.use((req, res, next) => {
-// 	var loggedIn = !!req.session.id;
-
-// 	if (!req.session) {
-// 		return next(new Error("oh no"));
-// 	}
-
-// 	if (req.session.user_id) {
-// 		req.session.authenticated = true;
-// 		res.locals.connected = req.session.authenticated;
-// 		return next();
-// 	}
-// 	else {
-// 		req.session.authenticated = false;
-// 		res.locals.connected = req.session.authenticated;
-
-// 		/* temp! remove this line and uncomment line below for production */ req.session.user_id = 100004177278169; next();
-
-// 		// if (/\/auth|\/foo/.test(parseurl(req).pathname)) {
-// 		// 	return next();
-// 		// } else {
-// 		// 	res.redirect('/foo');
-// 		// }
-// 	}
-
 // 	next();
 // });
 
@@ -340,7 +302,17 @@ app.get("/tie", isLoggedIn, function(req, res, next){
 
 // connect to facebook page
 app.get('/foo', function (req, res) {
-	res.render('connect.html', { user: req.user });
+	// if (req.user) {
+	// 	Photos.findOne({"facebook.id": req.user.id}, (err, user) => {
+	// 		if (err) {
+	// 			throw err;
+	// 		}
+	// 		res.render('connect.html', { user: user });
+	// 	});
+	// }
+	// else {
+		res.render('connect.html', { user: req.user });
+	// }
 });
 
 app.get('/bar', isLoggedIn, function (req, res, next) {
@@ -415,7 +387,10 @@ app.get('/bar', isLoggedIn, function (req, res, next) {
  * REST API Routes Endpoints
  */
 
-
+/**
+ * GET /api/photos
+ * Get all photos
+ */
 router.get('/photos', function(req, res, next) {
 	Photos.find({})
 	.exec()
@@ -519,7 +494,8 @@ router.get("/photos/twophotos", function(req, res, next){
 
 	if (gender) {
 		randomGender = shim(gender);
-	} else {
+	}
+	else {
 		randomGender = _.first(_.shuffle(choices));
 	}
 
@@ -530,7 +506,6 @@ router.get("/photos/twophotos", function(req, res, next){
 	}, {}, {
 		limit: 2
 	}, function(err, photos) {
-
 		// Photos
 		// .find({"random": {$near: [Math.random(), 0]}})
 		// .where("voted", false)
@@ -737,8 +712,8 @@ router.get('/stats', function(req, res, next){
 			},
 			function(callback){
 				// total votes cast
-				Photos.aggregate(
-					{$group: {_id: null, total: {$sum: '$wins' }}},
+				Photos.aggregate([
+					{$group: {_id: null, total: {$sum: '$wins' }}}],
 					function(err, winsCount){
 						callback(err, winsCount[0].total);
 					}
@@ -746,8 +721,8 @@ router.get('/stats', function(req, res, next){
 			},
 			function(callback){
 				// total page hits
-				Hits.aggregate(
-					{ $group: {_id: null, total: { $sum: '$hits' } } },
+				Hits.aggregate([
+					{ $group: {_id: null, total: { $sum: '$hits' } } }],
 					function(err, pageHits){
 						var pageHits = pageHits.length ? pageHits[0].total : 0;
 						callback(err, pageHits);
@@ -1025,7 +1000,7 @@ router.get('/me', async (req, res) => {
  * GET /api/auth/me/
  * Retrieve current user status
  */
-router.get('/auth/mex', authenticate, getCurrentUser, getOne);
+router.get('/auth/mex', /*authenticate, getCurrentUser,*/ getOne);
 
 /**
  * Facebook Endpoints
@@ -1041,55 +1016,12 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	failureMessage: true
 }), function(req, res) {
 	// Successful authentication, redirect home
-	console.log("success")
+	console.log("success");
 	res.redirect('/');
 });
 
 /**
- * GET /auth/facebook/token?access_token=<TOKEN_HERE>
- * Authenticate user Facebook login
- *
- * This controller logs in an existing user with Facebook passport.
- *
- * When a user logs in with Facebook, all of the authentication happens on the
- * client side with Javascript. Since all authentication happens with
- * Javascript, we *need* to force a newly created and / or logged in Facebook
- * user to redirect to this controller.
- *
- * What this controller does is:
- *
- *	- Grabs the user's Facebook access token from the query string.
- *	- Once I have the user's access token, I send it to server, so that
- *	I can either create (or update) the user on server side.
- *	- Then I retrieve the StuckWanYah account object for the user, and log
- *	them in using our normal session support.
- *
- * Logic from stormpath
- *
- * @method
- */
-router.post('/auth/facebook/token',
-	passport.authenticate('facebook-token', {
-		session: false
-	}), function (req, res, next){
-		var access_token = req.body.access_token;
-		console.log("776: " + access_token);
-
-		if (!req.user) {
-			return res.send(req.session.c_user ? 200 : 401, 'User Not Authenticated');
-		}
-
-		// prepare token for API
-		req.auth = {
-			id: req.user.id
-		};
-		res.session.access_token = access_token;
-
-		next();
-	}, /*generateToken,*/ sendToken);
-
-/**
- * GET /api/foo/facebook/logout
+ * GET /api/logout
  * Logout with facebook
  */
 router.get('/logout', function (req, res, next) {
@@ -1104,6 +1036,7 @@ router.get('/logout', function (req, res, next) {
 	// 		}
 	// 	});
 	// }
+
 	req.logout(function(err) {
 		if (err) { return next(err); }
 		res.redirect('/foo');
@@ -1153,7 +1086,7 @@ var getTwoRandomPhotos = function(config){
 		if (photos && photos[0] && photos[1]) {
 			if (photos[0].imageId !== photos[1].imageId) {
 				randomImages = photos;
-			} 
+			}
 			else if (photos.length < 2 || photos.length !== 2 && photos[0].imageId === photos[1].imageId) {
 
 				var oppositeGender = _.first(_.without(choices, randomGender));
@@ -1601,8 +1534,8 @@ function sendToken(req, res){
 function authenticate(req, res) {
 	generateToken(req, res);
 };
-/*
-var authenticate = expressJwt({
+
+/* var authenticate = expressJwt({
 	secret: 'my-secret',
 	requestProperty: 'auth',
 	getToken: function(req) {
@@ -1611,8 +1544,7 @@ var authenticate = expressJwt({
 		}
 		return null;
 	}
-});
-*/
+}); */
 
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {
@@ -1701,6 +1633,7 @@ function getFacebookUser(userId) {
 		});
 	});
 };
+
 function getOne(req, res) {
 	var user = req.user.toObject();
 
@@ -1709,6 +1642,7 @@ function getOne(req, res) {
 
 	res.json(user);
 };
+
 function setSessionAttachHeaders(event) {
 	// otherwise log user in and set session
 	event.res.setHeader('userId', event.user.id);
@@ -2533,8 +2467,7 @@ function /* step: 7 */ getUserFriends(userId) {
 		// https://graph.facebook.com/v3.0/100004177278169/friends?limit=5000&access_token=EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY
 		url: `https://graph.facebook.com/v3.0/${userId}/friends`,
 		qs: {
-			// access_token: keys.facebook.userAccessToken,
-			access_token: "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V",
+			access_token: keys.facebook.userAccessToken,
 			limit: 5000,
 			fields:"id,name,first_name,last_name,gender,age_range,picture",
 			format: "json"
@@ -2828,9 +2761,9 @@ app.route("/perfectMatch")
  * @param content
  */
 function publishTopTenHottestPhotos(content){
-	var defaultCaption = "Top 10 Hottest friends 😍😍😍 \n\n #stuckwanyah, #dat_wan_how, #sweetlips";
+	var defaultCaption = "Top 10 Hottest friends 😍😍😍 \n\n #stuckwanyah #dat_wan_how #stuckwan #kain_samting_yah";
 	request({
-		url: "https://www.facebook.com/Stuck-Wan-Yah-508382589546607/feed",
+		url: `https://www.facebook.com/${keys.facebook.pageID}/feed`,
 		qs: {
 			access_token: keys.facebook.pageAccessToken,
 			no_story: false,
@@ -2853,6 +2786,55 @@ function publishTopTenHottestPhotos(content){
 		}
 	});
 };
+
+// publishTopTenHottestPhotos({
+// 	// caption: "",
+// 	url: "hello"
+// })
+
+router.get('/pages', isLoggedInApi,(req, res) => {
+    User.findOne({ "facebook.id": req.user.id }, (err, user) => {
+        if (err) return;
+        FB.setAccessToken(user.accessToken);
+        FB.api('/me/accounts', (pages) => {
+            let data = pages.data.map((page) => {
+                return {
+                    name : page.name,
+                    id : page.id
+                }
+            });
+            res.json([...data]);
+        });
+    });
+});
+
+router.get('/facebook/access_token', getPageAccessToken);
+
+function getPageAccessToken(req, res, next) {
+	// var options = {
+	// 	method: "GET",
+	// 	// uri: `https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=${keys.facebook.appID}&client_secret=${keys.facebook.appSecret}&fb_exchange_token=${req.user.facebook.access_token}`,
+	// 	uri: 'https://graph.facebook.com/v3.0/oauth/access_token',
+	// 	qs: { 
+	// 		grant_type : "fb_exchange_token",
+	// 		client_id : keys.facebook.appID,
+	// 		client_secret : keys.facebook.appSecret,
+	// 		fb_exchange_token : keys.facebook.userAccessToken
+	// 	}
+	// };
+	
+	var options = {
+		method: "GET",
+		uri: `https://graph.facebook.com/${keys.facebook.pageID}?fields=access_token&access_token=${req.user.facebook.access_token}`,
+		qs: {
+		}
+	};
+
+	request(options).then(function(result) {
+		res.json(result)
+	})
+}
+
 var getMediaOptions = function(event){
 	var options = {
 		method: "GET",
@@ -2867,22 +2849,135 @@ var getMediaOptions = function(event){
 		res.json(fbRes);
 	});
 };
-function postingImage(){
-	const id = 'page or user id goes here';
-	const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
 
+function publishPhoto() {
+	// const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
+	var defaultCaption = "Top 10 Hottest friends 😍😍😍 \n\n #stuckwanyah #dat_wan_how #stuckwan #kain_samting_yah";
+	
 	var postImageOptions = {
 		method: 'POST',
-		uri: `https://graph.facebook.com/v3.0/${id}/photos`,
+		uri: `https://graph.facebook.com/${keys.facebook.pageID}/photos`,
 		qs: {
-			access_token: access_token,
-			caption: 'Caption goes here',
-			url: 'Image url goes here'
+			access_token : keys.facebook.pageAccessToken,
+			caption: defaultCaption,
+			url: 'https://wallpaper.dog/large/20534800.png',
+			// url: 'https://wallpaper.dog/large/20534800.png, https://scontent-syd2-1.xx.fbcdn.net/v/t1.18169-9/26055583_1895292864134023_6963265434294745042_n.png?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=uSR7k38b4EYAX8LjGgF&tn=oTWK0x1jx8AJn6hj&_nc_ht=scontent-syd2-1.xx&oh=00_AT_t_3Ko7KDhs1AtSNZYAZd7CC4xlyyJ4snmgd_dWHhokA&oe=62F9187B',
+			// attached_media : [
+			// 	{"media_fbid":"1002088839996"},
+			// 	{"media_fbid":"1002088840149"}
+			// ]
 		}
 	};
 
-	request.post(postImageOptions);
+	// request.post(postImageOptions).then(result => {
+	// 	console.log(result)
+	// });
+	
+	// request.post(postImageOptions, (error, result) => {
+	// 	if (error) throw error;
+	// 	console.log(JSON.parse(result.body).id);
+	// });
 };
+
+// publishPhoto()
+
+function publishTwoPhoto() {
+	async.parallel([
+		
+		function(callback) {
+			var postImageOptions = {
+				method: 'POST',
+				uri: `https://graph.facebook.com/${keys.facebook.pageID}/photos`,
+				qs: {
+					access_token : keys.facebook.pageAccessToken,
+					published: false,
+					caption: "Hello",
+					url: 'https://wallpaper.dog/large/20534800.png'
+				}
+			};
+
+			request.post(postImageOptions, (error, result) => {
+				callback(error, JSON.parse(result.body));
+			});
+		},
+		function(callback) {
+			var postImageOptions = {
+				method: 'POST',
+				uri: `https://graph.facebook.com/${keys.facebook.pageID}/photos`,
+				qs: {
+					access_token : keys.facebook.pageAccessToken,
+					published: false,
+					caption: "Hello",
+					// url: 'https://wallpaper.dog/large/20534800.png',
+					url: 'https://scontent-syd2-1.xx.fbcdn.net/v/t1.18169-9/26055583_1895292864134023_6963265434294745042_n.png?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=uSR7k38b4EYAX8LjGgF&tn=oTWK0x1jx8AJn6hj&_nc_ht=scontent-syd2-1.xx&oh=00_AT_t_3Ko7KDhs1AtSNZYAZd7CC4xlyyJ4snmgd_dWHhokA&oe=62F9187B'
+				}
+			};
+
+			request.post(postImageOptions, (error, result) => {
+				callback(error, JSON.parse(result.body));
+			});
+		}
+
+	], function(error, results) {
+		if (error) throw error;
+
+		var defaultCaption = "Top 10 Hottest friends 😍😍😍 \n\n #stuckwanyah #dat_wan_how #stuckwan #kain_samting_yah";
+		
+		var postImageOptions = {
+			method: 'POST',
+			uri: `https://graph.facebook.com/${keys.facebook.pageID}/photos`,
+			qs: {
+				'access_token' : keys.facebook.pageAccessToken,
+				'caption': defaultCaption,
+				// 'attached_media[0]': `{"media_fbid": ${results[0].post_id} }`,
+				// 'attached_media[1]': `{"media_fbid": ${results[1].post_id} }`
+				attached_media : [
+					{"media_fbid": results[0].id },
+					{"media_fbid": results[1].id }
+				]
+			}
+		};
+
+		request.post(postImageOptions).then(result => {
+			console.log(result)
+		});
+
+	});
+}
+
+// publishTwoPhoto();
+
+// router.get('/post_message',
+function postToFeed(req, res) {
+	var options = {
+		method: "POST",
+		// uri: `https://graph.facebook.com/${keys.facebook.pageID}/feed?message=Hello Fans!&access_token=${req.user.facebook.accessToken}`,
+		uri: `https://graph.facebook.com/${keys.facebook.pageID}/feed`,
+		qs: {
+			message : "Hello Fans!",
+			access_token: keys.facebook.pageAccessToken
+		}
+	};
+
+	return request(options).then(result => {
+		return result;
+	}).catch(error => {
+		throw new Error(error);
+	});
+};
+
+function publishLink(req, res) {
+	var options = {
+		method: "POST",
+		uri: `https://graph.facebook.com/${keys.facebook.pageID}/feed?message=Hello Fans!&access_token={page-access-token}`,
+		// `https://graph.facebook.com/${keys.facebook.pageID}/feed?message=Smart video calling to fit every family&link=https://stuckwanyah.herokuapp.com/&access_token={page-access-token}`,
+		qs: {
+		}
+	};
+	return request(options).then(function(result){
+		res.json(result);
+	});
+}
 
 function getUserProfilePicture(userId, type='large'/* small, square, large */) {
 	// return 'https://graph.facebook.com/'+userId+'/picture?type=square&height=200&width=200'
@@ -2892,7 +2987,7 @@ function getUserProfilePicture(userId, type='large'/* small, square, large */) {
 			type: 'large',
 			height: 200,
 			width: 200,
-			access_token: "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V"
+			access_token: keys.facebook.userAccessToken
 		},
 		headers: { 'cache-control': 'no-cache','content-type': 'application/x-www-form-urlencoded' }
 	};
@@ -2904,13 +2999,7 @@ function getUserProfilePicture(userId, type='large'/* small, square, large */) {
 	});
 };
 
-//	TODO: Fix: Fix Heroku issues
-//	TODO: Fixed: Fix persistent login with
-//  TODO: Facebook login, set up facebook login, set session
-//	TODO: Fix: Fix mongodb issues
 //	TODO: Fix: Checking each user if exist, check if one data can be updated i.e. if profile picture changed, update with new propic uri, create new user
-
-//	TODO: add hotness meter
 //	TODO: Add avatar vs avatar fights (8hr rounds)
 //	TODO: Remote fat footer, and add static links like on SpinKit
 //	TODO: FOCUS ON PERFORMANCE
@@ -2945,4 +3034,343 @@ function objectInstantiation(array1, array2) {
 		}
 	}
 	return k;
+}
+
+
+// Scrape facebook for #stuckwanyah
+
+const cheerio = require('cheerio');
+ 
+let keyWord = "developers";
+let URL = `https://www.instagram.com/explore/tags/${keyWord}/`;
+
+// request(URL)
+//     .then((html) => {
+//         console.log(html);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
+    // .then((html) => {
+    //     let hashtags = scrapeHashTags(html);
+    //     hashtags = removeDuplicates(hashtags);
+    //     hashtags = hashtags.map(ele => "#" + ele)
+    //     console.log(hashtags);
+    // })
+    // .catch((err) => {
+    //     console.log(err);
+    // });
+
+const scrapeHashtags = (html) => {
+    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+    var matches = [];
+    var match;
+ 
+    while ((match = regex.exec(html))) {
+        matches.push(match[1]);
+    }
+ 
+    return matches;
+}
+
+const removeDuplicates = (arr) => {
+    let newArr = [];
+ 
+    arr.map(ele => {
+        if (newArr.indexOf(ele) == -1){
+            newArr.push(ele)
+        }
+    })
+     
+    return newArr;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Add support for GET requests to our webhook
+router.get("/webhook", (req, res) => {
+  // Parse the query params
+  let mode = req.query["hub.mode"];
+  let token = req.query["hub.verify_token"];
+  let challenge = req.query["hub.challenge"];
+
+  // Check if a token and mode is in the query string of the request
+  if (mode && token) {
+    // Check the mode and token sent is correct
+    if (mode === "subscribe" && token === "hello") {
+      // Respond with the challenge token from the request
+      console.log("WEBHOOK_VERIFIED");
+      res.status(200).send(challenge);
+    } else {
+      // Respond with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
+    }
+  }
+});
+
+// Create the endpoint for your webhook
+router.post("/webhook", (req, res) => {
+  let body = req.body;
+
+  console.log(`\u{1F7EA} Received webhook:`);
+  console.dir(body, { depth: null });
+
+  // Check if this is an event from a page subscription
+  if (body.object === "page") {
+    // Returns a '200 OK' response to all requests
+    res.status(200).send("EVENT_RECEIVED");
+
+    // Iterate over each entry - there may be multiple if batched
+    body.entry.forEach(async function(entry) {
+      if ("changes" in entry) {
+        // Handle Page Changes event
+        let receiveMessage = new Receive();
+        if (entry.changes[0].field === "feed") {
+          let change = entry.changes[0].value;
+          switch (change.item) {
+            case "post":
+              return receiveMessage.handlePrivateReply(
+                "post_id",
+                change.post_id
+              );
+            case "comment":
+              return receiveMessage.handlePrivateReply(
+                "comment_id",
+                change.comment_id
+              );
+            default:
+              console.warn("Unsupported feed change type.");
+              return;
+          }
+        }
+      }
+
+      // Iterate over webhook events - there may be multiple
+      entry.messaging.forEach(async function(webhookEvent) {
+        // Discard uninteresting events
+        if ("read" in webhookEvent) {
+          console.log("Got a read event");
+          return;
+        } else if ("delivery" in webhookEvent) {
+          console.log("Got a delivery event");
+          return;
+        } else if (webhookEvent.message && webhookEvent.message.is_echo) {
+          console.log(
+            "Got an echo of our send, mid = " + webhookEvent.message.mid
+          );
+          return;
+        }
+
+        // Get the sender PSID
+        let senderPsid = webhookEvent.sender.id;
+        // Get the user_ref if from Chat plugin logged in user
+        let user_ref = webhookEvent.sender.user_ref;
+        // Check if user is guest from Chat plugin guest user
+        let guestUser = isGuestUser(webhookEvent);
+
+        if (senderPsid != null && senderPsid != undefined) {
+          if (!(senderPsid in users)) {
+            if (!guestUser) {
+              // Make call to UserProfile API only if user is not guest
+              let user = new User(senderPsid);
+              GraphApi.getUserProfile(senderPsid)
+                .then(userProfile => {
+                  user.setProfile(userProfile);
+                })
+                .catch(error => {
+                  // The profile is unavailable
+                  console.log(JSON.stringify(body));
+                  console.log("Profile is unavailable:", error);
+                })
+                .finally(() => {
+                  console.log("locale: " + user.locale);
+                  users[senderPsid] = user;
+                  i18n.setLocale("en_US");
+                  console.log(
+                    "New Profile PSID:",
+                    senderPsid,
+                    "with locale:",
+                    i18n.getLocale()
+                  );
+                  return receiveAndReturn(
+                    users[senderPsid],
+                    webhookEvent,
+                    false
+                  );
+                });
+            } else {
+              setDefaultUser(senderPsid);
+              return receiveAndReturn(users[senderPsid], webhookEvent, false);
+            }
+          } else {
+            i18n.setLocale(users[senderPsid].locale);
+            console.log(
+              "Profile already exists PSID:",
+              senderPsid,
+              "with locale:",
+              i18n.getLocale()
+            );
+            return receiveAndReturn(users[senderPsid], webhookEvent, false);
+          }
+        } else if (user_ref != null && user_ref != undefined) {
+          // Handle user_ref
+          setDefaultUser(user_ref);
+          return receiveAndReturn(users[user_ref], webhookEvent, true);
+        }
+      });
+    });
+  } else {
+    // Return a '404 Not Found' if event is not from a page subscription
+    res.sendStatus(404);
+  }
+});
+
+function setDefaultUser(id) {
+  let user = new User(id);
+  users[id] = user;
+  i18n.setLocale("en_US");
+}
+
+function isGuestUser(webhookEvent) {
+  let guestUser = false;
+  if ("postback" in webhookEvent) {
+    if ("referral" in webhookEvent.postback) {
+      if ("is_guest_user" in webhookEvent.postback.referral) {
+        guestUser = true;
+      }
+    }
+  }
+  return guestUser;
+}
+
+function receiveAndReturn(user, webhookEvent, isUserRef) {
+  let receiveMessage = new Receive(user, webhookEvent, isUserRef);
+  return receiveMessage.handleMessage();
+}
+
+// Set up your App's Messenger Profile
+router.get("/profile", (req, res) => {
+  let token = req.query["verify_token"];
+  let mode = req.query["mode"];
+
+  if (!config.webhookUrl.startsWith("https://")) {
+    res.status(200).send("ERROR - Need a proper API_URL in the .env file");
+  }
+  // var Profile = require("./services/profile.js");
+  // Profile = new Profile();
+
+  // // Check if a token and mode is in the query string of the request
+  // if (mode && token) {
+  //   if (token === config.verifyToken) {
+  //     if (mode == "webhook" || mode == "all") {
+  //       Profile.setWebhook();
+  //       res.write(
+  //         `<p>&#9989; Set app ${config.appId} call to ${config.webhookUrl}</p>`
+  //       );
+  //     }
+  //     if (mode == "profile" || mode == "all") {
+  //       Profile.setThread();
+  //       res.write(
+  //         `<p>&#9989; Set Messenger Profile of Page ${config.pageId}</p>`
+  //       );
+  //     }
+  //     if (mode == "personas" || mode == "all") {
+  //       Profile.setPersonas();
+  //       res.write(`<p>&#9989; Set Personas for ${config.appId}</p>`);
+  //       res.write(
+  //         "<p>Note: To persist the personas, add the following variables \
+  //         to your environment variables:</p>"
+  //       );
+  //       res.write("<ul>");
+  //       res.write(`<li>PERSONA_BILLING = ${config.personaBilling.id}</li>`);
+  //       res.write(`<li>PERSONA_CARE = ${config.personaCare.id}</li>`);
+  //       res.write(`<li>PERSONA_ORDER = ${config.personaOrder.id}</li>`);
+  //       res.write(`<li>PERSONA_SALES = ${config.personaSales.id}</li>`);
+  //       res.write("</ul>");
+  //     }
+  //     if (mode == "nlp" || mode == "all") {
+  //       GraphApi.callNLPConfigsAPI();
+  //       res.write(
+  //         `<p>&#9989; Enabled Built-in NLP for Page ${config.pageId}</p>`
+  //       );
+  //     }
+  //     if (mode == "domains" || mode == "all") {
+  //       Profile.setWhitelistedDomains();
+  //       res.write(
+  //         `<p>&#9989; Whitelisted domains: ${config.whitelistedDomains}</p>`
+  //       );
+  //     }
+  //     if (mode == "private-reply") {
+  //       Profile.setPageFeedWebhook();
+  //       res.write(`<p>&#9989; Set Page Feed Webhook for Private Replies.</p>`);
+  //     }
+  //     res.status(200).end();
+  //   } else {
+  //     // Responds with '403 Forbidden' if verify tokens do not match
+  //     res.sendStatus(403);
+  //   }
+  // } else {
+  //   // Returns a '404 Not Found' if mode or token are missing
+  //   res.sendStatus(404);
+  // }
+
+});
+
+// Verify that the callback came from Facebook.
+function verifyRequestSignature(req, res, buf) {
+  var signature = req.headers["x-hub-signature"];
+
+  if (!signature) {
+    console.warn(`Couldn't find "x-hub-signature" in headers.`);
+  } else {
+    var elements = signature.split("=");
+    var signatureHash = elements[1];
+    var expectedHash = crypto
+      .createHmac("sha1", config.appSecret)
+      .update(buf)
+      .digest("hex");
+    if (signatureHash != expectedHash) {
+      throw new Error("Couldn't validate the request signature.");
+    }
+  }
+}
+
+function check_fb_signature(req, res, buf) {
+    console.log('Check facebook signature step.');
+    var fb_signature = req.headers["x-hub-signature"];
+    if (!fb_signature) {
+        throw new Error('Signature ver failed.');
+    } else {
+        var sign_splits = signature.split('=');
+        var method = sign_splits[0];
+        var sign_hash = sign_splits[1];
+
+        var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
+            .update(buf)
+            .digest('hex');
+
+        if (sign_hash != real_hash) {
+            throw new Error('Signature ver failed.');
+        }
+    }
 }

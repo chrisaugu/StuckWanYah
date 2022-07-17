@@ -23,7 +23,8 @@ var SweetLipsSchema = new Schema({
     }],
     facebook: {
         id: String,
-        friends: []
+        friends: [],
+        accessToken: String
     },
     is_blocked: {type: Boolean, default: false},
     wins: {type: Number, default: 0},
@@ -45,13 +46,13 @@ SweetLipsSchema.plugin(findOrCreate);
 
 var Photos = mongoose.model('photos', SweetLipsSchema);
 
-SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
-    Photos.find({
-        gender: 'female',
-        $or: [{loves: 'apple'}, {weight: {$lt: 500}}]
-    }, function(err, user) {
-    });
-};
+// SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
+//     Photos.find({
+//         gender: 'female',
+//         $or: [{loves: 'apple'}, {weight: {$lt: 500}}]
+//     }, function(err, user) {
+//     });
+// };
 
 SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profile, callback) {
     const $this = this;
@@ -71,7 +72,7 @@ SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profi
                 link: profile.profileUrl,
                 facebook: {
                     id: profile.id,
-                    token: accessToken,
+                    accessToken: accessToken,
                     friends: [
                         profile.friends.id
                     ]
