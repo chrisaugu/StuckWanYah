@@ -3259,7 +3259,7 @@ router.post("/webhook", (req, res) => {
 			// Iterate over each messaging event
 			entry.messaging.forEach(function(event) {
 				console.log(event);
-				
+
 				if (event.postback){
 					processPostback(event);
 				}
@@ -3415,15 +3415,18 @@ function processPostback(event) {
 			let greeting = '';
 			if (error) {
 				console.error("Error getting user name: " + error);
-			} else {
+			}
+			else {
 				let bodyObject = JSON.parse(body);
 				console.log(bodyObject);
 				name = bodyObject.first_name;
 				greeting = "Hello " + name  + ". ";
 			}
+			
 			let message = greeting + "Welcome to Healthbot. Hope you are       doing good today";
 			let message2 = "I am your nutrition tracker :-)"
 			let message3 = "please type in what you ate like: I ate chicken birayani and 2 chapatis with dal.";
+			
 			senderAction(senderID);
 			sendMessage(senderID, {text: message}).then(() => {
 				sendMessage(senderID, { text: message2 }).then(() => {
@@ -3464,7 +3467,7 @@ function processMessage(event) {
 				if (error) throw new Error(error);
 				senderAction(senderID);
 				// after the response is recieved we will send the details in a Generic template
-				sendGenericTemplate(senderID,body);
+				sendGenericTemplate(senderID, body);
 			});
 		}
 	}
@@ -3481,7 +3484,7 @@ function senderAction(recipientId) {
 			access_token: process.env.PAGE_ACCESS_TOKEN
 		},
 		method: "POST",
-		json: { 
+		json: {
 			recipient: {
 				id: recipientId
 			},
@@ -3497,7 +3500,7 @@ function senderAction(recipientId) {
 	});
 }
 
-function sendMessage(recipientId, message){
+function sendMessage(recipientId, message) {
 	return new Promise(function(resolve, reject) {
 		request({
 			url: "https://graph.facebook.com/v2.6/me/messages",
@@ -3516,40 +3519,45 @@ function sendMessage(recipientId, message){
 				resolve(body);
 			}
 		});
-	})
+	});
 }
 
 function sendGenericTemplate(recipientId, respBody) {
-   console.log(respBody);
-   const nutritionalValue = [];
-   for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
-      let obj = {
-             "title":respBody[i].food_name,
-             "image_url": respBody[i].thumbnail,
-             "subtitle": 'Total Calories: ' +     respBody[i].total_calories + "\n" + 'protein: ' + respBody[i].protein + "\n" + 'Carbohydrates: ' + respBody[i].total_carbohydrate,
-            }
-            nutritionalValue.push(obj);
-         }
-         let messageData = {
-         "attachment": {
-         "type": "template",
-         "payload": {
-               "template_type": "generic",
-               "elements": nutritionalValue
-            }
-         }
-      }
-      request({
-       url: 'https://graph.facebook.com/v2.6/me/messages',
-       qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-       method: 'POST',
-       json: {
-         recipient: {id: recipientId},
-         message: messageData,
-      }
-    }, function(error, response, body) {
-         if (error) {
-           console.log("Error sending message: " + response.error)
-          }
-    })
-  }
+	console.log(respBody);
+	
+	const nutritionalValue = [];
+	for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
+		let obj = {
+			"title":respBody[i].food_name,
+			"image_url": respBody[i].thumbnail,
+			"subtitle": 'Total Calories: ' +     respBody[i].total_calories + "\n" + 
+						'protein: ' + respBody[i].protein + "\n" + 
+						'Carbohydrates: ' + respBody[i].total_carbohydrate,
+		}
+		nutritionalValue.push(obj);
+	}
+
+	let messageData = {
+		"attachment": {
+			"type": "template",
+			"payload": {
+				"template_type": "generic",
+				"elements": nutritionalValue
+			}
+		}
+	}
+
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+		method: 'POST',
+		json: {
+			recipient: {id: recipientId},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log("Error sending message: " + response.error);
+		}
+	})
+}
