@@ -91,17 +91,17 @@ passport.use(new FacebookStrategy({
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
-    // let query = {"facebook.id": profile.id},
-    //     update = {
-    //         name: profile.displayName,
-    //         accessToken: accessToken
-    //     },
-    //     options = {upsert: true, new: true, setDefaultsOnInsert: true};
-    
-    // Photos.findOneAndUpdate(query, update, options, function (error, result) {
-    //     if (error) return;
-    //     return cb(null, profile);
-    // });
+	// let query = {"facebook.id": profile.id},
+	//     update = {
+	//         name: profile.displayName,
+	//         accessToken: accessToken
+	//     },
+	//     options = {upsert: true, new: true, setDefaultsOnInsert: true};
+	
+	// Photos.findOneAndUpdate(query, update, options, function (error, result) {
+	//     if (error) return;
+	//     return cb(null, profile);
+	// });
 	
 	// check if photo already exists in the db
 	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
@@ -929,9 +929,9 @@ router.post('/auth', function(req, res) {
 // Route 2: Exchange auth code for access token
 router.get('/oauth-redirect', (req, res) => {
   try {
-    const authCode = req.query.code;
+	const authCode = req.query.code;
 
-    request({
+	request({
 		url: `https://graph.facebook.com/v6.0/oauth/access_token`,
 		qs: {
 			'client_id': keys.facebook.appID,
@@ -945,34 +945,34 @@ router.get('/oauth-redirect', (req, res) => {
 	.then(async (response) => {
 		const accessToken = response['access_token'];
 		// Store the token in memory for now. Later we'll store it in the database.
-    	console.log('Access token is', accessToken);
-    	await AccessToken.create({ _id: accessToken });
+		console.log('Access token is', accessToken);
+		await AccessToken.create({ _id: accessToken });
 
 		// Set a cookie. Handy when working with a traditional web app.
-    	res.cookie('accessToken', accessToken, { maxAge: 900000, httpOnly: true });
-    	res.redirect('/api/me');
+		res.cookie('accessToken', accessToken, { maxAge: 900000, httpOnly: true });
+		res.redirect('/api/me');
 	})
 	.catch(error => {
 		res.send(error);
 	})
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: err.response.data || err.message });
+	console.log(err);
+	return res.status(500).json({ message: err.response.data || err.message });
   }
 });
 
 // Route 3: Make requests to FB on behalf of the user
 router.get('/me', async (req, res) => {
   try {
-    const accessToken = String(req.cookies.accessToken);
-    const tokenFromDb = await AccessToken.findOne({ _id: accessToken });
-    if (tokenFromDb == null) {
-      throw new Error(`Invalid access token "${accessToken}"`);
-    }
+	const accessToken = String(req.cookies.accessToken);
+	const tokenFromDb = await AccessToken.findOne({ _id: accessToken });
+	if (tokenFromDb == null) {
+	  throw new Error(`Invalid access token "${accessToken}"`);
+	}
 
-    // Get the name and user id of the Facebook user associated with the
-    // access token.
-    request({
+	// Get the name and user id of the Facebook user associated with the
+	// access token.
+	request({
 		url: `https://graph.facebook.com/me`,
 		qs: {
 			access_token: accessToken,
@@ -981,18 +981,18 @@ router.get('/me', async (req, res) => {
 		method: "GET"
 	})
 	.then(function(body){
-	    return res.send(`
-	      <html>
-	        <body>Your name is ${JSON.parse(body).name}</body>
-	      </html>
-	    `);
+		return res.send(`
+		  <html>
+			<body>Your name is ${JSON.parse(body).name}</body>
+		  </html>
+		`);
 	})
 	.catch(function(error) {
 		console.log(error);
 	});
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: err.response.data || err.message });
+	console.log(err);
+	return res.status(500).json({ message: err.response.data || err.message });
   }
 });
 
@@ -1475,22 +1475,22 @@ findId = function(obj){
 			elem = pending.filter(findId);
 */
 /*Photos.find({
-    gender: "female",
-    $or: [ { loves:'apple' }, { weight:{ $lt: 500 } } ]
+	gender: "female",
+	$or: [ { loves:'apple' }, { weight:{ $lt: 500 } } ]
 }, function(err, rankings{
-    //if (err) config.error.call(this, err);
-    //config.success.call(this, rankings);
-    if (err) console.log("1126: " + err);
-    console.log("1127: " + rankings);
+	//if (err) config.error.call(this, err);
+	//config.success.call(this, rankings);
+	if (err) console.log("1126: " + err);
+	console.log("1127: " + rankings);
 });
 
 Photos.aggregate([
-    { $match:{ weight:{ $lt:600 } } },
-    { $group:{
-        _id:"$gender", total:{ $sum:1 }, avgVamp:{ $avg:"$vampires"}, unicorns:{ $addToSet:'$name' }
-    } },
-    { $sort:{ total:-1 } },
-    { $limit:10 }
+	{ $match:{ weight:{ $lt:600 } } },
+	{ $group:{
+		_id:"$gender", total:{ $sum:1 }, avgVamp:{ $avg:"$vampires"}, unicorns:{ $addToSet:'$name' }
+	} },
+	{ $sort:{ total:-1 } },
+	{ $limit:10 }
 ])*/
 
 
@@ -1660,89 +1660,89 @@ function setSessionAttachHeaders(event) {
  * Process postback for payloads
  * @param event
  */
-function processPostback(event){
-	var senderId = event.sender.id;
-	var payload = event.postback.payload;
+// function processPostback(event){
+// 	var senderId = event.sender.id;
+// 	var payload = event.postback.payload;
 
-	if (payload === "GET_STARTED") {
+// 	if (payload === "GET_STARTED") {
 
-		processUserSex(senderId);
+// 		processUserSex(senderId);
 
-		// Getting user's first name from user Profile API
-		// and include it in the greeting
-		request({
-			url: "https://graph.facebook.com/v2.6/" + senderId,
-			qs: {
-				access_token: process.env.PAGE_ACCESS_TOKEN,
-				fields: "first_name"
-			},
-			method: "GET"
-		}, function(error, response, body){
-			var greeting, name = "";
-			if (error) {
-				console.log("1361: " + "Error getting user's name: " + error);
-			} else {
-				var bodyObj = JSON.parse(body);
-				name = bodyObj.first_name;
-				greeting = "Hi " + name + ". ";
-			}
-			var message = greeting + "Welcome to StuckWanYah!, the app that vars you put your taste in your friends' hotness";
-			sendMessage(senderId, { text: message });
-		});
-	} else if (payload === "Block Me") {
-		processBlockUnblock(senderId);
-		sendMessage(senderId, { text: "Your photos has been blocked. You will not be able to be voted or vote." });
-	} else if (payload === "Unblock Me") {
-		processBlockUnblock(senderId);
-		sendMessage(senderId, { text: "Your photos has been restored and you can be able to be voted or vote" });
-	} else if (payload === "") {}
-};
+// 		// Getting user's first name from user Profile API
+// 		// and include it in the greeting
+// 		request({
+// 			url: "https://graph.facebook.com/v2.6/" + senderId,
+// 			qs: {
+// 				access_token: process.env.PAGE_ACCESS_TOKEN,
+// 				fields: "first_name"
+// 			},
+// 			method: "GET"
+// 		}, function(error, response, body){
+// 			var greeting, name = "";
+// 			if (error) {
+// 				console.log("1361: " + "Error getting user's name: " + error);
+// 			} else {
+// 				var bodyObj = JSON.parse(body);
+// 				name = bodyObj.first_name;
+// 				greeting = "Hi " + name + ". ";
+// 			}
+// 			var message = greeting + "Welcome to StuckWanYah!, the app that vars you put your taste in your friends' hotness";
+// 			sendMessage(senderId, { text: message });
+// 		});
+// 	} else if (payload === "Block Me") {
+// 		processBlockUnblock(senderId);
+// 		sendMessage(senderId, { text: "Your photos has been blocked. You will not be able to be voted or vote." });
+// 	} else if (payload === "Unblock Me") {
+// 		processBlockUnblock(senderId);
+// 		sendMessage(senderId, { text: "Your photos has been restored and you can be able to be voted or vote" });
+// 	} else if (payload === "") {}
+// };
 
 /**
  * Messenger API
  * Process message from user for any matching keyword and perform actions
  * @param event
  */
-function processMessage(event){
-	if (!event.message.is_echo) {
-		var message = event.message;
-		var senderId = event.sender.id;
+// function processMessage(event){
+// 	if (!event.message.is_echo) {
+// 		var message = event.message;
+// 		var senderId = event.sender.id;
 
-		console.log("1531: " + "Received message from senderId: " + senderId);
-		console.log("1532: " + "Message is: " + JSON.stringify(message));
+// 		console.log("1531: " + "Received message from senderId: " + senderId);
+// 		console.log("1532: " + "Message is: " + JSON.stringify(message));
 
-		// You may get a text or attachment but not both
-		if (message.text) {
-			var formattedMsg = message.text.toLowerCase().trim();
+// 		// You may get a text or attachment but not both
+// 		if (message.text) {
+// 			var formattedMsg = message.text.toLowerCase().trim();
 
-			// If we receive a text message, check to see if it matches any special
-			// keywords and send back the corresponding movie detail.
-			// Otherwise, search for the new movie.
-			switch (formattedMsg) {
-				case "rankings":
-					getPlayerDetail(senderId, formattedMsg);
-					break;
-				case "block me":
-					processBlockUnblock(senderId);
-					break;
-				case "unblock me":
-					processBlockUnblock(senderId);
-					break;
-				case "share":
-					publishTopTenHottestPhotos(senderId, null);
-					break;
-				case "publish":
-					publishTopTenHottestPhotos(senderId, null);
-				case "post":
-					publishTopTenHottestPhotos(senderId, null);
-				default:
-					findMovie(senderId, formattedMsg);
-			}
-		} else if (message.attachments) {
-			sendMessage(senderId, {text: "Sorry, I don\'t understand your request."});
-		}
-	}
-};
+// 			// If we receive a text message, check to see if it matches any special
+// 			// keywords and send back the corresponding movie detail.
+// 			// Otherwise, search for the new movie.
+// 			switch (formattedMsg) {
+// 				case "rankings":
+// 					getPlayerDetail(senderId, formattedMsg);
+// 					break;
+// 				case "block me":
+// 					processBlockUnblock(senderId);
+// 					break;
+// 				case "unblock me":
+// 					processBlockUnblock(senderId);
+// 					break;
+// 				case "share":
+// 					publishTopTenHottestPhotos(senderId, null);
+// 					break;
+// 				case "publish":
+// 					publishTopTenHottestPhotos(senderId, null);
+// 				case "post":
+// 					publishTopTenHottestPhotos(senderId, null);
+// 				default:
+// 					findMovie(senderId, formattedMsg);
+// 			}
+// 		} else if (message.attachments) {
+// 			sendMessage(senderId, {text: "Sorry, I don\'t understand your request."});
+// 		}
+// 	}
+// };
 
 /**
  * Messenger API
@@ -1750,21 +1750,21 @@ function processMessage(event){
  * @param recipientId
  * @param message
  */
-function sendMessage(recipientId, message){
-	request({
-		url: "https://graph.facebook.com/v.2.6/me/messages",
-		qs: { access_token: keys.facebook.pageAccessToken },
-		method: "POST",
-		json: {
-			recipient: { id: recipientId },
-			message: message,
-		}
-	}, function(error, response, body){
-		if (error) {
-			console.log("Error sending message: " + response.error);
-		}
-	});
-};
+// function sendMessage(recipientId, message){
+// 	request({
+// 		url: "https://graph.facebook.com/v.2.6/me/messages",
+// 		qs: { access_token: keys.facebook.pageAccessToken },
+// 		method: "POST",
+// 		json: {
+// 			recipient: { id: recipientId },
+// 			message: message,
+// 		}
+// 	}, function(error, response, body){
+// 		if (error) {
+// 			console.log("Error sending message: " + response.error);
+// 		}
+// 	});
+// };
 
 /**
  * Messenger API
@@ -1854,6 +1854,7 @@ function processBlockUnblock(userId){
 		console.log('no photo found');
 	});
 };
+
 function blockPhoto(callback){
 	callback.is_blocked = true;
 	callback.save(function(error, response){
@@ -1866,6 +1867,7 @@ function blockPhoto(callback){
 	// new BlockedPhotos({id: callback.imageId,is_blocked: true}).save();
 	return callback;
 };
+
 function unblockPhoto(callback){
 	callback.is_blocked = false;
 	callback.save(function(error, response){
@@ -2794,19 +2796,19 @@ function publishTopTenHottestPhotos(content){
 // })
 
 router.get('/pages', isLoggedInApi,(req, res) => {
-    User.findOne({ "facebook.id": req.user.id }, (err, user) => {
-        if (err) return;
-        FB.setAccessToken(user.accessToken);
-        FB.api('/me/accounts', (pages) => {
-            let data = pages.data.map((page) => {
-                return {
-                    name : page.name,
-                    id : page.id
-                }
-            });
-            res.json([...data]);
-        });
-    });
+	User.findOne({ "facebook.id": req.user.id }, (err, user) => {
+		if (err) return;
+		FB.setAccessToken(user.accessToken);
+		FB.api('/me/accounts', (pages) => {
+			let data = pages.data.map((page) => {
+				return {
+					name : page.name,
+					id : page.id
+				}
+			});
+			res.json([...data]);
+		});
+	});
 });
 
 router.get('/facebook/access_token', getPageAccessToken);
@@ -3052,38 +3054,38 @@ let URL = `https://www.instagram.com/explore/tags/${keyWord}/`;
 //     .catch((err) => {
 //         console.log(err);
 //     });
-    // .then((html) => {
-    //     let hashtags = scrapeHashTags(html);
-    //     hashtags = removeDuplicates(hashtags);
-    //     hashtags = hashtags.map(ele => "#" + ele)
-    //     console.log(hashtags);
-    // })
-    // .catch((err) => {
-    //     console.log(err);
-    // });
+	// .then((html) => {
+	//     let hashtags = scrapeHashTags(html);
+	//     hashtags = removeDuplicates(hashtags);
+	//     hashtags = hashtags.map(ele => "#" + ele)
+	//     console.log(hashtags);
+	// })
+	// .catch((err) => {
+	//     console.log(err);
+	// });
 
 const scrapeHashtags = (html) => {
-    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
-    var matches = [];
-    var match;
+	var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+	var matches = [];
+	var match;
  
-    while ((match = regex.exec(html))) {
-        matches.push(match[1]);
-    }
+	while ((match = regex.exec(html))) {
+		matches.push(match[1]);
+	}
  
-    return matches;
+	return matches;
 }
 
 const removeDuplicates = (arr) => {
-    let newArr = [];
+	let newArr = [];
  
-    arr.map(ele => {
-        if (newArr.indexOf(ele) == -1){
-            newArr.push(ele)
-        }
-    })
-     
-    return newArr;
+	arr.map(ele => {
+		if (newArr.indexOf(ele) == -1){
+			newArr.push(ele)
+		}
+	})
+	 
+	return newArr;
 }
 
 
@@ -3110,25 +3112,26 @@ const removeDuplicates = (arr) => {
 
 // Add support for GET requests to our webhook
 router.get("/webhook", (req, res) => {
-  // Parse the query params
-  let mode = req.query["hub.mode"];
-  let token = req.query["hub.verify_token"];
-  let challenge = req.query["hub.challenge"];
+	// Parse the query params
+	let mode = req.query["hub.mode"];
+	let token = req.query["hub.verify_token"];
+	let challenge = req.query["hub.challenge"];
 
-  // Check if a token and mode is in the query string of the request
-  if (mode && token) {
-    // Check the mode and token sent is correct
-    if (mode === "subscribe" && token === "hello") {
-      // Respond with the challenge token from the request
-      console.log("WEBHOOK_VERIFIED");
-      res.status(200).send(challenge);
-    }
-    else {
-      // Respond with '403 Forbidden' if verify tokens do not match
-      res.sendStatus(403);
-    }
-  }
+	// Check if a token and mode is in the query string of the request
+	if (mode && token) {
+		// Check the mode and token sent is correct
+		if (mode === "subscribe" && token === "hello") {
+			// Respond with the challenge token from the request
+			console.log("WEBHOOK_VERIFIED");
+			res.status(200).send(challenge);
+		}
+		else {
+			// Respond with '403 Forbidden' if verify tokens do not match
+			res.sendStatus(403);
+		}
+	}
 });
+
 
 // Create the endpoint for your webhook
 router.post("/webhook", (req, res) => {
@@ -3141,118 +3144,135 @@ router.post("/webhook", (req, res) => {
 	if (body.object === "page") {
 
 		// Iterate over each entry - there may be multiple if batched
-		body.entry.forEach(async function(entry) {
-			// if ("changes" in entry) {
-			//     // Handle Page Changes event
-			//     let receiveMessage = new Receive();
-			//     if (entry.changes[0].field === "feed") {
-			//       let change = entry.changes[0].value;
-			//       switch (change.item) {
-			//         case "post":
-			//           return receiveMessage.handlePrivateReply(
-			//             "post_id",
-			//             change.post_id
-			//           );
-			//         case "comment":
-			//           return receiveMessage.handlePrivateReply(
-			//             "comment_id",
-			//             change.comment_id
-			//           );
-			//         default:
-			//           console.warn("Unsupported feed change type.");
-			//           return;
-			//       }
-			//     }
-			// }
+		// body.entry.forEach(async function(entry) {
+			
+		// 	// if ("changes" in entry) {
+		// 	//     // Handle Page Changes event
+		// 	//     let receiveMessage = new Receive();
+		// 	//     if (entry.changes[0].field === "feed") {
+		// 	//       let change = entry.changes[0].value;
+		// 	//       switch (change.item) {
+		// 	//         case "post":
+		// 	//           return receiveMessage.handlePrivateReply(
+		// 	//             "post_id",
+		// 	//             change.post_id
+		// 	//           );
+		// 	//         case "comment":
+		// 	//           return receiveMessage.handlePrivateReply(
+		// 	//             "comment_id",
+		// 	//             change.comment_id
+		// 	//           );
+		// 	//         default:
+		// 	//           console.warn("Unsupported feed change type.");
+		// 	//           return;
+		// 	//       }
+		// 	//     }
+		// 	// }
 
-			// Get the webhook event. entry.messaging is an array, but 
-			// will only ever contain one event, so we get index 0
-			let webhook_event = entry.messaging[0];
-			console.log(webhook_event);
+		// 	// Get the webhook event. entry.messaging is an array, but 
+		// 	// will only ever contain one event, so we get index 0
+		// 	let webhook_event = entry.messaging[0];
+		// 	console.log(webhook_event);
 
-			// Get the sender PSID
-			let sender_psid = webhook_event.sender.id;
-			console.log('Sender PSID: ' + sender_psid);
+		// 	// Get the sender PSID
+		// 	let sender_psid = webhook_event.sender.id;
+		// 	console.log('Sender PSID: ' + sender_psid);
 
-			// Iterate over webhook events - there may be multiple
-			// entry.messaging.forEach(async function(webhookEvent) {
-		      //   // Discard uninteresting events
-		      //   if ("read" in webhookEvent) {
-		      //     console.log("Got a read event");
-		      //     return;
-		      //   } else if ("delivery" in webhookEvent) {
-		      //     console.log("Got a delivery event");
-		      //     return;
-		      //   } else if (webhookEvent.message && webhookEvent.message.is_echo) {
-		      //     console.log(
-		      //       "Got an echo of our send, mid = " + webhookEvent.message.mid
-		      //     );
-		      //     return;
-		      //   }
+		// 	// Iterate over webhook events - there may be multiple
+		// 	// entry.messaging.forEach(async function(webhookEvent) {
+		// 	  //   // Discard uninteresting events
+		// 	  //   if ("read" in webhookEvent) {
+		// 	  //     console.log("Got a read event");
+		// 	  //     return;
+		// 	  //   } else if ("delivery" in webhookEvent) {
+		// 	  //     console.log("Got a delivery event");
+		// 	  //     return;
+		// 	  //   } else if (webhookEvent.message && webhookEvent.message.is_echo) {
+		// 	  //     console.log(
+		// 	  //       "Got an echo of our send, mid = " + webhookEvent.message.mid
+		// 	  //     );
+		// 	  //     return;
+		// 	  //   }
 
-		      //   // Get the sender PSID
-		      //   let senderPsid = webhookEvent.sender.id;
-		      //   // Get the user_ref if from Chat plugin logged in user
-		      //   let user_ref = webhookEvent.sender.user_ref;
-		      //   // Check if user is guest from Chat plugin guest user
-		      //   let guestUser = isGuestUser(webhookEvent);
+		// 	  //   // Get the sender PSID
+		// 	  //   let senderPsid = webhookEvent.sender.id;
+		// 	  //   // Get the user_ref if from Chat plugin logged in user
+		// 	  //   let user_ref = webhookEvent.sender.user_ref;
+		// 	  //   // Check if user is guest from Chat plugin guest user
+		// 	  //   let guestUser = isGuestUser(webhookEvent);
 
-		      //   if (senderPsid != null && senderPsid != undefined) {
-		      //     if (!(senderPsid in users)) {
-		      //       if (!guestUser) {
-		      //         // Make call to UserProfile API only if user is not guest
-		      //         let user = new User(senderPsid);
-		      //         GraphApi.getUserProfile(senderPsid)
-		      //           .then(userProfile => {
-		      //             user.setProfile(userProfile);
-		      //           })
-		      //           .catch(error => {
-		      //             // The profile is unavailable
-		      //             console.log(JSON.stringify(body));
-		      //             console.log("Profile is unavailable:", error);
-		      //           })
-		      //           .finally(() => {
-		      //             console.log("locale: " + user.locale);
-		      //             users[senderPsid] = user;
-		      //             i18n.setLocale("en_US");
-		      //             console.log(
-		      //               "New Profile PSID:",
-		      //               senderPsid,
-		      //               "with locale:",
-		      //               i18n.getLocale()
-		      //             );
-		      //             return receiveAndReturn(
-		      //               users[senderPsid],
-		      //               webhookEvent,
-		      //               false
-		      //             );
-		      //           });
-		      //       } else {
-		      //         setDefaultUser(senderPsid);
-		      //         return receiveAndReturn(users[senderPsid], webhookEvent, false);
-		      //       }
-		      //     } else {
-		      //       i18n.setLocale(users[senderPsid].locale);
-		      //       console.log(
-		      //         "Profile already exists PSID:",
-		      //         senderPsid,
-		      //         "with locale:",
-		      //         i18n.getLocale()
-		      //       );
-		      //       return receiveAndReturn(users[senderPsid], webhookEvent, false);
-		      //     }
-		      //   } else if (user_ref != null && user_ref != undefined) {
-		      //     // Handle user_ref
-		      //     setDefaultUser(user_ref);
-		      //     return receiveAndReturn(users[user_ref], webhookEvent, true);
-		      //   }
-		      // });
+		// 	  //   if (senderPsid != null && senderPsid != undefined) {
+		// 	  //     if (!(senderPsid in users)) {
+		// 	  //       if (!guestUser) {
+		// 	  //         // Make call to UserProfile API only if user is not guest
+		// 	  //         let user = new User(senderPsid);
+		// 	  //         GraphApi.getUserProfile(senderPsid)
+		// 	  //           .then(userProfile => {
+		// 	  //             user.setProfile(userProfile);
+		// 	  //           })
+		// 	  //           .catch(error => {
+		// 	  //             // The profile is unavailable
+		// 	  //             console.log(JSON.stringify(body));
+		// 	  //             console.log("Profile is unavailable:", error);
+		// 	  //           })
+		// 	  //           .finally(() => {
+		// 	  //             console.log("locale: " + user.locale);
+		// 	  //             users[senderPsid] = user;
+		// 	  //             i18n.setLocale("en_US");
+		// 	  //             console.log(
+		// 	  //               "New Profile PSID:",
+		// 	  //               senderPsid,
+		// 	  //               "with locale:",
+		// 	  //               i18n.getLocale()
+		// 	  //             );
+		// 	  //             return receiveAndReturn(
+		// 	  //               users[senderPsid],
+		// 	  //               webhookEvent,
+		// 	  //               false
+		// 	  //             );
+		// 	  //           });
+		// 	  //       } else {
+		// 	  //         setDefaultUser(senderPsid);
+		// 	  //         return receiveAndReturn(users[senderPsid], webhookEvent, false);
+		// 	  //       }
+		// 	  //     } else {
+		// 	  //       i18n.setLocale(users[senderPsid].locale);
+		// 	  //       console.log(
+		// 	  //         "Profile already exists PSID:",
+		// 	  //         senderPsid,
+		// 	  //         "with locale:",
+		// 	  //         i18n.getLocale()
+		// 	  //       );
+		// 	  //       return receiveAndReturn(users[senderPsid], webhookEvent, false);
+		// 	  //     }
+		// 	  //   } else if (user_ref != null && user_ref != undefined) {
+		// 	  //     // Handle user_ref
+		// 	  //     setDefaultUser(user_ref);
+		// 	  //     return receiveAndReturn(users[user_ref], webhookEvent, true);
+		// 	  //   }
+		// 	  // });
+		
+		// });
+
+		/* Iterate over each entry, there can be multiple entries if callbacks are batched. */
+		body.entry.forEach(function(entry) {
+			// Iterate over each messaging event
+			entry.messaging.forEach(function(event) {
+				console.log(event);
+				
+				if (event.postback){
+					processPostback(event);
+				}
+				else if (event.message){
+					processMessage(event);
+				}
+			});
 		});
 
 		// Returns a '200 OK' response to all requests
 		res.status(200).send("EVENT_RECEIVED");
-		
-	} else {
+	}
+	else {
 		// Return a '404 Not Found' if event is not from a page subscription
 		res.sendStatus(404);
 	}
@@ -3265,30 +3285,31 @@ function setDefaultUser(id) {
 }
 
 function isGuestUser(webhookEvent) {
-  let guestUser = false;
-  if ("postback" in webhookEvent) {
-    if ("referral" in webhookEvent.postback) {
-      if ("is_guest_user" in webhookEvent.postback.referral) {
-        guestUser = true;
-      }
-    }
-  }
-  return guestUser;
+	let guestUser = false;
+	if ("postback" in webhookEvent) {
+		if ("referral" in webhookEvent.postback) {
+			if ("is_guest_user" in webhookEvent.postback.referral) {
+				guestUser = true;
+			}
+		}
+	}
+
+	return guestUser;
 }
 
 function receiveAndReturn(user, webhookEvent, isUserRef) {
-  let receiveMessage = new Receive(user, webhookEvent, isUserRef);
-  return receiveMessage.handleMessage();
+	let receiveMessage = new Receive(user, webhookEvent, isUserRef);
+	return receiveMessage.handleMessage();
 }
 
 // Set up your App's Messenger Profile
 router.get("/profile", (req, res) => {
-  let token = req.query["verify_token"];
-  let mode = req.query["mode"];
+	let token = req.query["verify_token"];
+	let mode = req.query["mode"];
 
-  if (!config.webhookUrl.startsWith("https://")) {
-    res.status(200).send("ERROR - Need a proper API_URL in the .env file");
-  }
+	if (!config.webhookUrl.startsWith("https://")) {
+		res.status(200).send("ERROR - Need a proper API_URL in the .env file");
+	}
   // var Profile = require("./services/profile.js");
   // Profile = new Profile();
 
@@ -3350,57 +3371,185 @@ router.get("/profile", (req, res) => {
 });
 
 // Verify that the callback came from Facebook.
-function verifyRequestSignature(req, res, buf) {
-  var signature = req.headers["x-hub-signature"];
-
-  if (!signature) {
-    console.warn(`Couldn't find "x-hub-signature" in headers.`);
-  } else {
-    var elements = signature.split("=");
-    var signatureHash = elements[1];
-    var expectedHash = crypto
-      .createHmac("sha1", config.appSecret)
-      .update(buf)
-      .digest("hex");
-    if (signatureHash != expectedHash) {
-      throw new Error("Couldn't validate the request signature.");
-    }
-  }
-}
-
 function check_fb_signature(req, res, buf) {
-    console.log('Check facebook signature step.');
-    var fb_signature = req.headers["x-hub-signature"];
-    if (!fb_signature) {
-        throw new Error('Signature ver failed.');
-    } 
-    else {
-        var sign_splits = fb_signature.split('=');
-        var method = sign_splits[0];
-        var sign_hash = sign_splits[1];
+	console.log('Check facebook signature step.');
+	var fb_signature = req.headers["x-hub-signature"];
+	if (!fb_signature) {
+		throw new Error('Signature ver failed.');
+	}
+	else {
+		var sign_splits = fb_signature.split('=');
+		var method = sign_splits[0];
+		var sign_hash = sign_splits[1];
 
-        var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
-            .update(buf)
-            .digest('hex');
+		var real_hash = crypto.createHmac('sha1', keys.facebook.appSecret)
+			.update(buf)
+			.digest('hex');
 
-        if (sign_hash != real_hash) {
-            throw new Error('Signature ver failed.');
-        }
-    }
+		if (sign_hash != real_hash) {
+			throw new Error('Signature ver failed.');
+		}
+	}
 }
-
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+}
 
+function processPostback(event) {
+	const senderID = event.sender.id;
+	const payload = event.postback.payload;
+	if (payload === 'WELCOME') {
+		request({
+			url: "https://graph.facebook.com/v2.6/" + senderID,
+			qs: {
+				access_token: process.env.PAGE_ACCESS_TOKEN,
+				fields: "first_name"
+			},
+			method: "GET"
+		}, function(error, response, body) {
+			let greeting = '';
+			if (error) {
+				console.error("Error getting user name: " + error);
+			} else {
+				let bodyObject = JSON.parse(body);
+				console.log(bodyObject);
+				name = bodyObject.first_name;
+				greeting = "Hello " + name  + ". ";
+			}
+			let message = greeting + "Welcome to Healthbot. Hope you are       doing good today";
+			let message2 = "I am your nutrition tracker :-)"
+			let message3 = "please type in what you ate like: I ate chicken birayani and 2 chapatis with dal.";
+			senderAction(senderID);
+			sendMessage(senderID, {text: message}).then(() => {
+				sendMessage(senderID, { text: message2 }).then(() => {
+					sendMessage(senderID, {  text: message3}).then(() => {
+						sendMessage(senderID, { text: '🎈' });
+					})
+				});
+			});
+		});
+	}
+}
+
+function processMessage(event) {
+	if (!event.message.is_echo) {
+		const message = event.message;
+		const senderID = event.sender.id;
+		console.log("Received message from senderId: " + senderID);
+		console.log("Message is: " + JSON.stringify(message));
+		
+		if (message.text) {
+			// now we will take the text received and send it to an food tracking API.
+			let text = message.text;
+			let options = {
+				method: 'POST',
+				url: 'https://mefit-preprod.herokuapp.com/api/getnutritionvalue',
+				headers: {
+					'cache-control': 'no-cache',
+					'content-type': 'application/json'
+				},
+				body: {
+					userID: process.env.USERID,
+					searchTerm: text
+				},
+				json: true
+			};
+
+			request(options, function (error, response, body) {
+				if (error) throw new Error(error);
+				senderAction(senderID);
+				// after the response is recieved we will send the details in a Generic template
+				sendGenericTemplate(senderID,body);
+			});
+		}
+	}
 }
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
-  
 }
+
+function senderAction(recipientId) {
+	request({
+		url: "https://graph.facebook.com/v2.6/me/messages",
+		qs: { 
+			access_token: process.env.PAGE_ACCESS_TOKEN
+		},
+		method: "POST",
+		json: { 
+			recipient: {
+				id: recipientId
+			},
+			sender_action: "typing_on"
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log("Error sending message: " + response.error);
+		}
+		else {
+			console.log(body);
+		}
+	});
+}
+
+function sendMessage(recipientId, message){
+	return new Promise(function(resolve, reject) {
+		request({
+			url: "https://graph.facebook.com/v2.6/me/messages",
+			qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+			method: "POST",
+			json: {
+				recipient: {id: recipientId},
+				message: message
+			}
+		}, function(error, response, body) {
+			if (error) {
+				console.log("Error sending message: " + response.error);
+				reject(response.error);
+			}
+			else {
+				resolve(body);
+			}
+		});
+	})
+}
+
+function sendGenericTemplate(recipientId, respBody) {
+   console.log(respBody);
+   const nutritionalValue = [];
+   for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
+      let obj = {
+             "title":respBody[i].food_name,
+             "image_url": respBody[i].thumbnail,
+             "subtitle": 'Total Calories: ' +     respBody[i].total_calories + "\n" + 'protein: ' + respBody[i].protein + "\n" + 'Carbohydrates: ' + respBody[i].total_carbohydrate,
+            }
+            nutritionalValue.push(obj);
+         }
+         let messageData = {
+         "attachment": {
+         "type": "template",
+         "payload": {
+               "template_type": "generic",
+               "elements": nutritionalValue
+            }
+         }
+      }
+      request({
+       url: 'https://graph.facebook.com/v2.6/me/messages',
+       qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+       method: 'POST',
+       json: {
+         recipient: {id: recipientId},
+         message: messageData,
+      }
+    }, function(error, response, body) {
+         if (error) {
+           console.log("Error sending message: " + response.error)
+          }
+    })
+  }
