@@ -81,7 +81,7 @@ app.use(bodyParser.json({
 	verify: check_fb_signature
 }));
 
-// app.use(cors());
+app.use(cors());
 
 passport.use(new FacebookStrategy({
 	// options for the facebook strat
@@ -103,50 +103,105 @@ passport.use(new FacebookStrategy({
 	//     return cb(null, profile);
 	// });
 	
-	// check if photo already exists in the db
-	Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-		if (err) throw err;
-	
-		if (user) {
-			// already have the photo, update the photo
-			// req.session.strategy = 'facebook';
-			console.log("user is:", user);
-
-			user.picture = profile.photos[0].value;
-			// user.profileUrl = profile.__json.link;
-			user.facebook['accessToken'] = accessToken;
-			
-			user.save(function(error, result) {
-				if (err) throw error;
-				return done(null, result);
-			});
-		}
-		else {
-			// if not, create user in the db
-			let photo = new Photos();
-			photo.imageId = profile.id;
-			photo.fullName = profile._json.name || "";
-			photo.firstName = profile._json.givenName || "";
-			photo.lastName = profile._json.familyName || "";
-			photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear()) || 19;
-			photo.gender = profile._json.gender || 'male';
-			photo.picture = profile.photos[0].value || "";
-			photo.profileUrl = profile._json.link || "";
-			photo.facebook['id'] = profile._json.id;
-			photo.facebook['friends'] = profile._json.friends[0].data;
-			photo.facebook['accessToken'] = accessToken;
-
-			photo.save((error, newPhoto) => {
-				if (error) throw error;
-				console.log('new photo created:', newPhoto);
-				done(null, newPhoto);
-			});
-		}
-	});
-
 	// Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
 	// 	return done(err, user);
 	// });
+
+    // check if photo already exists in the db
+    Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+        if (err) throw err;
+    
+        if (user) {
+            // already have the photo, update the photo
+            // req.session.strategy = 'facebook';
+            console.log("user is:", user);
+
+            user.picture = profile.photos[0].value;
+            // user.profileUrl = profile.__json.link;
+            user.facebook['accessToken'] = accessToken;
+            
+            user.save(function(error, result) {
+                if (err) throw error;
+                return done(null, result);
+            });
+        }
+        else {
+            // if not, create user in the db
+            let photo = new Photos();
+
+            photo.imageId = profile.id;
+            
+            // Full name
+            if (profile._json.name) {
+                photo.fullName = profile._json.name;
+            }
+            else if (profile._json.first_name || profile._json.last_name) {
+                photo.fullName = `${profile._json.first_name} ${profile._json.last_name}`;
+            }
+
+            // First name
+            if (profile._json.first_name) {
+                photo.firstName = profile._json.first_name;
+            }
+            else if (profile.name.givenName) {
+                photo.firstName = profile.name.givenName;
+            }
+            else {
+                photo.firstName = profile._json.name.split(' ')[0];
+            }
+            
+            // Last name
+            if (profile._json.last_name) {
+                photo.lastName = profile._json.last_name;
+            }
+            else if (profile.familyName) {
+                photo.lastName = profile.familyName;
+            }
+            else {
+                photo.lastName = profile._json.name.split(' ')[1];
+            }
+
+            // age
+            if (profile._json.age_range) {
+            	if (profile._json.age_range.max && profile._json.age_range.min) {
+            		photo.age = (profile._json.age_range.max + profile._json.age_range.min) / 2;
+            	}
+            	if (profile._json.age_range.max) {
+            		photo.age = profile._json.age_range.max;
+            	}
+            	if (profile._json.age_range.min) {
+            		photo.age = profile._json.age_range.min;
+            	}
+            }
+            else if (profile._json.birthday) {
+            	photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear());	
+            }
+
+            // gender
+            photo.gender = profile._json.gender;
+
+            // picture
+            if (profile.picture) {
+            	photo.picture = profile._json.picture.data;
+            }
+            else {
+            	photo.picture = profile.photos[0].value;
+            }
+
+            photo.profileUrl = profile._json.link;
+            photo.facebook['id'] = profile._json.id;
+            photo.facebook['friends'] = profile._json.friends.data;
+            photo.facebook['accessToken'] = accessToken;
+
+            photo.save((error, newPhoto) => {
+                if (error) throw error;
+                console.log('new photo created:', newPhoto);
+                done(null, newPhoto);
+            });
+        }
+    });
+
+	console.log(profile)
 
 	// done(null, profile);
 }));
@@ -3524,7 +3579,7 @@ function sendMessage(recipientId, message) {
 
 function sendGenericTemplate(recipientId, respBody) {
 	console.log(respBody);
-	
+
 	const nutritionalValue = [];
 	for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
 		let obj = {

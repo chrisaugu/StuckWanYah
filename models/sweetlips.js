@@ -44,8 +44,6 @@ var SweetLipsSchema = new Schema({
 SweetLipsSchema.plugin(random);
 SweetLipsSchema.plugin(findOrCreate);
 
-var Photos = mongoose.model('photos', SweetLipsSchema);
-
 // SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
 //     Photos.find({
 //         gender: 'female',
@@ -54,42 +52,104 @@ var Photos = mongoose.model('photos', SweetLipsSchema);
 //     });
 // };
 
-SweetLipsSchema.statics.upsertFbUser = function(accessToken, refreshToken, profile, callback) {
+SweetLipsSchema.statics.upsertFbUser = function(profile, accessToken, callback) {
     const $this = this;
-    return Photos.findOne({'facebook.id': profile.id}).then((player) => {
+    return $this.model.findOne({'facebook.id': profile.id}).then((player) => {
         if (player) {
             return callback(null, player);
-        } else {
+        } 
+        else {
             // if no player, create new player from Facebook
-            var newPlayer = new $this({
-                // imageId is the facebook id
-                imageId: profile.id,
-                displayName: profile.displayName,
-                age: new Date().getFullYear() - profile.birthday,
-                gender: profile.gender,
-                picture: profile.picture,
-                image_url: profile.picture, // profile.picture.data.url
-                link: profile.profileUrl,
-                facebook: {
-                    id: profile.id,
-                    accessToken: accessToken,
-                    friends: [
-                        profile.friends.id
-                    ]
-                }
-                // leave is_blocked false
-                //ratings: profile.friends.length // 1400 set base ratings according to the number of friends user has
-                // leave the rest to default
+            var newPhoto = new $this();
+            // {
+            //     // imageId is the facebook id
+            //     imageId: profile.id,
+            //     displayName: profile.displayName,
+            //     age: new Date().getFullYear() - profile.birthday,
+            //     gender: profile.gender,
+            //     picture: profile.picture,
+            //     image_url: profile.picture, // profile.picture.data.url
+            //     link: profile.profileUrl,
+            //     facebook: {
+            //         id: profile.id,
+            //         accessToken: accessToken,
+            //         friends: [
+            //             profile.friends.id
+            //         ]
+            //     }
+            //     // leave is_blocked false
+            //     //ratings: profile.friends.length // 1400 set base ratings according to the number of friends user has
+            //     // leave the rest to default
 
-            });
-            newPlayer.save().then((newPlayer) => {
-                return callback(null, newPlayer);
-            }).catch ((error) => {
-                return callback(error);
-                console.log(error);
-            });
+            // });
+
+            // newPhoto.save().then((newPhoto) => {
+            //     return callback(null, newPhoto);
+            // }).catch ((error) => {
+            //     return callback(error);
+            //     console.log(error);
+            // });
         }
     });
+
+    // check if photo already exists in the db
+    // Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+    //     if (err) throw err;
+    
+    //     if (user) {
+    //         // already have the photo, update the photo
+    //         // req.session.strategy = 'facebook';
+    //         console.log("user is:", user);
+
+    //         user.picture = profile.photos[0].value;
+    //         // user.profileUrl = profile.__json.link;
+    //         user.facebook['accessToken'] = accessToken;
+            
+    //         user.save(function(error, result) {
+    //             if (err) throw error;
+    //             return done(null, result);
+    //         });
+    //     }
+    //     else {
+    //         // if not, create user in the db
+    //         let photo = new Photos();
+    //         photo.imageId = profile.id;
+            
+    //         if (profile._json.name) {
+    //             photo.fullName = profile._json.name;
+    //         }
+    //         else if (profile._json.firstName || profile._json.givenName) {
+    //             photo.fullName = `${profile._json.firstName} ${profile._json.givenName}`;
+    //         }
+
+    //         if (profile._json.givenName) {
+    //             photo.firstName = profile._json.givenName;
+    //             photo.lastName = profile._json.familyName;
+    //         }
+    //         else {
+
+    //         }
+            
+    //         photo.firstName = profile._json.givenName || "";
+    //         photo.lastName = profile._json.familyName || "";
+
+    //         if ()
+    //         photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear());
+    //         photo.gender = profile._json.gender || 'male';
+    //         photo.picture = profile.photos[0].value || "";
+    //         photo.profileUrl = profile._json.link || "";
+    //         photo.facebook['id'] = profile._json.id;
+    //         photo.facebook['friends'] = profile._json.friends[0].data;
+    //         photo.facebook['accessToken'] = accessToken;
+
+    //         photo.save((error, newPhoto) => {
+    //             if (error) throw error;
+    //             console.log('new photo created:', newPhoto);
+    //             done(null, newPhoto);
+    //         });
+    //     }
+    // });
+
 };
 
 SweetLipsSchema.statics.findImageById = function(id, callback) {
@@ -127,6 +187,8 @@ SweetLipsSchema.statics.findOneAndUpdate = function(query, update, options, call
         }
     });
 };
+
+var Photos = mongoose.model('photos', SweetLipsSchema);
 
 var hits = mongoose.model('hits', new Schema({
     page: String,
