@@ -8,7 +8,7 @@ var ObjectId = Schema.Types.ObjectId;
 // Schema
 var SweetLipsSchema = new Schema({
     // id: String,
-    imageId: {type: String, unique: true, index: true},
+    imageId: { type: String, unique: true, index: true },
     fullName: String,
     firstName: String,
     lastName: String,
@@ -36,8 +36,7 @@ var SweetLipsSchema = new Schema({
     random: {type: [Number], index: '2d'},
     voted: {type: Boolean, default: false},
     voted_by: [{type: ObjectId, ref: 'photos'}],
-    challengers: [{type: ObjectId, ref: 'photos'}],
-    joinedAt: {type: Date, default: Date.now()},
+    challengers: [{type: ObjectId, ref: 'photos'}]
 }, {strict: false});
 
 // Attaching random plugin to the schema

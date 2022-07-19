@@ -216,8 +216,6 @@ passport.use(new FacebookStrategy({
         }
     });
 
-	console.log(profile)
-
 	// done(null, profile);
 }));
 
@@ -372,19 +370,56 @@ app.get("/tie", isLoggedIn, function(req, res, next){
 });
 
 // connect to facebook page
-app.get('/foo', function (req, res) {
-	// if (req.user) {
-	// 	Photos.findOne({"facebook.id": req.user.id}, (err, user) => {
-	// 		if (err) {
-	// 			throw err;
-	// 		}
-	// 		res.render('connect.html', { user: user });
-	// 	});
-	// }
-	// else {
-		res.render('connect.html', { user: req.user });
-	// }
-});
+app.route('/foo')
+	.get(function (req, res) {
+		// if (req.user) {
+		// 	Photos.findOne({"facebook.id": req.user.id}, (err, user) => {
+		// 		if (err) {
+		// 			throw err;
+		// 		}
+		// 		res.render('connect.html', { user: user });
+		// 	});
+		// }
+		// else {
+			res.render('connect.html', { user: req.user });
+		// }
+	})
+	.post((req, res) => {
+		let data = req.body;
+		Photos.findOne(req.user.id, (err, photo) => {
+			if (err) {
+				throw err;
+			}
+
+			if (photo) {
+
+				if (!photo.fullName) {
+					photo.fullName = `${data.first_name} ${data.last_name}`;	
+				}
+				
+				if (photo.firstName) {
+					photo.fistName = data.first_name;
+				}
+				
+				if (!photo.lastName) {
+					photo.lastName = data.last_name;
+				}
+
+				if (!photo.age) {
+					photo.age = (new Date().getYear() - new Date(data.birthday).getYear());	
+				}
+
+				if (!photo.gender) {
+					photo.gender = data.gender;
+				}
+
+				photo.save((error, result) => {
+					if (error) throw error;
+					res.redirect('/foo');
+				});
+			}
+		});
+	});
 
 app.get('/bar', isLoggedIn, function (req, res, next) {
 	var session = req.session;
@@ -2239,7 +2274,6 @@ async function _prepareUserData(fbProfile) {
 	// voted: false,
 	// voted_by: [],
 	// challengers: [],
-	// joinedAt: Date.now()
 
 	return object;
 };
