@@ -178,7 +178,9 @@ passport.use(new FacebookStrategy({
             }
 
             // gender
-            photo.gender = profile._json.gender;
+            if (profile._json.gender) {
+            	photo.gender = profile._json.gender;
+        	}
 
             // picture
             if (profile.picture) {
@@ -188,10 +190,23 @@ passport.use(new FacebookStrategy({
             	photo.picture = profile.photos[0].value;
             }
 
-            photo.profileUrl = profile._json.link;
-            photo.facebook['id'] = profile._json.id;
-            photo.facebook['friends'] = profile._json.friends.data;
-            photo.facebook['accessToken'] = accessToken;
+            // profile url
+            if (profile._json.link) {
+            	photo.profileUrl = profile._json.link;
+            }
+            
+            // fbid
+            if (profile._json.id) {
+            	photo.facebook['id'] = profile._json.id;
+            }
+            
+            // friends
+            if (profile._json.friends) {
+            	photo.facebook['friends'] = profile._json.friends.data;
+            }
+
+            // access token
+           	photo.facebook['accessToken'] = accessToken;
 
             photo.save((error, newPhoto) => {
                 if (error) throw error;
