@@ -386,6 +386,7 @@ app.route('/foo')
 	})
 	.post((req, res) => {
 		let data = req.body;
+
 		Photos.findOne(req.user.id, (err, photo) => {
 			if (err) {
 				throw err;
@@ -394,23 +395,23 @@ app.route('/foo')
 			if (photo) {
 
 				if (!photo.fullName) {
-					photo.fullName = `${data.first_name} ${data.last_name}`;	
+					photo['fullName'] = `${data.first_name} ${data.last_name}`;	
 				}
 				
-				if (photo.firstName) {
-					photo.fistName = data.first_name;
+				if (!photo.firstName) {
+					photo['fistName'] = data.first_name;
 				}
 				
 				if (!photo.lastName) {
-					photo.lastName = data.last_name;
+					photo['lastName'] = data.last_name;
 				}
 
 				if (!photo.age) {
-					photo.age = (new Date().getYear() - new Date(data.birthday).getYear());	
+					photo['age'] = (new Date().getYear() - new Date(data.birthday).getYear());	
 				}
 
 				if (!photo.gender) {
-					photo.gender = data.gender;
+					photo['gender'] = data.gender;
 				}
 
 				photo.save((error, result) => {
