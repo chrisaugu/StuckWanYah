@@ -387,13 +387,14 @@ app.route('/foo')
 	.post((req, res) => {
 		let data = req.body;
 
+		console.log(data);
+
 		Photos.findOne(req.user.id, (err, photo) => {
 			if (err) {
 				throw err;
 			}
 
 			if (photo) {
-
 				if (!photo.fullName) {
 					photo['fullName'] = `${data.first_name} ${data.last_name}`;	
 				}
