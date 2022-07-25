@@ -70,7 +70,6 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'app')));
 app.use('/photos', express.static(path.join(__dirname, 'app/images/photos')));
 app.use('/instantgame', express.static(path.join(__dirname, 'instantgame')));
-app.use('/stuckwanyahgame', express.static(path.join(__dirname, 'stuckwanyahgame')));
 
 app.use(morgan('dev')); // log every request to the console.
 app.use(favicon(path.join(__dirname, 'app', 'favicon.ico')));
@@ -91,18 +90,6 @@ passport.use(new FacebookStrategy({
 	profileFields: keys.facebook.profileFields,
 	state: true
 }, function verify(accessToken, refreshToken, profile, done) {
-	// let query = {"facebook.id": profile.id},
-	//     update = {
-	//         name: profile.displayName,
-	//         accessToken: accessToken
-	//     },
-	//     options = {upsert: true, new: true, setDefaultsOnInsert: true};
-	
-	// Photos.findOneAndUpdate(query, update, options, function (error, result) {
-	//     if (error) return;
-	//     return cb(null, profile);
-	// });
-	
 	// Photos.findOrCreate({ 'facebook.id': profile.id }, function(err, user) {
 	// 	return done(err, user);
 	// });
@@ -112,8 +99,7 @@ passport.use(new FacebookStrategy({
         if (err) throw err;
     
         if (user) {
-            // already have the photo, update the photo
-            // req.session.strategy = 'facebook';
+            // already have the photo, update the photo, and accessToken
             console.log("user is:", user);
 
             user.picture = profile.photos[0].value;
@@ -303,7 +289,7 @@ app.use(passport.authenticate('session'));
 
 // Invoke instance to listen to port
 // Create new server
-server.listen(app.get('port'), function(){
+server.listen(app.get('port'), function() {
 	console.log("-------------------------------------------".blue);
 	console.log(":".blue + " " + "StuckWanYah server running on port %d".magenta + " :".blue, app.get('port'));
 	console.log("-------------------------------------------".blue);
@@ -377,7 +363,7 @@ app.route('/foo')
 		// 		if (err) {
 		// 			throw err;
 		// 		}
-		// 		res.render('connect.html', { user: user });
+		// 		res.render('profile.html', { user: user });
 		// 	});
 		// }
 		// else {
@@ -387,9 +373,25 @@ app.route('/foo')
 	.post((req, res) => {
 		let data = req.body;
 
-		console.log(data);
+		// console.log(data);
+		// res.json(data);
 
-		Photos.findOne(req.user.id, (err, photo) => {
+		let query = {"facebook.id": req.user.facebook.id},
+			// update = {
+			// 	name: profile.displayName,
+			// 	accessToken: accessToken
+			// },
+			options = {upsert: true, new: true, setDefaultsOnInsert: true};
+		
+		// Photos.findOneAndUpdate(query, photo, options, function (error, result) {
+		// 	if (error) throw error;
+		// 	// if (error) return;
+		// 	res.send(result);
+
+		// 	// res.redirect('/foo');
+		// });
+
+		Photos.findOne(query).exec((err, photo) => {
 			if (err) {
 				throw err;
 			}
@@ -415,81 +417,38 @@ app.route('/foo')
 					photo['gender'] = data.gender;
 				}
 
-				photo.save((error, result) => {
-					if (error) throw error;
-					res.redirect('/foo');
-				});
+				photo.save(function(error, result) {
+					if (error) { console.log(error); }
+					console.log(result);
+				})
 			}
 		});
 	});
 
 app.get('/bar', isLoggedIn, function (req, res, next) {
-	var session = req.session;
-	var someAttribute = session.someAttribute;
+	// var session = req.session;
+	// var someAttribute = session.someAttribute;
 
-	session.someAttribute = "foo";
-	session.seenyou = true;
-	session.user_id;
-	session.gender = "male";
-	session.authenticated = true;
-	session.access_token;
+	// session.someAttribute = "foo";
+	// session.seenyou = true;
+	// session.user_id;
+	// session.gender = "male";
+	// session.authenticated = true;
+	// session.access_token;
 
-	if (req.session.views) {
-		res.write(`<p>Welcome user: ${session.user_id} </p>\n`);
-		res.write('<p>Returning with some text: ' + session.someAttribute + '</p> \n');
-		res.write('<p>you viewed this page ' + req.session.views['/bar'] + ' times </p> \n');
-		res.write('<p>expires in: ' + (session.cookie.maxAge / 1000) + 's</p>');
-		res.write(`<p>This will print the attribute I set earlier: ${ someAttribute }</p>\n`);
-		res.end('done');
-	} else {
-		req.session.views = 1;
-		res.end('welcome to the session demo. refresh!');
-	}
+	// if (req.session.views) {
+	// 	res.write(`<p>Welcome user: ${session.user_id} </p>\n`);
+	// 	res.write('<p>Returning with some text: ' + session.someAttribute + '</p> \n');
+	// 	res.write('<p>you viewed this page ' + req.session.views['/bar'] + ' times </p> \n');
+	// 	res.write('<p>expires in: ' + (session.cookie.maxAge / 1000) + 's</p>');
+	// 	res.write(`<p>This will print the attribute I set earlier: ${ someAttribute }</p>\n`);
+	// 	res.end('done');
+	// } else {
+	// 	req.session.views = 1;
+	// 	res.end('welcome to the session demo. refresh!');
+	// }
+	res.render("profile.html", { user: req.user });
 });
-
-// var multer  = require('multer');
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, './app/images/photos')
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1])
-//   }
-// });
-
-// var upload = multer({ storage: storage });
-
-// app.post('/upload', upload.single('photo'), function (req, res, next) {
-// 	// req.file is the `avatar` file
-// 	// req.body will hold the text fields, if there were any
-// 	// new this({
-// 	// 	img: {
-// 	// 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-// 	// 		contentType: 'image/png'
-// 	// 	} 
-// 	// });
-// 	let age = req.body.age;
-// 	let photo = req.body.photo;
-// 	let gender = req.body.gender;
-// 	// let blob = req.body.blob;
-
-// 	if (!(age <= 13) && (age > 13)) {
-// 		var newPhoto = {
-// 			imageId: Number((Math.random()).toString().slice(2)),
-// 			age: age,
-// 			gender: gender,
-// 			picture: 'blob',
-// 			profileUrl: req.file.filename
-// 		};
-// 		Photos.create(newPhoto, function(error, success){
-// 			if (error) console.error(error);
-// 			res.send(success);
-// 		})
-// 	} else {
-// 		res.send("<h2>Sorry ages below 13 are rejected by StuckWanYah.</h2>");
-// 	}
-// 	// next();
-// });
 
 /**
  * REST API Routes Endpoints
@@ -526,14 +485,14 @@ router.put('/photos', function(req, res, next){
 	}
 
 	async.parallel([
-			function(callback){
+			function(callback) {
 				Photos.findOne({
 					imageId: winner
 				}, function(err, winner){
 					callback(err, winner);
 				});
 			},
-			function(callback){
+			function(callback) {
 				Photos.findOne({
 					imageId: loser
 				}, function(err, loser){
@@ -541,7 +500,7 @@ router.put('/photos', function(req, res, next){
 				});
 			}
 		],
-		function(err, results){
+		function(err, results) {
 			if (err) return next(err);
 
 			var winner = results[0];
@@ -583,6 +542,7 @@ router.put('/photos', function(req, res, next){
 				}
 				res.status(200).end();
 			});
+
 		});
 });
 

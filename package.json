@@ -46,6 +46,7 @@
     "method-override": ">=2.3.10",
     "moment": "^2.29.1",
     "mongoose": "^5.13.14",
+    "mongoose-data-seed": "^2.1.6",
     "mongoose-findorcreate": "^3.0.0",
     "mongoose-random": "^0.1.1",
     "mongoose-simple-random": "^0.4.1",

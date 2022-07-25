@@ -157,35 +157,35 @@ SweetLipsSchema.statics.findImageById = function(id, callback) {
     }).exec(callback);
 };
 
-SweetLipsSchema.statics.findOneAndUpdate = function(query, update, options, callback) {
-    var $this = this;
-    return this.model('photos').findOne(query).exec(function(error, photo) {
-        if (!photo) {
-            var newPhoto = new $this({
-                // imageId is the facebook id
-                imageId: update.id,
-                displayName: update.displayName,
-                age: update.age,
-                gender: update.gender,
-                picture: update.picture.data.url, // user public profile
-                image_url: update.thumbSrc,
-                link: update.uri,
-                facebook: {
-                    friends: update.friends
-                },
-                // leave is_blocked false
-                ratings: 1400
-                // leave the rest to default
-            });
-            newPhoto.save(function(error, savedPhoto) {
-                if (error) console.log(error);
-                return callback(error, savedPhoto);
-            })
-        } else {
-            return callback(error, photo);
-        }
-    });
-};
+// SweetLipsSchema.statics.findOneAndUpdate = function(query, update, options, callback) {
+//     var $this = this;
+//     return this.model('photos').findOne(query).exec(function(error, photo) {
+//         if (!photo) {
+//             var newPhoto = new $this({
+//                 // imageId is the facebook id
+//                 imageId: update.id,
+//                 displayName: update.displayName,
+//                 age: update.age,
+//                 gender: update.gender,
+//                 picture: update.picture.data.url, // user public profile
+//                 image_url: update.thumbSrc,
+//                 link: update.uri,
+//                 facebook: {
+//                     friends: update.friends
+//                 },
+//                 // leave is_blocked false
+//                 ratings: 1400
+//                 // leave the rest to default
+//             });
+//             newPhoto.save(function(error, savedPhoto) {
+//                 if (error) console.log(error);
+//                 return callback(error, savedPhoto);
+//             })
+//         } else {
+//             return callback(error, photo);
+//         }
+//     });
+// };
 
 var Photos = mongoose.model('photos', SweetLipsSchema);
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-PG">
+<head>
+    <title>Login with Facebook</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0"></script>
+</head>
+<body>
+<main id="main">
+
+    <h1>StuckWanYah</h1>
+    <h2></h2>
+
+    <center>
+        <h3>Welcome <%= user.fullName %></h3>
+
+        <a href="<%= user.profileUrl %>">
+            <!-- <img src="<%= `https://graph.facebook.com/${user.id}/picture?type=square&height=200&width=200`%>" alt="userimg" class="fbpic"> -->
+            <img src="<%= user.picture %>" alt="userimg" class="fbpic" style="width: 20vh;">
+        </a>
+
+        <br/>
+        <br/>
+
+        <form action="/foo" method="POST">
+            <table align="center" style="padding:0 15px;">
+                <tr>
+                    <td>First Name</td>
+                    <td>
+                        <% if (user.firstName) { %>
+                            <input id="first_name" name="first_name" disabled value="<%= user.firstName %>"/>
+                        <% } else { %>
+                            <input id="first_name" name="first_name" value="<%= user.firstName %>"/>
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>
+                        <% if (user.lastName) { %>
+                            <input id="last_name" name="last_name" disabled value="<%= user.lastName %>"/>
+                        <% } else { %>
+                            <input id="last_name" name="last_name" value="<%= user.lastName %>"/>
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>
+                        <% if (user.gender) { %>
+                            <input id="gender" name="gender" disabled value="<%= user.gender %>"/>
+                        <% } else { %>
+                            <select id="gender" name="gender">
+                                <option value="male">male</option>
+                                <option value="male">female</option>
+                            </select>
+                        <% } %>
+                    </td>
+                </tr>
+                <% if (user.age) { %>
+                <tr>
+                    <td>Age</td>
+                    <td>
+                        <input id="age" name="age" disabled value="<%= user.age %>"/>
+                    </td>
+                </tr>
+                <% } else { %>
+                <tr>
+                    <td>Birthday</td>
+                    <td>
+                        <input id="birthday" name="birthday" type="date"/>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
+
+            <br/>
+
+            <input type="submit" class="button" value="Update"/>
+        </form>
+
+        <br/>
+        <br/>
+        <br/>
+
+        <a href="/api/logout" class="button" type="button">Logout</a>
+
+        <br/><br/><br/><br/>
+
+        <div class="footer">
+            <div class="container">
+                <ul>
+                    <li><a href="/" onclick="sh('home')">Home</a></li>
+                    <!-- <li><a target="_blank" href="https://www.messenger.com/iamstuckwanyah/" onclick="sh('messengerbot')">Messenger Bot</a></li> -->
+                    <li><a target="_blank" href="https://www.facebook.com/iamstuckwanyah" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+                    <li><a href="/about.html" onclick="sh('facebookpage')">About</a></li>
+                    <li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+                    <!-- <li><a href="/submit.html" onclick="sh('submit')">Submit</a></li> -->
+                    <li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+                    <li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+                </ul>
+                <p class="copyright"><a href="https://www.christianaugustyn.me" class="copyright">a Christian Augustyn production</a></p>
+                <p class="copyright"><span>StuckWanYah &copy; 2018 &#x00B7; Made in PNG for fun, fueled by coca-cola, coffee, great music &amp; movies.</span></p>
+            </div>
+        </div>
+    </center>
+</main>
+
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        App.init(!0);
+    };
+</script>
+</body>
+</html>
