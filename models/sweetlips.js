@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+// var random = require('mongoose-simple-random');
 var random = require('mongoose-simple-random');
 var findOrCreate = require('mongoose-findorcreate');
 var Schema = mongoose.Schema;
@@ -33,15 +34,15 @@ var SweetLipsSchema = new Schema({
     score: {type: Number, default: 0},
     ratings: {type: Number, default: 1400},
     // define the geospatial field
-    random: {type: [Number], index: '2d'},
+    // random: {type: [Number], index: '2d'},
     voted: {type: Boolean, default: false},
     voted_by: [{type: ObjectId, ref: 'photos'}],
     challengers: [{type: ObjectId, ref: 'photos'}]
-}, {strict: false});
+});
 
 // Attaching random plugin to the schema
 SweetLipsSchema.plugin(random);
-SweetLipsSchema.plugin(findOrCreate);
+// SweetLipsSchema.plugin(findOrCreate);
 
 // SweetLipsSchema.statics.findOrCreate = function(id, options, callback) {
 //     Photos.find({

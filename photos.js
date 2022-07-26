@@ -1,5 +1,5 @@
 // Facebook dummy data
-module.exports.photos = [
+module.exports = [
     {
         id: "100004177278169",
         name: "Christian Augustyn",

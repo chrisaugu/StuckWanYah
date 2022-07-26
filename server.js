@@ -159,6 +159,7 @@ passport.use(new FacebookStrategy({
             		photo.age = profile._json.age_range.min;
             	}
             }
+            // profile.hasOwnProperty('birthday')
             else if (profile._json.birthday) {
             	photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear());	
             }
@@ -1138,6 +1139,8 @@ var getTwoRandomPhotos = function(config){
 	Photos.findRandom(filter, fields, options, function(err, photos) {
 		if (err) config.error.call(this, err);
 
+		console.log("1142 ", photos)
+
 		// Photos
 		// // .find()
 		//  .where('random').near([Math.random(), 0])
@@ -2032,17 +2035,17 @@ function randomQuery(config){
  * @params facebookId User's Facebook ID from Facebook
  */
 
-// _usersFromList(require('./photos').photos);
+// _usersFromList(require('./photos'));
 // _usersFromList(require('./friendslist'));
 
 function _usersFromList(data) {
 	// create all of the dummy people
-	async.each(data, function(profile){
+	async.each(data, function(profile) {
 		console.log("Checking user id "+ profile.id + " on the database")
 		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
 		// checkUserExistance(profile.id);
-		_populatePhotos(profile);
+		// _populatePhotos(profile);
 	});
 };
 
@@ -2170,7 +2173,9 @@ async function _prepareUserData(fbProfile) {
 	}
 
 	// assign gender
-	object['gender'] = fbProfile.gender ? fbProfile.gender : '';
+	if (fbProfile.hasOwnProperty('gender')) {
+		object['gender'] = fbProfile.gender ? fbProfile.gender : '';
+	}
 
 	// use photo url if it's a string but run down the tree to pick the url
 	// if all fails scrape the photo using fbId
@@ -2187,7 +2192,9 @@ async function _prepareUserData(fbProfile) {
 		object['picture'] = pic;
 	}
 
-	object['profileUrl'] = `/profile.php?id=${fbProfile.id}`;
+	if (fbProfile.hasOwnProperty('birthday')) {
+		object['profileUrl'] = fbProfile.link;
+	}
 
 	object['facebook'] = {
 		ids: new Array()
@@ -2263,7 +2270,7 @@ function /* step: 1 */ checkUserExistance(userId) {
 			{"imageId": userId},
 			{"facebook.id": userId}
 		]
-	}).then((user) => {
+	}).exec().then((user) => {
 		if (!user) {
 			/* user not exist start aggregating user details from facebook to create new user*/
 			console.log("User with id " + userId + " not found");
@@ -2323,9 +2330,9 @@ function performRequest(url, params) {
 /* check fb database if particular user exists still exists */
 function /* step: 2 */ checkUserExistanceOnFb(userId) {
 	return request({
-		url:`https://graph.facebook.com/v2.0/${userId}/friends`,//`https://graph.facebook.com/v6.0/${userId}/`,
+		url:`https://graph.facebook.com/${userId}`,//`https://graph.facebook.com/v6.0/${userId}/`,
 		qs: {
-			access_token: "EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY",
+			access_token: keys.facebook.pageAccessToken,
 		},
 		method: "GET"
 	}, (error, response, body) => {
@@ -2350,11 +2357,9 @@ function /* step: 2 */ checkUserExistanceOnFb(userId) {
  */
 function /* step: 3 */ getUserDetailsFromFacebook(userId){
 	return request({
-		// url:`https://graph.facebook.com/v6.0/${userId}/`,
-		url: `https://graph.facebook.com/v3.0/${userId}/friends`,
+		url:`https://graph.facebook.com/${userId}`,
 		qs: {
-			// access_token: keys.facebook.userAccessToken,
-			access_token: "EAAAAZAw4FxQIBANylBOmZCMUBDZCckWTUxxSrGz0mLTVK63ZCges0t8IVMtwt3B8NFYjAY8TXDswZA7cZAm84QlCIPHwQVji1LoO8zSLaZCQZBG5T0KR9sBPr5ivJUGTGRkB2vZAlAOzGSruOr0zrTFh9ftJ9v39zFCi9Vh97ilTmNiEZCAGYcbleY",
+			access_token: keys.facebook.userAccessToken,
 			// fields:"id,name,last_name,first_name,birthday,age_range,gender,link,picture.type(square).width(200).height(200),friends{age_range,birthday,name,first_name,last_name,gender},ids_for_apps"
 			// fields:"public_profile, email, user_gender, user_age_range, user_birthday, user_photos, user_link, user_friends, pages_user_gender, pages_messaging,ids_for_apps,ids_for_pages",
 			limit: 5000,
@@ -2384,13 +2389,13 @@ function /* step: 4 */ getUserDetailsFromFacebook2(userId){
  * @param data
  */
 /** creates new user 'cause the id does not exist in the database */
-function /* step: 5 */ createNewUser(data){
+function /* step: 5 */ createNewUser(data) {
 	console.log("Creating new single user...");
 
-	Photos.update({ imageId: data.imageId }, { $set: data },{ upsert: true }).then(newUser => {
+	Photos.update({ imageId: data.imageId }, { $set: data },{ upsert: true }).exec().then(newUser => {
 		/* goto: -> step: 4 */
 		console.log("User "+ data.imageId +" created. Getting friends");
-		/* goto: -> step: 6 */ getUserFriends(newUser.imageId);
+		// /* goto: -> step: 6 */ getUserFriends(newUser.imageId);
 	}).catch(error => {
 		console.log(err.message);
 		// /* goto: -> step: 1 */ checkUserExistance(data.id);
