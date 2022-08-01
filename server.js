@@ -55,11 +55,9 @@ let Sweetlips = require("./models/sweetlips");
 // var Photos = Sweetlips.photos;
 // var Hits = Sweetlips.hits;
 // var BlockedPhotos = Sweetlips.blockedPhotos;
-// var AccessToken = Sweetlips.accessToken;
 const Photos = mongoose.model('photos');
 const Hits = mongoose.model('hits');
 // const BlockedPhotos = mongoose.model('blockedPhotos');
-const AccessToken = mongoose.model('accessToken');
 
 // Express configuration
 app.set('port', process.env.PORT);
@@ -99,109 +97,109 @@ passport.use(new FacebookStrategy({
         if (err) throw err;
     
         if (user) {
-            // already have the photo, update the photo, and accessToken
-            console.log("user is:", user);
+				// already have the photo, update the photo, and accessToken
+				console.log("user is:", user);
 
-            user.picture = profile.photos[0].value;
-            // user.profileUrl = profile.__json.link;
-            user.facebook['accessToken'] = accessToken;
-            
-            user.save(function(error, result) {
-                if (err) throw error;
-                return done(null, result);
-            });
+				user.picture = profile.photos[0].value;
+				// user.profileUrl = profile.__json.link;
+				user.facebook['accessToken'] = accessToken;
+				
+				user.save(function(error, result) {
+				if (err) throw error;
+				return done(null, result);
+				});
         }
         else {
-            // if not, create user in the db
-            let photo = new Photos();
+			// if not, create user in the db
+			let photo = new Photos();
 
-            photo.imageId = profile.id;
-            
-            // Full name
-            if (profile._json.name) {
-                photo.fullName = profile._json.name;
-            }
-            else if (profile._json.first_name || profile._json.last_name) {
-                photo.fullName = `${profile._json.first_name} ${profile._json.last_name}`;
-            }
+			photo.imageId = profile.id;
+			
+			// Full name
+			if (profile._json.name) {
+				photo.fullName = profile._json.name;
+			}
+			else if (profile._json.first_name || profile._json.last_name) {
+				photo.fullName = `${profile._json.first_name} ${profile._json.last_name}`;
+			}
 
-            // First name
-            if (profile._json.first_name) {
-                photo.firstName = profile._json.first_name;
-            }
-            else if (profile.name.givenName) {
-                photo.firstName = profile.name.givenName;
-            }
-            else {
-                photo.firstName = profile._json.name.split(' ')[0];
-            }
-            
-            // Last name
-            if (profile._json.last_name) {
-                photo.lastName = profile._json.last_name;
-            }
-            else if (profile.familyName) {
-                photo.lastName = profile.familyName;
-            }
-            else {
-                photo.lastName = profile._json.name.split(' ')[1];
-            }
+			// First name
+			if (profile._json.first_name) {
+				photo.firstName = profile._json.first_name;
+			}
+			else if (profile.name.givenName) {
+				photo.firstName = profile.name.givenName;
+			}
+			else {
+				photo.firstName = profile._json.name.split(' ')[0];
+			}
+			
+			// Last name
+			if (profile._json.last_name) {
+				photo.lastName = profile._json.last_name;
+			}
+			else if (profile.familyName) {
+				photo.lastName = profile.familyName;
+			}
+			else {
+				photo.lastName = profile._json.name.split(' ')[1];
+			}
 
-            // age
-            if (profile._json.age_range) {
-            	if (profile._json.age_range.max && profile._json.age_range.min) {
-            		photo.age = (profile._json.age_range.max + profile._json.age_range.min) / 2;
-            	}
-            	if (profile._json.age_range.max) {
-            		photo.age = profile._json.age_range.max;
-            	}
-            	if (profile._json.age_range.min) {
-            		photo.age = profile._json.age_range.min;
-            	}
-            }
-            // profile.hasOwnProperty('birthday')
-            else if (profile._json.birthday) {
-            	photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear());	
-            }
+			// age
+			if (profile._json.age_range) {
+				if (profile._json.age_range.max && profile._json.age_range.min) {
+					photo.age = (profile._json.age_range.max + profile._json.age_range.min) / 2;
+				}
+				if (profile._json.age_range.max) {
+					photo.age = profile._json.age_range.max;
+				}
+				if (profile._json.age_range.min) {
+					photo.age = profile._json.age_range.min;
+				}
+			}
+			// profile.hasOwnProperty('birthday')
+			else if (profile._json.birthday) {
+				photo.age = (new Date().getYear() - new Date(profile._json.birthday).getYear());	
+			}
 
-            // gender
-            if (profile._json.gender) {
-            	photo.gender = profile._json.gender;
-        	}
+			// gender
+			if (profile._json.gender) {
+				photo.gender = profile._json.gender;
+			}
 
-            // picture
-            if (profile.picture) {
-            	photo.picture = profile._json.picture.data;
-            }
-            else {
-            	photo.picture = profile.photos[0].value;
-            }
+			// picture
+			if (profile.picture) {
+				photo.picture = profile._json.picture.data;
+			}
+			else {
+				photo.picture = profile.photos[0].value;
+			}
 
-            // profile url
-            if (profile._json.link) {
-            	photo.profileUrl = profile._json.link;
-            }
-            
-            // fbid
-            if (profile._json.id) {
-            	photo.facebook['id'] = profile._json.id;
-            }
-            
-            // friends
-            if (profile._json.friends) {
-            	photo.facebook['friends'] = profile._json.friends.data;
-            }
+			// profile url
+			if (profile._json.link) {
+				photo.profileUrl = profile._json.link;
+			}
+			
+			// fbid
+			if (profile._json.id) {
+				photo.facebook['id'] = profile._json.id;
+			}
+			
+			// friends
+			if (profile._json.friends) {
+				photo.facebook['friends'] = profile._json.friends.data;
+			}
 
-            // access token
-           	photo.facebook['accessToken'] = accessToken;
+			// access token
+			photo.facebook['accessToken'] = accessToken;
 
-            photo.save((error, newPhoto) => {
-                if (error) throw error;
-                console.log('new photo created:', newPhoto);
-                done(null, newPhoto);
-            });
-        }
-    });
+			photo.save((error, newPhoto) => {
+				if (error) throw error;
+				console.log('new photo created:', newPhoto);
+				done(null, newPhoto);
+			});
+		}
+	});
 
 	// done(null, profile);
 }));
@@ -568,6 +566,8 @@ router.get("/photos/twophotos", function(req, res, next){
 		randomGender = _.first(_.shuffle(choices));
 	}
 
+	console.log(choices)
+
 	// request two photos that are friends of the uid
 	Photos.findRandom({
 		gender: randomGender,
@@ -675,20 +675,18 @@ router.get('/photos/me/block', function (req, res, next) {
 
 // list all my facebook friends playing stuckwanyah
 router.get('/photos/me/friends', isLoggedInApi, function(req, res, next){
-	// var userId = req.session.user_id;
-	var userId = req.user.id;
+	var userId = req.user._id;
 
 	Photos
-		.find({"imageId": userId})
+		.find({"_id": userId})
 		.lean()
 		.populate('friends')
 		// .select(['imageId'])
 		.exec(function(err, friendslist) {
-			if (!err) {
-				res.json(_.uniq(friendslist[0].friends));
-			} else {
+			if (err) {
 				return new Error(err);
 			}
+			friendslist && res.json(_.uniq(friendslist[0].friends));
 		});
 });
 // run an aggregate query that gets all the photos I voted for.
@@ -721,16 +719,16 @@ router.get('/photos/me/whovoteme', function(req, res) {
 
 // populate my facebook friends list with names
 router.get('/photos/me/friends/populate', function (req, res, next) {
-	var userId = req.session.user_id;
+	var userId = req.user._id;
 	//populateFriendsList('100004177278169');
 	Photos.find({}, function(err, friendslist) {
 		if (friendslist) {
-			Photos.findOne({imageId: userId}).then((user) => {
+			Photos.findOne({_id: userId}).then((user) => {
 				if (!user) console.log('user not found');
 				else {
 					var i;
 					for (i = 0; i < friendslist.length; i++) {
-						if (friendslist[i].id === user.id) {
+						if (friendslist[i]._id === user._id) {
 							console.log("can't add yourself to your list");
 							continue;
 						}
@@ -738,10 +736,16 @@ router.get('/photos/me/friends/populate', function (req, res, next) {
 						//	console.log(item == friendslist[i].id)
 						//	//console.log("can't add same person multiple times");
 						//})
-						user.friends.push({
-							_id: friendslist[i].id,
-							facebook: {id: friendslist[i].imageId}
-						});
+
+						if (user.friends) {
+							if (!user.friends.includes(friendslist[i]._id)) {
+								user.friends.push(friendslist[i]._id)
+								// user.friends.push({
+								// 	_id: friendslist[i].id,
+								// 	facebook: {id: friendslist[i].imageId}
+								// });
+							}
+						}
 					};
 					user.save(function (error, savedProfile) {
 						if (error) console.log(error);
@@ -1014,7 +1018,7 @@ router.get('/oauth-redirect', (req, res) => {
 		const accessToken = response['access_token'];
 		// Store the token in memory for now. Later we'll store it in the database.
 		console.log('Access token is', accessToken);
-		await AccessToken.create({ _id: accessToken });
+		// await AccessToken.create({ _id: accessToken });
 
 		// Set a cookie. Handy when working with a traditional web app.
 		res.cookie('accessToken', accessToken, { maxAge: 900000, httpOnly: true });
@@ -1033,10 +1037,10 @@ router.get('/oauth-redirect', (req, res) => {
 router.get('/me', async (req, res) => {
   try {
 	const accessToken = String(req.cookies.accessToken);
-	const tokenFromDb = await AccessToken.findOne({ _id: accessToken });
-	if (tokenFromDb == null) {
-	  throw new Error(`Invalid access token "${accessToken}"`);
-	}
+	// const tokenFromDb = await AccessToken.findOne({ _id: accessToken });
+	// if (tokenFromDb == null) {
+	//   throw new Error(`Invalid access token "${accessToken}"`);
+	// }
 
 	// Get the name and user id of the Facebook user associated with the
 	// access token.
@@ -1117,7 +1121,7 @@ var renderIndexPage = function(config){
 	getTwoRandomPhotos(config);
 };
 
-var getTwoRandomPhotos = function(config){
+var getTwoRandomPhotos = function(config) {
 	var randomImages;
 	var choices = ['female', 'male'];
 	// var randomGender = _.sample(choices);
@@ -1128,18 +1132,20 @@ var getTwoRandomPhotos = function(config){
 	var userId = config.params.user._id;
 
 	var filter = {
-		age: {$gt: 13, $lt: 23 },
-		gender: { $in: gender },
-		is_blocked: false
+		// age: {$gt: 13, $lt: 23 },
+		age: { $gt: 13 },
+		// gender: { $in: gender },
+		gender: 'female',
+		// is_blocked: false
 	};
 
 	var fields = {};
 	var options = { limit: 2 };
 
-	Photos.findRandom(filter, fields, options, function(err, photos) {
+	Photos.random(options, function(err, photos) {
+	// Photos.findRandom(filter, fields, options, function(err, photos) {
 		if (err) config.error.call(this, err);
-
-		console.log("1142 ", photos)
+		console.log(photos);
 
 		// Photos
 		// // .find()
@@ -1182,11 +1188,9 @@ var getTwoRandomPhotos = function(config){
 						// When there no more photo pairs left of either gender
 						// reset the flags, and start the vote again
 						else if (photos.length < 2) {
-							Photos.update({}, {$set: {"voted": false}
-								}, {multi: true}, function (err) {
-									if (err) config.error.call(this, err);
-								}
-							);
+							Photos.update({}, { $set: {"voted": false } }, {multi: true}, function (err) {
+								if (err) config.error.call(this, err);
+							});
 						}
 					})
 					.catch(function (err) {
@@ -1201,9 +1205,9 @@ var getTwoRandomPhotos = function(config){
 		}
 
 	})
-	.catch(function(error){
-		config.error.call(this, error);
-	});
+	// .catch(function(error){
+	// 	config.error.call(this, error);
+	// });
 };
 /**
  * rateImages
@@ -1215,10 +1219,10 @@ var rateImages = async function(config){
 	var winnerID = config.params.query.winner;
 	var loserID = config.params.query.loser;
 	// getting the current user id from session
-	var voter = await getNativeIdFromImageId(config.params.user.id);
-	// var voter = await getNativeIdFromImageId(config.params.session.user_id);
+	// var voter = await getNativeIdFromImageId(config.params.user.imageId);
+	let voter = config.params.user._id;
 
-	console.log("User "+voter+" votes for " + winnerID)
+	console.log("User " + voter + " votes for " + winnerID)
 
 	if (winnerID && loserID) {
 		async.parallel([
@@ -1250,16 +1254,16 @@ var rateImages = async function(config){
 			var loserNewRatings = newRating(loserExpected, 0, loser.ratings);
 
 			// Push the contestant to my friends lists
-			Photos.find({
-				_id: voter
-			}, function(err, doc) {
-				if (!doc[0].friends.includes(loser._id)) {
-					doc[0].friends.push(loser._id)
+			Photos.findById(voter, function(err, doc) {
+				if (doc.friends) {
+					if (!doc.friends.includes(loser._id)) {
+						doc.friends.push(loser._id)
+					}
+					if (!doc.friends.includes(winner._id)) {
+						doc.friends.push(winner._id)
+					}
+					doc.save()
 				}
-				if (!doc[0].friends.includes(winner._id)) {
-					doc[0].friends.push(winner._id)
-				}
-				doc[0].save()
 			});
 
 			async.parallel({
@@ -1305,8 +1309,8 @@ var rateImages = async function(config){
 var tieBreaker = async function(config){
 	var player_1 = config.params.query.player1;
 	var player_2 = config.params.query.player2;
-	var voter = await getNativeIdFromImageId(config.params.user.id);
-	// var voter = await getNativeIdFromImageId(config.params.session.user_id);
+	// var voter = await getNativeIdFromImageId(config.params.user.id);
+	let voter = config.params.user._id;
 
 	if (player_1 && player_2){
 		async.parallel({
@@ -2044,7 +2048,7 @@ function _usersFromList(data) {
 		console.log("Checking user id "+ profile.id + " on the database")
 		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
-		// checkUserExistance(profile.id);
+		checkUserExistance(profile.id);
 		// _populatePhotos(profile);
 	});
 };
@@ -2261,7 +2265,6 @@ let FBuserID = 954279251387975/*100004177278169*/;
 // checkUserExistanceOnFb(100015413832074);
 
 
-
 // Checks user id existance by querying the database using user id from InstantGame and TabApp
 /* check database if particular userid exists already as user */
 function /* step: 1 */ checkUserExistance(userId) {
@@ -2275,7 +2278,8 @@ function /* step: 1 */ checkUserExistance(userId) {
 			/* user not exist start aggregating user details from facebook to create new user*/
 			console.log("User with id " + userId + " not found");
 			/* goto: -> step: 5 */ checkUserExistanceOnFb(userId);
-		} else {
+		}
+		else {
 			/* 
 				user exists. use the imageId because imageId is the id the user used when signed up for the first time.
 				so update user details from facebook
@@ -2346,7 +2350,7 @@ function /* step: 2 */ checkUserExistanceOnFb(userId) {
 		else if (response && body && !JSON.parse(body).hasOwnProperty('error')) {
 			var bodyObj = JSON.parse(body);
 			console.log(bodyObj)
-			/* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
+			// /* goto: -> step: 2 */ getUserDetailsFromFacebook(userId);
 		}
 	});
 }
@@ -3225,13 +3229,13 @@ router.post("/webhook", (req, res) => {
 		// 	//       switch (change.item) {
 		// 	//         case "post":
 		// 	//           return receiveMessage.handlePrivateReply(
-		// 	//             "post_id",
-		// 	//             change.post_id
+		// 	//				"post_id",
+		// 	//				change.post_id
 		// 	//           );
 		// 	//         case "comment":
 		// 	//           return receiveMessage.handlePrivateReply(
-		// 	//             "comment_id",
-		// 	//             change.comment_id
+		// 	//				"comment_id",
+		// 	//				change.comment_id
 		// 	//           );
 		// 	//         default:
 		// 	//           console.warn("Unsupported feed change type.");
@@ -3279,28 +3283,28 @@ router.post("/webhook", (req, res) => {
 		// 	  //         let user = new User(senderPsid);
 		// 	  //         GraphApi.getUserProfile(senderPsid)
 		// 	  //           .then(userProfile => {
-		// 	  //             user.setProfile(userProfile);
+		// 	  //				user.setProfile(userProfile);
 		// 	  //           })
 		// 	  //           .catch(error => {
-		// 	  //             // The profile is unavailable
-		// 	  //             console.log(JSON.stringify(body));
-		// 	  //             console.log("Profile is unavailable:", error);
+		// 	  //				// The profile is unavailable
+		// 	  //				console.log(JSON.stringify(body));
+		// 	  //				console.log("Profile is unavailable:", error);
 		// 	  //           })
 		// 	  //           .finally(() => {
-		// 	  //             console.log("locale: " + user.locale);
-		// 	  //             users[senderPsid] = user;
-		// 	  //             i18n.setLocale("en_US");
-		// 	  //             console.log(
-		// 	  //               "New Profile PSID:",
-		// 	  //               senderPsid,
-		// 	  //               "with locale:",
-		// 	  //               i18n.getLocale()
-		// 	  //             );
-		// 	  //             return receiveAndReturn(
-		// 	  //               users[senderPsid],
-		// 	  //               webhookEvent,
-		// 	  //               false
-		// 	  //             );
+		// 	  //				console.log("locale: " + user.locale);
+		// 	  //				users[senderPsid] = user;
+		// 	  //				i18n.setLocale("en_US");
+		// 	  //				console.log(
+		// 	  //				"New Profile PSID:",
+		// 	  //				senderPsid,
+		// 	  //				"with locale:",
+		// 	  //				i18n.getLocale()
+		// 	  //			);
+		// 	  //			return receiveAndReturn(
+		// 	  //				users[senderPsid],
+		// 	  //				webhookEvent,
+		// 	  //				false
+		// 	  //			);
 		// 	  //           });
 		// 	  //       } else {
 		// 	  //         setDefaultUser(senderPsid);
