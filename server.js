@@ -92,24 +92,24 @@ passport.use(new FacebookStrategy({
 	// 	return done(err, user);
 	// });
 
-    // check if photo already exists in the db
-    Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-        if (err) throw err;
-    
-        if (user) {
-				// already have the photo, update the photo, and accessToken
-				console.log("user is:", user);
+  // check if photo already exists in the db
+  Photos.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+    if (err) throw err;
 
-				user.picture = profile.photos[0].value;
-				// user.profileUrl = profile.__json.link;
-				user.facebook['accessToken'] = accessToken;
-				
-				user.save(function(error, result) {
+    if (user) {
+			// already have the photo, update the photo, and accessToken
+			console.log("user is:", user);
+
+			user.picture = profile.photos[0].value;
+			// user.profileUrl = profile.__json.link;
+			user.facebook['accessToken'] = accessToken;
+			
+			user.save(function(error, result) {
 				if (err) throw error;
 				return done(null, result);
-				});
-        }
-        else {
+			});
+		}
+    else {
 			// if not, create user in the db
 			let photo = new Photos();
 
@@ -301,12 +301,12 @@ var opts = {
 mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.MONGODB_ADDON_URI, opts);
-mongoose.connection.on("connected", function(){
+mongoose.connection.on("connected", function() {
 	console.log("-----------------------------------------------------".blue);
 	console.log(":".blue + " " + logSymbols.success, "Connected: Successfully connect to mongo server".green + " :".blue);
 	console.log("-----------------------------------------------------".blue);
 });
-mongoose.connection.on('error', function(){
+mongoose.connection.on('error', function() {
 	console.log(logSymbols.error, "Error: Could not connect to MongoDB. Did you forget to run 'mongod'?".red);
 	console.log("----------------------------------------------------------------------------".blue);
 });
@@ -318,37 +318,37 @@ app.use('/api', router);
  * Routes
  */
 // Server index page
-app.get("/", isLoggedIn, function (req, res, next){
+app.get("/", isLoggedIn, function (req, res, next) {
 	renderIndexPage({
 		params: req,
-		success: function(obj){
+		success: function(obj) {
 			res.render("home.html", obj);
 		},
-		error: function(err){
+		error: function(err) {
 			console.error("Error occurred: ", err);
 		}
 	});
 });
 
-app.get("/rate", isLoggedIn, function(req, res, next){
+app.get("/rate", isLoggedIn, function(req, res, next) {
 	rateImages({
 		params: req,
-		success: function(obj){
+		success: function(obj) {
 			res.redirect('/');
 		},
-		error: function(err){
+		error: function(err) {
 			console.error("Error occurred while rating: ", err);
 		}
 	});
 });
 
-app.get("/tie", isLoggedIn, function(req, res, next){
+app.get("/tie", isLoggedIn, function(req, res, next) {
 	tieBreaker({
 		params: req,
-		success: function(obj){
+		success: function(obj) {
 			res.redirect('/');
 		},
-		error: function(err){
+		error: function(err) {
 			next(err);
 		}
 	});
@@ -450,6 +450,58 @@ app.get('/bar', isLoggedIn, function (req, res, next) {
 });
 
 /**
+ * Route /perfectMatch
+ */
+app.route("/perfectMatch")
+	.get(function(req, res, next) {
+		async.parallel({
+			female: function(callback) {
+				Photos.findOneRandom({
+					gender: "female",
+					imageId: {$nin: [req.session.user_id]}
+				}, function(error, female) {
+					callback(error, female);
+				});
+			},
+			male: function(callback) {
+				Photos.findOneRandom({
+					gender: "male",
+					imageId: {$nin: [req.session.user_id, 100004177278169] }
+				}, function(error, male) {
+					callback(error, male);
+				});
+			}
+		}, function(error, results) {
+			if (error) return next(error);
+			res.render("perfectMatch.html", {match: results});
+		});
+	})
+	.post(function(req, res, next) {
+		var maleId = req.query.male;
+		var femaleId = req.query.female;
+		async.parallel({
+			female: function(callback) {
+				Photos.findById(femaleId).then(function(response) {
+					callback(null, response);
+				}).catch(function(error) {
+					callback(error);
+				});
+			},
+			male: function(callback) {
+				Photos.findById(maleId).then(function(response) {
+					callback(null, response);
+				}).catch(function(response) {
+					callback(error);
+				});
+			}
+		}, function(error, results) {
+			if (error) return next(error);
+			res.redirect("/perfectMatch");
+		});
+	});
+
+
+/**
  * REST API Routes Endpoints
  */
 
@@ -472,7 +524,7 @@ router.get('/photos', function(req, res, next) {
  * PUT /api/photos
  * Update winning and losing count for both photos.
  */
-router.put('/photos', function(req, res, next){
+router.put('/photos', function(req, res, next) {
 	var winner = req.body.winner;
 	var loser = req.body.loser;
 
@@ -487,14 +539,14 @@ router.put('/photos', function(req, res, next){
 			function(callback) {
 				Photos.findOne({
 					imageId: winner
-				}, function(err, winner){
+				}, function(err, winner) {
 					callback(err, winner);
 				});
 			},
 			function(callback) {
 				Photos.findOne({
 					imageId: loser
-				}, function(err, loser){
+				}, function(err, loser) {
 					callback(err, loser);
 				});
 			}
@@ -517,25 +569,25 @@ router.put('/photos', function(req, res, next){
 			}
 
 			async.parallel([
-				function(callback){
+				function(callback) {
 					winner.wins++;
 					winner.voted = true;
 					winner.ratings = rating.winner;
 					winner.random = [Math.random(), 0];
-					winner.save(function(err){
+					winner.save(function(err) {
 						callback(err);
 					});
 				},
-				function(callback){
+				function(callback) {
 					loser.losses++;
 					loser.voted = true;
 					loser.ratings = rating.loser;
 					loser.random = [Math.random(), 0];
-					loser.save(function(err){
+					loser.save(function(err) {
 						callback(err);
 					});
 				}
-			], function(err){
+			], function(err) {
 				if (err) {
 					return next(err);
 				}
@@ -550,7 +602,7 @@ router.put('/photos', function(req, res, next){
  * For StuckWanYah Facebook InstantGame, runs on user Facebook feeds
  * Returns 2 random photos of the same gender that have not been voted yet.
  */
-router.get("/photos/twophotos", function(req, res, next){
+router.get("/photos/twophotos", function(req, res, next) {
 	var uid = req.query.uid;
 	var signature = req.query.signature;
 	var gender = req.query.gender;
@@ -580,7 +632,7 @@ router.get("/photos/twophotos", function(req, res, next){
 		// .where("voted", false)
 		// .where("gender", randomGender)
 		// .limit(2)
-		// .exec(function(err, photos){
+		// .exec(function(err, photos) {
 		if (err) {
 			return next(err);
 		}
@@ -592,12 +644,14 @@ router.get("/photos/twophotos", function(req, res, next){
 		var oppositeGender = _.first(_.without(choices, randomGender));
 
 		Photos.find({"random": {$near: [Math.random(), 0]}})
-			.where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos){
-			if (err)
+			.where("voted", false).where("gender", oppositeGender).limit(2).exec(function(err, photos) {
+			if (err) {
 				return next(err);
+			}
 
-			if (photos.length === 2)
+			if (photos.length === 2) {
 				return res.send(photos);
+			}
 
 			Photos.update({}, {
 				$set: {
@@ -605,7 +659,7 @@ router.get("/photos/twophotos", function(req, res, next){
 				}
 			}, {
 				multi: true
-			}, function(err){
+			}, function(err) {
 				if (err)
 					return next(err);
 				res.send([]);
@@ -618,12 +672,12 @@ router.get("/photos/twophotos", function(req, res, next){
  * GET /api/photos/top?race=caldari&bloodline=civire&gender=male
  * Return 10 highest ranked photos. Filter by gender
  */
-router.get('/photos/top', isLoggedInApi, function(req, res, next){
+router.get('/photos/top', isLoggedInApi, function(req, res, next) {
 	console.log('545: ' + req.query);
 
 	topTenRatings({
 		params: req,
-		success: function(obj){
+		success: function(obj) {
 			res.locals.topTen = obj;
 			res.send(obj);
 		}
@@ -634,7 +688,7 @@ router.get('/photos/top', isLoggedInApi, function(req, res, next){
  * GET /api/photos/top/share
  * Share the top 10 highest ranked photos on Facebook
  */
-router.get('/photos/top/share', function(req, res, next){
+router.get('/photos/top/share', function(req, res, next) {
 	var userId = req.session.user_id;
 
 	var content = {
@@ -653,7 +707,7 @@ router.get('/photos/hottest', function (req, res, next) {
 		.sort({'ratings': -1})
 		.where({"gender": gender})
 		.limit(1)
-		.exec(function(err, result){
+		.exec(function(err, result) {
 			if (err) res.send(err);
 			res.json(result);
 		});
@@ -674,7 +728,7 @@ router.get('/photos/me/block', function (req, res, next) {
 });
 
 // list all my facebook friends playing stuckwanyah
-router.get('/photos/me/friends', isLoggedInApi, function(req, res, next){
+router.get('/photos/me/friends', isLoggedInApi, function(req, res, next) {
 	var userId = req.user._id;
 
 	Photos
@@ -732,7 +786,7 @@ router.get('/photos/me/friends/populate', function (req, res, next) {
 							console.log("can't add yourself to your list");
 							continue;
 						}
-						//user.facebookFriends.every(function(item){
+						//user.facebookFriends.every(function(item) {
 						//	console.log(item == friendslist[i].id)
 						//	//console.log("can't add same person multiple times");
 						//})
@@ -764,58 +818,58 @@ router.get('/photos/me/friends/populate', function (req, res, next) {
  * Returns the total # of photos in the Database
  * total photos
  */
-router.get('/stats', function(req, res, next){
+router.get('/stats', function(req, res, next) {
 	async.parallel([
-			function(callback){
-				Photos.count({}, function(err, count){
+			function(callback) {
+				Photos.count({}, function(err, count) {
 					callback(err, count);
 				});
 			},
-			function(callback){
+			function(callback) {
 				// total females
-				Photos.count({gender: "female"}, function(err, femaleCount){
+				Photos.count({gender: "female"}, function(err, femaleCount) {
 					callback(err, femaleCount);
 				});
 			},
-			function(callback){
+			function(callback) {
 				// total males
-				Photos.count({gender:"male"}, function(err, maleCount){
+				Photos.count({gender:"male"}, function(err, maleCount) {
 					callback(err, maleCount);
 				});
 			},
-			function(callback){
+			function(callback) {
 				// total votes cast
 				Photos.aggregate([
 					{$group: {_id: null, total: {$sum: '$wins' }}}],
-					function(err, winsCount){
+					function(err, winsCount) {
 						callback(err, winsCount[0].total);
 					}
 				)
 			},
-			function(callback){
+			function(callback) {
 				// total page hits
 				Hits.aggregate([
 					{ $group: {_id: null, total: { $sum: '$hits' } } }],
-					function(err, pageHits){
+					function(err, pageHits) {
 						var pageHits = pageHits.length ? pageHits[0].total : 0;
 						callback(err, pageHits);
 					}
 				)
 			},
-			function(callback){
+			function(callback) {
 				// total blocked photos
-				Photos.count({'is_blocked':true}, function(err, blocked){
+				Photos.count({'is_blocked':true}, function(err, blocked) {
 					callback(err, blocked);
 				});
 			},
-			function(callback){
+			function(callback) {
 				// total number of visitors per month
 				Hits.count('monthly', function(err, visitors) {
 					callback(err, visitors);
 				});
 			}
 		],
-		function(err, results){
+		function(err, results) {
 			if (err) return next(err);
 			var totalCount = results[0];
 			var femaleCount = results[1];
@@ -841,13 +895,13 @@ router.get('/stats', function(req, res, next){
  * PUT /api/hits
  * Update site hits
  */
-router.put("/hits", function(req, res, next){
+router.put("/hits", function(req, res, next) {
 	processPageHits({
 		params: req,
-		success: function(obj){
+		success: function(obj) {
 			res.send(obj);
 		},
-		error: function(err){
+		error: function(err) {
 			console.error("Error occurred: ", err);
 		}
 	});
@@ -862,7 +916,7 @@ router.get('/auth/me', (req, res) => {
  * After loading has finished, show dialog asking for user gender. Gender is sent along with uid and signature to server
  * Server keeps stateless session using uid, identifies request using signature and make matches using gender.
  */
-router.get("/auth", function(req, res, next){
+router.get("/auth", function(req, res, next) {
 	var uid = req.query.uid;
 	var signedRequest = /*req.query.signature; */ "uXSRy9L974TssLiqGW44CJwediE6hv1vxxPJeu-H_vo.eyJ1c2VyX2lkIjoiOTU0Mjc5MjUxMzg3OTc1IiwiY29kZSI6IkFRQW1vNEpsNkhGcE5VNzh1Vk0wd0RVNXF6bmRiVmF1VDFDV01NaG1GUXZMV25reFhkZDloQ0psQWpKVFh1NldKUEhweXdQdFJlZ1ZMamNHSno4Rk5SdS1kNFhGYkdmQjBtOWZMNjVMTHJ2LUx5WlpVTFBrRG9FYTRZbDg0SGMyNFdoNEw3NGtCd3RZdVJUczlJMy1vUlp5Z1RBeXpIT1k4aUFSY3g0TVpNQnpJNHpxMU9TM19wSE5tZUtxbEdKdVoyaTcxcWwwSHBTOUp6TWQzcm1qRGZGNXVEYVRLb01pcWUzVEMwOHhMRjlNNHp1ckdMNFQ2VEhhTmdIVW95bXJ2WWlqYWx4Nzhrcnl4a3dycnE2MWdYd3BVSUVzVDRxVVJiZ0VjMWhzVjNKSGVnR3BabUs5djJLZGI4bG5JdzA4QXZpWjhuZjUwOURnZHpsUWxHSUVuZ1JfTG1nUE1VVmpuLWJBd2JaREk2ODRQZyIsImFsZ29yaXRobSI6IkhNQUMtU0hBMjU2IiwiaXNzdWVkX2F0IjoxNTU0MTQyOTEyfQ";
 
@@ -886,7 +940,11 @@ router.get("/auth", function(req, res, next){
 	//   request_payload: 'my_payload'
 	//  }
 
-	Photos.findOne({$or: [{"imageId": uid},{"facebook.id": uid}]}, function(error, result){
+	Photos.findOne({
+		$or: [
+			{"imageId": uid},
+			{"facebook.id": uid}
+		]}, function(error, result) {
 		// if user id not found create user
 		if (!result || result === null) {
 
@@ -902,12 +960,12 @@ router.get("/auth", function(req, res, next){
 					ids: [uid]
 				}
 			};
-			Photos.create(newPhoto, function(error, success){
+			Photos.create(newPhoto, function(error, success) {
 				if (error) console.error(error);
 				Photos.findOne({$or: [
 						{"imageId": uid},
 						{"facebook.id": uid}
-					]}).exec().then(function(result){
+					]}).exec().then(function(result) {
 					res.send(result);
 				});
 			});
@@ -973,7 +1031,7 @@ router.post('/auth', function(req, res) {
 	// 	{"facebook.id": uid}
 	// ]})
 	// .exec()
-	// .then(function(user){
+	// .then(function(user) {
 	// 	// if user id not found create user
 	// 	if (!user) {
 	// 		// Query database for user using the stuckwanyah algorithm
@@ -1052,7 +1110,7 @@ router.get('/me', async (req, res) => {
 		},
 		method: "GET"
 	})
-	.then(function(body){
+	.then(function(body) {
 		return res.send(`
 		  <html>
 			<body>Your name is ${JSON.parse(body).name}</body>
@@ -1117,11 +1175,53 @@ router.get('/logout', function (req, res, next) {
 });
 
 // Global Functions
-var renderIndexPage = function(config){
+var renderIndexPage = function(config) {
 	getTwoRandomPhotos(config);
 };
 
+function twoPhotos() {
+	let i = 0;
+	Photos.find().exec(function(err, photos) {
+		async.each(photos, function(photo) {
+			i++;
+			console.log(`${i}: Checking user id ${photo._id} on the database`);
+		});
+	})
+}
+// twoPhotos()
+
 var getTwoRandomPhotos = function(config) {
+	console.log(config.params.query)
+
+	if (config.params.query.right_photo_id && config.params.query.right_photo_id) {
+		let right = config.params.query.right_photo_id;
+		let left = config.params.query.left_photo_id;
+
+		async.parallel([
+			function(callback) {
+				Photos.findOne({ imageId: left }, function(err, left) {
+					callback(err, left);
+				});
+			},
+			function(callback) {
+				Photos.findOne({ imageId: right }, function(err, right) {
+					callback(err, right);
+				});
+			}
+		], function(err, results) {
+
+			console.log(results)
+				
+			if (err) config.error.call(this, err);
+			config.success.call(this, {
+				images: results,
+				// expected: expectedScore
+			});
+		
+		});
+	}
+	else {
+
 	var randomImages;
 	var choices = ['female', 'male'];
 	// var randomGender = _.sample(choices);
@@ -1142,7 +1242,7 @@ var getTwoRandomPhotos = function(config) {
 	var fields = {};
 	var options = { limit: 2 };
 
-	Photos.random(options, function(err, photos) {
+	Photos.random(filter, fields, options, function(err, photos) {
 	// Photos.findRandom(filter, fields, options, function(err, photos) {
 		if (err) config.error.call(this, err);
 		console.log(photos);
@@ -1158,7 +1258,7 @@ var getTwoRandomPhotos = function(config) {
 		// 	.lean()
 		// 	.limit(2)
 		// 	.exec()
-		// 	.then(function(error, photos){
+		// 	.then(function(error, photos) {
 		// Assign all 2 random pictures to randomPictures
 		if (photos && photos[0] && photos[1]) {
 			if (photos[0].imageId !== photos[1].imageId) {
@@ -1205,17 +1305,19 @@ var getTwoRandomPhotos = function(config) {
 		}
 
 	})
-	// .catch(function(error){
+	// .catch(function(error) {
 	// 	config.error.call(this, error);
 	// });
+	}
 };
+
 /**
  * rateImages
  * @param winner
  * @param loser
  * Rate images based on each image ratings
  */
-var rateImages = async function(config){
+var rateImages = async function(config) {
 	var winnerID = config.params.query.winner;
 	var loserID = config.params.query.loser;
 	// getting the current user id from session
@@ -1226,8 +1328,8 @@ var rateImages = async function(config){
 
 	if (winnerID && loserID) {
 		async.parallel([
-			function(callback){
-				Photos.findOne({ imageId: winnerID }, function(err, winner){
+			function(callback) {
+				Photos.findOne({ imageId: winnerID }, function(err, winner) {
 					callback(err, winner);
 				});
 			},
@@ -1240,7 +1342,7 @@ var rateImages = async function(config){
 
 			// Perform the ELO Rating System
 			var winner = results[0],
-				loser = results[1];
+				  loser = results[1];
 
 			var score = actualScore(winner, loser);
 
@@ -1267,7 +1369,7 @@ var rateImages = async function(config){
 			});
 
 			async.parallel({
-				winner: function(callback){
+				winner: function(callback) {
 					winner.wins++;
 					winner.score = score.player1_actual_score;
 					winner.ratings = winnerNewRatings; // winnerNewScore;
@@ -1277,7 +1379,7 @@ var rateImages = async function(config){
 					winner.voted_by.push(voter);
 					winner.challengers.push(loser._id); // loser.imageId
 
-					winner.save(function(err){
+					winner.save(function(err) {
 						callback(err);
 					});
 				},
@@ -1291,12 +1393,12 @@ var rateImages = async function(config){
 					loser.voted_by.push(voter);
 					loser.challengers.push(winner._id); // loser.imageId
 
-					loser.save(function(err){
+					loser.save(function(err) {
 						callback(err);
 					});
 				}
 			},
-			function(err, results){
+			function(err, results) {
 				if (err) config.error.call(this, err);
 				config.success.call(this);
 			});
@@ -1306,25 +1408,25 @@ var rateImages = async function(config){
 	}
 };
 
-var tieBreaker = async function(config){
+var tieBreaker = async function(config) {
 	var player_1 = config.params.query.player1;
 	var player_2 = config.params.query.player2;
 	// var voter = await getNativeIdFromImageId(config.params.user.id);
 	let voter = config.params.user._id;
 
-	if (player_1 && player_2){
+	if (player_1 && player_2) {
 		async.parallel({
-			player1: function(callback){
-				Photos.findOne({imageId: player_1}, function(err, player1){
+			player1: function(callback) {
+				Photos.findOne({imageId: player_1}, function(err, player1) {
 					callback(err, player1);
 				});
 			},
-			player2: function(callback){
-				Photos.findOne({imageId: player_2}, function(err, player2){
+			player2: function(callback) {
+				Photos.findOne({imageId: player_2}, function(err, player2) {
 					callback(err, player2)
 				});
 			}
-		}, function(err, results){
+		}, function(err, results) {
 			var player_1 = results['player1'];
 			var player_2 = results['player2'];
 
@@ -1340,29 +1442,29 @@ var tieBreaker = async function(config){
 			var player2NewScore = loserScore(player_2.score, player2ExpectedScore);
 
 			async.parallel({
-				player1: function(callback){
+				player1: function(callback) {
 					// increment the number of draws and push player2 id to challenger list
 					player_1.draws++;
 					player_1.score = score.player1_actual_score;
 					player_1.ratings = player1NewRatings; //player1NewScore;
 					player_1.challengers.push(player_2._id); // player_2.imageId
 					player_1.voted_by.push(voter);
-					player_1.save(function(err){
+					player_1.save(function(err) {
 						callback(err);
 					});
 				},
-				player2: function(callback){
+				player2: function(callback) {
 					// increment the number of draws and push player1 id to challenger list
 					player_2.draws++;
 					player_2.score = score.player2_actual_score;
 					player_2.ratings = player2NewRatings; //player2NewScore;
 					player_2.challengers.push(player_1._id); // player_1.imageId
 					player_2.voted_by.push(voter);
-					player_2.save(function(err){
+					player_2.save(function(err) {
 						callback(err);
 					});
 				}
-			}, function(err, results){
+			}, function(err, results) {
 				if (err) config.error.call(this, err);
 				config.success.call(this);
 			})
@@ -1398,12 +1500,14 @@ function newRating(expected_score, actual_score, previous_rating) {
 	var difference = actual_score - expected_score;
 	return Math.round(previous_rating + 32 * difference);
 };
+
 function actualScore(player1, player2) {
 	return {
 		player1_actual_score: (player1.wins * 1) + (player1.losses * 0) + (player1.draws * 0.5),
 		player2_actual_score: (player2.wins * 1) + (player2.losses * 0) + (player2.draws * 0.5)
 	};
 };
+
 function simpleEloRating(rating, opponent_rating) {
 	this.Ra = rating;
 	this.Rb = opponent_rating;
@@ -1433,20 +1537,24 @@ function expectedScore(Ra, Rb) {
 	//return parseFloat((1 / (1 + Math.pow(10, (Rb - Ra) / 400))).toFixed(2));
 	return (1 / (1 + Math.pow(10, (Rb - Ra) / 400)));
 };
+
 // Calculate the new winner score, K-factor = 32
 function winnerScore(score, expected, k = 32) {
 	return Math.round(score + k * (1 - expected));
 };
+
 // Calculate the new loser score, K-factor = 32
-function loserScore(score, expected, k = 32){
+function loserScore(score, expected, k = 32) {
 	return Math.round(score + k * (0 - expected));
 };
-function performanceRating(player1, player2){
+
+function performanceRating(player1, player2) {
 	var games = player1.wins + player1.losses + player1.draws;
 	var performance_rating = (player2.ratings + 400 * (player1.wins - player1.losses) / games);
 	return performance_rating;
 };
-function updateValue(id1, id2, score1, score2){
+
+function updateValue(id1, id2, score1, score2) {
 	var Rpre1 = score1;
 	var Rpre2 = score2;
 	var K = 30;
@@ -1461,11 +1569,12 @@ function updateValue(id1, id2, score1, score2){
 	console.log("Rpre1: " + Rpre1 + " Rpre2: " + Rpre2 + " E1: " + E1 + " E2: " + E2 + " R1: " + R1 + " R2: " + R2);
 	findAndUpdateDB(id1, id2, R1, R2);
 };
-function findAndUpdateDB(id1, id2, R1, R2){
-	Photos.update({ imageId: id1 }, { $set: { score: R1 }}, function(err, updated){
+
+function findAndUpdateDB(id1, id2, R1, R2) {
+	Photos.update({ imageId: id1 }, { $set: { score: R1 }}, function(err, updated) {
 		console.log(R1 + " " + R2);
 	});
-	Photos.update({ imageId: id2 }, { $set: { score: R2 }}, function(err, updated){
+	Photos.update({ imageId: id2 }, { $set: { score: R2 }}, function(err, updated) {
 	});
 };
 
@@ -1474,7 +1583,7 @@ function findAndUpdateDB(id1, id2, R1, R2){
  * @param config
  * Returns the top 10 highest ratings
  */
-var topTenRatings = function(config){
+var topTenRatings = function(config) {
 	console.log("1399: " + config.params.query.field);
 	var query_field = config.params.query.field;
 	var query_gender;
@@ -1491,7 +1600,7 @@ var topTenRatings = function(config){
 		.where({"gender": query_gender})
 		.limit(10)
 		.exec()
-		.then(function(ranks){
+		.then(function(ranks) {
 
 			var rankCount = _.countBy(ranks, function(rank) { return rank });
 			var max = _.max(rankCount, function(rank) { return rank });
@@ -1502,19 +1611,19 @@ var topTenRatings = function(config){
 			console.log(`1423:  ${ { rank: topRank, count: topCount } }`);
 
 			config.success.call(this, ranks);
-		}).catch(function(err){
+		}).catch(function(err) {
 		console.log("1426: " + err);
 		config.error.call(this, err);
 	});
 };
 
-var topTenWinings = function(config){
+var topTenWinings = function(config) {
 	// Query params object
 	var params = config.params.query;
 	var gender = shim(config.params.session.gender);
 	var conditions = {};
 
-	_.each(params, function(value, key){
+	_.each(params, function(value, key) {
 		conditions[key] = new RegExp('^' + value + '$', 'i');
 	});
 
@@ -1523,15 +1632,15 @@ var topTenWinings = function(config){
 		.sort('-wins') // Sort in descending order (highest wins on top)
 		.limit(10)
 		.exec()
-		.then(function(photos){
+		.then(function(photos) {
 			// Sort by winning percentage
-			photos.sort(function(a, b){
+			photos.sort(function(a, b) {
 				if (a.wins / (a.wins + a.losses) < b.wins / (b.wins + b.losses)) { return 1; }
 				if (a.wins / (a.wins + a.losses) < b.wins / (b.wins + b.losses)) { return -1; }
 				return 0;
 			});
 			config.success.call(this, photos);
-		}).catch(function(err){
+		}).catch(function(err) {
 		config.error.call(this, err);
 	});
 };
@@ -1539,11 +1648,11 @@ var topTenWinings = function(config){
 /*
 // Sort the photos 
 
-			all_photos.sort(function(p1, p2){
+			all_photos.sort(function(p1, p2) {
 				return (p2.likes - p2.dislikes) - (p1.likes - p1.dislikes);
 			});
 
-findId = function(obj){
+findId = function(obj) {
 				return obj.id === vote.id;
 			}
 			elem = pending.filter(findId);
@@ -1568,12 +1677,12 @@ Photos.aggregate([
 ])*/
 
 
-var processPageHits = function(config){
+var processPageHits = function(config) {
 	Hits.update({page: config.params.body.page},
 		{ $inc: { hits: 1 } },{ upsert: true }
-	).then(function(hit){
+	).then(function(hit) {
 		config.success.call(this, {hits: hit.hits});
-	}).catch(function(err){
+	}).catch(function(err) {
 		config.error.call(this, err);
 	});
 };
@@ -1582,18 +1691,18 @@ var processPageHits = function(config){
  * User Authentication utils
  * Session, Cookies, Database
  */
-var generateToken = function(req, res, next){
+var generateToken = function(req, res, next) {
 	req.token = createToken(req.auth);
 	next();
 };
-function createToken(auth){
+function createToken(auth) {
 	return jwt.sign({
 		id: auth.id
 	}, 'stuckwanyah', {
 		expiresIn: 60 * 120
 	});
 };
-/*function createToken(user){
+/*function createToken(user) {
 	var payload = {
 	exp: moment().add(14, 'days').unix(),
 	iat: moment().unix(),
@@ -1602,7 +1711,7 @@ function createToken(auth){
 
 	return jwt.encode(payload, keys.facebook.pageAccessToken);
 };*/
-function sendToken(req, res){
+function sendToken(req, res) {
 	res.setHeader('x-auth-token', req.token);
 	res.status(200).send(req.auth);
 };
@@ -1628,7 +1737,7 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/foo');
 }
 
-// function isAuthenticated(req, res, next){
+// function isAuthenticated(req, res, next) {
 // 	if (!(req.headers && req.headers.authorization)) {
 // 		return res.status(400).send({ message: 'You did not provide a JSON Web Token in the Authorization header.' });
 // 	}
@@ -1641,7 +1750,7 @@ function isLoggedIn(req, res, next) {
 // 		return res.status(401).send({ message: 'Token has expired.' });
 // 	}
 
-// 	Photo.findById(payload.sub, function(err, user){
+// 	Photo.findById(payload.sub, function(err, user) {
 // 		if (!user) {
 // 			return res.status(400).send({ message: 'User no longer exists.' });
 // 		}
@@ -1693,7 +1802,7 @@ function getNativeIdFromImageId(userid) {
 };
 
 function getIdFromSession(id) {
-	return new Promise(function(resolve, reject){
+	return new Promise(function(resolve, reject) {
 		Photos.findOne({"imageId": id}, (err, user) => {
 			resolve(user._id);
 		})
@@ -1734,7 +1843,7 @@ function setSessionAttachHeaders(event) {
  * Process postback for payloads
  * @param event
  */
-// function processPostback(event){
+// function processPostback(event) {
 // 	var senderId = event.sender.id;
 // 	var payload = event.postback.payload;
 
@@ -1751,7 +1860,7 @@ function setSessionAttachHeaders(event) {
 // 				fields: "first_name"
 // 			},
 // 			method: "GET"
-// 		}, function(error, response, body){
+// 		}, function(error, response, body) {
 // 			var greeting, name = "";
 // 			if (error) {
 // 				console.log("1361: " + "Error getting user's name: " + error);
@@ -1777,7 +1886,7 @@ function setSessionAttachHeaders(event) {
  * Process message from user for any matching keyword and perform actions
  * @param event
  */
-// function processMessage(event){
+// function processMessage(event) {
 // 	if (!event.message.is_echo) {
 // 		var message = event.message;
 // 		var senderId = event.sender.id;
@@ -1824,7 +1933,7 @@ function setSessionAttachHeaders(event) {
  * @param recipientId
  * @param message
  */
-// function sendMessage(recipientId, message){
+// function sendMessage(recipientId, message) {
 // 	request({
 // 		url: "https://graph.facebook.com/v.2.6/me/messages",
 // 		qs: { access_token: keys.facebook.pageAccessToken },
@@ -1833,7 +1942,7 @@ function setSessionAttachHeaders(event) {
 // 			recipient: { id: recipientId },
 // 			message: message,
 // 		}
-// 	}, function(error, response, body){
+// 	}, function(error, response, body) {
 // 		if (error) {
 // 			console.log("Error sending message: " + response.error);
 // 		}
@@ -1846,7 +1955,7 @@ function setSessionAttachHeaders(event) {
  * @param userId
  * @param movieTitle
  */
-function findMovie(userId, movieTitle){
+function findMovie(userId, movieTitle) {
 	var message;
 	request("http://www.omdbapi.com/?type=movie&amp;t=" + movieTitle, function(error, response, body) {
 		if (!error && response.statusCode === 200) {
@@ -1866,7 +1975,7 @@ function findMovie(userId, movieTitle){
 				};
 
 				var options = { upsert: true };
-				Photos.findOneAndUpdate(query, update, options, function(error, movie){
+				Photos.findOneAndUpdate(query, update, options, function(error, movie) {
 					if (error) {
 						console.log("Database error: " + error);
 					} else {
@@ -1912,10 +2021,10 @@ function findMovie(userId, movieTitle){
  * @param userId
  * @return {}
  */
-function processBlockUnblock(userId){
+function processBlockUnblock(userId) {
 	var query = { "imageId": userId };
 	var attempts = 0;
-	Photos.findOne(query, function(err, photo){
+	Photos.findOne(query, function(err, photo) {
 		if (photo) {
 			if (photo.is_blocked)
 				unblockPhoto(photo);
@@ -1929,9 +2038,9 @@ function processBlockUnblock(userId){
 	});
 };
 
-function blockPhoto(callback){
+function blockPhoto(callback) {
 	callback.is_blocked = true;
-	callback.save(function(error, response){
+	callback.save(function(error, response) {
 		if (error)
 			throw error;
 		else
@@ -1942,9 +2051,9 @@ function blockPhoto(callback){
 	return callback;
 };
 
-function unblockPhoto(callback){
+function unblockPhoto(callback) {
 	callback.is_blocked = false;
-	callback.save(function(error, response){
+	callback.save(function(error, response) {
 		if (error) throw error;
 		else
 			console.log("Your photo has been unblocked. Your photo can be voted by your friends.");
@@ -1964,7 +2073,7 @@ function unblockPhoto(callback){
  * if user is a female, she rates her friends that are boys
  * if user is a male, he rates his friends that are girls
  */
-function processUserGender(event){
+function processUserGender(event) {
 	var senderId = event.sender.id;
 	// Getting user's gender from user Profile API
 	// and redirect to respective function
@@ -1975,7 +2084,7 @@ function processUserGender(event){
 			fields: "gender"
 		},
 		method: "GET"
-	}, function(error, response, body){
+	}, function(error, response, body) {
 		var greeting = "";
 		if (error) {
 			console.log('1815: ' + "Error getting user's gender: " + error);
@@ -1999,11 +2108,11 @@ function processUserGender(event){
  * @param gender
  * @returns {string}
  */
-function shim(gender){
+function shim(gender) {
 	return gender == 'female' ? 'male' : 'female';
 };
 
-function randomQuery(config){
+function randomQuery(config) {
 	var gender = 'male';
 	var userId = 100004177278169;
 	var filter = {
@@ -2040,7 +2149,7 @@ function randomQuery(config){
  */
 
 // _usersFromList(require('./photos'));
-// _usersFromList(require('./friendslist'));
+_usersFromList(require('./friendslist'));
 
 function _usersFromList(data) {
 	// create all of the dummy people
@@ -2048,7 +2157,7 @@ function _usersFromList(data) {
 		console.log("Checking user id "+ profile.id + " on the database")
 		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
-		checkUserExistance(profile.id);
+		// checkUserExistance(profile.id);
 		// _populatePhotos(profile);
 	});
 };
@@ -2071,7 +2180,7 @@ function calcAge(obj) {
 }
 
 function _populatePhotos(profile) {
-	Photos.find({imageId: profile.id}).then(function(res){
+	Photos.find({ imageId: profile.id }).then(function(res) {
 		var p = new Photos({
 			imageId: profile.id,
 			fullName: profile.name,
@@ -2082,7 +2191,7 @@ function _populatePhotos(profile) {
 			picture: profile.photo,
 			profileUrl: profile.photo
 		});
-		p.save(function(err, res){
+		p.save(function(err, res) {
 			if (err) {throw new Error(err);}
 			console.log(res);
 		});
@@ -2092,12 +2201,11 @@ function _populatePhotos(profile) {
 
 
 router.get('/populate', function (req, res, next) {
-	// function PopulateUserFriends() {
 	console.log("Fetching friendlist...");
 	request({
 		url: `https://graph.facebook.com/v3.0/100004177278169/friends`,
 		qs: {
-			access_token: "EAAAAZAw4FxQIBAF0MY06piZBVsOZB9BYjjZBTcWCZAX32HtGF5IAe2VgZAybv1r4yhw2SXWZBHpMjgbheBCVI5lxJlfA5aIHymWBGMFZAZCijBlJ6aT9K7203wtDkgEJr2JLpPSzCPxzZBrSvW2ktBadNMxZC3f2x45ZAcS4rcfLwcMkZCoaBNW6fcc2V",
+			access_token: keys.facebook.pageAccessToken,
 			limit: 5000,
 			fields:"id,name,first_name,last_name,gender,age_range,picture",
 			format: "json"
@@ -2107,7 +2215,7 @@ router.get('/populate', function (req, res, next) {
 	}, (error, response, body) => {
 		if (error) throw new Error(error);
 		if (response && body) {
-			console.log(body)
+			console.log(body.data)
 		// 	var bodyObj;
 		// 	if ("string" == typeof body) {
 		// 		bodyObj = JSON.parse(body);
@@ -2126,7 +2234,7 @@ router.get('/populate', function (req, res, next) {
 		// 	});
 
 		// 	for (var i = 0; i < bodyObj.data.length; i++) {
-		// 		// Photos.findOne({imageId: bodyObj.data[i].id}).then(function(res){
+		// 		// Photos.findOne({imageId: bodyObj.data[i].id}).then(function(res) {
 		// 		// 	if (res) {
 		// 		// 		console.info("User with the same id found");
 		// 		// 	} else {
@@ -2359,7 +2467,7 @@ function /* step: 2 */ checkUserExistanceOnFb(userId) {
  * Retrieve user's profile picture, friends list, and basic info from Facebook
  * @param userId; FacebookId, instantGameId, FbPageId
  */
-function /* step: 3 */ getUserDetailsFromFacebook(userId){
+function /* step: 3 */ getUserDetailsFromFacebook(userId) {
 	return request({
 		url:`https://graph.facebook.com/${userId}`,
 		qs: {
@@ -2385,7 +2493,7 @@ function /* step: 3 */ getUserDetailsFromFacebook(userId){
 	});
 };
 
-function /* step: 4 */ getUserDetailsFromFacebook2(userId){
+function /* step: 4 */ getUserDetailsFromFacebook2(userId) {
 };
 
 /**
@@ -2406,7 +2514,7 @@ function /* step: 5 */ createNewUser(data) {
 	});
 
 	//console.log(`created ${results.length} (+) new players`.cyan);
-	// Photos.findOneAndUpdate(query, update, options, function(err, results){
+	// Photos.findOneAndUpdate(query, update, options, function(err, results) {
 	// 	if (err) throw err;
 	// 	//console.log('Are the results MongooseDocuments?: %s', results[0] instanceof mongoose.Document);
 	// 	console.log(`created ${results.length} (+), updated ${results.length} (~)`);
@@ -2418,7 +2526,7 @@ function /* step: 5 */ createNewUser(data) {
  * retrieve details from facebook and compare with the local details of the same user
  * change anything that is not same;
  */
-function /* step: 6 */ updateUserDetailsFromFacebook(userId){
+function /* step: 6 */ updateUserDetailsFromFacebook(userId) {
 	Photos.findOne({"imageId": userId})
 		.then(profile => {
 			if (profile["gender"] == undefined || profile["gender"] == "") {
@@ -2527,7 +2635,7 @@ function /* step: 6 */ updateUserDetailsFromFacebook(userId){
 				});
 			}
 
-			profile.save(function(error, updatedProfile){
+			profile.save(function(error, updatedProfile) {
 				if (error) throw new Error(error);
 			});
 
@@ -2666,7 +2774,7 @@ function fetch(url) {
 // var useragent = require('express-useragent');
 
 // app.use(useragent.express());
-// app.get('/me', function(req, res){
+// app.get('/me', function(req, res) {
 //     res.send(req.useragent);
 // });
 
@@ -2680,7 +2788,7 @@ function fetch(url) {
  * @param res
  * @param next
  */
-function newRenderTwoPhotos(config){
+function newRenderTwoPhotos(config) {
 	var gender = shim(config.params.session.gender);
 	var randomImages;
 
@@ -2701,7 +2809,7 @@ function newRenderTwoPhotos(config){
 };
 
 router.route("/dummy")
-	.get(function(req, res){
+	.get(function(req, res) {
 		console.log(req.query);
 		// res.json({
 		// 	"meta": {
@@ -2777,59 +2885,11 @@ router.route("/dummy")
 			}
 		});
 	})
-	.post(function(req, res){
+	.post(function(req, res) {
 		console.log("Query: " + req.query)
 		console.log("Body: " + req.body)
 		console.log("Params: " + req.params)
 		// res.status(400);
-	});
-
-app.route("/perfectMatch")
-	.get(function(req, res, next){
-		async.parallel({
-			female: function(callback){
-				Photos.findOneRandom({
-					gender: "female",
-					imageId: {$nin: [req.session.user_id]}
-				}, function(error, female){
-					callback(error, female);
-				});
-			},
-			male: function(callback){
-				Photos.findOneRandom({
-					gender: "male",
-					imageId: {$nin: [req.session.user_id, 100004177278169] }
-				}, function(error, male){
-					callback(error, male);
-				});
-			}
-		}, function(error, results){
-			if (error) return next(error);
-			res.render("perfectMatch.html", {match: results});
-		});
-	})
-	.post(function(req, res, next){
-		var maleId = req.query.male;
-		var femaleId = req.query.female;
-		async.parallel({
-			female: function(callback){
-				Photos.findById(femaleId).then(function(response){
-					callback(null, response);
-				}).catch(function(error){
-					callback(error);
-				});
-			},
-			male: function(callback){
-				Photos.findById(maleId).then(function(response){
-					callback(null, response);
-				}).catch(function(response){
-					callback(error);
-				});
-			}
-		}, function(error, results){
-			if (error) return next(error);
-			res.redirect("/perfectMatch");
-		});
 	});
 
 /**
@@ -2838,7 +2898,7 @@ app.route("/perfectMatch")
  * @param userId
  * @param content
  */
-function publishTopTenHottestPhotos(content){
+function publishTopTenHottestPhotos(content) {
 	var defaultCaption = "Top 10 Hottest friends 😍😍😍 \n\n #stuckwanyah #dat_wan_how #stuckwan #kain_samting_yah";
 	request({
 		url: `https://www.facebook.com/${keys.facebook.pageID}/feed`,
@@ -2849,7 +2909,7 @@ function publishTopTenHottestPhotos(content){
 			url: [content.url]
 		},
 		method: "POST"
-	}, function(error, response, body){
+	}, function(error, response, body) {
 		if (error) {
 			if (content.sender) {
 				sendMessage(content.sender, {text: `Error posting article: ${response.error}`});
@@ -2913,17 +2973,17 @@ function getPageAccessToken(req, res, next) {
 	})
 }
 
-var getMediaOptions = function(event){
+var getMediaOptions = function(event) {
 	var options = {
 		method: "GET",
 		uri: `https://graph.facebook.com/v3.0/${event.user.id}`,
 		qs: {
 			access_token: keys.facebook.pageAccessToken,
 			type: 'user',
-			fields: 'photos.limit(2).order(reverse_chronological){link, comments.limit(2).order(reverse_chronological)}'
+			fields: 'photos.limit(2).order(reverse_chronological) {link, comments.limit(2).order(reverse_chronological)}'
 		}
 	};
-	return request(options).then(function(fbRes){
+	return request(options).then(function(fbRes) {
 		res.json(fbRes);
 	});
 };
@@ -2931,7 +2991,11 @@ var getMediaOptions = function(event){
 function publishPhoto() {
 	// const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
 	var defaultCaption = "Top 10 Hottest friends 😍😍😍 \n\n #stuckwanyah #dat_wan_how #stuckwan #kain_samting_yah";
-	
+	let cap = `
+		Who is hotter?
+		Vote here https://enchanting-teal-peacock.cyclic.app/?left_photo_id=123&right_photo_id=123
+	`;
+
 	var postImageOptions = {
 		method: 'POST',
 		uri: `https://graph.facebook.com/${keys.facebook.pageID}/photos`,
@@ -3052,7 +3116,7 @@ function publishLink(req, res) {
 		qs: {
 		}
 	};
-	return request(options).then(function(result){
+	return request(options).then(function(result) {
 		res.json(result);
 	});
 }
@@ -3096,7 +3160,7 @@ app.post("/keystrokelogger", function(req, res) {
 	console.log("received data");
 });
 
-function parallelAssignment(){};
+function parallelAssignment() {};
 
 function objectInstantiation(array1, array2) {
 	var k = {};
@@ -3155,7 +3219,7 @@ const removeDuplicates = (arr) => {
 	let newArr = [];
  
 	arr.map(ele => {
-		if (newArr.indexOf(ele) == -1){
+		if (newArr.indexOf(ele) == -1) {
 			newArr.push(ele)
 		}
 	})
@@ -3335,10 +3399,10 @@ router.post("/webhook", (req, res) => {
 			entry.messaging.forEach(function(event) {
 				console.log(event);
 
-				if (event.postback){
+				if (event.postback) {
 					processPostback(event);
 				}
-				else if (event.message){
+				else if (event.message) {
 					processMessage(event);
 				}
 			});
