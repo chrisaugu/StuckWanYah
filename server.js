@@ -608,7 +608,6 @@ router.get("/photos/twophotos", function(req, res, next) {
 	var gender = req.query.gender;
 
 	var choices = ['female', 'male'];
-	// var randomGender = _.sample(choices);
 	var randomGender;
 
 	if (gender) {
@@ -616,9 +615,8 @@ router.get("/photos/twophotos", function(req, res, next) {
 	}
 	else {
 		randomGender = _.first(_.shuffle(choices));
+		// randomGender = _.sample(choices);
 	}
-
-	console.log(choices)
 
 	// request two photos that are friends of the uid
 	Photos.findRandom({
@@ -669,11 +667,11 @@ router.get("/photos/twophotos", function(req, res, next) {
 });
 
 /**
- * GET /api/photos/top?race=caldari&bloodline=civire&gender=male
+ * GET /api/photos/top?gender=male
  * Return 10 highest ranked photos. Filter by gender
  */
 router.get('/photos/top', isLoggedInApi, function(req, res, next) {
-	console.log('545: ' + req.query);
+	console.log('674: ' + req.query);
 
 	topTenRatings({
 		params: req,
@@ -700,6 +698,9 @@ router.get('/photos/top/share', function(req, res, next) {
 	publishTopTenHottestPhotos(content);
 });
 
+/**
+ * GET /api/photos/hottest
+ */
 router.get('/photos/hottest', function (req, res, next) {
 	var gender = shim(req.session.gender);
 
@@ -713,7 +714,10 @@ router.get('/photos/hottest', function (req, res, next) {
 		});
 });
 
-// display my profile
+/**
+ * GET /api/photos/me
+ * display my profile
+ */
 router.get('/photos/me', function (req, res, next) {
 	var userId = req.session.user_id;
 	Photos.findOne({imageId: userId}).then((user) => {
@@ -1142,13 +1146,13 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
 	// successRedirect: '/',
-	successReturnToOrRedirect: '/',
+	successReturnToOrRedirect: '/bar',
 	failureRedirect: '/',
 	failureMessage: true
 }), function(req, res) {
 	// Successful authentication, redirect home
 	console.log("success");
-	res.redirect('/');
+	res.redirect('/bar');
 });
 
 /**
@@ -2149,7 +2153,7 @@ function randomQuery(config) {
  */
 
 // _usersFromList(require('./photos'));
-_usersFromList(require('./friendslist'));
+// _usersFromList(require('./friendslist'));
 
 function _usersFromList(data) {
 	// create all of the dummy people
@@ -2158,7 +2162,7 @@ function _usersFromList(data) {
 		// find each user by profile 
 		// if the user with that id doesn't already exist then create it
 		// checkUserExistance(profile.id);
-		// _populatePhotos(profile);
+		_populatePhotos(profile);
 	});
 };
 
@@ -3397,7 +3401,7 @@ router.post("/webhook", (req, res) => {
 		body.entry.forEach(function(entry) {
 			// Iterate over each messaging event
 			entry.messaging.forEach(function(event) {
-				console.log(event);
+				console.log('%o', event);
 
 				if (event.postback) {
 					processPostback(event);
@@ -3557,7 +3561,7 @@ function processPostback(event) {
 			}
 			else {
 				let bodyObject = JSON.parse(body);
-				console.log(bodyObject);
+				console.log('%o', bodyObject);
 				name = bodyObject.first_name;
 				greeting = "Hello " + name  + ". ";
 			}
@@ -3634,7 +3638,7 @@ function senderAction(recipientId) {
 			console.log("Error sending message: " + response.error);
 		}
 		else {
-			console.log(body);
+			console.log('%o', body);
 		}
 	});
 }
@@ -3700,3 +3704,51 @@ function sendGenericTemplate(recipientId, respBody) {
 		}
 	})
 }
+
+// function lineLogger(...log) {
+// 	const STACK_LINE_REGEX = /(\d+):(\d+)\)?$/;
+//   let err;
+
+//   try {
+//     throw new Error();
+//   } catch (error) {
+//     err = error;
+//   }
+
+//   try {
+//     const stacks = err.stack.split('\\n');
+//     console.log(STACK_LINE_REGEX.exec(stacks[2]))
+//     const [, line] = STACK_LINE_REGEX.exec(stacks[2]);
+
+//     return this(`[${line}]`, ...log);
+//   } catch (err) {
+//     return this(...log);
+//   }
+// }
+
+// lineLogger.call(console.log, "hello")
+
+// function getRowNum() {
+//     let e = new Error();
+//     e = e.stack.split("\n")[2].split(":");
+//     e.pop();
+//     return e.pop();
+// }
+// getRowNum()
+
+
+// var log = console.log;
+//   console.log = function() {
+//       log.apply(console, arguments);
+//       // Print the stack trace
+//       console.trace();
+//   };
+  
+  
+//   // Somewhere else...
+//   function foo(){
+//       console.log('Foobar');
+//   }
+//   foo();
+
+// console.log("hello")
